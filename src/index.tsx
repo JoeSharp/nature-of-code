@@ -1,11 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import P5Sketch from './components/P5Sketch';
-import registerServiceWorker from './registerServiceWorker';
-import gravityOrbits from './sketches/gravityOrbits';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import registerServiceWorker from "./registerServiceWorker";
+import P5SketchLibrary from "./components/P5SketchLibrary";
 
-ReactDOM.render(
-  <P5Sketch sketch={gravityOrbits}/>,
-  document.getElementById('root') as HTMLElement
-);
+ReactDOM.render(<P5SketchLibrary />, document.getElementById(
+  "root"
+) as HTMLElement);
 registerServiceWorker();
