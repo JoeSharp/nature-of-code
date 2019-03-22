@@ -1,6 +1,7 @@
 {
   "name": "nature-of-code",
   "version": "0.1.0",
+  "homepage": "https://JoeSharp.github.io/nature-of-code/",
   "private": true,
   "dependencies": {
     "@storybook/addon-info": "^5.0.3",
