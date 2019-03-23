@@ -10,7 +10,11 @@ export default () => {
 
   return (
     <div>
-      <SketchPicker value={sketch} onChange={onSketchChange} />
+      <form>
+        <label>Sketch</label>
+        <SketchPicker value={sketch} onChange={onSketchChange} />
+      </form>
+
       {sketch && <P5Sketch sketch={sketches[sketch]} />}
     </div>
   );

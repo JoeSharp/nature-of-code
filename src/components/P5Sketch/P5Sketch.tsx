@@ -1,24 +1,32 @@
-import * as React from 'react';
-import {useEffect, useRef} from'react';
+import * as React from "react";
+import { useEffect, useRef } from "react";
 import * as p5 from "p5";
 
 interface IProps {
-   sketch: (
-        ...args: any[]
-      ) => any
+  sketch: (...args: any[]) => any;
 }
 
-const P5Sketch = ({sketch}: IProps) => {
+const P5Sketch = ({ sketch }: IProps) => {
+  const refContainer = useRef(null);
 
-    const refContainer = useRef(null);
+  useEffect(() => {
+    let sketchInUse: p5;
 
-    useEffect(() => {
-        if(!!refContainer) {
-            new p5(sketch, refContainer.current as unknown as HTMLElement);
-        }
-    })
+    if (!!refContainer) {
+      sketchInUse = new p5(
+        sketch,
+        (refContainer.current as unknown) as HTMLElement
+      );
+    }
 
-    return <div ref={refContainer} />
-}
+    return () => {
+      if (!!sketchInUse) {
+        sketchInUse.remove();
+      }
+    };
+  }, [sketch]);
+
+  return <div ref={refContainer} />;
+};
 
 export default P5Sketch;
