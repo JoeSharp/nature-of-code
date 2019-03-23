@@ -16,6 +16,7 @@ const MAX_SPEED = 1.5;
 const MAX_FORCE = 0.5;
 const RADIUS = 3;
 const RESOLUTION = 10;
+const MOUSE_RANGE = RESOLUTION * 3;
 
 function randomInt(s: p5, from: number, to: number) {
   return Math.floor(s.map(Math.random(), 0, 1, from, to));
@@ -31,6 +32,10 @@ export default (s: p5) => {
       sketch: s,
       resolution: RESOLUTION
     });
+  };
+
+  s.mouseDragged = function() {
+    flowField.attract(s.createVector(s.mouseX, s.mouseY), MOUSE_RANGE);
   };
 
   s.draw = function() {

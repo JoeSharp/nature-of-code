@@ -18,6 +18,7 @@ export default class FlowField {
   cols: number;
   rows: number;
   field: Array<Array<FlowCell>>;
+  flowCells: Array<FlowCell>;
 
   constructor({ sketch, resolution }: FlowFieldArgs) {
     this.sketch = sketch;
@@ -26,6 +27,7 @@ export default class FlowField {
     this.cols = width / resolution;
     this.rows = height / resolution;
     this.field = [];
+    this.flowCells = [];
     this.init();
   }
 
@@ -34,20 +36,35 @@ export default class FlowField {
     let xoff = 0;
     for (let i = 0; i < this.cols; i++) {
       let yoff = 0;
-      let yField = [];
+      let yField: Array<FlowCell> = [];
       for (let j = 0; j < this.rows; j++) {
         let theta = s.map(s.noise(xoff, yoff), 0, 1, 0, s.TWO_PI);
-        yField.push({
+        let flowCell: FlowCell = {
           location: s.createVector(i * this.resolution, j * this.resolution),
           angle: theta,
           force: s.createVector(s.cos(theta), s.sin(theta))
-        });
+        };
+        yField.push(flowCell);
+        this.flowCells.push(flowCell);
         yoff += 0.1;
       }
       this.field.push(yField);
 
       xoff += 0.1;
     }
+  }
+
+  attract(focalPoint: p5.Vector, range: number) {
+    const s = this.sketch;
+
+    this.flowCells.forEach(flowCell => {
+      let diff: p5.Vector = p5.Vector.sub(focalPoint, flowCell.location);
+      if (diff.mag() < range) {
+        let a: number = diff.heading();
+        flowCell.angle = a;
+        flowCell.force = s.createVector(s.cos(a), s.sin(a));
+      }
+    });
   }
 
   display() {
