@@ -1,10 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
-<<<<<<< HEAD
 import P5SketchLibrary from "./components/P5SketchLibrary";
-=======
->>>>>>> 4b86a8a393e984b4e0ccb39f6701b063a1ff509c
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "jquery";
@@ -12,16 +9,12 @@ import "popper.js";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Jumbotron from "./components/Jumbotron";
-import P5SketchLibrary from "./components/P5SketchLibrary";
 import VectorsDemo from "./components/VectorsDemo";
 
 const App = () => (
   <Router>
     <Jumbotron />
-<<<<<<< HEAD
     <P5SketchLibrary />
-=======
->>>>>>> 4b86a8a393e984b4e0ccb39f6701b063a1ff509c
     <nav>
       <ul>
         <li>
