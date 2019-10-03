@@ -30,5 +30,5 @@ const App = () => (
   </Router>
 );
 
-ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+ReactDOM.render(<Dobble />, document.getElementById("root") as HTMLElement);
 registerServiceWorker();
