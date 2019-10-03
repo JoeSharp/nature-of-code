@@ -10,15 +10,21 @@ interface RemoveItem {
   item: string;
 }
 
-type Action = AddItem | RemoveItem;
+interface ClearList {
+  type: "clear";
+}
 
-function listReducer(state: string[], { type, item }: Action) {
-  switch (type) {
+type Action = AddItem | RemoveItem | ClearList;
+
+function listReducer(state: string[], action: Action) {
+  switch (action.type) {
     case "add":
-      let items: string[] = item.split(" ");
+      let items: string[] = action.item.split(" ");
       return [...state.filter(s => !items.includes(s)), ...items].sort();
     case "remove":
-      return state.filter(s => s !== item);
+      return state.filter(s => s !== action.item);
+    case "clear":
+      return [];
   }
 
   return state;
@@ -27,6 +33,7 @@ function listReducer(state: string[], { type, item }: Action) {
 interface ListReducer {
   add: (item: string) => void;
   remove: (item: string) => void;
+  clear: () => void;
   items: string[];
 }
 
@@ -41,10 +48,12 @@ const useList = (initialItems: string[] = []): ListReducer => {
     (item: string) => dispatch({ type: "remove", item }),
     []
   );
+  const clear = React.useCallback(() => dispatch({ type: "clear" }), []);
 
   return {
     add,
     remove,
+    clear,
     items
   };
 };

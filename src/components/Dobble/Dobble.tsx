@@ -6,7 +6,7 @@ import Cards from "./Cards";
 import useList from "./useList";
 
 const Dobble: React.FunctionComponent = () => {
-  const { items, add, remove } = useList(["a", "b", "c", "d", "e", "f"]);
+  const { items, add, remove, clear } = useList(["a", "b", "c", "d", "e", "f"]);
 
   return (
     <div>
@@ -16,7 +16,7 @@ const Dobble: React.FunctionComponent = () => {
       <Cards {...{ items }} />
 
       <h2>Registered Items (alphabetically ordered)</h2>
-      <ItemTable {...{ items, remove }} />
+      <ItemTable {...{ items, remove, clear }} />
     </div>
   );
 };

@@ -3,9 +3,14 @@ import * as React from "react";
 interface Props {
   items: string[];
   remove: (item: string) => void;
+  clear: () => void;
 }
 
-const ItemTable: React.FunctionComponent<Props> = ({ items, remove }) => {
+const ItemTable: React.FunctionComponent<Props> = ({
+  items,
+  remove,
+  clear
+}) => {
   const itemsWithHandlers = React.useMemo(
     () => items.map(item => ({ item, onRemove: () => remove(item) })),
     [items, remove]
@@ -16,7 +21,15 @@ const ItemTable: React.FunctionComponent<Props> = ({ items, remove }) => {
       <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Actions</th>
+          <th scope="col">
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-danger"
+              onClick={clear}
+            >
+              Clear All
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
