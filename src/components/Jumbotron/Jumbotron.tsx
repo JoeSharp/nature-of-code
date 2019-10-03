@@ -20,22 +20,22 @@ export default () => (
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item active">
-          <Link className="nav-link" to="/">
+          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/`}>
             Home <span className="sr-only">(current)</span>
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/sketches">
+          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/sketches`}>
             Sketches
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/vectors">
+          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/vectors`}>
             Vectors
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/dobble">
+          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/dobble`}>
             Dobble
           </Link>
         </li>

@@ -13,13 +13,19 @@ import VectorsDemo from "./components/VectorsDemo";
 import Dobble from "./components/Dobble";
 
 const App = () => (
-  <Router>
+  <Router basename={"/nature-of-code"}>
     <div className="container">
       <Jumbotron />
 
-      <Route path="/sketches" component={P5SketchLibrary} />
-      <Route path="/vectors" component={VectorsDemo} />
-      <Route path="/dobble" component={Dobble} />
+      <Route
+        path={`${process.env.PUBLIC_URL}/sketches`}
+        component={P5SketchLibrary}
+      />
+      <Route
+        path={`${process.env.PUBLIC_URL}/vectors`}
+        component={VectorsDemo}
+      />
+      <Route path={`${process.env.PUBLIC_URL}/dobble`} component={Dobble} />
     </div>
   </Router>
 );
