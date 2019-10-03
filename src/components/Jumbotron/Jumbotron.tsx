@@ -1,5 +1,5 @@
 import * as React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default () => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,24 +20,24 @@ export default () => (
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item active">
-          <a className="nav-link" href="/">
+          <Link className="nav-link" to="/">
             Home <span className="sr-only">(current)</span>
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/sketches">
+          <Link className="nav-link" to="/sketches">
             Sketches
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/vectors">
+          <Link className="nav-link" to="/vectors">
             Vectors
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/dobble">
+          <Link className="nav-link" to="/dobble">
             Dobble
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
