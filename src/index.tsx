@@ -17,9 +17,9 @@ const App = () => (
     <div className="container">
       <Jumbotron />
 
-      <Route path="/sketches" exact component={P5SketchLibrary} />
-      <Route path="/vectors" exact component={VectorsDemo} />
-      <Route path="/dobble" exact component={Dobble} />
+      <Route path="sketches" exact component={P5SketchLibrary} />
+      <Route path="vectors" exact component={VectorsDemo} />
+      <Route path="dobble" exact component={Dobble} />
     </div>
   </Router>
 );
