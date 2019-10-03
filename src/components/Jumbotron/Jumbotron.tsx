@@ -25,17 +25,17 @@ export default () => (
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="sketches">
+          <a className="nav-link" href="/sketches">
             Sketches
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="vectors">
+          <a className="nav-link" href="/vectors">
             Vectors
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="dobble">
+          <a className="nav-link" href="/dobble">
             Dobble
           </a>
         </li>
