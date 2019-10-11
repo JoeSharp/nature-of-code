@@ -25,17 +25,17 @@ export default () => (
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/sketches`}>
+          <Link className="nav-link" to="sketches">
             Sketches
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/vectors`}>
+          <Link className="nav-link" to="/vectors">
             Vectors
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to={`${process.env.PUBLIC_URL}/dobble`}>
+          <Link className="nav-link" to="/dobble">
             Dobble
           </Link>
         </li>
