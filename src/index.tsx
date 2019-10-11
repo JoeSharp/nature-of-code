@@ -13,7 +13,7 @@ import VectorsDemo from "./components/VectorsDemo";
 import Dobble from "./components/Dobble";
 
 const App = () => (
-  <Router basename={process.env.PUBLIC_URL}>
+  <Router>
     <div className="container">
       <Jumbotron />
 
