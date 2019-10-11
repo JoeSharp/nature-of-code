@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect, useRef } from "react";
 import * as p5 from "p5";
 
 interface IProps {
@@ -7,9 +6,9 @@ interface IProps {
 }
 
 const P5Sketch = ({ sketch }: IProps) => {
-  const refContainer = useRef(null);
+  const refContainer = React.useRef(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let sketchInUse: p5;
 
     if (!!refContainer) {

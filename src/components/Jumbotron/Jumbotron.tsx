@@ -30,8 +30,8 @@ export default () => (
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/vectors">
-            Vectors
+          <Link className="nav-link" to="/analogueSignals">
+            Analogue Signals
           </Link>
         </li>
         <li className="nav-item">
