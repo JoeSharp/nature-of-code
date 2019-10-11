@@ -10,6 +10,7 @@ const Dobble: React.FunctionComponent = () => {
 
   return (
     <div>
+      <h1>Dobble</h1>
       <NewItemForm {...{ add }} />
 
       <h2>Cards to Make</h2>

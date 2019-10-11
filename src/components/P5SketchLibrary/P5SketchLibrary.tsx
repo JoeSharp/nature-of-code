@@ -10,6 +10,7 @@ export default () => {
 
   return (
     <div>
+      <h1>Sketches</h1>
       <form>
         <div className="form-group">
           <label>Sketch</label>
