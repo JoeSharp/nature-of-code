@@ -36,6 +36,10 @@ const SolveEquation: React.FunctionComponent = () => {
     numberGuesses
   ]);
 
+  let givenAnswer: string = React.useMemo(() => guesses[0].x.toFixed(2), [
+    guesses
+  ]);
+
   let equationString = React.useMemo(() => `${a}x^2 + ${b}x + ${c}`, [a, b, c]);
 
   return (
@@ -86,6 +90,7 @@ const SolveEquation: React.FunctionComponent = () => {
           />
         </div>
       </form>
+      <div>Answer is {givenAnswer}</div>
       <table className="table">
         <thead>
           <tr>
