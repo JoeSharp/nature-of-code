@@ -36,9 +36,10 @@ const SolveEquation: React.FunctionComponent = () => {
     numberGuesses
   ]);
 
-  let givenAnswer: string = React.useMemo(() => guesses[0].x.toFixed(2), [
-    guesses
-  ]);
+  let givenAnswer: string = React.useMemo(
+    () => (guesses.length > 0 ? guesses[0].x.toFixed(2) : "0.0"),
+    [guesses]
+  );
 
   let equationString = React.useMemo(() => `${a}x^2 + ${b}x + ${c}`, [a, b, c]);
 
