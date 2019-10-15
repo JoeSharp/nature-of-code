@@ -25,6 +25,11 @@ export default () => (
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="solveEquation">
+            Solve Equations
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="sketches">
             Sketches
           </Link>

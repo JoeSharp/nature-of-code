@@ -17,6 +17,17 @@ export interface Config {
   signalType: string;
 }
 
+const defaultConfig: Config = {
+  samplingRate: 30,
+  quantisationStep: 10,
+  signalFrequency: 0.04,
+  plotSignal: true,
+  plotSamples: false,
+  plotQuantisation: false,
+  plotSquareWave: false,
+  signalType: SIGNAL_MODE_SINE
+};
+
 interface Sample {
   signal: number;
   isKeySample: boolean;
@@ -27,11 +38,7 @@ function configReducer(state: Config, updates: Partial<Config>): Config {
 }
 
 class SketchContainer {
-  config: Config;
-
-  constructor(config: Config) {
-    this.config = config;
-  }
+  config: Config = defaultConfig;
 
   setConfig(config: Config) {
     this.config = config;
@@ -176,23 +183,14 @@ interface UseConfig {
 }
 
 export function useConfig(): UseConfig {
-  const [config, dispatch] = React.useReducer(configReducer, {
-    samplingRate: 30,
-    quantisationStep: 10,
-    signalFrequency: 0.04,
-    plotSignal: true,
-    plotSamples: false,
-    plotQuantisation: false,
-    plotSquareWave: false,
-    signalType: SIGNAL_MODE_SINE
-  });
+  const [config, dispatch] = React.useReducer(configReducer, defaultConfig);
 
   const updateConfig = React.useCallback(
     (updates: Partial<Config>) => dispatch(updates),
     []
   );
 
-  const sketchContainer = React.useMemo(() => new SketchContainer(config), []);
+  const sketchContainer = React.useMemo(() => new SketchContainer(), []);
 
   React.useEffect(() => sketchContainer.setConfig(config), [
     config,
