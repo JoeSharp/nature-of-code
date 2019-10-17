@@ -12,12 +12,14 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Jumbotron from "./components/Jumbotron";
 import Dobble from "./components/Dobble";
+import MidiFun from "./components/MidiFun";
 
 const App = () => (
   <Router>
     <div className="container">
       <Jumbotron />
 
+      <Route path={"/midiFun"} component={MidiFun} />
       <Route path={"/solveEquation"} component={SolveEquation} />
       <Route path={"/sketches"} component={P5SketchLibrary} />
       <Route path={"/analogueSignals"} component={AnalogueSignals} />
