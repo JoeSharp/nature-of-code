@@ -1,22 +1,38 @@
 import React from "react";
 import Select from "react-select";
+import * as p5 from "p5";
 
-import useMidi, { MidiMessage, MidiMessageEventHandler } from "./useMidi";
+import useMidi from "./useMidi";
+import { useMidiSketch } from "./midiSketch";
 
 const MidiFun: React.FunctionComponent = () => {
-  const midiMessageHandler: MidiMessageEventHandler = React.useCallback(
-    (e: MidiMessage) => {
-      console.log("Midi Message", e);
-    },
-    []
-  );
+  const refContainer = React.useRef(null);
+
+  const { sketchContainer, noteOn, noteOff } = useMidiSketch();
+
+  React.useEffect(() => {
+    let sketchInUse: p5;
+
+    if (!!refContainer) {
+      sketchInUse = new p5(
+        sketchContainer.sketch.bind(sketchContainer),
+        (refContainer.current as unknown) as HTMLElement
+      );
+    }
+
+    return () => {
+      if (!!sketchInUse) {
+        sketchInUse.remove();
+      }
+    };
+  }, [sketchContainer]);
 
   const {
     inputDevices,
     error,
     selectedInputDeviceId,
     onInputDeviceSelected
-  } = useMidi(midiMessageHandler);
+  } = useMidi({ noteOn, noteOff });
 
   const inputOptions = React.useMemo(() => {
     const options = [];
@@ -44,6 +60,23 @@ const MidiFun: React.FunctionComponent = () => {
     [onInputDeviceSelected]
   );
 
+  React.useEffect(() => {
+    let sketchInUse: p5;
+
+    if (!!refContainer) {
+      sketchInUse = new p5(
+        sketchContainer.sketch.bind(sketchContainer),
+        (refContainer.current as unknown) as HTMLElement
+      );
+    }
+
+    return () => {
+      if (!!sketchInUse) {
+        sketchInUse.remove();
+      }
+    };
+  }, [sketchContainer]);
+
   return (
     <div>
       <h2>MIDI Fun</h2>
@@ -54,6 +87,7 @@ const MidiFun: React.FunctionComponent = () => {
         onChange={onSelectedInputChange}
         options={inputOptions}
       />
+      <div ref={refContainer} />
     </div>
   );
 };

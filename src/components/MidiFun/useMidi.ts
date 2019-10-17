@@ -1,12 +1,9 @@
 import React from "react";
 
-export interface MidiMessage {
-  command: number;
-  note: number;
-  velocity: number;
+interface Props {
+  noteOn: (note: number, velocity: number) => void;
+  noteOff: (note: number) => void;
 }
-
-export type MidiMessageEventHandler = (e: MidiMessage) => void;
 
 interface UseMidi {
   inputDevices: WebMidi.MIDIInputMap;
@@ -15,7 +12,7 @@ interface UseMidi {
   error: string;
 }
 
-const useMidi = (handler: MidiMessageEventHandler): UseMidi => {
+const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
   const [inputDevices, setInputDevices] = React.useState(new Map());
   const [error, setError] = React.useState<string>("init");
   const [selectedInputDeviceId, onInputDeviceSelected] = React.useState<
@@ -45,13 +42,18 @@ const useMidi = (handler: MidiMessageEventHandler): UseMidi => {
       const inputDevice = inputDevices.get(selectedInputDeviceId);
       if (!!inputDevice) {
         inputDevice.onmidimessage = (e: WebMidi.MIDIMessageEvent) => {
-          if (e.data[0] != 254) {
-            // filter out keepalive
-            handler({
-              command: e.data[0],
-              note: e.data[1],
-              velocity: e.data.length > 2 ? e.data[2] : 0
-            });
+          // Mask off the lower nibble (MIDI channel, which we don't care about)
+          switch (e.data[0] & 0xf0) {
+            case 0x90:
+              if (e.data[2] != 0) {
+                // if velocity != 0, this is a note-on message
+                noteOn(e.data[1], e.data[2]);
+                return;
+              }
+            // if velocity == 0, fall thru: it's a note-off.  MIDI's weird, y'all.
+            case 0x80:
+              noteOff(e.data[1]);
+              return;
           }
         };
       }
@@ -62,7 +64,7 @@ const useMidi = (handler: MidiMessageEventHandler): UseMidi => {
     }
 
     return () => {};
-  }, [handler, selectedInputDeviceId, inputDevices]);
+  }, [noteOn, noteOff, selectedInputDeviceId, inputDevices]);
 
   return { inputDevices, error, selectedInputDeviceId, onInputDeviceSelected };
 };
