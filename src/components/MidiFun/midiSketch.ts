@@ -1,25 +1,34 @@
 import React from "react";
 import * as p5 from "p5";
 
-import drawTetronimo from "./drawTetronimo";
+import Tetronimo from "./Tetronimo";
+
+const NOTE_MIN = 21;
+const NOTE_MAX = 108;
+const NUMBER_NOTES = NOTE_MAX - NOTE_MIN;
 
 interface Note {
   note: number;
   velocity: number;
-  age: number;
+  accumulating: boolean;
 }
 
 class SketchContainer {
-  noteObjects: Note[] = [];
+  blockWidth: number = 0;
+  pendingNotes: Note[] = [];
+  tetronimos: Tetronimo[] = [];
 
   noteOn(note: number, velocity: number) {
-    this.noteObjects.unshift({ note, velocity, age: 0 });
+    this.pendingNotes.push({ note, velocity, accumulating: true });
   }
 
   noteOff(note: number) {
-    console.log("NOTE OFF PRE", { note, notes: this.noteObjects });
-    // this.notes = this.notes.filter(n => n.note != note);
-    // console.log("NOTE OFF POST", { note, notes: this.notes });
+    this.tetronimos
+      .filter(t => t.note === note)
+      .forEach(t => (t.accumulating = false));
+    this.pendingNotes
+      .filter(p => p.note === note)
+      .forEach(p => (p.accumulating = false));
   }
 
   sketch(s: p5) {
@@ -27,19 +36,38 @@ class SketchContainer {
 
     s.setup = function() {
       s.createCanvas(600, 600);
+      s.frameRate(15);
+      s.colorMode(s.HSB, s.width);
+      that.blockWidth = Math.round(s.width / NUMBER_NOTES);
     };
 
     s.draw = function() {
       s.background(0);
 
-      that.noteObjects.forEach(({ note, velocity, age }) =>
-        drawTetronimo(s, { x: note * 5, y: 50 + age, size: velocity / 3 })
-      );
-
-      that.noteObjects = that.noteObjects.filter(noteObject => {
-        noteObject.age += 1;
-        return noteObject.age < s.height;
+      that.pendingNotes.forEach(({ note, velocity, accumulating }) => {
+        let x = (note - NOTE_MIN) * that.blockWidth;
+        let y = 0;
+        let colour = s.color(x, s.width, s.width);
+        that.tetronimos.unshift(
+          new Tetronimo(
+            note,
+            velocity,
+            s.createVector(x, y),
+            that.blockWidth,
+            colour,
+            accumulating
+          )
+        );
       });
+      that.pendingNotes = [];
+
+      that.tetronimos.forEach(t => {
+        t.update();
+        t.draw(s);
+      });
+
+      // Filter out any tetronimos that have fallen off the bottom of the screen
+      that.tetronimos = that.tetronimos.filter(t => t.position.y < s.height);
     };
   }
 }

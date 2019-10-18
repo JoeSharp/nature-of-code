@@ -51,7 +51,6 @@ const MidiFun: React.FunctionComponent = () => {
         sketchContainer.sketch.bind(sketchContainer),
         (refContainer.current as unknown) as HTMLElement
       );
-      console.log("Adding Sketch");
     }
 
     return () => {
