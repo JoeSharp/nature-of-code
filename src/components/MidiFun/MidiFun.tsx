@@ -10,23 +10,6 @@ const MidiFun: React.FunctionComponent = () => {
 
   const { sketchContainer, noteOn, noteOff } = useMidiSketch();
 
-  React.useEffect(() => {
-    let sketchInUse: p5;
-
-    if (!!refContainer) {
-      sketchInUse = new p5(
-        sketchContainer.sketch.bind(sketchContainer),
-        (refContainer.current as unknown) as HTMLElement
-      );
-    }
-
-    return () => {
-      if (!!sketchInUse) {
-        sketchInUse.remove();
-      }
-    };
-  }, [sketchContainer]);
-
   const {
     inputDevices,
     error,
@@ -68,6 +51,7 @@ const MidiFun: React.FunctionComponent = () => {
         sketchContainer.sketch.bind(sketchContainer),
         (refContainer.current as unknown) as HTMLElement
       );
+      console.log("Adding Sketch");
     }
 
     return () => {
@@ -75,7 +59,7 @@ const MidiFun: React.FunctionComponent = () => {
         sketchInUse.remove();
       }
     };
-  }, [sketchContainer]);
+  }, [sketchContainer, refContainer]);
 
   return (
     <div>

@@ -1,6 +1,8 @@
 import React from "react";
 import * as p5 from "p5";
 
+import drawTetronimo from "./drawTetronimo";
+
 interface Note {
   note: number;
   velocity: number;
@@ -31,7 +33,7 @@ class SketchContainer {
       s.background(0);
 
       that.noteObjects.forEach(({ note, velocity, age }) =>
-        s.ellipse(note * 5, 50 + age, velocity, velocity)
+        drawTetronimo(s, { x: note * 5, y: 50 + age, size: velocity / 3 })
       );
 
       that.noteObjects = that.noteObjects.filter(noteObject => {
