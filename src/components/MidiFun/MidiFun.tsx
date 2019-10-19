@@ -47,6 +47,9 @@ const MidiFun: React.FunctionComponent = () => {
     let sketchInUse: p5;
 
     if (!!refContainer) {
+      sketchContainer.setWidth(
+        ((refContainer.current as unknown) as HTMLElement).clientWidth
+      );
       sketchInUse = new p5(
         sketchContainer.sketch.bind(sketchContainer),
         (refContainer.current as unknown) as HTMLElement
