@@ -23,7 +23,7 @@ class SketchContainer {
   pendingNotes: Note[] = [];
   drawables: Drawable[] = [];
   width: number;
-  mode: number = TETRIS_MODE;
+  mode: number = ZELDA_MODE;
 
   setWidth(w: number) {
     this.width = w;
@@ -62,11 +62,21 @@ class SketchContainer {
     };
 
     s.keyPressed = function() {
-      that.pendingNotes.push({
-        note: s.keyCode,
-        velocity: 50,
-        accumulating: true
-      });
+      switch (s.keyCode) {
+        case 37: // Left Arrow
+          that.mode = TETRIS_MODE;
+          break;
+        case 39: // Right Arrow
+          that.mode = ZELDA_MODE;
+          break;
+        default:
+          that.pendingNotes.push({
+            note: s.keyCode,
+            velocity: 50,
+            accumulating: true
+          });
+          break;
+      }
     };
 
     s.draw = function() {

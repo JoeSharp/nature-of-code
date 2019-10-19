@@ -108,7 +108,6 @@ class Tetronimo {
     s.push();
     s.translate(this.position.x, this.position.y);
     for (let i = 0; i < this.tailLength; i++) {
-      s.fill(this.colour);
       s.translate(0, -this.size);
       s.square(0, 0, this.size);
     }
