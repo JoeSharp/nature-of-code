@@ -23,7 +23,7 @@ class SketchContainer {
   pendingNotes: Note[] = [];
   drawables: Drawable[] = [];
   width: number;
-  mode: number = ZELDA_MODE;
+  mode: number = TETRIS_MODE;
 
   setWidth(w: number) {
     this.width = w;
@@ -73,7 +73,7 @@ class SketchContainer {
           that.pendingNotes.push({
             note: s.keyCode,
             velocity: 50,
-            accumulating: true
+            accumulating: false
           });
           break;
       }
