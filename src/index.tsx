@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Jumbotron from "./components/Jumbotron";
 import Dobble from "./components/Dobble";
 import MidiFun from "./components/MidiFun";
+import Graphs from "./components/Graphs";
 
 const App = () => (
   <Router>
@@ -24,6 +25,7 @@ const App = () => (
       <Route path={"/sketches"} component={P5SketchLibrary} />
       <Route path={"/analogueSignals"} component={AnalogueSignals} />
       <Route path={"/dobble"} component={Dobble} />
+      <Route path={"/graphs"} component={Graphs} />
     </div>
   </Router>
 );

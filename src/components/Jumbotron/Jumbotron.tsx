@@ -25,6 +25,11 @@ export default () => (
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/graphs">
+            Graphs
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/midiFun">
             MIDI Fun
           </Link>

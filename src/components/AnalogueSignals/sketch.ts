@@ -1,8 +1,8 @@
-import * as React from "react";
 import * as p5 from "p5";
+import { AbstractSketch } from "../P5Sketch/useSketch";
 
-const SIGNAL_MODE_SINE = "Sine Wave";
-const SIGNAL_MODE_NOISE = "Perlin Noise";
+export const SIGNAL_MODE_SINE = "Sine Wave";
+export const SIGNAL_MODE_NOISE = "Perlin Noise";
 
 export const signalTypes = [SIGNAL_MODE_SINE, SIGNAL_MODE_NOISE];
 
@@ -33,18 +33,12 @@ interface Sample {
   isKeySample: boolean;
 }
 
-function configReducer(state: Config, updates: Partial<Config>): Config {
-  return { ...state, ...updates };
-}
-
-class SketchContainer {
-  config: Config = defaultConfig;
-
-  setConfig(config: Config) {
-    this.config = config;
+class Sketch extends AbstractSketch<Config> {
+  constructor() {
+    super(defaultConfig);
   }
 
-  sketch(s: p5) {
+  sketch = (s: p5) => {
     const that = this;
     let analogueSignal: Sample[] = [];
     let quantisedSignal: Sample[] = [];
@@ -173,33 +167,7 @@ class SketchContainer {
       });
       s.endShape();
     }
-  }
-}
-
-interface UseConfig {
-  config: Config;
-  sketchContainer: SketchContainer;
-  updateConfig: (s: Partial<Config>) => void;
-}
-
-export function useConfig(): UseConfig {
-  const [config, dispatch] = React.useReducer(configReducer, defaultConfig);
-
-  const updateConfig = React.useCallback(
-    (updates: Partial<Config>) => dispatch(updates),
-    []
-  );
-
-  const sketchContainer = React.useMemo(() => new SketchContainer(), []);
-
-  React.useEffect(() => sketchContainer.setConfig(config), [
-    config,
-    sketchContainer
-  ]);
-
-  return {
-    config,
-    updateConfig,
-    sketchContainer
   };
 }
+
+export default Sketch;

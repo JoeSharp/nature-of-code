@@ -1,14 +1,13 @@
 import * as React from "react";
-import * as p5 from "p5";
 
-import { useConfig, Config, signalTypes } from "./sketch";
+import Sketch, { Config, signalTypes } from "./Sketch";
+import useSketch from "../P5Sketch/useSketch";
 
 type ChangeEventHandlerFactory = (
   key: keyof Config
 ) => React.ChangeEventHandler<HTMLInputElement>;
 
 const AnalogueSignals: React.FunctionComponent = () => {
-  const refContainer = React.useRef(null);
   const {
     config: {
       samplingRate,
@@ -21,8 +20,8 @@ const AnalogueSignals: React.FunctionComponent = () => {
       plotSquareWave
     },
     updateConfig,
-    sketchContainer
-  } = useConfig();
+    refContainer
+  } = useSketch(Sketch);
 
   const onNumericConfigChange: ChangeEventHandlerFactory = React.useCallback(
     (key: string): React.ChangeEventHandler<HTMLInputElement> => ({
@@ -73,23 +72,6 @@ const AnalogueSignals: React.FunctionComponent = () => {
     ({ target: { value } }) => updateConfig({ signalType: value }),
     [updateConfig]
   );
-
-  React.useEffect(() => {
-    let sketchInUse: p5;
-
-    if (!!refContainer) {
-      sketchInUse = new p5(
-        sketchContainer.sketch.bind(sketchContainer),
-        (refContainer.current as unknown) as HTMLElement
-      );
-    }
-
-    return () => {
-      if (!!sketchInUse) {
-        sketchInUse.remove();
-      }
-    };
-  }, [sketchContainer]);
 
   return (
     <div>
