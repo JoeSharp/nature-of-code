@@ -25,8 +25,8 @@ export default () => (
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/graphs">
-            Graphs
+          <Link className="nav-link" to="/pageRank">
+            Page Rank
           </Link>
         </li>
         <li className="nav-item">
@@ -52,6 +52,11 @@ export default () => (
         <li className="nav-item">
           <Link className="nav-link" to="/dobble">
             Dobble
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/graphs">
+            Graphs
           </Link>
         </li>
       </ul>

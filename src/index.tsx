@@ -14,6 +14,7 @@ import Jumbotron from "./components/Jumbotron";
 import Dobble from "./components/Dobble";
 import MidiFun from "./components/MidiFun";
 import Graphs from "./components/Graphs";
+import PageRank from "./components/PageRank";
 
 const App = () => (
   <Router>
@@ -26,6 +27,7 @@ const App = () => (
       <Route path={"/analogueSignals"} component={AnalogueSignals} />
       <Route path={"/dobble"} component={Dobble} />
       <Route path={"/graphs"} component={Graphs} />
+      <Route path={"/pageRank"} component={PageRank} />
     </div>
   </Router>
 );
