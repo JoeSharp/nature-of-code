@@ -1,12 +1,6 @@
 import React from "react";
 
-import { Link } from "./types";
-
-interface PageGraph {
-  pendingFrom: string | undefined;
-  pages: string[];
-  links: Link[];
-}
+import { PageGraph, UseBuildPages } from "./types";
 
 const DEFAULT_PAGE_GRAPH: PageGraph = {
   pendingFrom: undefined,
@@ -93,17 +87,7 @@ const pageReducer = (state: PageGraph, action: PageReducerAction) => {
   return state;
 };
 
-interface UsePageRank {
-  pageGraph: PageGraph;
-  addPage: (page: string) => void;
-  removePage: (page: string) => void;
-  prepareLink: (from: string) => void;
-  cancelLink: () => void;
-  completeLink: (to: string) => void;
-  removeLink: (from: string, to: string) => void;
-}
-
-const usePageRank = (): UsePageRank => {
+const useBuildPages = (): UseBuildPages => {
   const [pageGraph, dispatch] = React.useReducer(
     pageReducer,
     DEFAULT_PAGE_GRAPH
@@ -145,4 +129,4 @@ const usePageRank = (): UsePageRank => {
   };
 };
 
-export default usePageRank;
+export default useBuildPages;
