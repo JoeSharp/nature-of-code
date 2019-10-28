@@ -58,7 +58,10 @@ const GET_LINK_TO = (link: Link) => link.to;
 const Page: React.FunctionComponent<Props> = ({
   page,
   buildPages: {
-    pageGraph: { pendingFrom, links },
+    pageGraphBuilder: {
+      pendingFrom,
+      graph: { links }
+    },
     prepareLink,
     cancelLink,
     completeLink,

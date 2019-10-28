@@ -4,13 +4,21 @@ export interface Link {
 }
 
 export interface PageGraph {
-  pendingFrom: string | undefined;
   pages: string[];
   links: Link[];
 }
 
+export interface PageGraphBuilder {
+  pendingFrom: string | undefined;
+  graph: PageGraph;
+}
+
+export interface PageRanks {
+  [s: string]: number;
+}
+
 export interface UseBuildPages {
-  pageGraph: PageGraph;
+  pageGraphBuilder: PageGraphBuilder;
   addPage: (page: string) => void;
   removePage: (page: string) => void;
   prepareLink: (from: string) => void;

@@ -1,11 +1,19 @@
 import React from "react";
 
-import { PageGraph, UseBuildPages } from "./types";
+import { PageGraphBuilder, UseBuildPages } from "./types";
 
-const DEFAULT_PAGE_GRAPH: PageGraph = {
+const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
   pendingFrom: undefined,
-  pages: ["a", "b", "c"],
-  links: [{ from: "a", to: "b" }]
+  graph: {
+    pages: ["a", "b", "c", "d"],
+    links: [
+      { from: "a", to: "b" },
+      { from: "b", to: "a" },
+      { from: "b", to: "c" },
+      { from: "b", to: "d" },
+      { from: "d", to: "a" }
+    ]
+  }
 };
 
 interface AddPage {
@@ -46,14 +54,20 @@ type PageReducerAction =
   | CompleteLink
   | RemoveLink;
 
-const pageReducer = (state: PageGraph, action: PageReducerAction) => {
+const pageReducer = (state: PageGraphBuilder, action: PageReducerAction) => {
   switch (action.type) {
     case "addPage":
-      return { ...state, pages: [...state.pages, action.page] };
+      return {
+        ...state,
+        graph: { ...state.graph, pages: [...state.graph.pages, action.page] }
+      };
     case "removePage":
       return {
         ...state,
-        pages: state.pages.filter(p => p !== action.page)
+        graph: {
+          ...state.graph,
+          pages: state.graph.pages.filter(p => p !== action.page)
+        }
       };
     case "prepareLink":
       return {
@@ -67,20 +81,27 @@ const pageReducer = (state: PageGraph, action: PageReducerAction) => {
         ? {
             ...state,
             pendingFrom: undefined,
-            links: [
-              ...state.links.filter(
-                l => !(l.from === state.pendingFrom && l.to === action.to)
-              ),
-              { from: state.pendingFrom, to: action.to }
-            ]
+            graph: {
+              ...state.graph,
+              links: [
+                ...state.graph.links.filter(
+                  l => !(l.from === state.pendingFrom && l.to === action.to)
+                ),
+                { from: state.pendingFrom, to: action.to }
+              ]
+            }
           }
         : state;
     case "removeLink":
       return {
         ...state,
-        links: state.links.filter(
-          l => !(l.from === action.from && l.to === action.to)
-        )
+        graph: {
+          ...state.graph,
+
+          links: state.graph.links.filter(
+            l => !(l.from === action.from && l.to === action.to)
+          )
+        }
       };
   }
 
@@ -88,7 +109,7 @@ const pageReducer = (state: PageGraph, action: PageReducerAction) => {
 };
 
 const useBuildPages = (): UseBuildPages => {
-  const [pageGraph, dispatch] = React.useReducer(
+  const [pageGraphBuilder, dispatch] = React.useReducer(
     pageReducer,
     DEFAULT_PAGE_GRAPH
   );
@@ -119,7 +140,7 @@ const useBuildPages = (): UseBuildPages => {
   );
 
   return {
-    pageGraph,
+    pageGraphBuilder,
     addPage,
     removePage,
     prepareLink,
