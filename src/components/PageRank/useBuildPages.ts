@@ -2,6 +2,14 @@ import React from "react";
 
 import { PageGraphBuilder, UseBuildPages } from "./types";
 
+const EMPTY_PAGE_GRAPH: PageGraphBuilder = {
+  pendingFrom: undefined,
+  graph: {
+    pages: [],
+    links: []
+  }
+};
+
 const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
   pendingFrom: undefined,
   graph: {
@@ -15,6 +23,10 @@ const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
     ]
   }
 };
+
+interface ClearAll {
+  type: "clearAll";
+}
 
 interface AddPage {
   type: "addPage";
@@ -47,6 +59,7 @@ interface RemoveLink {
 }
 
 type PageReducerAction =
+  | ClearAll
   | AddPage
   | RemovePage
   | PrepareLink
@@ -56,6 +69,8 @@ type PageReducerAction =
 
 const pageReducer = (state: PageGraphBuilder, action: PageReducerAction) => {
   switch (action.type) {
+    case "clearAll":
+      return EMPTY_PAGE_GRAPH;
     case "addPage":
       return {
         ...state,
@@ -66,7 +81,10 @@ const pageReducer = (state: PageGraphBuilder, action: PageReducerAction) => {
         ...state,
         graph: {
           ...state.graph,
-          pages: state.graph.pages.filter(p => p !== action.page)
+          pages: state.graph.pages.filter(p => p !== action.page),
+          links: state.graph.links.filter(
+            ({ from, to }) => !(from === action.page || to === action.page)
+          )
         }
       };
     case "prepareLink":
@@ -114,6 +132,7 @@ const useBuildPages = (): UseBuildPages => {
     DEFAULT_PAGE_GRAPH
   );
 
+  const clearAll = React.useCallback(() => dispatch({ type: "clearAll" }), []);
   const addPage = React.useCallback(
     (page: string) => dispatch({ type: "addPage", page }),
     []
@@ -141,6 +160,7 @@ const useBuildPages = (): UseBuildPages => {
 
   return {
     pageGraphBuilder,
+    clearAll,
     addPage,
     removePage,
     prepareLink,

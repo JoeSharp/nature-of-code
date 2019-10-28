@@ -19,6 +19,7 @@ export interface PageRanks {
 
 export interface UseBuildPages {
   pageGraphBuilder: PageGraphBuilder;
+  clearAll: () => void;
   addPage: (page: string) => void;
   removePage: (page: string) => void;
   prepareLink: (from: string) => void;

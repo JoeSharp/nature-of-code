@@ -10,11 +10,26 @@ const PageRank: React.FunctionComponent = () => {
   const {
     pageGraphBuilder: {
       graph: { pages }
-    }
+    },
+    clearAll,
+    addPage
   } = buildPages;
   const { iterations, ranks, begin, iterate } = usePageRank({
     graph: buildPages.pageGraphBuilder.graph
   });
+  const [newPageName, setNewPageName] = React.useState<string>(
+    "www.somewhere.com"
+  );
+  const onAddPage = React.useCallback(
+    () => newPageName.length > 0 && addPage(newPageName),
+    [newPageName, addPage]
+  );
+
+  const onNewPageChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = React.useCallback(({ target: { value } }) => setNewPageName(value), [
+    setNewPageName
+  ]);
 
   const [isAutoIterating, setIsAutoIterating] = React.useState<boolean>(false);
 
@@ -77,6 +92,23 @@ const PageRank: React.FunctionComponent = () => {
         </table>
       </div>
       <h2>Build Graph of Pages</h2>
+      <form>
+        <div className="form-group">
+          <label htmlFor="newPageName">New Page Name</label>
+          <input
+            id="newPageName"
+            className="form-control"
+            value={newPageName}
+            onChange={onNewPageChange}
+          />
+        </div>
+      </form>
+      <button className="btn btn-primary" onClick={onAddPage}>
+        Add Page
+      </button>
+      <button className="btn btn-danger" onClick={clearAll}>
+        Clear All
+      </button>
       <div className="row">
         {pages.map((page, i) => (
           <div className="col-sm-4" key={i}>
