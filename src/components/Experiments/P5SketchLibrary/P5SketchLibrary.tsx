@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import SketchPicker from "../SketchPicker";
 import P5Sketch from "../P5Sketch/P5Sketch";
-import sketches from "../../sketches";
+import sketches from "../../../sketches";
 
 export default () => {
   const [sketch, onSketchChange] = useState<string | undefined>(undefined);
