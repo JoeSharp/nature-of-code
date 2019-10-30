@@ -2,15 +2,17 @@ import React from "react";
 
 import { PageGraph, PageRanks } from "./types";
 
-const DAMPING_FACTOR = 0.85;
+const MAX_ITERATIONS = 20;
 
 interface Props {
+  dampingFactor: number;
   graph: PageGraph;
 }
 
 interface UsePageRank {
   iterations: number;
   ranks: PageRanks;
+  rankHistory: PageRanks[];
   begin: () => void;
   iterate: () => void;
 }
@@ -21,13 +23,16 @@ interface IterateAction {
 
 interface InitialiseAction {
   type: "initialise";
+  dampingFactor: number;
   graph: PageGraph;
 }
 
 interface RankReducerState {
   iterations: number;
   graph: PageGraph;
+  dampingFactor: number;
   ranks: PageRanks;
+  rankHistory: PageRanks[];
 }
 type RankReducerAction = IterateAction | InitialiseAction;
 
@@ -35,11 +40,21 @@ export const roundTo2Dp = (x: number) =>
   x !== undefined ? parseFloat(x.toFixed(2)) : 0;
 
 const rankReducer = (
-  { iterations, graph, ranks }: RankReducerState,
+  { iterations, graph, ranks, rankHistory, dampingFactor }: RankReducerState,
   action: RankReducerAction
 ): RankReducerState => {
   switch (action.type) {
     case "iterate": {
+      if (iterations > MAX_ITERATIONS) {
+        return {
+          iterations,
+          graph,
+          ranks,
+          rankHistory,
+          dampingFactor
+        };
+      }
+
       const newRanks: PageRanks = { ...ranks };
 
       graph.pages.forEach(page => {
@@ -53,13 +68,15 @@ const rankReducer = (
           )
           .reduce((acc, curr) => acc + curr, 0);
 
-        newRanks[page] = 1 - DAMPING_FACTOR + DAMPING_FACTOR * rank;
+        newRanks[page] = 1 - dampingFactor + dampingFactor * rank;
       });
 
       return {
         iterations: iterations + 1,
         graph,
-        ranks: newRanks
+        ranks: newRanks,
+        rankHistory: [...rankHistory, newRanks],
+        dampingFactor
       };
     }
     case "initialise":
@@ -69,29 +86,39 @@ const rankReducer = (
         ranks: action.graph.pages.reduce(
           (acc, curr) => ({ ...acc, [curr]: 1 }),
           {}
-        )
+        ),
+        rankHistory: [],
+        dampingFactor: action.dampingFactor
       };
   }
 };
 
-const usePageRank = ({ graph }: Props): UsePageRank => {
+const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
   const [rankState, dispatch] = React.useReducer(rankReducer, {
     iterations: 0,
     graph,
-    ranks: {}
+    ranks: {},
+    rankHistory: [],
+    dampingFactor: 0.85
   });
 
   const iterate = React.useCallback(() => dispatch({ type: "iterate" }), []);
 
   const begin = React.useCallback(
-    () => dispatch({ type: "initialise", graph }),
-    [graph]
+    () => dispatch({ type: "initialise", graph, dampingFactor }),
+    [graph, dampingFactor]
   );
 
   React.useEffect(begin, [begin]);
-  const { ranks, iterations } = rankState;
+  const { ranks, iterations, rankHistory } = rankState;
 
-  return { iterations, ranks, begin: begin, iterate };
+  return {
+    iterations,
+    ranks,
+    rankHistory: [ranks, ...rankHistory],
+    begin: begin,
+    iterate
+  };
 };
 
 export default usePageRank;
