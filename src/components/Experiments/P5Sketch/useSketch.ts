@@ -27,7 +27,7 @@ interface UseConfig<T> {
 
 function useSketch<T>(s: { new (): AbstractSketch<T> }): UseConfig<T> {
   const refContainer = React.useRef(null);
-  const sketchContainer: AbstractSketch<T> = new s();
+  const sketchContainer: AbstractSketch<T> = React.useMemo(() => new s(), [s]);
   React.useEffect(() => {
     let sketchInUse: p5;
 
