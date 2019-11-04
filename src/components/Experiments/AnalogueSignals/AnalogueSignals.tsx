@@ -93,7 +93,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="samplingRate">Sampling Rate</label>
+          <label htmlFor="samplingRate">Sampling Rate (Hz)</label>
           <input
             type="number"
             className="form-control"
@@ -104,7 +104,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="quantisationStep">Quantisation Step</label>
+          <label htmlFor="quantisationStep">Quantisation Step (pixels)</label>
           <input
             type="number"
             className="form-control"
@@ -115,13 +115,13 @@ const AnalogueSignals: React.FunctionComponent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="signalFrequency">Signal Frequency</label>
+          <label htmlFor="signalFrequency">Signal Frequency (Hz)</label>
           <input
             type="number"
             className="form-control"
             id="signalFrequency"
             placeholder="Signal Frequency"
-            step="0.01"
+            step="0.1"
             value={signalFrequency}
             onChange={onSignalFrequencyChange}
           />
