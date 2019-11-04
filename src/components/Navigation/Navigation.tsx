@@ -20,6 +20,9 @@ export default () => (
         Experiments
       </a>
       <div className="dropdown-menu">
+        <Link className="dropdown-item" to="/experiments/asteroids">
+          7S2 - Asteroids
+        </Link>
         <Link className="dropdown-item" to="/experiments/pageRank">
           Page Rank
         </Link>
@@ -56,7 +59,7 @@ export default () => (
       </a>
       <div className="dropdown-menu">
         <Link className="dropdown-item" to="/codeClub/movingWithKeyboard">
-          Moving With Keyboard
+          Session 3 - Moving With Keyboard
         </Link>
       </div>
     </li>

@@ -12,6 +12,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MovingWithKeyboard from "./components/CodeClub/MovingWithKeyboard";
 import Navigation from "./components/Navigation";
+import Asteroids from "./components/Experiments/Asteroids";
 import Dobble from "./components/Experiments/Dobble";
 import MidiFun from "./components/Experiments/MidiFun";
 import Graphs from "./components/Experiments/Graphs";
@@ -27,6 +28,7 @@ const App = () => (
         component={MovingWithKeyboard}
       />
 
+      <Route path={"/experiments/asteroids"} component={Asteroids} />
       <Route path={"/experiments/midiFun"} component={MidiFun} />
       <Route path={"/experiments/solveEquation"} component={SolveEquation} />
       <Route path={"/experiments/sketches"} component={P5SketchLibrary} />
