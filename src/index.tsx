@@ -18,6 +18,8 @@ import MidiFun from "./components/Experiments/MidiFun";
 import Graphs from "./components/Experiments/Graphs";
 import PageRank from "./components/Experiments/PageRank";
 
+import "./index.css";
+
 const App = () => (
   <Router>
     <div className="container">

@@ -1,0 +1,4 @@
+.tickable-section.ticked {
+  opacity: 70%;
+  text-decoration: line-through;
+}
