@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import codeClubSessions from "../CodeClub";
 
 export default () => (
   <ul className="nav nav-tabs">
@@ -75,9 +76,11 @@ export default () => (
         Code Club
       </a>
       <div className="dropdown-menu">
-        <Link className="dropdown-item" to="/codeClub/movingWithKeyboard">
-          Session 3 - Moving With Keyboard
-        </Link>
+        {codeClubSessions.map(({ href, title, sessionNumber }) => (
+          <Link className="dropdown-item" to={href}>
+            Session {sessionNumber} - {title}
+          </Link>
+        ))}
       </div>
     </li>
   </ul>

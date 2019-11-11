@@ -10,7 +10,7 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MovingWithKeyboard from "./components/CodeClub/MovingWithKeyboard";
+import codeClubSessions from "./components/CodeClub";
 import Navigation from "./components/Navigation";
 import Asteroids from "./components/Experiments/Asteroids";
 import Dobble from "./components/Experiments/Dobble";
@@ -26,10 +26,9 @@ const App = () => (
     <div className="container">
       <Navigation />
 
-      <Route
-        path="/codeClub/movingWithKeyboard"
-        component={MovingWithKeyboard}
-      />
+      {codeClubSessions.map(({ href, component }) => (
+        <Route path={href} component={component} />
+      ))}
 
       <Route path="/experiments/asteroids" component={Asteroids} />
       <Route path="/experiments/midiFun" component={MidiFun} />
