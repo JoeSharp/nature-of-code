@@ -77,7 +77,7 @@ export default () => (
       </a>
       <div className="dropdown-menu">
         {codeClubSessions.map(({ href, title, sessionNumber }) => (
-          <Link className="dropdown-item" to={href}>
+          <Link key={title} className="dropdown-item" to={href}>
             Session {sessionNumber} - {title}
           </Link>
         ))}

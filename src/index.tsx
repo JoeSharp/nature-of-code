@@ -27,7 +27,7 @@ const App = () => (
       <Navigation />
 
       {codeClubSessions.map(({ href, component }) => (
-        <Route path={href} component={component} />
+        <Route key={href} path={href} component={component} />
       ))}
 
       <Route path="/experiments/asteroids" component={Asteroids} />

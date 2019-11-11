@@ -8,6 +8,7 @@ import step3Result from "./step3_result.png";
 import step4 from "./step4.png";
 import step5 from "./step5.png";
 import step5Result from "./step5_result.png";
+import chal1 from "./chal1.png";
 
 import TickableSection from "../TickableSection";
 
@@ -118,6 +119,17 @@ const TopDownCar: React.FunctionComponent = () => {
 
         <div className="image">
           <img style={{ height: "15rem" }} src={step5Result} />
+        </div>
+      </TickableSection>
+      <TickableSection tickId="s4chal1" header="Challenge: Elaborate Drawing">
+        <p>
+          Now that your 'car' moves around correctly, feel free to add more
+          shapes or even just modify the existing ones to your liking. Remember
+          to draw 'about the origin' so that the rotation works correctly. For
+          example, here is the code to draw a rectangle 'about the origin':
+        </p>
+        <div className="image">
+          <img style={{ height: "5rem" }} src={chal1} />
         </div>
       </TickableSection>
     </div>
