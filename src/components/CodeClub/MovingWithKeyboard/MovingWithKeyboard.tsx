@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./tutorials.css";
+import "../tutorials.css";
 
 import TickableSection from "../TickableSection";
 
