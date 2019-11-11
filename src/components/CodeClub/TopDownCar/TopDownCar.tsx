@@ -1,6 +1,13 @@
 import * as React from "react";
 
 import "../tutorials.css";
+import step1 from "./step1.png";
+import step2 from "./step2.png";
+import step3 from "./step3.png";
+import step3Result from "./step3_result.png";
+import step4 from "./step4.png";
+import step5 from "./step5.png";
+import step5Result from "./step5_result.png";
 
 import TickableSection from "../TickableSection";
 
@@ -13,6 +20,15 @@ const TopDownCar: React.FunctionComponent = () => {
         position of our game object.
       </p>
       <p>
+        The control scheme will emulate a top down 'driving' experience. The
+        left and right arrow keys will 'steer', and the up arrow key will drive
+        forward (the back key can then be programmed to reverse).
+      </p>
+      <p>
+        The other difference from Step 2, is that we will be evaluating the keys
+        within the animation code i.e. the <code>draw()</code> function.
+      </p>
+      <p>
         <a
           target="_blank"
           href="https://editor.p5js.org/JoeSharp/sketches/9gcY5Y4D7"
@@ -20,10 +36,90 @@ const TopDownCar: React.FunctionComponent = () => {
           Here is a completed example.
         </a>
       </p>
-      <TickableSection
-        tickId="s3Step1"
-        header="Step 1 - Create Variables"
-      ></TickableSection>
+      <TickableSection tickId="s4Step1" header="Step 1 - Create Variables">
+        <p>We need a few variables to store the current driving state:</p>
+        <ul>
+          <li>
+            Position - We will use{" "}
+            <a href="https://p5js.org/reference/#/p5.Vector">vectors</a> instead
+            of a pair of variables called x, y
+          </li>
+          <li>Heading - This will be an angle in Radians.</li>
+          <li>
+            Straight Line Speed - This will be a constant to tell the program
+            how far to move each frame.
+          </li>
+          <li>
+            Rotation Speed - This will be another constant that tells the
+            program how much to rotate if the steering keys are being pressed.
+          </li>
+        </ul>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step1} />
+        </div>
+      </TickableSection>
+      <TickableSection tickId="s4step2" header="Step 2 - Initialise Variables">
+        <p>
+          The initial values of the variables will make use of some p5.js
+          constants. Therefore we must set the initial values inside the{" "}
+          <code>setup()</code> function.
+        </p>
+        <p>
+          Note that the initial position is at the midpoint of the screen, I am
+          using
+          <code>height</code>, <code>width</code> and <code>PI</code> which are
+          provided by the framework.
+        </p>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step2} />
+        </div>
+      </TickableSection>
+      <TickableSection tickId="s4step3" header="Step 3 - Tranform and Draw">
+        <p>
+          This next bit of code will run the transformations required to place
+          our car in the correct place.
+        </p>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step3} />
+        </div>
+        <p>
+          Once you have this code typed in, RUN the sketch and you should see
+          the triangle
+        </p>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step3Result} />
+        </div>
+      </TickableSection>
+      <TickableSection tickId="s4step4" header="Step 4 - Steering">
+        <p>
+          This bit of code goes inside the <code>draw()</code> function and is
+          where you are checking for the
+          <code>LEFT_ARROW</code> and <code>RIGHT_ARROW</code> keys being
+          pressed.
+        </p>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step4} />
+        </div>
+      </TickableSection>
+      <TickableSection tickId="s4step5" header="Step 5 - Moving Forward">
+        <p>
+          This bit of code is yet another key press detection inside{" "}
+          <code>draw()</code> but the way that the position is changed is a
+          little complicated.
+          <code>UP_ARROW</code> is being pressed.
+        </p>
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step5} />
+        </div>
+        <p>
+          Once you have this typed in correctly, RUN your sketch, click into the
+          sketch to give it focus and start driving!
+        </p>
+
+        <div className="image">
+          <img style={{ height: "15rem" }} src={step5Result} />
+        </div>
+      </TickableSection>
     </div>
   );
 };
