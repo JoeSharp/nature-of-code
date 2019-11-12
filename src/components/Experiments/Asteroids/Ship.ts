@@ -1,4 +1,6 @@
-import p5 from "p5";
+import p5, { Image } from "p5";
+
+import ships from "./images/ships";
 
 interface ConstructShip {
   s: p5;
@@ -18,14 +20,23 @@ class Ship {
   acceleration: p5.Vector;
   heading: number;
   radius: number;
+  imageIndex: number;
+  images: Image[];
 
   constructor({ s, position, radius }: ConstructShip) {
     this.s = s;
     this.position = position;
     this.velocity = s.createVector();
     this.acceleration = s.createVector();
-    this.heading = s.PI / 4;
+    this.heading = 0;
     this.radius = radius;
+    this.imageIndex = 0;
+    this.images = ships.map(ship => s.loadImage(ship.image));
+  }
+
+  nextImage() {
+    this.imageIndex += 1;
+    this.imageIndex %= this.images.length;
   }
 
   update({ steer, thrust }: Update) {
@@ -53,14 +64,21 @@ class Ship {
     this.s.stroke("green");
     this.s.translate(this.position.x, this.position.y);
     this.s.rotate(this.heading);
-    this.s.triangle(
+    this.s.image(
+      this.images[this.imageIndex],
       -this.radius,
       -this.radius,
-      this.radius,
-      -this.radius,
-      0,
-      this.radius
+      this.radius * 2,
+      this.radius * 2
     );
+    // this.s.triangle(
+    //   -this.radius,
+    //   -this.radius,
+    //   this.radius,
+    //   -this.radius,
+    //   0,
+    //   this.radius
+    // );
     this.s.pop();
   }
 }

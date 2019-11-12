@@ -30,6 +30,12 @@ class Sketch extends AbstractSketch<Config> {
       }
     };
 
+    s.keyPressed = function() {
+      if (s.keyCode == (s as any).ENTER) {
+        ship.nextImage();
+      }
+    };
+
     s.draw = function() {
       s.background(0);
 
