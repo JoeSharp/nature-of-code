@@ -1,6 +1,7 @@
-import p5, { Image } from "p5";
+import p5 from "p5";
 
 import ships from "./images/ships";
+import { ImageSwitcher } from "./images";
 
 interface ConstructShip {
   s: p5;
@@ -20,8 +21,7 @@ class Ship {
   acceleration: p5.Vector;
   heading: number;
   radius: number;
-  imageIndex: number;
-  images: Image[];
+  imageSwitcher: ImageSwitcher;
 
   constructor({ s, position, radius }: ConstructShip) {
     this.s = s;
@@ -30,13 +30,11 @@ class Ship {
     this.acceleration = s.createVector();
     this.heading = 0;
     this.radius = radius;
-    this.imageIndex = 0;
-    this.images = ships.map(ship => s.loadImage(ship.image));
+    this.imageSwitcher = new ImageSwitcher(s, ships);
   }
 
   nextImage() {
-    this.imageIndex += 1;
-    this.imageIndex %= this.images.length;
+    this.imageSwitcher.nextImage();
   }
 
   update({ steer, thrust }: Update) {
@@ -65,7 +63,7 @@ class Ship {
     this.s.translate(this.position.x, this.position.y);
     this.s.rotate(this.heading);
     this.s.image(
-      this.images[this.imageIndex],
+      this.imageSwitcher.currentImage(),
       -this.radius,
       -this.radius,
       this.radius * 2,

@@ -1,4 +1,6 @@
 import p5 from "p5";
+import asteroids from "./images/asteroids";
+import { ImageSwitcher } from "./images";
 
 class Asteroid {
   s: p5;
@@ -7,6 +9,7 @@ class Asteroid {
   angularVelocity: number;
   heading: number;
   radius: number;
+  imageSwitcher: ImageSwitcher;
 
   constructor(s: p5) {
     this.s = s;
@@ -15,6 +18,11 @@ class Asteroid {
     this.angularVelocity = s.map(s.random(), 0, 1, -s.PI, s.PI) * 0.01;
     this.heading = s.map(s.random(), 0, 1, -s.PI, s.PI);
     this.radius = s.floor(s.random(20, 60));
+    this.imageSwitcher = new ImageSwitcher(s, asteroids);
+  }
+
+  nextImage() {
+    this.imageSwitcher.nextImage();
   }
 
   update() {
@@ -35,7 +43,13 @@ class Asteroid {
 
     this.s.noFill();
     this.s.stroke(255);
-    this.s.rect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
+    this.s.image(
+      this.imageSwitcher.currentImage(),
+      -this.radius,
+      -this.radius,
+      this.radius,
+      this.radius
+    );
 
     this.s.pop();
   }

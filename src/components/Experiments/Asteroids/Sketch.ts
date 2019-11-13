@@ -19,7 +19,7 @@ class Sketch extends AbstractSketch<Config> {
 
     s.setup = function() {
       const {} = that.config;
-      s.createCanvas(400, 400);
+      s.createCanvas(600, 600);
 
       let position = s.createVector(s.width / 2, s.height / 2);
       let radius = s.width / 20;
