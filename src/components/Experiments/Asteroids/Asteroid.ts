@@ -45,8 +45,8 @@ class Asteroid {
     this.s.stroke(255);
     this.s.image(
       this.imageSwitcher.currentImage(),
-      -this.radius,
-      -this.radius,
+      -this.radius / 2,
+      -this.radius / 2,
       this.radius,
       this.radius
     );

@@ -6,13 +6,17 @@ class ImageSwitcher {
   imageIndex: number;
 
   constructor(s: p5, namedImages: NamedImage[]) {
-    this.imageIndex = 0;
     this.images = namedImages.map(n => s.loadImage(n.image));
+    this.randomImage();
   }
 
   nextImage() {
     this.imageIndex += 1;
     this.imageIndex %= this.images.length;
+  }
+
+  randomImage() {
+    this.imageIndex = Math.floor(Math.random() * this.images.length);
   }
 
   currentImage(): Image {
