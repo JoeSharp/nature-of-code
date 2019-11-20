@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import "../tutorials.css";
-import step1 from "./step1.png";
-import step2 from "./step2.png";
-import step3 from "./step3.png";
-import step3Result from "./step3_result.png";
-import step4 from "./step4.png";
-import step5 from "./step5.png";
-import step5Result from "./step5_result.png";
-import chal1 from "./chal1.png";
+import step1 from "./images/step1.png";
+import step2 from "./images/step2.png";
+import step3 from "./images/step3.png";
+import step3Result from "./images/step3_result.png";
+import step4 from "./images/step4.png";
+import step5 from "./images/step5.png";
+import step5Result from "./images/step5_result.png";
+import chal1 from "./images/chal1.png";
 
 import TickableSection from "../TickableSection";
 

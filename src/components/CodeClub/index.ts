@@ -1,5 +1,6 @@
 import TopDownCar from "./TopDownCar";
 import MovingWithKeyboard from "./MovingWithKeyboard";
+import UsingClasses from "./UsingClasses";
 
 interface CodeClubSession {
   sessionNumber: number;
@@ -20,6 +21,12 @@ const sessions: CodeClubSession[] = [
     href: "/codeClub/topDownCar",
     title: "Top Down Car",
     component: TopDownCar
+  },
+  {
+    sessionNumber: 6,
+    href: "/codeClub/usingClasses",
+    title: "Using Classes",
+    component: UsingClasses
   }
 ];
 
