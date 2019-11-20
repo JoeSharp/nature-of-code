@@ -15,10 +15,20 @@ import TickableSection from "../TickableSection";
 const TopDownCar: React.FunctionComponent = () => {
   return (
     <div className="tutorial">
-      <h1>Moving With Keyboard</h1>
+      <h1>Top Down Car</h1>
       <p>
         In this example we will be using vectors to control rotation and
         position of our game object.
+      </p>
+      <p>
+        I have created a blank project that contains comments where the code
+        needs to go for each step. This may be useful if you are struggling to
+        know where to put things.
+      </p>
+      <p>
+        <a href="https://editor.p5js.org/JoeSharp/sketches/qGRRC5jR0">
+          It can be found here
+        </a>
       </p>
       <p>
         The control scheme will emulate a top down 'driving' experience. The
