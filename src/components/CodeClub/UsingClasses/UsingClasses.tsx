@@ -24,12 +24,18 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         </a>
       </p>
       <p>
-        We will be making a very simple 'game' where we use the arrow keys to
-        move UP, DOWN, LEFT and RIGHT, but by wrapping up the player logic in a
-        class, we can add a second player using WASD as a control scheme.
+        In this game I will make a very simple 'player' that can be directed to
+        move horizontally using the LEFT and RIGHT arrow keys. We will
+        encapsulate this player in a class, and then use a JavaScript object to
+        configure the controls for the player.
       </p>
       <p>
-        The control scheme is just like{" "}
+        Once the controls can be changed for a given player, we can then make
+        multiple players, each with an independant existence in the 'game
+        world'.
+      </p>
+      <p>
+        The control scheme is a bit like{" "}
         <Link to="/codeClub/movingWithKeyboard">Moving With Keyboard</Link> but,
         instead of using the event handling functions, we will use isKeyDown
         which we used in
@@ -37,9 +43,14 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         approaches.
       </p>
       <p>
+        I will only implement LEFT and RIGHT, but you can add UP and DOWN if you
+        like. Then try and apply this class based approach to the top down car
+        and the steering controls.
+      </p>
+      <p>
         <a
           target="_blank"
-          href="https://editor.p5js.org/JoeSharp/sketches/UxliLhatH"
+          href="https://editor.p5js.org/JoeSharp/sketches/XqokKbcsP"
         >
           Here is a completed example.
         </a>
