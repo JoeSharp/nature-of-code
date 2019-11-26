@@ -9,11 +9,6 @@ interface ConstructShip {
   radius: number;
 }
 
-interface Update {
-  steer: number;
-  thrust: number;
-}
-
 class Ship {
   s: p5;
   position: p5.Vector;
@@ -37,7 +32,17 @@ class Ship {
     this.imageSwitcher.nextImage();
   }
 
-  update({ steer, thrust }: Update) {
+  update() {
+    let steer = 0;
+    let thrust = 0;
+    if (this.s.keyIsDown((this.s as any).LEFT_ARROW)) {
+      steer = -1;
+    } else if (this.s.keyIsDown((this.s as any).RIGHT_ARROW)) {
+      steer = 1;
+    } else if (this.s.keyIsDown((this.s as any).UP_ARROW)) {
+      thrust = 1;
+    }
+
     this.heading += steer * 0.1;
 
     let thrustForce = this.s.createVector(0, thrust * 0.4);

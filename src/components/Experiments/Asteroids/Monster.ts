@@ -1,5 +1,5 @@
 import p5 from "p5";
-import asteroids from "./images/asteroids";
+import monsters from "./images/asteroids";
 import { ImageSwitcher } from "./images";
 
 class Asteroid {
@@ -18,7 +18,7 @@ class Asteroid {
     this.angularVelocity = s.map(s.random(), 0, 1, -s.PI, s.PI) * 0.01;
     this.heading = s.map(s.random(), 0, 1, -s.PI, s.PI);
     this.radius = s.floor(s.random(20, 60));
-    this.imageSwitcher = new ImageSwitcher(s, asteroids);
+    this.imageSwitcher = new ImageSwitcher(s, monsters);
     this.imageSwitcher.randomImage();
   }
 

@@ -60,6 +60,12 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           <img style={{ height: "15rem" }} />
         </div>
       </TickableSection>
+
+      <TickableSection tickId="s6step1" header="Step 1 - Create Class">
+        <div className="image">
+          <img style={{ height: "15rem" }} />
+        </div>
+      </TickableSection>
     </div>
   );
 };
