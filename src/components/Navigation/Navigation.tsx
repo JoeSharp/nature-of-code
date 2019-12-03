@@ -18,23 +18,6 @@ export default () => (
         aria-haspopup="true"
         aria-expanded="false"
       >
-        Teaching
-      </a>
-      <div className="dropdown-menu">
-        <Link className="dropdown-item" to="/reflectiveTeacher">
-          Reflections
-        </Link>
-      </div>
-    </li>
-    <li className="nav-item dropdown">
-      <a
-        className="nav-link dropdown-toggle"
-        data-toggle="dropdown"
-        href="#"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
         Experiments
       </a>
       <div className="dropdown-menu">

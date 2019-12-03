@@ -8,7 +8,7 @@ const Graphs: React.FunctionComponent = () => {
 
   return (
     <div className="container">
-      <h1>Asteroids by 7S2</h1>
+      <h1>FoodRoids</h1>
       <div ref={refContainer} />
     </div>
   );

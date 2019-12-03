@@ -1,8 +1,9 @@
 import p5 from "p5";
 import asteroids from "./images/asteroids";
 import { ImageSwitcher } from "./images";
+import { GameObject } from "./types";
 
-class Asteroid {
+class Asteroid implements GameObject {
   s: p5;
   position: p5.Vector;
   velocity: p5.Vector;
@@ -10,6 +11,7 @@ class Asteroid {
   heading: number;
   radius: number;
   imageSwitcher: ImageSwitcher;
+  isDead: boolean;
 
   constructor(s: p5) {
     this.s = s;
@@ -20,6 +22,15 @@ class Asteroid {
     this.radius = s.floor(s.random(20, 60));
     this.imageSwitcher = new ImageSwitcher(s, asteroids);
     this.imageSwitcher.randomImage();
+    this.isDead = false;
+  }
+
+  hitBy(other: GameObject) {
+    this.isDead = true;
+  }
+
+  isStillActive() {
+    return !this.isDead;
   }
 
   update() {

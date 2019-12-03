@@ -2,14 +2,9 @@ import p5 from "p5";
 
 import ships from "./images/ships";
 import { ImageSwitcher } from "./images";
+import { GameObject } from "./types";
 
-interface ConstructShip {
-  s: p5;
-  position: p5.Vector;
-  radius: number;
-}
-
-class Ship {
+class Ship implements GameObject {
   s: p5;
   position: p5.Vector;
   velocity: p5.Vector;
@@ -18,7 +13,7 @@ class Ship {
   radius: number;
   imageSwitcher: ImageSwitcher;
 
-  constructor({ s, position, radius }: ConstructShip) {
+  constructor(s: p5, position: p5.Vector, radius: number) {
     this.s = s;
     this.position = position;
     this.velocity = s.createVector();
@@ -30,6 +25,12 @@ class Ship {
 
   nextImage() {
     this.imageSwitcher.nextImage();
+  }
+
+  hitBy(other: GameObject) {}
+
+  isStillActive() {
+    return true;
   }
 
   update() {

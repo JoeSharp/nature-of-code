@@ -17,7 +17,6 @@ import Dobble from "./components/Experiments/Dobble";
 import MidiFun from "./components/Experiments/MidiFun";
 import Graphs from "./components/Experiments/Graphs";
 import PageRank from "./components/Experiments/PageRank";
-import ReflectiveTeacher from "./components/ReflectiveTeacher";
 
 import "./index.css";
 
@@ -41,8 +40,6 @@ const App = () => (
       <Route path="/experiments/dobble" component={Dobble} />
       <Route path="/experiments/graphs" component={Graphs} />
       <Route path="/experiments/pageRank" component={PageRank} />
-
-      <Route path="/reflectiveTeacher" component={ReflectiveTeacher} />
     </div>
   </Router>
 );
