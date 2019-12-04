@@ -17,6 +17,7 @@ class Bullet implements GameObject {
   velocity: p5.Vector;
   radius: number;
   color: string;
+  isDead: boolean;
 
   constructor(s: p5, position: p5.Vector, velocity: p5.Vector, radius: number) {
     this.s = s;
@@ -24,16 +25,20 @@ class Bullet implements GameObject {
     this.velocity = velocity;
     this.radius = radius;
     this.color = COLOURS[Math.floor(Math.random() * COLOURS.length)];
+    this.isDead = false;
   }
 
-  hitBy(other: GameObject) {}
+  hitBy(other: GameObject) {
+    this.isDead = true;
+  }
 
   isStillActive() {
     return (
+      !this.isDead &&
       this.position.x > 0 &&
-      this.position.x < this.s.width &&
-      this.position.y > 0 &&
-      this.position.y < this.s.height
+        this.position.x < this.s.width &&
+        this.position.y > 0 &&
+        this.position.y < this.s.height
     );
   }
 

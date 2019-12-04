@@ -31,6 +31,8 @@ class Sketch extends AbstractSketch<Config> {
     let asteroids: Asteroid[] = [];
     let monsters: Monster[] = [];
     let bullets: Bullet[] = [];
+    let numberAsteroids = 5;
+    let numberMonsters = 5;
 
     s.setup = function() {
       const {} = that.config;
@@ -40,11 +42,11 @@ class Sketch extends AbstractSketch<Config> {
       let radius = s.width / 20;
       ship = new Ship(s, position, radius);
 
-      for (let i = 0; i < 5; i++) {
-        asteroids.push(new Asteroid(s));
+      for (let i = 0; i < numberAsteroids; i++) {
+        asteroids.push(new Asteroid(s, a => asteroids.push(a)));
       }
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < numberMonsters; i++) {
         monsters.push(new Monster(s));
       }
     };
@@ -68,7 +70,10 @@ class Sketch extends AbstractSketch<Config> {
       bullets.forEach(bullet =>
         [...asteroids, ...monsters]
           .filter(a => isColliding(a, bullet))
-          .forEach(a => a.hitBy(bullet))
+          .forEach(a => {
+            bullet.hitBy(a);
+            a.hitBy(bullet);
+          })
       );
 
       [ship, ...asteroids, ...monsters, ...bullets].forEach(a => {
@@ -79,6 +84,13 @@ class Sketch extends AbstractSketch<Config> {
       bullets = bullets.filter(b => b.isStillActive());
       asteroids = asteroids.filter(b => b.isStillActive());
       monsters = monsters.filter(b => b.isStillActive());
+
+      while (asteroids.length < numberAsteroids) {
+        asteroids.push(new Asteroid(s, a => asteroids.push(a)));
+      }
+      while (monsters.length < numberMonsters) {
+        monsters.push(new Monster(s));
+      }
 
       // Debug info
       s.noStroke();
