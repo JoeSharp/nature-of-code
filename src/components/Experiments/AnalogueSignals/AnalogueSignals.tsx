@@ -11,7 +11,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
   const {
     config: {
       samplingRate,
-      quantisationStep,
+      resolution,
       signalFrequency,
       signalType,
       plotSignal,
@@ -41,8 +41,8 @@ const AnalogueSignals: React.FunctionComponent = () => {
     () => onNumericConfigChange("samplingRate"),
     [onNumericConfigChange]
   );
-  const onQuantisationStepChange = React.useMemo(
-    () => onNumericConfigChange("quantisationStep"),
+  const onResolutionChange = React.useMemo(
+    () => onNumericConfigChange("resolution"),
     [onNumericConfigChange]
   );
   const onSignalFrequencyChange = React.useMemo(
@@ -66,9 +66,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
     () => onBooleanConfigChange("plotSquareWave"),
     [onBooleanConfigChange]
   );
-  const onSignalTypeChange: React.ChangeEventHandler<
-    HTMLSelectElement
-  > = React.useCallback(
+  const onSignalTypeChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
     ({ target: { value } }) => updateConfig({ signalType: value }),
     [updateConfig]
   );
@@ -93,7 +91,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="samplingRate">Sampling Rate (Hz)</label>
+          <label htmlFor="samplingRate">Sampling Rate (Hertz)</label>
           <input
             type="number"
             className="form-control"
@@ -104,18 +102,20 @@ const AnalogueSignals: React.FunctionComponent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="quantisationStep">Quantisation Step (pixels)</label>
+          <label htmlFor="quantisationStep">
+            Resolution (audio bit depth){" "}
+          </label>
           <input
             type="number"
             className="form-control"
-            id="quantisationStep"
-            placeholder="Quantisation Step"
-            value={quantisationStep}
-            onChange={onQuantisationStepChange}
+            id="resolution"
+            placeholder="Resolution"
+            value={resolution}
+            onChange={onResolutionChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="signalFrequency">Signal Frequency (Hz)</label>
+          <label htmlFor="signalFrequency">Signal Frequency (Hertz)</label>
           <input
             type="number"
             className="form-control"
