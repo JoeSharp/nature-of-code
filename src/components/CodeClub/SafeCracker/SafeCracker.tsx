@@ -34,8 +34,12 @@ const SafeCracker = () => {
           <img style={{ height: "13rem" }} src={step1} />
         </div>
         <p>
-          Try submitting a value of <code>345</code> and check that the program
-          prints 'Safe OPENED'.
+          <ul>
+            <li>
+              Try submitting a value of <code>345</code> and check that the
+              program prints 'Safe OPENED'.
+            </li>
+          </ul>
         </p>
       </TickableSection>
 
