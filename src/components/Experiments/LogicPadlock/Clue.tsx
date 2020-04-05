@@ -26,7 +26,11 @@ const Clue: React.FunctionComponent<Props> = ({
         <ValueDisplay value={value} />
       </div>
       <div className="clueWithValue__description">{description}</div>
-      <div className="clueWithValue__guessMatches">
+      <div
+        className={`clueWithValue__guessMatches alert alert-${
+          guessMatches ? "success" : "danger"
+        }`}
+      >
         {guessMatches ? "YES" : "NO"}
       </div>
     </div>
