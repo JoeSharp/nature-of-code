@@ -26,7 +26,7 @@ const valueReducer = (state: IGuess, action: DigitUpdateAction): IGuess => {
 
 interface DigitWithHandlers {
   digit: number;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const GuessEntry: React.FunctionComponent<Props> = ({
@@ -41,7 +41,7 @@ const GuessEntry: React.FunctionComponent<Props> = ({
       digits.map((digit, index) => ({
         digit,
         onChange: (e) =>
-          dispatchDigits({ value: e.target.valueAsNumber, index }),
+          dispatchDigits({ value: Number.parseInt(e.target.value), index }),
       })),
     [digits, dispatchDigits]
   );
@@ -56,14 +56,13 @@ const GuessEntry: React.FunctionComponent<Props> = ({
     <form className="form-inline">
       {digitWithHandlers.map(({ digit, onChange }, i) => (
         <div key={i} className="form-group">
-          <input
-            className="form-control"
-            type="number"
-            value={digit}
-            onChange={onChange}
-            min={0}
-            max={9}
-          />
+          <select className="form-control" value={digit} onChange={onChange}>
+            {Array(10)
+              .fill(null)
+              .map((d, i) => (
+                <option>{i}</option>
+              ))}
+          </select>
         </div>
       ))}
     </form>
