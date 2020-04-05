@@ -22,7 +22,7 @@ const Clue: React.FunctionComponent<Props> = ({
 
   return (
     <div className="clueWithValue">
-      <div className="clueWithValue__value">
+      <div className="clueWithValue__display">
         <ValueDisplay value={value} />
       </div>
       <div className="clueWithValue__description">{description}</div>

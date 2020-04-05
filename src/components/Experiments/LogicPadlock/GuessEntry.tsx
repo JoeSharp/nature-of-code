@@ -54,8 +54,8 @@ const GuessEntry: React.FunctionComponent<Props> = ({
 
   return (
     <form className="form-inline">
-      {digitWithHandlers.map(({ digit, onChange }) => (
-        <div className="form-group">
+      {digitWithHandlers.map(({ digit, onChange }, i) => (
+        <div key={i} className="form-group">
           <input
             className="form-control"
             type="number"

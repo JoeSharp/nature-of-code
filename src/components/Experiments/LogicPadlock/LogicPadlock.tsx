@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import "./styles.css";
+
 import GuessEntry from "./GuessEntry";
 import {
   IGuess,
@@ -41,8 +43,8 @@ const LogicPadlock: React.FunctionComponent = () => {
     <div>
       <h1>Logic Padlock</h1>
       <p>Can you open the lock using these clues?</p>
-      {cluesWithValues.map((clueWithValue) => (
-        <Clue guess={guess} clueWithValue={clueWithValue} />
+      {cluesWithValues.map((clueWithValue, i) => (
+        <Clue key={i} guess={guess} clueWithValue={clueWithValue} />
       ))}
       <p>Set your guess here</p>
       <GuessEntry numberDigits={3} value={guess} onChange={setGuess} />
