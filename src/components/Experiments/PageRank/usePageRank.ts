@@ -80,14 +80,15 @@ const rankReducer = (
       };
     }
     case "initialise":
+      const firstRanks = action.graph.pages.reduce(
+        (acc, curr) => ({ ...acc, [curr]: 1 }),
+        {}
+      );
       return {
         iterations: 0,
         graph: action.graph,
-        ranks: action.graph.pages.reduce(
-          (acc, curr) => ({ ...acc, [curr]: 1 }),
-          {}
-        ),
-        rankHistory: [],
+        ranks: firstRanks,
+        rankHistory: [firstRanks],
         dampingFactor: action.dampingFactor
       };
   }
@@ -115,7 +116,7 @@ const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
   return {
     iterations,
     ranks,
-    rankHistory: [ranks, ...rankHistory],
+    rankHistory,
     begin: begin,
     iterate
   };

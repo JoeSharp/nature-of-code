@@ -2,19 +2,9 @@ import p5 from "p5";
 
 import ships from "./images/ships";
 import { ImageSwitcher } from "./images";
+import { GameObject } from "./types";
 
-interface ConstructShip {
-  s: p5;
-  position: p5.Vector;
-  radius: number;
-}
-
-interface Update {
-  steer: number;
-  thrust: number;
-}
-
-class Ship {
+class Ship implements GameObject {
   s: p5;
   position: p5.Vector;
   velocity: p5.Vector;
@@ -23,7 +13,7 @@ class Ship {
   radius: number;
   imageSwitcher: ImageSwitcher;
 
-  constructor({ s, position, radius }: ConstructShip) {
+  constructor(s: p5, position: p5.Vector, radius: number) {
     this.s = s;
     this.position = position;
     this.velocity = s.createVector();
@@ -37,7 +27,23 @@ class Ship {
     this.imageSwitcher.nextImage();
   }
 
-  update({ steer, thrust }: Update) {
+  hitBy(other: GameObject) {}
+
+  isStillActive() {
+    return true;
+  }
+
+  update() {
+    let steer = 0;
+    let thrust = 0;
+    if (this.s.keyIsDown((this.s as any).LEFT_ARROW)) {
+      steer = -1;
+    } else if (this.s.keyIsDown((this.s as any).RIGHT_ARROW)) {
+      steer = 1;
+    } else if (this.s.keyIsDown((this.s as any).UP_ARROW)) {
+      thrust = 1;
+    }
+
     this.heading += steer * 0.1;
 
     let thrustForce = this.s.createVector(0, thrust * 0.4);

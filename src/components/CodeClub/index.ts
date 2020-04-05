@@ -1,6 +1,7 @@
 import TopDownCar from "./TopDownCar";
 import MovingWithKeyboard from "./MovingWithKeyboard";
 import UsingClasses from "./UsingClasses";
+import SafeCracker from "./SafeCracker";
 
 interface CodeClubSession {
   sessionNumber: number;
@@ -27,6 +28,12 @@ const sessions: CodeClubSession[] = [
     href: "/codeClub/usingClasses",
     title: "Using Classes",
     component: UsingClasses
+  },
+  {
+    sessionNumber: 99,
+    href: "/codeClub/safeCracker",
+    title: "Safe Cracker",
+    component: SafeCracker
   }
 ];
 

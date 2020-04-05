@@ -1,9 +1,7 @@
 import p5 from "p5";
-import asteroids from "./images/asteroids";
+import monsters from "./images/monsters";
 import { ImageSwitcher } from "./images";
 import { GameObject } from "./types";
-
-type AsteroidConsumer = (a: Asteroid) => void;
 
 class Asteroid implements GameObject {
   s: p5;
@@ -14,32 +12,20 @@ class Asteroid implements GameObject {
   radius: number;
   imageSwitcher: ImageSwitcher;
   isDead: boolean;
-  addAsteroid: AsteroidConsumer;
 
-  constructor(s: p5, addAsteroid: AsteroidConsumer) {
+  constructor(s: p5) {
     this.s = s;
     this.position = s.createVector(s.random(s.width), s.random(s.height));
     this.velocity = s.createVector(s.random(-1, 1), s.random(-1, 1));
     this.angularVelocity = s.map(s.random(), 0, 1, -s.PI, s.PI) * 0.01;
     this.heading = s.map(s.random(), 0, 1, -s.PI, s.PI);
-    this.radius = s.floor(s.random(40, 60));
-    this.imageSwitcher = new ImageSwitcher(s, asteroids);
+    this.radius = s.floor(s.random(20, 60));
+    this.imageSwitcher = new ImageSwitcher(s, monsters);
     this.imageSwitcher.randomImage();
     this.isDead = false;
-    this.addAsteroid = addAsteroid;
   }
 
   hitBy(other: GameObject) {
-    if (!this.isDead && this.radius > 30) {
-      for (let x = 0; x < 2; x++) {
-        let a = new Asteroid(this.s, this.addAsteroid);
-        a.radius = this.radius / 2;
-        a.position = this.position;
-        a.velocity.rotate(x * this.s.PI);
-        this.addAsteroid(a);
-      }
-    }
-
     this.isDead = true;
   }
 

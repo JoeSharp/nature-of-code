@@ -14,7 +14,7 @@ interface Sample {
 
 export interface Config {
   samplingRate: number;
-  quantisationStep: number;
+  resolution: number;
   signalFrequency: number;
   plotSignal: boolean;
   plotSamples: boolean;
@@ -25,7 +25,7 @@ export interface Config {
 
 const defaultConfig: Config = {
   samplingRate: 10,
-  quantisationStep: 10,
+  resolution: 3,
   signalFrequency: 3,
   plotSignal: true,
   plotSamples: false,
@@ -54,7 +54,7 @@ class Sketch extends AbstractSketch<Config> {
 
       const {
         samplingRate,
-        quantisationStep,
+        resolution,
         signalFrequency,
         plotSignal,
         plotSamples,
@@ -62,6 +62,8 @@ class Sketch extends AbstractSketch<Config> {
         plotQuantisation,
         signalType
       } = that.config;
+
+      let quantisationStep = s.height / Math.pow(2, resolution);
 
       // Record analogue signal
       let signalValue = 0.0;
