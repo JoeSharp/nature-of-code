@@ -59,6 +59,9 @@ export default () => (
         <Link className="dropdown-item" to="/experiments/dobble">
           Dobble
         </Link>
+        <Link className="dropdown-item" to="/experiments/logicPadlock">
+          Logic Padlock
+        </Link>
         <Link className="dropdown-item" to="/experiments/graphs">
           Graphs
         </Link>

@@ -14,6 +14,7 @@ import codeClubSessions from "./components/CodeClub";
 import Navigation from "./components/Navigation";
 import Asteroids from "./components/Experiments/Asteroids";
 import Dobble from "./components/Experiments/Dobble";
+import LogicPadlock from "./components/Experiments/LogicPadlock";
 import MidiFun from "./components/Experiments/MidiFun";
 import Graphs from "./components/Experiments/Graphs";
 import PageRank from "./components/Experiments/PageRank";
@@ -39,6 +40,7 @@ const App = () => (
         component={AnalogueSignals}
       />
       <Route path="/experiments/dobble" component={Dobble} />
+      <Route path="/experiments/logicPadlock" component={LogicPadlock} />
       <Route path="/experiments/graphs" component={Graphs} />
       <Route path="/experiments/pageRank" component={PageRank} />
 

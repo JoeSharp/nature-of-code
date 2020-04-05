@@ -1,0 +1,23 @@
+.clueWithValue {
+  display: flex;
+  flex-direction: row;
+}
+
+.clueWithValue > div {
+  padding: 0.5rem;
+  vertical-align: top;
+}
+
+.clueWithValue__value {
+}
+
+.clueWithValue__description {
+  width: 15rem;
+}
+
+.clueWithValue__guessMatches {
+}
+
+.valueDisplay__digit {
+  padding-right: 0.5rem;
+}

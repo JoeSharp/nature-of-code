@@ -55,15 +55,15 @@ function useSketch<T>(s: { new (): AbstractSketch<T> }): UseConfig<T> {
     []
   );
 
-  React.useEffect(() => sketchContainer.setConfig(config), [
+  React.useEffect(() => sketchContainer.setConfig(config as T), [
     config,
-    sketchContainer
+    sketchContainer,
   ]);
 
   return {
-    config,
+    config: config as T,
     updateConfig,
-    refContainer
+    refContainer,
   };
 }
 

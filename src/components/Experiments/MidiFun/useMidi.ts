@@ -20,11 +20,11 @@ const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
   >();
 
   React.useEffect(() => {
-    if (navigator.requestMIDIAccess) {
-      setError("This browser supports WebMIDI!");
-    } else {
-      setError("WebMIDI is not supported in this browser.");
-    }
+    // if (navigator.requestMIDIAccess) {
+    //   setError("This browser supports WebMIDI!");
+    // } else {
+    //   setError("WebMIDI is not supported in this browser.");
+    // }
 
     const onMIDISuccess = (midiAccess: WebMidi.MIDIAccess) => {
       setInputDevices(midiAccess.inputs);
