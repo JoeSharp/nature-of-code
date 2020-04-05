@@ -36,8 +36,29 @@ const cluesWithValues: IClueWithValue[] = [
   },
 ];
 
+const AllAreCorrect: React.FunctionComponent = () => (
+  <div className="alert alert-success" role="alert">
+    All the clues match your value!
+  </div>
+);
+
+const SomeIncorrect: React.FunctionComponent = () => (
+  <div className="alert alert-danger" role="alert">
+    Some of the clues do not match your value
+  </div>
+);
+
 const LogicPadlock: React.FunctionComponent = () => {
   const [guess, setGuess] = React.useState<IGuess>([0, 0, 0]);
+
+  const allCorrect = React.useMemo(
+    () =>
+      cluesWithValues.reduce(
+        (acc, curr) => (curr.clue.evaluate(guess, curr.value) ? acc : false),
+        true
+      ),
+    [guess]
+  );
 
   return (
     <div>
@@ -49,6 +70,7 @@ const LogicPadlock: React.FunctionComponent = () => {
       <p>Set your guess here</p>
       <GuessEntry numberDigits={3} value={guess} onChange={setGuess} />
       <div>Guess: {guess}</div>
+      {allCorrect ? <AllAreCorrect /> : <SomeIncorrect />}
     </div>
   );
 };
