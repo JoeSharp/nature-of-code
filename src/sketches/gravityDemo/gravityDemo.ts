@@ -58,23 +58,24 @@ export default (s: p5) => {
   };
 
   s.draw = function () {
-    // Clear the scene, ready for updated drawing
+    // Draw the background
     s.background(0);
 
-    // All boids should gravitate towards centre of screen
+    // Loop through the boids
     boids.forEach((b) => {
+      // Call seek and get the force
       let seekForce = b.seek(centreScreen);
+      // Pass the force to apply force
       b.applyForce(seekForce);
     });
 
-    // Cause all the boids to calculate their next position and state
-    // based on forces and events applied within this frame
+    // Loop through each boid, calling update
     boids.forEach((b) => b.update());
 
-    // Draw all the boids
+    // Loop through each boid, calling display
     boids.forEach((b) => b.display());
 
-    // Remove any boids that have gone off screen
+    // Filter boids by calling onScreen
     boids = boids.filter((b) => b.onScreen());
   };
 };
