@@ -1,7 +1,7 @@
 {
-  "name": "nature-of-code",
+  "name": "ocr-cs-alevel-react",
   "version": "0.1.0",
-  "homepage": "https://joesharp.github.io/nature-of-code/",
+  "homepage": "https://joesharp.github.io/ocr-cs-alevel-react/",
   "private": true,
   "dependencies": {
     "@storybook/addon-info": "^5.0.3",
