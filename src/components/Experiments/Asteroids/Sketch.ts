@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { AbstractSketch } from "../P5Sketch/useSketch";
+import { AbstractSketch } from "../../p5/P5Sketch/useSketch";
 import Ship from "./Ship";
 import Asteroid from "./Asteroid";
 import Monster from "./Monster";
@@ -34,7 +34,7 @@ class Sketch extends AbstractSketch<Config> {
     let numberAsteroids = 5;
     let numberMonsters = 5;
 
-    s.setup = function() {
+    s.setup = function () {
       const {} = that.config;
       s.createCanvas(600, 600);
 
@@ -43,7 +43,7 @@ class Sketch extends AbstractSketch<Config> {
       ship = new Ship(s, position, radius);
 
       for (let i = 0; i < numberAsteroids; i++) {
-        asteroids.push(new Asteroid(s, a => asteroids.push(a)));
+        asteroids.push(new Asteroid(s, (a) => asteroids.push(a)));
       }
 
       for (let i = 0; i < numberMonsters; i++) {
@@ -51,7 +51,7 @@ class Sketch extends AbstractSketch<Config> {
       }
     };
 
-    s.keyPressed = function() {
+    s.keyPressed = function () {
       if (s.keyCode == (s as any).ENTER) {
         ship.nextImage();
       } else if (s.keyCode == 32) {
@@ -64,29 +64,29 @@ class Sketch extends AbstractSketch<Config> {
       }
     };
 
-    s.draw = function() {
+    s.draw = function () {
       s.background(0);
 
-      bullets.forEach(bullet =>
+      bullets.forEach((bullet) =>
         [...asteroids, ...monsters]
-          .filter(a => isColliding(a, bullet))
-          .forEach(a => {
+          .filter((a) => isColliding(a, bullet))
+          .forEach((a) => {
             bullet.hitBy(a);
             a.hitBy(bullet);
           })
       );
 
-      [ship, ...asteroids, ...monsters, ...bullets].forEach(a => {
+      [ship, ...asteroids, ...monsters, ...bullets].forEach((a) => {
         a.update();
         a.draw();
       });
 
-      bullets = bullets.filter(b => b.isStillActive());
-      asteroids = asteroids.filter(b => b.isStillActive());
-      monsters = monsters.filter(b => b.isStillActive());
+      bullets = bullets.filter((b) => b.isStillActive());
+      asteroids = asteroids.filter((b) => b.isStillActive());
+      monsters = monsters.filter((b) => b.isStillActive());
 
       while (asteroids.length < numberAsteroids) {
-        asteroids.push(new Asteroid(s, a => asteroids.push(a)));
+        asteroids.push(new Asteroid(s, (a) => asteroids.push(a)));
       }
       while (monsters.length < numberMonsters) {
         monsters.push(new Monster(s));

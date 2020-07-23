@@ -1,7 +1,7 @@
 import React from "react";
 
 import Sketch from "./Sketch";
-import useSketch from "../P5Sketch/useSketch";
+import useSketch from "../../p5/P5Sketch/useSketch";
 
 const Graphs: React.FunctionComponent = () => {
   const { refContainer } = useSketch(Sketch);

@@ -1,5 +1,5 @@
 import * as p5 from "p5";
-import { AbstractSketch } from "../P5Sketch/useSketch";
+import { AbstractSketch } from "../../p5/P5Sketch/useSketch";
 
 export const SIGNAL_MODE_SINE = "Sine Wave";
 export const SIGNAL_MODE_NOISE = "Perlin Noise";
@@ -31,7 +31,7 @@ const defaultConfig: Config = {
   plotSamples: false,
   plotQuantisation: false,
   plotSquareWave: true,
-  signalType: SIGNAL_MODE_NOISE
+  signalType: SIGNAL_MODE_NOISE,
 };
 
 class Sketch extends AbstractSketch<Config> {
@@ -44,11 +44,11 @@ class Sketch extends AbstractSketch<Config> {
     let analogueSignal: number[] = [];
     const CROSS_LENGTH = 5;
 
-    s.setup = function() {
+    s.setup = function () {
       s.createCanvas(600, 600);
     };
 
-    s.draw = function() {
+    s.draw = function () {
       s.background(240);
       s.translate(0, s.height / 2);
 
@@ -60,7 +60,7 @@ class Sketch extends AbstractSketch<Config> {
         plotSamples,
         plotSquareWave,
         plotQuantisation,
-        signalType
+        signalType,
       } = that.config;
 
       let quantisationStep = s.height / Math.pow(2, resolution);
@@ -91,7 +91,7 @@ class Sketch extends AbstractSketch<Config> {
         .map((signal, x) => ({
           signal,
           qSignal: quantisationStep * Math.floor(signal / quantisationStep),
-          x
+          x,
         }))
         .filter(
           ({ x }) =>

@@ -7,7 +7,7 @@ import { allDigitsWrong, twoDigitsInWrongPlace } from "./types";
 
 import "./styles.css";
 
-storiesOf("Logic Padlock/Clue", module)
+storiesOf("Experiments/Logic Padlock/Clue", module)
   .add("allDigitsWrong - YES", () => (
     <Clue
       clueWithValue={{ clue: allDigitsWrong, value: [7, 3, 8] }}

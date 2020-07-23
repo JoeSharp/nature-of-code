@@ -6,6 +6,7 @@ import LogicPadlock from "./LogicPadlock";
 
 import "./styles.css";
 
-storiesOf("Logic Padlock/Logic Padlock", module).add("basic", () => (
-  <LogicPadlock />
-));
+storiesOf("Experiments/Logic Padlock/Logic Padlock", module).add(
+  "basic",
+  () => <LogicPadlock />
+);

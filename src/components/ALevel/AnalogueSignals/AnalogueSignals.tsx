@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Sketch, { Config, signalTypes } from "./Sketch";
-import useSketch from "../P5Sketch/useSketch";
+import useSketch from "../../p5/P5Sketch/useSketch";
 
 type ChangeEventHandlerFactory = (
   key: keyof Config
@@ -17,22 +17,22 @@ const AnalogueSignals: React.FunctionComponent = () => {
       plotSignal,
       plotSamples,
       plotQuantisation,
-      plotSquareWave
+      plotSquareWave,
     },
     updateConfig,
-    refContainer
+    refContainer,
   } = useSketch(Sketch);
 
   const onNumericConfigChange: ChangeEventHandlerFactory = React.useCallback(
     (key: string): React.ChangeEventHandler<HTMLInputElement> => ({
-      target: { value }
+      target: { value },
     }) => updateConfig({ [key]: parseFloat(value) }),
     [updateConfig]
   );
 
   const onBooleanConfigChange: ChangeEventHandlerFactory = React.useCallback(
     (key: string): React.ChangeEventHandler<HTMLInputElement> => ({
-      target: { checked }
+      target: { checked },
     }) => updateConfig({ [key]: checked }),
     [updateConfig]
   );
@@ -83,7 +83,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
             value={signalType}
             onChange={onSignalTypeChange}
           >
-            {signalTypes.map(signalType => (
+            {signalTypes.map((signalType) => (
               <option key={signalType} value={signalType}>
                 {signalType}
               </option>

@@ -5,5 +5,5 @@ import gravityDemo from "./gravityDemo";
 export default {
   gravityOrbits,
   rainbowFlowField,
-  gravityDemo
+  gravityDemo,
 };

@@ -2,10 +2,14 @@ import * as React from "react";
 import { useState } from "react";
 
 import SketchPicker from "../SketchPicker";
-import P5Sketch from "../P5Sketch/P5Sketch";
-import sketches from "../../../sketches";
+import P5Sketch from "../../p5/P5Sketch";
+import * as p5 from "p5";
 
-export default () => {
+interface Props {
+  sketches: { [name: string]: (s: p5) => void };
+}
+
+const P5SketchLibrary: React.FunctionComponent<Props> = ({ sketches }) => {
   const [sketch, onSketchChange] = useState<string | undefined>(undefined);
 
   return (
@@ -15,6 +19,7 @@ export default () => {
         <div className="form-group">
           <label>Sketch</label>
           <SketchPicker
+            sketches={sketches}
             className="form-control"
             value={sketch}
             onChange={onSketchChange}
@@ -26,3 +31,5 @@ export default () => {
     </div>
   );
 };
+
+export default P5SketchLibrary;

@@ -7,7 +7,7 @@ import GuessEntry from "./GuessEntry";
 
 import "./styles.css";
 
-storiesOf("Logic Padlock/Guess Entry", module)
+storiesOf("Experiments/Logic Padlock/Guess Entry", module)
   .add("valid", () => {
     const [guess, setGuess] = React.useState<IGuess>([0, 0, 0]);
 
