@@ -1,30 +1,31 @@
 import React from "react";
 
-import { Link, UseBuildPages } from "./types";
+import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import { UseBuildPages } from "./types";
 
 interface Props {
   page: string;
   buildPages: UseBuildPages;
 }
 
-interface LinkWithHandler {
-  link: Link;
+interface EdgeWithHandler {
+  edge: Edge;
   onRemove: () => void;
 }
 
-interface LinksProps {
-  getOtherEnd: (link: Link) => void;
-  links: LinkWithHandler[];
+interface EdgesProps {
+  getOtherEnd: (edge: Edge) => void;
+  edges: EdgeWithHandler[];
 }
 
-const Links: React.FunctionComponent<LinksProps> = ({ links, getOtherEnd }) => {
+const Edges: React.FunctionComponent<EdgesProps> = ({ edges, getOtherEnd }) => {
   return (
     <ul>
-      {links.map(({ link, onRemove }, i) => (
+      {edges.map(({ edge, onRemove }, i) => (
         <li key={i}>
-          {getOtherEnd(link)}{" "}
+          {getOtherEnd(edge)}{" "}
           <button className="btn btn-danger btn-sm" onClick={onRemove}>
-            Remove Link
+            Remove Edge
           </button>
         </li>
       ))}
@@ -32,111 +33,111 @@ const Links: React.FunctionComponent<LinksProps> = ({ links, getOtherEnd }) => {
   );
 };
 
-interface UseLinksWithHandlers {
-  links: Link[];
-  removeLink: (from: string, to: string) => void;
-  filter: (link: Link) => boolean;
+interface UseEdgesWithHandlers {
+  edges: Edge[];
+  removeEdge: (from: string, to: string) => void;
+  filter: (edge: Edge) => boolean;
 }
 
-const useLinksWithHandlers = ({
-  links,
-  removeLink,
-  filter
-}: UseLinksWithHandlers) =>
+const useEdgesWithHandlers = ({
+  edges,
+  removeEdge,
+  filter,
+}: UseEdgesWithHandlers) =>
   React.useMemo(
     () =>
-      links.filter(filter).map(link => ({
-        link,
-        onRemove: () => removeLink(link.from, link.to)
+      edges.filter(filter).map((edge) => ({
+        edge,
+        onRemove: () => removeEdge(edge.from, edge.to),
       })),
-    [filter, links, removeLink]
+    [filter, edges, removeEdge]
   );
 
-const GET_LINK_FROM = (link: Link) => link.from;
-const GET_LINK_TO = (link: Link) => link.to;
+const GET_EDGE_FROM = (edge: Edge) => edge.from;
+const GET_EDGE_TO = (edge: Edge) => edge.to;
 
 const Page: React.FunctionComponent<Props> = ({
   page,
   buildPages: {
     pageGraphBuilder: {
       pendingFrom,
-      graph: { links }
+      graph: { edges },
     },
-    prepareLink,
-    cancelLink,
-    completeLink,
+    prepareEdge,
+    cancelEdge,
+    completeEdge,
     removePage,
-    removeLink
-  }
+    removeEdge,
+  },
 }) => {
-  const onPrepareLink = React.useCallback(() => prepareLink(page), [
+  const onPrepareEdge = React.useCallback(() => prepareEdge(page), [
     page,
-    prepareLink
+    prepareEdge,
   ]);
-  const onCompleteLink = React.useCallback(() => completeLink(page), [
+  const onCompleteEdge = React.useCallback(() => completeEdge(page), [
     page,
-    completeLink
+    completeEdge,
   ]);
-  const onCancelLink = React.useCallback(() => cancelLink(), [
+  const onCancelEdge = React.useCallback(() => cancelEdge(), [
     page,
-    prepareLink
+    prepareEdge,
   ]);
   const onRemovePage = React.useCallback(() => removePage(page), [
     page,
-    removePage
+    removePage,
   ]);
 
-  const filterOutgoing = React.useCallback((link: Link) => link.from === page, [
-    page
+  const filterOutgoing = React.useCallback((edge: Edge) => edge.from === page, [
+    page,
   ]);
-  const filterIncoming = React.useCallback((link: Link) => link.to === page, [
-    page
+  const filterIncoming = React.useCallback((edge: Edge) => edge.to === page, [
+    page,
   ]);
-  const outgoingLinks = useLinksWithHandlers({
-    links,
-    removeLink,
-    filter: filterOutgoing
+  const outgoingEdges = useEdgesWithHandlers({
+    edges,
+    removeEdge,
+    filter: filterOutgoing,
   });
-  const incomingLinks = useLinksWithHandlers({
-    links,
-    removeLink,
-    filter: filterIncoming
+  const incomingEdges = useEdgesWithHandlers({
+    edges,
+    removeEdge,
+    filter: filterIncoming,
   });
 
   return (
     <div className="card">
       <div className="card-header">{page}</div>
       <div className="card-body">
-        {outgoingLinks.length > 0 && (
+        {outgoingEdges.length > 0 && (
           <React.Fragment>
             <h4>Outgoing</h4>
-            <Links getOtherEnd={GET_LINK_TO} links={outgoingLinks} />
+            <Edges getOtherEnd={GET_EDGE_TO} edges={outgoingEdges} />
           </React.Fragment>
         )}
-        {incomingLinks.length > 0 && (
+        {incomingEdges.length > 0 && (
           <React.Fragment>
             <h4>Incoming</h4>
-            <Links getOtherEnd={GET_LINK_FROM} links={incomingLinks} />
+            <Edges getOtherEnd={GET_EDGE_FROM} edges={incomingEdges} />
           </React.Fragment>
         )}
-        {outgoingLinks.length === 0 && incomingLinks.length === 0 && (
-          <span>No Incoming or Outgoing Links</span>
+        {outgoingEdges.length === 0 && incomingEdges.length === 0 && (
+          <span>No Incoming or Outgoing Edges</span>
         )}
       </div>
       <div className="card-footer">
         {pendingFrom === undefined && (
-          <button className="btn btn-sm btn-primary" onClick={onPrepareLink}>
-            Link From
+          <button className="btn btn-sm btn-primary" onClick={onPrepareEdge}>
+            Edge From
           </button>
         )}
         {pendingFrom !== undefined && pendingFrom !== page && (
-          <button className="btn btn-sm btn-success" onClick={onCompleteLink}>
-            Link To
+          <button className="btn btn-sm btn-success" onClick={onCompleteEdge}>
+            Edge To
           </button>
         )}
         {pendingFrom === page && (
-          <button className="btn btn-sm btn-warning" onClick={onCancelLink}>
-            Cancel Link
+          <button className="btn btn-sm btn-warning" onClick={onCancelEdge}>
+            Cancel Edge
           </button>
         )}
         <button className="btn btn-sm btn-danger" onClick={onRemovePage}>

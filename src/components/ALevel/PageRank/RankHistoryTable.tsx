@@ -1,15 +1,16 @@
 import React from "react";
-import { roundTo2Dp } from "./usePageRank";
+
 import { PageRanks } from "./types";
+import { roundTo2Dp } from "ocr-cs-alevel-ts/dist/algorithms/pageRank/pageRank";
 
 interface Props {
-  pages: string[];
+  pages: Set<string>;
   rankHistory: PageRanks[];
 }
 
 const RankHistoryTable: React.FunctionComponent<Props> = ({
   pages,
-  rankHistory
+  rankHistory,
 }) => {
   return (
     <table className="table table-striped">
@@ -22,7 +23,7 @@ const RankHistoryTable: React.FunctionComponent<Props> = ({
         </tr>
       </thead>
       <tbody>
-        {pages.map(page => (
+        {[...pages].map((page) => (
           <tr key={page}>
             <td>{page}</td>
             {rankHistory.map((r, i) => (

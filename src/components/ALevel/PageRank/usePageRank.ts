@@ -1,12 +1,17 @@
 import React from "react";
 
-import { PageGraph, PageRanks } from "./types";
-
-const MAX_ITERATIONS = 20;
+import { PageRanks } from "./types";
+import {
+  initialisePageRank,
+  iteratePageRank,
+  BLANK_PAGE_RANK_STATE,
+} from "ocr-cs-alevel-ts/dist/algorithms/pageRank/pageRank";
+import { PageRankState } from "ocr-cs-alevel-ts/dist/algorithms/pageRank/types";
+import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 interface Props {
   dampingFactor: number;
-  graph: PageGraph;
+  graph: GraphData;
 }
 
 interface UsePageRank {
@@ -24,84 +29,29 @@ interface IterateAction {
 interface InitialiseAction {
   type: "initialise";
   dampingFactor: number;
-  graph: PageGraph;
+  graph: GraphData;
 }
 
-interface RankReducerState {
-  iterations: number;
-  graph: PageGraph;
-  dampingFactor: number;
-  ranks: PageRanks;
-  rankHistory: PageRanks[];
-}
 type RankReducerAction = IterateAction | InitialiseAction;
 
-export const roundTo2Dp = (x: number) =>
-  x !== undefined ? parseFloat(x.toFixed(2)) : 0;
-
 const rankReducer = (
-  { iterations, graph, ranks, rankHistory, dampingFactor }: RankReducerState,
+  state: PageRankState,
   action: RankReducerAction
-): RankReducerState => {
+): PageRankState => {
   switch (action.type) {
     case "iterate": {
-      if (iterations > MAX_ITERATIONS) {
-        return {
-          iterations,
-          graph,
-          ranks,
-          rankHistory,
-          dampingFactor
-        };
-      }
-
-      const newRanks: PageRanks = { ...ranks };
-
-      graph.pages.forEach(page => {
-        let rank: number = graph.links
-          .filter(link => link.to === page)
-          .map(link => link.from)
-          .map(
-            incoming =>
-              newRanks[incoming] /
-              graph.links.filter(l => l.from === incoming).length
-          )
-          .reduce((acc, curr) => acc + curr, 0);
-
-        newRanks[page] = 1 - dampingFactor + dampingFactor * rank;
-      });
-
-      return {
-        iterations: iterations + 1,
-        graph,
-        ranks: newRanks,
-        rankHistory: [...rankHistory, newRanks],
-        dampingFactor
-      };
+      return iteratePageRank(state);
     }
     case "initialise":
-      const firstRanks = action.graph.pages.reduce(
-        (acc, curr) => ({ ...acc, [curr]: 1 }),
-        {}
-      );
-      return {
-        iterations: 0,
-        graph: action.graph,
-        ranks: firstRanks,
-        rankHistory: [firstRanks],
-        dampingFactor: action.dampingFactor
-      };
+      return initialisePageRank(action.graph, action.dampingFactor);
   }
 };
 
 const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
-  const [rankState, dispatch] = React.useReducer(rankReducer, {
-    iterations: 0,
-    graph,
-    ranks: {},
-    rankHistory: [],
-    dampingFactor: 0.85
-  });
+  const [rankState, dispatch] = React.useReducer(
+    rankReducer,
+    BLANK_PAGE_RANK_STATE
+  );
 
   const iterate = React.useCallback(() => dispatch({ type: "iterate" }), []);
 
@@ -118,7 +68,7 @@ const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
     ranks,
     rankHistory,
     begin: begin,
-    iterate
+    iterate,
   };
 };
 

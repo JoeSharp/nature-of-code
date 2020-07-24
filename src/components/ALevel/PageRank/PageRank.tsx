@@ -17,14 +17,14 @@ const PageRank: React.FunctionComponent = () => {
   const buildPages = useBuildPages();
   const {
     pageGraphBuilder: {
-      graph: { pages }
+      graph: { vertices: pages },
     },
     clearAll,
-    addPage
+    addPage,
   } = buildPages;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
-    graph: buildPages.pageGraphBuilder.graph
+    graph: buildPages.pageGraphBuilder.graph,
   });
   const [newPageName, setNewPageName] = React.useState<string>(
     "www.somewhere.com"
@@ -37,31 +37,26 @@ const PageRank: React.FunctionComponent = () => {
     () => newPageName.length > 0 && addPage(newPageName),
     [newPageName, addPage]
   );
-  const onDampingFactorChange: ChangeEventHandler<
-    HTMLInputElement
-  > = React.useCallback(
+  const onDampingFactorChange: ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setDampingFactor(parseFloat(value)),
     [setDampingFactor]
   );
 
-  const onNewPageChange: React.ChangeEventHandler<
-    HTMLInputElement
-  > = React.useCallback(({ target: { value } }) => setNewPageName(value), [
-    setNewPageName
-  ]);
+  const onNewPageChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { value } }) => setNewPageName(value),
+    [setNewPageName]
+  );
 
   const [isAutoIterating, setIsAutoIterating] = React.useState<boolean>(false);
 
-  const onAutoIterateChange: React.ChangeEventHandler<
-    HTMLInputElement
-  > = React.useCallback(
+  const onAutoIterateChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { checked } }) => setIsAutoIterating(checked),
     [setIsAutoIterating]
   );
 
   const autoIterate = React.useCallback(() => isAutoIterating && iterate(), [
     isAutoIterating,
-    iterate
+    iterate,
   ]);
 
   useInterval(autoIterate, 1000);
@@ -136,7 +131,7 @@ const PageRank: React.FunctionComponent = () => {
         Clear All
       </button>
       <div className="row">
-        {pages.map((page, i) => (
+        {[...pages].map((page, i) => (
           <div className="col-sm-4" key={i}>
             <Page page={page} buildPages={buildPages} />
           </div>

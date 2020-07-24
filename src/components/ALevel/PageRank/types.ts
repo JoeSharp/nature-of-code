@@ -1,16 +1,8 @@
-export interface Link {
-  from: string;
-  to: string;
-}
-
-export interface PageGraph {
-  pages: string[];
-  links: Link[];
-}
+import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 export interface PageGraphBuilder {
   pendingFrom: string | undefined;
-  graph: PageGraph;
+  graph: GraphData;
 }
 
 export interface PageRanks {
@@ -22,8 +14,8 @@ export interface UseBuildPages {
   clearAll: () => void;
   addPage: (page: string) => void;
   removePage: (page: string) => void;
-  prepareLink: (from: string) => void;
-  cancelLink: () => void;
-  completeLink: (to: string) => void;
-  removeLink: (from: string, to: string) => void;
+  prepareEdge: (from: string) => void;
+  cancelEdge: () => void;
+  completeEdge: (to: string) => void;
+  removeEdge: (from: string, to: string) => void;
 }

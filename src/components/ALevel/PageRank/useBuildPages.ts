@@ -1,27 +1,23 @@
 import React from "react";
+import Graph, {
+  EMPTY_GRAPH_DATA,
+} from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 import { PageGraphBuilder, UseBuildPages } from "./types";
 
 const EMPTY_PAGE_GRAPH: PageGraphBuilder = {
   pendingFrom: undefined,
-  graph: {
-    pages: [],
-    links: []
-  }
+  graph: EMPTY_GRAPH_DATA,
 };
 
 const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
   pendingFrom: undefined,
-  graph: {
-    pages: ["a", "b", "c", "d"],
-    links: [
-      { from: "a", to: "b" },
-      { from: "b", to: "a" },
-      { from: "b", to: "c" },
-      { from: "b", to: "d" },
-      { from: "d", to: "a" }
-    ]
-  }
+  graph: new Graph()
+    .addUnidirectionalEdge("a", "b")
+    .addUnidirectionalEdge("b", "a")
+    .addUnidirectionalEdge("b", "c")
+    .addUnidirectionalEdge("b", "d")
+    .addUnidirectionalEdge("d", "a"),
 };
 
 interface ClearAll {
@@ -38,22 +34,22 @@ interface RemovePage {
   page: string;
 }
 
-interface PrepareLink {
-  type: "prepareLink";
+interface PrepareEdge {
+  type: "prepareEdge";
   from: string;
 }
 
-interface CancelLink {
-  type: "cancelLink";
+interface CancelEdge {
+  type: "cancelEdge";
 }
 
-interface CompleteLink {
-  type: "completeLink";
+interface CompleteEdge {
+  type: "completeEdge";
   to: string;
 }
 
-interface RemoveLink {
-  type: "removeLink";
+interface RemoveEdge {
+  type: "removeEdge";
   from: string;
   to: string;
 }
@@ -62,64 +58,72 @@ type PageReducerAction =
   | ClearAll
   | AddPage
   | RemovePage
-  | PrepareLink
-  | CancelLink
-  | CompleteLink
-  | RemoveLink;
+  | PrepareEdge
+  | CancelEdge
+  | CompleteEdge
+  | RemoveEdge;
 
-const pageReducer = (state: PageGraphBuilder, action: PageReducerAction) => {
+const pageReducer = (
+  state: PageGraphBuilder,
+  action: PageReducerAction
+): PageGraphBuilder => {
   switch (action.type) {
     case "clearAll":
       return EMPTY_PAGE_GRAPH;
     case "addPage":
       return {
         ...state,
-        graph: { ...state.graph, pages: [...state.graph.pages, action.page] }
+        graph: {
+          ...state.graph,
+          vertices: new Set([...state.graph.vertices, action.page]),
+        },
       };
     case "removePage":
       return {
         ...state,
         graph: {
           ...state.graph,
-          pages: state.graph.pages.filter(p => p !== action.page),
-          links: state.graph.links.filter(
+          vertices: new Set(
+            [...state.graph.vertices].filter((p) => p !== action.page)
+          ),
+          edges: state.graph.edges.filter(
             ({ from, to }) => !(from === action.page || to === action.page)
-          )
-        }
+          ),
+        },
       };
-    case "prepareLink":
+    case "prepareEdge":
       return {
         ...state,
-        pendingFrom: action.from
+        pendingFrom: action.from,
       };
-    case "cancelLink":
+    case "cancelEdge":
       return { ...state, pendingFrom: undefined };
-    case "completeLink":
+    case "completeEdge":
       return state.pendingFrom !== undefined
         ? {
             ...state,
             pendingFrom: undefined,
             graph: {
               ...state.graph,
-              links: [
-                ...state.graph.links.filter(
-                  l => !(l.from === state.pendingFrom && l.to === action.to)
+              edges: [
+                ...state.graph.edges.filter(
+                  (l) => !(l.from === state.pendingFrom && l.to === action.to)
                 ),
-                { from: state.pendingFrom, to: action.to }
-              ]
-            }
+                { from: state.pendingFrom, to: action.to, weight: 1.0 },
+              ],
+            },
           }
         : state;
-    case "removeLink":
+    case "removeEdge":
       return {
         ...state,
         graph: {
           ...state.graph,
 
-          links: state.graph.links.filter(
-            l => !(l.from === action.from && l.to === action.to)
-          )
-        }
+          edges: state.graph.edges.filter(
+            (l) => !(l.from === action.from && l.to === action.to)
+          ),
+        },
       };
   }
 
@@ -141,20 +145,20 @@ const useBuildPages = (): UseBuildPages => {
     (page: string) => dispatch({ type: "removePage", page }),
     []
   );
-  const prepareLink = React.useCallback(
-    (from: string) => dispatch({ type: "prepareLink", from }),
+  const prepareEdge = React.useCallback(
+    (from: string) => dispatch({ type: "prepareEdge", from }),
     []
   );
-  const cancelLink = React.useCallback(
-    () => dispatch({ type: "cancelLink" }),
+  const cancelEdge = React.useCallback(
+    () => dispatch({ type: "cancelEdge" }),
     []
   );
-  const completeLink = React.useCallback(
-    (to: string) => dispatch({ type: "completeLink", to }),
+  const completeEdge = React.useCallback(
+    (to: string) => dispatch({ type: "completeEdge", to }),
     []
   );
-  const removeLink = React.useCallback(
-    (from: string, to: string) => dispatch({ type: "removeLink", from, to }),
+  const removeEdge = React.useCallback(
+    (from: string, to: string) => dispatch({ type: "removeEdge", from, to }),
     []
   );
 
@@ -163,10 +167,10 @@ const useBuildPages = (): UseBuildPages => {
     clearAll,
     addPage,
     removePage,
-    prepareLink,
-    cancelLink,
-    completeLink,
-    removeLink
+    prepareEdge,
+    cancelEdge,
+    completeEdge,
+    removeEdge,
   };
 };
 
