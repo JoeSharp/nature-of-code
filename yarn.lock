@@ -10983,10 +10983,10 @@ obuf@^1.0.0, obuf@^1.1.1:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-ocr-cs-alevel-ts@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/ocr-cs-alevel-ts/-/ocr-cs-alevel-ts-2.0.3.tgz#7af8989e7697d584ca87ef9f83b528ad8d577ae1"
-  integrity sha512-C1smPfXokX1nhzVdS/IVCJvkkTtDjPGM20QaWYG40CXeaw9Vd2xvIyd2FxaRBhQDGTwdkFCLQMcwd2HeJJtGNg==
+ocr-cs-alevel-ts@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/ocr-cs-alevel-ts/-/ocr-cs-alevel-ts-2.0.4.tgz#66bc377073c1aef06a80d99fb138b77a48d4d0d6"
+  integrity sha512-X1ybGWQc4ArSFVDvGaURmAYz+qSf7qNgEVmIGAoHazZWi6J6w0hCT2k6VsgKWSD3AD+xWt3u5/K+Xi0bCJAerw==
   dependencies:
     "@types/jest" "^26.0.5"
     "@types/lodash" "^4.14.149"
