@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 interface Props {
   add: (item: string) => void;
@@ -6,11 +6,10 @@ interface Props {
 
 const NewItemForm: React.FunctionComponent<Props> = ({ add }) => {
   const [newItem, setNewItem] = React.useState<string>("");
-  const onNewItemChange: React.ChangeEventHandler<
-    HTMLInputElement
-  > = React.useCallback(({ target: { value } }) => setNewItem(value), [
-    setNewItem
-  ]);
+  const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { value } }) => setNewItem(value),
+    [setNewItem]
+  );
   const onAdd = React.useCallback(() => {
     add(newItem);
     setNewItem("");

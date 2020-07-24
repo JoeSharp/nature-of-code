@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import * as p5 from "p5";
 
 interface IProps {

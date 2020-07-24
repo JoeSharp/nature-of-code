@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { IClueWithValue, IGuess } from "./types";
 import ValueDisplay from "./ValueDisplay";

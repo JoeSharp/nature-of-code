@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 interface Props {
   items: string[];
@@ -9,10 +9,10 @@ interface Props {
 const ItemTable: React.FunctionComponent<Props> = ({
   items,
   remove,
-  clear
+  clear,
 }) => {
   const itemsWithHandlers = React.useMemo(
-    () => items.map(item => ({ item, onRemove: () => remove(item) })),
+    () => items.map((item) => ({ item, onRemove: () => remove(item) })),
     [items, remove]
   );
 

@@ -1,5 +1,6 @@
 import AnalogueSignals from "./AnalogueSignals";
 import PageRank from "./PageRank";
+import Sorting from "./Sorting";
 
 const sessions: Page[] = [
   {
@@ -11,6 +12,11 @@ const sessions: Page[] = [
     href: "/alevel/pageRank",
     title: "Page Rank",
     component: PageRank,
+  },
+  {
+    href: "/alevel/sorting",
+    title: "Sorting",
+    component: Sorting,
   },
 ];
 

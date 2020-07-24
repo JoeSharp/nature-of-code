@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { UseListReducer } from "./types";
 
@@ -52,9 +52,9 @@ const createListReducer = <T extends {}>() => {
       case "itemAdded":
         return [...state, action.item];
       case "itemUpdated":
-        return state.map(i => (action.matcher(i) ? action.newValue : i));
+        return state.map((i) => (action.matcher(i) ? action.newValue : i));
       case "itemRemoved":
-        return state.filter(u => !action.matcher(u));
+        return state.filter((u) => !action.matcher(u));
       case "itemUpdatedAtIndex":
         return state.map((u, i) => (i === action.index ? action.newValue : u));
       case "itemRemovedByIndex":
@@ -79,7 +79,7 @@ const useListReducer = <T extends {}>(
       (items: T[]) =>
         dispatch({
           type: "itemsReceived",
-          items
+          items,
         }),
       [dispatch]
     ),
@@ -87,7 +87,7 @@ const useListReducer = <T extends {}>(
       (item: T) =>
         dispatch({
           type: "itemAdded",
-          item
+          item,
         }),
       [dispatch]
     ),
@@ -95,7 +95,7 @@ const useListReducer = <T extends {}>(
       (matcher: (i: T) => boolean) =>
         dispatch({
           type: "itemRemoved",
-          matcher
+          matcher,
         }),
       [dispatch]
     ),
@@ -104,7 +104,7 @@ const useListReducer = <T extends {}>(
         dispatch({
           type: "itemUpdated",
           matcher,
-          newValue
+          newValue,
         }),
       [dispatch]
     ),
@@ -117,10 +117,10 @@ const useListReducer = <T extends {}>(
       (index: number) =>
         dispatch({
           type: "itemRemovedByIndex",
-          index
+          index,
         }),
       [dispatch]
-    )
+    ),
   };
 };
 

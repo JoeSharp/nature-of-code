@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 
 import useBuildPages from "./useBuildPages";
 import usePageRank from "./usePageRank";
@@ -37,7 +37,7 @@ const PageRank: React.FunctionComponent = () => {
     () => newPageName.length > 0 && addPage(newPageName),
     [newPageName, addPage]
   );
-  const onDampingFactorChange: ChangeEventHandler<HTMLInputElement> = React.useCallback(
+  const onDampingFactorChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setDampingFactor(parseFloat(value)),
     [setDampingFactor]
   );

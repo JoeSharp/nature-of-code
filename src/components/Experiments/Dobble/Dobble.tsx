@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import ItemTable from "./ItemTable";
 import NewItemForm from "./NewItemForm";

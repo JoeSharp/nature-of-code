@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 interface AddItem {
   type: "add";
@@ -20,9 +20,9 @@ function listReducer(state: string[], action: Action) {
   switch (action.type) {
     case "add":
       let items: string[] = action.item.split(" ");
-      return [...state.filter(s => !items.includes(s)), ...items].sort();
+      return [...state.filter((s) => !items.includes(s)), ...items].sort();
     case "remove":
-      return state.filter(s => s !== action.item);
+      return state.filter((s) => s !== action.item);
     case "clear":
       return [];
   }
@@ -54,7 +54,7 @@ const useList = (initialItems: string[] = []): ListReducer => {
     add,
     remove,
     clear,
-    items
+    items,
   };
 };
 

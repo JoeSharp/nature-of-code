@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React from "react";
 
 import SketchPicker from "../SketchPicker";
 import P5Sketch from "../../p5/P5Sketch";
@@ -10,7 +9,9 @@ interface Props {
 }
 
 const P5SketchLibrary: React.FunctionComponent<Props> = ({ sketches }) => {
-  const [sketch, onSketchChange] = useState<string | undefined>(undefined);
+  const [sketch, onSketchChange] = React.useState<string | undefined>(
+    undefined
+  );
 
   return (
     <div>

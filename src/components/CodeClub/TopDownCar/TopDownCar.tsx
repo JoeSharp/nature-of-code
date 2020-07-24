@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import "../tutorials.css";
 import step1 from "./images/step1.png";

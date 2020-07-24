@@ -1,13 +1,11 @@
-import * as React from "react";
-
-import { useState } from "react";
+import React from "react";
 
 import { storiesOf } from "@storybook/react";
 import SketchPicker from "./SketchPicker";
 import sketches from "../sketches";
 
 const TestHarness = () => {
-  const [value, onChange] = useState<string | undefined>(undefined);
+  const [value, onChange] = React.useState<string | undefined>(undefined);
 
   return (
     <div>

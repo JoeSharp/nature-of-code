@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import Sketch, { Config, signalTypes } from "./Sketch";
 import useSketch from "../../p5/P5Sketch/useSketch";

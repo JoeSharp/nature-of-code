@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Card } from "./types";
 
 interface Props {
@@ -42,7 +42,7 @@ const useCards = ({ items }: Props): UseCards => {
 
     return {
       cards,
-      itemsRequired
+      itemsRequired,
     };
   }, [items]);
 };

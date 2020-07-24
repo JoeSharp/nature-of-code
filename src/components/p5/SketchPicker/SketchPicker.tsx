@@ -1,17 +1,14 @@
-import * as React from "react";
-import { useCallback } from "react";
+import React from "react";
 
 import p5 from "p5";
 
-interface Props {
+interface Props extends ControlledInput<string> {
   sketches: { [name: string]: (s: p5) => void };
   className?: string;
-  value: string | undefined;
-  onChange: (s: string) => void;
 }
 
 const SketchPicker = ({ sketches, value, onChange, className }: Props) => {
-  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
+  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
     ({ target: { value } }) => onChange(value),
     [onChange]
   );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import codeClubSessions from "../CodeClub";
 import experiments from "../Experiments";
@@ -23,8 +23,8 @@ export default () => (
       </Link>
     </li>
 
-    {pages.map(({ title, pages }) => (
-      <li className="nav-item dropdown">
+    {pages.map(({ title, pages }, i) => (
+      <li key={i} className="nav-item dropdown">
         <a
           className="nav-link dropdown-toggle"
           data-toggle="dropdown"
