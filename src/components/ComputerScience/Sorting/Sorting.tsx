@@ -2,7 +2,7 @@ import React from "react";
 import { loremIpsum } from "lorem-ipsum";
 
 import SortingAlgorithmPicker from "./SortingAlgorithmPicker";
-import ListBuilder from "src/components/lib/ListBuilder";
+import ListBuilder from "../../lib/ListBuilder";
 
 import { NamedSort } from "ocr-cs-alevel-ts/dist/types";
 

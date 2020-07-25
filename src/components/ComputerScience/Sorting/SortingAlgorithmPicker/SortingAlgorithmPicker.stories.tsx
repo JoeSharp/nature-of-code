@@ -16,6 +16,6 @@ const TestHarness = () => {
 };
 
 storiesOf(
-  "alevel/algorithms/sorting/SortingAlgorithmPicker",
+  "Computer Science/Algorithms/Sorting/SortingAlgorithmPicker",
   module
 ).add("basic", () => <TestHarness />);

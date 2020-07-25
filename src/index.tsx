@@ -9,7 +9,8 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import codeClubSessions from "./components/CodeClub";
 import experiments from "./components/Experiments";
-import alevel from "./components/ALevel";
+import computerScience from "./components/ComputerScience";
+import maths from "./components/Maths";
 import Navigation from "./components/Navigation";
 
 import "./index.css";
@@ -19,7 +20,7 @@ const App = () => (
     <div className="container">
       <Navigation />
 
-      {[...codeClubSessions, ...experiments, ...alevel].map(
+      {[...codeClubSessions, ...experiments, ...computerScience, ...maths].map(
         ({ href, component }) => (
           <Route key={href} path={href} component={component} />
         )

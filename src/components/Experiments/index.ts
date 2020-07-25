@@ -2,7 +2,6 @@ import Asteroids from "./Asteroids";
 import Dobble from "./Dobble";
 import LogicPadlock from "./LogicPadlock";
 import MidiFun from "./MidiFun";
-import SolveEquation from "./SolveEquation";
 
 export default [
   {
@@ -24,10 +23,5 @@ export default [
     component: MidiFun,
     href: "/experiments/midiFun",
     title: "MIDI",
-  },
-  {
-    component: SolveEquation,
-    href: "/experiments/equationSolver",
-    title: "Solve Equations",
   },
 ] as Page[];

@@ -7,6 +7,7 @@ const TestHarness: React.FunctionComponent = () => {
   return <Sorting />;
 };
 
-storiesOf("alevel/algorithms/sorting/Sorting", module).add("basic", () => (
-  <TestHarness />
-));
+storiesOf("Computer Science/Algorithms/Sorting/Sorting", module).add(
+  "basic",
+  () => <TestHarness />
+);

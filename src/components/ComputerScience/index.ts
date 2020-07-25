@@ -4,17 +4,17 @@ import Sorting from "./Sorting";
 
 const sessions: Page[] = [
   {
-    href: "/alevel/analogueSignals",
+    href: "/computerScience/analogueSignals",
     title: "Analogue to Digital",
     component: AnalogueSignals,
   },
   {
-    href: "/alevel/pageRank",
+    href: "/computerScience/pageRank",
     title: "Page Rank",
     component: PageRank,
   },
   {
-    href: "/alevel/sorting",
+    href: "/computerScience/sorting",
     title: "Sorting",
     component: Sorting,
   },
