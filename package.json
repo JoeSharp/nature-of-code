@@ -4,51 +4,53 @@
   "homepage": "https://joesharp.github.io/ocr-cs-alevel-react/",
   "private": true,
   "dependencies": {
-    "@storybook/addon-info": "^5.0.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
     "@types/lorem-ipsum": "^2.0.0",
-    "@types/p5": "^0.7.2",
-    "@types/react-router-dom": "^4.3.3",
+    "@types/node": "^12.0.0",
+    "@types/p5": "^0.9.1",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.5",
     "@types/react-select": "^3.0.5",
-    "@types/storybook__react": "^4.0.1",
     "@types/webmidi": "^2.0.3",
-    "awesome-typescript-loader": "^5.2.1",
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.19",
     "lorem-ipsum": "^2.0.3",
     "ocr-cs-alevel-ts": "3.1.0",
-    "p5": "^0.7.3",
+    "p5": "^1.1.9",
     "popper.js": "^1.14.7",
-    "react": "^16.8.5",
-    "react-docgen-typescript-loader": "^3.0.1",
-    "react-docgen-typescript-webpack-plugin": "^1.1.0",
-    "react-dom": "^16.8.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-modal": "^3.8.1",
-    "react-router-dom": "^5.0.0",
-    "react-scripts-ts": "3.1.0",
-    "react-select": "^3.0.8"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-select": "^3.0.8",
+    "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "start": "browser=NONE react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@storybook/addon-actions": "^5.0.3",
-    "@storybook/addon-links": "^5.0.3",
-    "@storybook/addons": "^5.0.3",
-    "@storybook/react": "^5.0.3",
-    "@types/jest": "^24.0.11",
-    "@types/node": "^11.11.6",
-    "@types/react": "^16.8.8",
-    "@types/react-dom": "^16.8.3",
-    "babel-loader": "^8.0.5",
-    "gh-pages": "^2.2.0",
-    "typescript": "^3.3.4000"
+    "gh-pages": "^2.2.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

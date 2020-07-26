@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import p5 from "p5";
 import drawArrow from "./drawArrow";
 
 interface FlowFieldArgs {
@@ -42,7 +42,7 @@ export default class FlowField {
         let flowCell: FlowCell = {
           location: s.createVector(i * this.resolution, j * this.resolution),
           angle: theta,
-          force: s.createVector(s.cos(theta), s.sin(theta))
+          force: s.createVector(s.cos(theta), s.sin(theta)),
         };
         yField.push(flowCell);
         this.flowCells.push(flowCell);
@@ -57,7 +57,7 @@ export default class FlowField {
   attract(focalPoint: p5.Vector, range: number) {
     const s = this.sketch;
 
-    this.flowCells.forEach(flowCell => {
+    this.flowCells.forEach((flowCell) => {
       let diff: p5.Vector = p5.Vector.sub(focalPoint, flowCell.location);
       if (diff.mag() < range) {
         let a: number = diff.heading();
@@ -68,14 +68,14 @@ export default class FlowField {
   }
 
   display() {
-    this.field.forEach(row => {
+    this.field.forEach((row) => {
       row.forEach(({ location, angle, force }) => {
         drawArrow({
           sketch: this.sketch,
           location,
           angle,
           colour: 50,
-          radius: force.mag() * 2
+          radius: force.mag() * 2,
         });
       });
     });

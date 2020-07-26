@@ -1,5 +1,5 @@
 import React from "react";
-import * as p5 from "p5";
+import p5 from "p5";
 
 import Tetronimo from "./Tetronimo";
 import Triforce from "./Triforce";
@@ -22,7 +22,7 @@ class SketchContainer {
   blockWidth: number = 0;
   pendingNotes: Note[] = [];
   drawables: Drawable[] = [];
-  width: number;
+  width: number = 0;
   mode: number = TETRIS_MODE;
 
   setWidth(w: number) {
@@ -44,24 +44,24 @@ class SketchContainer {
 
   noteOff(note: number) {
     this.drawables
-      .filter(t => t.note === note)
-      .forEach(t => (t.accumulating = false));
+      .filter((t) => t.note === note)
+      .forEach((t) => (t.accumulating = false));
     this.pendingNotes
-      .filter(p => p.note === note)
-      .forEach(p => (p.accumulating = false));
+      .filter((p) => p.note === note)
+      .forEach((p) => (p.accumulating = false));
   }
 
   sketch(s: p5) {
     const that = this;
 
-    s.setup = function() {
+    s.setup = function () {
       s.createCanvas(that.width, 600);
       s.frameRate(15);
       s.colorMode(s.HSB, s.width);
       that.blockWidth = Math.round(s.width / NUMBER_NOTES);
     };
 
-    s.keyPressed = function() {
+    s.keyPressed = function () {
       switch (s.keyCode) {
         case 37: // Left Arrow
           that.mode = TETRIS_MODE;
@@ -73,13 +73,13 @@ class SketchContainer {
           that.pendingNotes.push({
             note: s.keyCode,
             velocity: 50,
-            accumulating: false
+            accumulating: false,
           });
           break;
       }
     };
 
-    s.draw = function() {
+    s.draw = function () {
       switch (that.mode) {
         case TETRIS_MODE:
           s.background("darkblue");
@@ -122,11 +122,11 @@ class SketchContainer {
       });
       that.pendingNotes = [];
 
-      that.drawables.forEach(t => t.update());
-      that.drawables.forEach(t => t.draw(s));
+      that.drawables.forEach((t) => t.update());
+      that.drawables.forEach((t) => t.draw(s));
 
       // Filter out any tetronimos that have fallen off the bottom of the screen
-      that.drawables = that.drawables.filter(t => t.position.y < s.height);
+      that.drawables = that.drawables.filter((t) => t.position.y < s.height);
     };
   }
 }
@@ -143,6 +143,6 @@ export function useMidiSketch(): UseMidiSketch {
   return {
     sketchContainer,
     noteOn: sketchContainer.noteOn.bind(sketchContainer),
-    noteOff: sketchContainer.noteOff.bind(sketchContainer)
+    noteOff: sketchContainer.noteOff.bind(sketchContainer),
   };
 }

@@ -42,6 +42,7 @@ const TopDownCar: React.FunctionComponent = () => {
       <p>
         <a
           target="_blank"
+          rel="noopener noreferrer"
           href="https://editor.p5js.org/JoeSharp/sketches/9gcY5Y4D7"
         >
           Here is a completed example.
@@ -66,7 +67,11 @@ const TopDownCar: React.FunctionComponent = () => {
           </li>
         </ul>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step1} />
+          <img
+            style={{ height: "15rem" }}
+            src={step1}
+            alt="Step 1 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s4step2" header="Step 2 - Initialise Variables">
@@ -82,7 +87,11 @@ const TopDownCar: React.FunctionComponent = () => {
           provided by the framework.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step2} />
+          <img
+            style={{ height: "15rem" }}
+            src={step2}
+            alt="Step 2 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s4step3" header="Step 3 - Tranform and Draw">
@@ -91,14 +100,22 @@ const TopDownCar: React.FunctionComponent = () => {
           our car in the correct place.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step3} />
+          <img
+            style={{ height: "15rem" }}
+            src={step3}
+            alt="Step 3 Screenshot"
+          />
         </div>
         <p>
           Once you have this code typed in, RUN the sketch and you should see
           the triangle
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step3Result} />
+          <img
+            style={{ height: "15rem" }}
+            src={step3Result}
+            alt="Step 3 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s4step4" header="Step 4 - Steering">
@@ -109,7 +126,11 @@ const TopDownCar: React.FunctionComponent = () => {
           pressed.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step4} />
+          <img
+            style={{ height: "15rem" }}
+            src={step4}
+            alt="Step 4 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s4step5" header="Step 5 - Moving Forward">
@@ -120,7 +141,11 @@ const TopDownCar: React.FunctionComponent = () => {
           <code>UP_ARROW</code> is being pressed.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step5} />
+          <img
+            style={{ height: "15rem" }}
+            src={step5}
+            alt="Step 5 Screenshot"
+          />
         </div>
         <p>
           Once you have this typed in correctly, RUN your sketch, click into the
@@ -128,7 +153,11 @@ const TopDownCar: React.FunctionComponent = () => {
         </p>
 
         <div className="image">
-          <img style={{ height: "15rem" }} src={step5Result} />
+          <img
+            style={{ height: "15rem" }}
+            src={step5Result}
+            alt="Step 5 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s4chal1" header="Challenge: Elaborate Drawing">
@@ -139,7 +168,11 @@ const TopDownCar: React.FunctionComponent = () => {
           example, here is the code to draw a rectangle 'about the origin':
         </p>
         <div className="image">
-          <img style={{ height: "5rem" }} src={chal1} />
+          <img
+            style={{ height: "5rem" }}
+            src={chal1}
+            alt="Challenge 1 Screenshot"
+          />
         </div>
       </TickableSection>
     </div>

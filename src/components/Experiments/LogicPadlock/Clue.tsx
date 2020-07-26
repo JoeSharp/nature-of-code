@@ -17,6 +17,7 @@ const Clue: React.FunctionComponent<Props> = ({
 }) => {
   const guessMatches: boolean = React.useMemo(() => evaluate(guess, value), [
     guess,
+    value,
     evaluate,
   ]);
 

@@ -4,6 +4,7 @@ import codeClubSessions from "../CodeClub";
 import experiments from "../Experiments";
 import maths from "../Maths";
 import computerScience from "../ComputerScience";
+import { Page } from "src/types";
 
 interface PageCollection {
   title: string;
@@ -27,16 +28,14 @@ export default () => (
 
     {pages.map(({ title, pages }, i) => (
       <li key={i} className="nav-item dropdown">
-        <a
+        <button
           className="nav-link dropdown-toggle"
           data-toggle="dropdown"
-          href="#"
-          role="button"
           aria-haspopup="true"
           aria-expanded="false"
         >
           {title}
-        </a>
+        </button>
         <div className="dropdown-menu">
           {pages.map(({ href, title }) => (
             <Link key={title} className="dropdown-item" to={href}>

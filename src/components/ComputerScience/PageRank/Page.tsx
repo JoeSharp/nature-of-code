@@ -78,10 +78,7 @@ const Page: React.FunctionComponent<Props> = ({
     page,
     completeEdge,
   ]);
-  const onCancelEdge = React.useCallback(() => cancelEdge(), [
-    page,
-    prepareEdge,
-  ]);
+  const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
   const onRemovePage = React.useCallback(() => removePage(page), [
     page,
     removePage,

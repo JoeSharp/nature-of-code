@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import p5 from "p5";
 
 import FlowField from "./FlowField";
 
@@ -27,7 +27,7 @@ export default class Boid implements BoidArgs {
     radius,
     colour,
     maxSpeed,
-    maxForce
+    maxForce,
   }: BoidArgs) {
     this.sketch = sketch;
     const { createVector, random } = this.sketch;

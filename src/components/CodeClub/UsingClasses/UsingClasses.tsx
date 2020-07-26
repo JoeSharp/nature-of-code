@@ -48,6 +48,7 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
       <p>
         <a
           target="_blank"
+          rel="noopener noreferrer"
           href="https://editor.p5js.org/JoeSharp/sketches/XqokKbcsP"
         >
           Here is a completed example.
@@ -61,7 +62,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           <code>Player</code> in our sketch will have its own position.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step1} />
+          <img
+            style={{ height: "15rem" }}
+            src={step1}
+            alt="Step 1 Screenshot"
+          />
         </div>
       </TickableSection>
 
@@ -73,7 +78,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           <code>update()</code> and <code>draw()</code> itself.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step2} />
+          <img
+            style={{ height: "15rem" }}
+            src={step2}
+            alt="Step 2 Screenshot"
+          />
         </div>
       </TickableSection>
 
@@ -88,7 +97,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           drawing of other game objects.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step3} />
+          <img
+            style={{ height: "15rem" }}
+            src={step3}
+            alt="Step 3 Screenshot"
+          />
         </div>
       </TickableSection>
 
@@ -104,7 +117,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         </p>
 
         <div className="image">
-          <img style={{ height: "15rem" }} src={step4} />
+          <img
+            style={{ height: "15rem" }}
+            src={step4}
+            alt="Step 4 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection tickId="s6step5" header="Step 5 - Add a second player">
@@ -117,7 +134,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         <p>You may notice that the same arrow keys control both players...</p>
 
         <div className="image">
-          <img style={{ height: "20rem" }} src={step5} />
+          <img
+            style={{ height: "20rem" }}
+            src={step5}
+            alt="Step 5 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection
@@ -137,7 +158,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         </p>
 
         <div className="image">
-          <img style={{ height: "20rem" }} src={step6} />
+          <img
+            style={{ height: "20rem" }}
+            src={step6}
+            alt="Step 6 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection
@@ -151,7 +176,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
         </p>
 
         <div className="image">
-          <img style={{ height: "15rem" }} src={step7} />
+          <img
+            style={{ height: "15rem" }}
+            src={step7}
+            alt="Step 7 Screenshot"
+          />
         </div>
       </TickableSection>
     </div>

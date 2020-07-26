@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import p5 from "p5";
 import { AbstractSketch } from "../../p5/P5Sketch/useSketch";
 
 export const SIGNAL_MODE_SINE = "Sine Wave";

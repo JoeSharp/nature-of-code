@@ -1,5 +1,6 @@
 import SolveEquation from "./SolveEquation";
 import SieveOfEratosthenes from "./SieveOfEratosthenes";
+import { Page } from "src/types";
 
 export default [
   {

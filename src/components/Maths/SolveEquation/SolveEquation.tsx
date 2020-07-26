@@ -22,18 +22,18 @@ const SolveEquation: React.FunctionComponent = () => {
   );
   let onNumberGuessesChange = React.useCallback(
     ({ target: { value } }) => setNumberGuesses(parseInt(value)),
-    [setC]
+    [setNumberGuesses]
   );
 
   const f = React.useCallback((x: number) => a * Math.pow(x, 2) + b * x + c, [
     a,
     b,
-    c
+    c,
   ]);
 
   const { guesses } = React.useMemo(() => solver(f, numberGuesses), [
     f,
-    numberGuesses
+    numberGuesses,
   ]);
 
   let givenAnswer: string = React.useMemo(

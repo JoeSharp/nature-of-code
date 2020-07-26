@@ -44,16 +44,21 @@ const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
         inputDevice.onmidimessage = (e: WebMidi.MIDIMessageEvent) => {
           // Mask off the lower nibble (MIDI channel, which we don't care about)
           switch (e.data[0] & 0xf0) {
-            case 0x90:
-              if (e.data[2] != 0) {
+            case 0x90: {
+              if (e.data[2] !== 0) {
                 // if velocity != 0, this is a note-on message
                 noteOn(e.data[1], e.data[2]);
                 return;
+              } else {
+                noteOff(e.data[1]);
               }
+              break;
+            }
             // if velocity == 0, fall thru: it's a note-off.  MIDI's weird, y'all.
-            case 0x80:
+            case 0x80: {
               noteOff(e.data[1]);
               return;
+            }
           }
         };
       }

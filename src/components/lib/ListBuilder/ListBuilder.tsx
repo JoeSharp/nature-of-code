@@ -19,7 +19,7 @@ const ListBuilder: React.FunctionComponent<Props> = ({
 
   const [newItem, setNewItem] = React.useState<string>("");
 
-  React.useEffect(() => onChange(items), [items]);
+  React.useEffect(() => onChange(items), [items, onChange]);
 
   const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewItem(value),
@@ -44,7 +44,7 @@ const ListBuilder: React.FunctionComponent<Props> = ({
       {items.map((c, i) => (
         <div key={i}>
           {c}
-          <button onClick={() => removeItem((i) => i == c)}>Remove</button>
+          <button onClick={() => removeItem((i) => i === c)}>Remove</button>
         </div>
       ))}
     </div>

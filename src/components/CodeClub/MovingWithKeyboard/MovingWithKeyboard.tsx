@@ -25,6 +25,7 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
       <p>
         <a
           target="_blank"
+          rel="noopener noreferrer"
           href="https://editor.p5js.org/JoeSharp/sketches/UxliLhatH"
         >
           Here is a completed example.
@@ -32,7 +33,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
       </p>
       <p>The control scheme could be visualised like this:</p>
       <div className="image">
-        <img style={{ height: "15rem" }} src={topDownControl} />
+        <img
+          style={{ height: "15rem" }}
+          src={topDownControl}
+          alt="Top Down Control Demo"
+        />
       </div>
       <TickableSection tickId="s3Step1" header="Step 1 - Create Variables">
         <p>
@@ -61,7 +66,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           </li>
         </ol>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step1} />
+          <img
+            style={{ height: "15rem" }}
+            src={step1}
+            alt="Step 1 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection
@@ -83,7 +92,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           height do not exist outside of p5 functions.
         </p>
         <div className="image">
-          <img style={{ height: "10rem" }} src={step2} />
+          <img
+            style={{ height: "10rem" }}
+            src={step2}
+            alt="Step 2 Screenshot"
+          />
         </div>
       </TickableSection>
       <TickableSection
@@ -98,8 +111,16 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           ellipse correctly.
         </p>
         <div className="image">
-          <img style={{ height: "10rem" }} src={step3a} />
-          <img style={{ height: "10rem" }} src={step3b} />
+          <img
+            style={{ height: "10rem" }}
+            src={step3a}
+            alt="Step 3a Screenshot"
+          />
+          <img
+            style={{ height: "10rem" }}
+            src={step3b}
+            alt="Step 3b Screenshot"
+          />
         </div>
         <p>
           Now run the program and you should see the green ellipse in the middle
@@ -116,17 +137,29 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           <code>keyPressed()</code> from <code>Events</code>.
         </p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step4a} />
+          <img
+            style={{ height: "15rem" }}
+            src={step4a}
+            alt="Step 4a Screenshot"
+          />
         </div>
         <p>It even has an example for what we need!</p>
         <div className="image">
-          <img style={{ height: "15rem" }} src={step4b} />
+          <img
+            style={{ height: "15rem" }}
+            src={step4b}
+            alt="Step 4b Screenshot"
+          />
         </div>
         <p>
           Add this function to your program. I put it after <code>draw()</code>.
         </p>
         <div className="image">
-          <img style={{ height: "8rem" }} src={step4c} />
+          <img
+            style={{ height: "8rem" }}
+            src={step4c}
+            alt="Step 4c Screenshot"
+          />
         </div>
         <p>
           Now run your code and you should find that the left and right arrow
@@ -156,7 +189,11 @@ const MovingWithKeyboard: React.FunctionComponent = () => {
           </li>
         </ol>
         <div className="image">
-          <img style={{ height: "10rem" }} src={challenge1} />
+          <img
+            style={{ height: "10rem" }}
+            src={challenge1}
+            alt="Challenge 1 Screenshot"
+          />
         </div>
         <p>Let the teacher know when you have this working</p>
       </TickableSection>

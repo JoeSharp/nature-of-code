@@ -1,5 +1,5 @@
 import React from "react";
-import * as p5 from "p5";
+import p5 from 'p5';
 
 interface IProps {
   sketch: (...args: any[]) => any;

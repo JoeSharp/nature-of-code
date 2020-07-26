@@ -48,7 +48,7 @@ const GuessEntry: React.FunctionComponent<Props> = ({
 
   React.useEffect(() => onChange(digits), [digits, onChange]);
 
-  if (value.length != numberDigits) {
+  if (value.length !== numberDigits) {
     return <div>INVALID NUMBER OF DIGITS</div>;
   }
 

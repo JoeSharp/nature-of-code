@@ -2,6 +2,7 @@ import React from "react";
 
 import algorithms from "ocr-cs-alevel-ts/dist/algorithms/sort";
 import { NamedSort } from "ocr-cs-alevel-ts/dist/types";
+import { ControlledInput } from "src/types";
 
 interface Props extends ControlledInput<NamedSort | undefined> {
   className?: string;

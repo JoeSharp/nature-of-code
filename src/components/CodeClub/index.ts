@@ -2,6 +2,7 @@ import TopDownCar from "./TopDownCar";
 import MovingWithKeyboard from "./MovingWithKeyboard";
 import UsingClasses from "./UsingClasses";
 import SafeCracker from "./SafeCracker";
+import { Page } from "src/types";
 
 const sessions: Page[] = [
   {

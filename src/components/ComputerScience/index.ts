@@ -1,6 +1,7 @@
 import AnalogueSignals from "./AnalogueSignals";
 import PageRank from "./PageRank";
 import Sorting from "./Sorting";
+import { Page } from "src/types";
 
 const sessions: Page[] = [
   {

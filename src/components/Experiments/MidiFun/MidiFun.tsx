@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import * as p5 from "p5";
+import p5 from "p5";
 
 import useMidi from "./useMidi";
 import { useMidiSketch } from "./midiSketch";
@@ -14,7 +14,7 @@ const MidiFun: React.FunctionComponent = () => {
     inputDevices,
     error,
     selectedInputDeviceId,
-    onInputDeviceSelected
+    onInputDeviceSelected,
   } = useMidi({ noteOn, noteOff });
 
   const inputOptions = React.useMemo(() => {
@@ -30,12 +30,12 @@ const MidiFun: React.FunctionComponent = () => {
   const selectedValue = React.useMemo(
     () =>
       inputOptions.find(
-        inputOption => inputOption.value === selectedInputDeviceId
+        (inputOption) => inputOption.value === selectedInputDeviceId
       ),
     [selectedInputDeviceId, inputOptions]
   );
   const onSelectedInputChange = React.useCallback(
-    e => {
+    (e) => {
       if (!!e.value) {
         onInputDeviceSelected(e.value);
       }

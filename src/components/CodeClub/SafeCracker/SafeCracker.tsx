@@ -20,7 +20,7 @@ const SafeCracker = () => {
           true if we give it the correct PIN, otherwise it will return false.
         </p>
         <div className="image">
-          <img style={{ height: "7rem" }} src={step0} />
+          <img style={{ height: "7rem" }} src={step0} alt="Step 0 Screenshot" />
         </div>
       </TickableSection>
 
@@ -31,7 +31,11 @@ const SafeCracker = () => {
           run.
         </p>
         <div className="image">
-          <img style={{ height: "13rem" }} src={step1} />
+          <img
+            style={{ height: "13rem" }}
+            src={step1}
+            alt="Step 1 Screenshot"
+          />
         </div>
         <p>
           <ul>
@@ -49,7 +53,11 @@ const SafeCracker = () => {
       >
         <p>Here we create a loop to go through all the possible values.</p>
         <div className="image">
-          <img style={{ height: "13rem" }} src={step2} />
+          <img
+            style={{ height: "13rem" }}
+            src={step2}
+            alt="Step 2 Screenshot"
+          />
         </div>
         <ul>
           <li>
@@ -66,7 +74,11 @@ const SafeCracker = () => {
       <TickableSection tickId="step3" header="Step 3 - Zero Pad the Number">
         <p>For the lower values of PIN to work, we must pad with zeros.</p>
         <div className="image">
-          <img style={{ height: "20rem" }} src={step3} />
+          <img
+            style={{ height: "20rem" }}
+            src={step3}
+            alt="Step 3 Screenshot"
+          />
         </div>
         <ul>
           <li>

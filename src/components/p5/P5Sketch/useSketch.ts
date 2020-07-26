@@ -1,5 +1,5 @@
 import React from "react";
-import * as p5 from "p5";
+import p5 from "p5";
 
 function configReducer<T>(state: T, updates: Partial<T>): T {
   return { ...state, ...updates };

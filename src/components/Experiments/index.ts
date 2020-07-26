@@ -2,6 +2,7 @@ import Asteroids from "./Asteroids";
 import Dobble from "./Dobble";
 import LogicPadlock from "./LogicPadlock";
 import MidiFun from "./MidiFun";
+import { Page } from "src/types";
 
 export default [
   {

@@ -1,6 +1,7 @@
 import React from "react";
 
 import p5 from "p5";
+import { ControlledInput } from "src/types";
 
 interface Props extends ControlledInput<string> {
   sketches: { [name: string]: (s: p5) => void };

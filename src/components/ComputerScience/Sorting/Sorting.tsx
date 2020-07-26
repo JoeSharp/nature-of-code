@@ -10,9 +10,7 @@ const generateItem = () => loremIpsum({ count: 1, units: "words" });
 
 const TEST_ITEMS: string[] = Array(5).fill(null).map(generateItem);
 
-interface Props {}
-
-const Sorting: React.FunctionComponent<Props> = ({}) => {
+const Sorting: React.FunctionComponent = () => {
   const [algorithm, onAlgorithmChange] = React.useState<NamedSort | undefined>(
     undefined
   );

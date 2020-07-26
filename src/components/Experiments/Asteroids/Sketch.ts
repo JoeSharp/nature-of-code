@@ -26,16 +26,17 @@ class Sketch extends AbstractSketch<Config> {
   }
 
   sketch = (s: p5) => {
-    const that = this;
+    // const that = this;
     let ship: Ship;
     let asteroids: Asteroid[] = [];
     let monsters: Monster[] = [];
     let bullets: Bullet[] = [];
     let numberAsteroids = 5;
     let numberMonsters = 5;
+    const spawnAsteroid = (a: Asteroid) => asteroids.push(a);
 
     s.setup = function () {
-      const {} = that.config;
+      // const {} = that.config;
       s.createCanvas(600, 600);
 
       let position = s.createVector(s.width / 2, s.height / 2);
@@ -43,7 +44,7 @@ class Sketch extends AbstractSketch<Config> {
       ship = new Ship(s, position, radius);
 
       for (let i = 0; i < numberAsteroids; i++) {
-        asteroids.push(new Asteroid(s, (a) => asteroids.push(a)));
+        asteroids.push(new Asteroid(s, spawnAsteroid));
       }
 
       for (let i = 0; i < numberMonsters; i++) {
@@ -52,9 +53,9 @@ class Sketch extends AbstractSketch<Config> {
     };
 
     s.keyPressed = function () {
-      if (s.keyCode == (s as any).ENTER) {
+      if (s.keyCode === (s as any).ENTER) {
         ship.nextImage();
-      } else if (s.keyCode == 32) {
+      } else if (s.keyCode === 32) {
         // space
         let bulletVelocity = s.createVector(0, 1);
         bulletVelocity.setMag(BULLET_SPEED);
@@ -86,7 +87,7 @@ class Sketch extends AbstractSketch<Config> {
       monsters = monsters.filter((b) => b.isStillActive());
 
       while (asteroids.length < numberAsteroids) {
-        asteroids.push(new Asteroid(s, (a) => asteroids.push(a)));
+        asteroids.push(new Asteroid(s, spawnAsteroid));
       }
       while (monsters.length < numberMonsters) {
         monsters.push(new Monster(s));

@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import p5 from "p5";
 
 const WIDTH = 600;
 const HEIGHT = 300;
@@ -6,13 +6,13 @@ const FIRST_MOONS = 3;
 const SECOND_MOONS = 3;
 
 export default (s: p5) => {
-  s.setup = function() {
+  s.setup = function () {
     s.createCanvas(WIDTH, HEIGHT);
     s.colorMode(s.HSB, 255);
     s.angleMode(s.DEGREES);
   };
 
-  s.draw = function() {
+  s.draw = function () {
     s.background(0);
     s.fill("yellow");
 

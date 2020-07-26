@@ -6,7 +6,7 @@ import Page from "./Page";
 import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
-import useInterval from "./useInterval";
+import { useToggledInterval } from "../../lib/useInterval";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -47,19 +47,10 @@ const PageRank: React.FunctionComponent = () => {
     [setNewPageName]
   );
 
-  const [isAutoIterating, setIsAutoIterating] = React.useState<boolean>(false);
-
-  const onAutoIterateChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { checked } }) => setIsAutoIterating(checked),
-    [setIsAutoIterating]
-  );
-
-  const autoIterate = React.useCallback(() => isAutoIterating && iterate(), [
+  const {
     isAutoIterating,
-    iterate,
-  ]);
-
-  useInterval(autoIterate, 1000);
+    onChange: onAutoIterateChange,
+  } = useToggledInterval({ iterate });
 
   return (
     <div className="container">

@@ -6,7 +6,8 @@ class ImageSwitcher {
   imageIndex: number;
 
   constructor(s: p5, namedImages: NamedImage[]) {
-    this.images = namedImages.map(n => s.loadImage(n.image));
+    this.images = namedImages.map((n) => s.loadImage(n.image));
+    this.imageIndex = 0;
     this.randomImage();
   }
 

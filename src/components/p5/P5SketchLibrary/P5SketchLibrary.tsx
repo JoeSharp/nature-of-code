@@ -2,7 +2,7 @@ import React from "react";
 
 import SketchPicker from "../SketchPicker";
 import P5Sketch from "../../p5/P5Sketch";
-import * as p5 from "p5";
+import p5 from "p5";
 
 interface Props {
   sketches: { [name: string]: (s: p5) => void };
