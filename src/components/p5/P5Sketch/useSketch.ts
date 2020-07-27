@@ -5,6 +5,10 @@ function configReducer<T>(state: T, updates: Partial<T>): T {
   return { ...state, ...updates };
 }
 
+type ChangeEventHandlerFactory<T> = (
+  key: keyof T
+) => React.ChangeEventHandler<HTMLInputElement>;
+
 export abstract class AbstractSketch<T> {
   config: T;
 
@@ -23,9 +27,14 @@ interface UseConfig<T> {
   config: T;
   refContainer: any;
   updateConfig: (s: Partial<T>) => void;
+  onNumericConfigChange: ChangeEventHandlerFactory<T>;
+  onStringConfigChange: ChangeEventHandlerFactory<T>;
+  onBooleanConfigChange: ChangeEventHandlerFactory<T>;
 }
 
-function useSketch<T>(s: { new (): AbstractSketch<T> }): UseConfig<T> {
+function useSketch<T extends { [s: string]: any }>(s: {
+  new (): AbstractSketch<T>;
+}): UseConfig<T> {
   const refContainer = React.useRef(null);
   const sketchContainer: AbstractSketch<T> = React.useMemo(() => new s(), [s]);
   React.useEffect(() => {
@@ -60,9 +69,33 @@ function useSketch<T>(s: { new (): AbstractSketch<T> }): UseConfig<T> {
     sketchContainer,
   ]);
 
+  const onNumericConfigChange: ChangeEventHandlerFactory<T> = React.useCallback(
+    (key: keyof T): React.ChangeEventHandler<HTMLInputElement> => ({
+      target: { value },
+    }) => updateConfig({ [key]: parseFloat(value) } as Partial<T>),
+    [updateConfig]
+  );
+
+  const onBooleanConfigChange: ChangeEventHandlerFactory<T> = React.useCallback(
+    (key: keyof T): React.ChangeEventHandler<HTMLInputElement> => ({
+      target: { checked },
+    }) => updateConfig({ [key]: checked } as Partial<T>),
+    [updateConfig]
+  );
+
+  const onStringConfigChange: ChangeEventHandlerFactory<T> = React.useCallback(
+    (key: keyof T): React.ChangeEventHandler<HTMLInputElement> => ({
+      target: { value },
+    }) => updateConfig({ [key]: value } as Partial<T>),
+    [updateConfig]
+  );
+
   return {
     config: config as T,
     updateConfig,
+    onNumericConfigChange,
+    onStringConfigChange,
+    onBooleanConfigChange,
     refContainer,
   };
 }

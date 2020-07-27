@@ -19,6 +19,8 @@ const SortingAlgorithmPicker: React.FunctionComponent<Props> = ({
     [onChange]
   );
 
+  React.useEffect(() => onChange(algorithms[0]), [onChange]);
+
   return (
     <select
       className={className}
@@ -33,6 +35,24 @@ const SortingAlgorithmPicker: React.FunctionComponent<Props> = ({
       ))}
     </select>
   );
+};
+
+interface UsePicker {
+  algorithm: NamedSort | undefined;
+  componentProps: Props;
+}
+
+export const useSortingAlgorithmPicker = (className?: string): UsePicker => {
+  const [value, onChange] = React.useState<NamedSort | undefined>(undefined);
+
+  return {
+    algorithm: value,
+    componentProps: {
+      className,
+      value,
+      onChange,
+    },
+  };
 };
 
 export default SortingAlgorithmPicker;

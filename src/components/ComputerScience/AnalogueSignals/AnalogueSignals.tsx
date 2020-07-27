@@ -1,11 +1,7 @@
 import React from "react";
 
-import Sketch, { Config, signalTypes } from "./Sketch";
+import Sketch, { signalTypes } from "./Sketch";
 import useSketch from "../../p5/P5Sketch/useSketch";
-
-type ChangeEventHandlerFactory = (
-  key: keyof Config
-) => React.ChangeEventHandler<HTMLInputElement>;
 
 const AnalogueSignals: React.FunctionComponent = () => {
   const {
@@ -20,22 +16,10 @@ const AnalogueSignals: React.FunctionComponent = () => {
       plotSquareWave,
     },
     updateConfig,
+    onNumericConfigChange,
+    onBooleanConfigChange,
     refContainer,
   } = useSketch(Sketch);
-
-  const onNumericConfigChange: ChangeEventHandlerFactory = React.useCallback(
-    (key: string): React.ChangeEventHandler<HTMLInputElement> => ({
-      target: { value },
-    }) => updateConfig({ [key]: parseFloat(value) }),
-    [updateConfig]
-  );
-
-  const onBooleanConfigChange: ChangeEventHandlerFactory = React.useCallback(
-    (key: string): React.ChangeEventHandler<HTMLInputElement> => ({
-      target: { checked },
-    }) => updateConfig({ [key]: checked }),
-    [updateConfig]
-  );
 
   const onSamplingRateChange = React.useMemo(
     () => onNumericConfigChange("samplingRate"),
@@ -51,7 +35,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
   );
 
   const onPlotSignalChange = React.useMemo(
-    () => onBooleanConfigChange("plotSignal"),
+    () => onBooleanConfigChange("signalFrequency"),
     [onBooleanConfigChange]
   );
   const onPlotSamplesChange = React.useMemo(
