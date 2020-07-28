@@ -23,20 +23,25 @@ export abstract class AbstractSketch<T> {
   abstract sketch: (s: p5) => void;
 }
 
-interface UseConfig<T> {
+interface UseConfig<T, SKETCH extends AbstractSketch<T>> {
   config: T;
   refContainer: any;
+  sketchContainer: SKETCH;
   updateConfig: (s: Partial<T>) => void;
   onNumericConfigChange: ChangeEventHandlerFactory<T>;
   onStringConfigChange: ChangeEventHandlerFactory<T>;
   onBooleanConfigChange: ChangeEventHandlerFactory<T>;
 }
 
-function useSketch<T extends { [s: string]: any }>(s: {
-  new (): AbstractSketch<T>;
-}): UseConfig<T> {
+interface BaseConfig {
+  [s: string]: any;
+}
+
+function useSketch<T extends BaseConfig, SKETCH extends AbstractSketch<T>>(s: {
+  new (): SKETCH;
+}): UseConfig<T, SKETCH> {
   const refContainer = React.useRef(null);
-  const sketchContainer: AbstractSketch<T> = React.useMemo(() => new s(), [s]);
+  const sketchContainer: SKETCH = React.useMemo(() => new s(), [s]);
   React.useEffect(() => {
     let sketchInUse: p5;
 
@@ -92,6 +97,7 @@ function useSketch<T extends { [s: string]: any }>(s: {
 
   return {
     config: config as T,
+    sketchContainer,
     updateConfig,
     onNumericConfigChange,
     onStringConfigChange,

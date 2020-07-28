@@ -1905,7 +1905,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
-"@types/lodash@^4.14.149":
+"@types/lodash@^4.14.149", "@types/lodash@^4.14.158":
   version "4.14.158"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.158.tgz#b38ea8b6fe799acd076d7a8d7ab71c26ef77f785"
   integrity sha512-InCEXJNTv/59yO4VSfuvNrZHt7eeNtWQEgnieIA+mIC+MOWM9arOWG2eQ8Vhk6NbOre6/BidiXhkZYeDY9U35w==
@@ -8578,10 +8578,10 @@ obuf@^1.0.0, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-ocr-cs-alevel-ts@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ocr-cs-alevel-ts/-/ocr-cs-alevel-ts-3.1.0.tgz#35b78d42df0a85c3932b560fc432c3cc803ef94b"
-  integrity sha512-g8QxfaV1VIgsgo9A/O1JhWOFzqFhlLb4AzFBuss74rztg8otZPseeJsQ9K9NIUKy4qSa0hOqiLM/Mxo2IX39fg==
+ocr-cs-alevel-ts@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ocr-cs-alevel-ts/-/ocr-cs-alevel-ts-3.2.0.tgz#299c73d0b0d0afcf8145c24b453e16dc334c60c6"
+  integrity sha512-C4R6NjPc3XmlLpgsvXZzdOsWiZVtOjFjM6k3Yz9VpGSAHjIBAj67Q4Np333rR+Enpv/bgqYsZSF2tp8acnpj7A==
   dependencies:
     "@types/jest" "^26.0.5"
     "@types/lodash" "^4.14.149"
@@ -12066,9 +12066,9 @@ uuid@^3.0.1, uuid@^3.3.2:
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
 uuid@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.2.0.tgz#cb10dd6b118e2dada7d0cd9730ba7417c93d920e"
-  integrity sha512-CYpGiFTUrmI6OBMkAdjSDM0k5h8SkkiTP4WAjQgDgNB1S3Ou9VBEvr6q0Kv2H1mMk7IWfxYGpMH5sd5AvcIV2Q==
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
+  integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"

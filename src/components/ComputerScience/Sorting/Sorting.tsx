@@ -1,59 +1,40 @@
 import React from "react";
-import { loremIpsum } from "lorem-ipsum";
-
-import { stringComparator } from "ocr-cs-alevel-ts/dist/algorithms/common";
-import { SortObserver } from "ocr-cs-alevel-ts/dist/types";
 
 import SortingAlgorithmPicker, {
   useSortingAlgorithmPicker,
 } from "./SortingAlgorithmPicker";
-import ListBuilder from "src/components/lib/ListBuilder";
 import useSketch from "src/components/p5/P5Sketch/useSketch";
 import SortingSketch from "./SortingSketch";
-import { SortingData, SortStage } from "./types";
+import { SortStage } from "./types";
 import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
-
-const generateItem = () => loremIpsum({ count: 1, units: "words" });
-
-const TEST_ITEMS: string[] = Array(5).fill(null).map(generateItem);
+import useSortedData from "./useSortedData";
 
 const Sorting: React.FunctionComponent = () => {
   const {
     algorithm,
     componentProps: algorithmPickerProps,
   } = useSortingAlgorithmPicker();
-  const [inputList, setInputList] = React.useState<string[]>([]);
 
-  const sortingData: SortingData<string> = React.useMemo(() => {
-    let sortedData = inputList;
-    let stages: SortStage<string>[] = [];
-    const sortObserver: SortObserver<string> = (
-      stageName,
-      data,
-      positionVars
-    ) => {
-      stages.push({
-        stageName,
-        data: [...data],
-        positionVars: { ...positionVars },
-      });
-    };
+  const {
+    sortingData: { stages },
+  } = useSortedData({ algorithm });
 
-    if (!!algorithm) {
-      sortedData = algorithm.sort(inputList, stringComparator, sortObserver);
-    }
-    stages.push({ stageName: "Done", data: sortedData, positionVars: {} });
-
-    return { sortedData, stages };
-  }, [algorithm, inputList]);
-
-  const { updateConfig, refContainer } = useSketch(SortingSketch);
-  const { item: sortStage, stepBackward, stepForward } = useItemInArray<
+  const { updateConfig, sketchContainer, refContainer } = useSketch(
+    SortingSketch
+  );
+  const { item: sortStage, reset, stepBackward, stepForward } = useItemInArray<
     SortStage<string>
-  >({ items: sortingData.stages });
+  >({ items: stages });
 
   // Whenever the sort is redone, tell the sketch
-  React.useEffect(() => updateConfig({ sortStage }), [sortStage, updateConfig]);
+  React.useEffect(() => {
+    updateConfig({ sortStage });
+  }, [sortStage, updateConfig]);
+
+  React.useEffect(() => {
+    reset();
+    sketchContainer.reset();
+  }, [reset, sketchContainer, algorithm]);
 
   return (
     <div>
@@ -64,13 +45,11 @@ const Sorting: React.FunctionComponent = () => {
         <SortingAlgorithmPicker {...algorithmPickerProps} />
       </form>
 
-      <h2>Build Raw List</h2>
-      <ListBuilder initialItems={TEST_ITEMS} onChange={setInputList} />
-
-      <h2>{!!algorithm ? algorithm.name : "please select"}</h2>
-      {sortingData.sortedData.join(", ")}
-
+      <h2>{!!algorithm ? algorithm.name : "please select algorithm"}</h2>
       <div>
+        <button className="btn btn-danger" onClick={reset}>
+          Reset
+        </button>
         <button className="btn btn-primary" onClick={stepBackward}>
           Back
         </button>

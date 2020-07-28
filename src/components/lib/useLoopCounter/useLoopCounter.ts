@@ -7,6 +7,7 @@ interface Props {
 
 interface UseLoopCounter {
   count: number;
+  reset: () => void;
   increment: (amount?: number) => void;
   decrement: (amount?: number) => void;
 }
@@ -26,19 +27,33 @@ interface SetMinAction extends BaseAction {
 interface SetMaxAction extends BaseAction {
   type: "setmax";
 }
+interface ResetAction extends BaseAction {
+  type: "reset";
+}
 interface IncrementAction extends BaseAction {
   type: "increment";
 }
 interface DecrementAction extends BaseAction {
   type: "decrement";
 }
-type Action = SetMinAction | SetMaxAction | IncrementAction | DecrementAction;
+type Action =
+  | SetMinAction
+  | SetMaxAction
+  | ResetAction
+  | IncrementAction
+  | DecrementAction;
 
 const reducer = (
   state: ReducerState,
   { type, amount = 1 }: Action
 ): ReducerState => {
   switch (type) {
+    case "reset": {
+      return {
+        ...state,
+        count: state.min,
+      };
+    }
     case "setmin": {
       return {
         ...state,
@@ -88,6 +103,7 @@ const useLoopCounter = ({ min = 0, max = 100 }: Props): UseLoopCounter => {
 
   return {
     count,
+    reset: React.useCallback(() => dispatch({ type: "reset", amount: 0 }), []),
     increment: React.useCallback(
       (amount: number = 1) => dispatch({ type: "increment", amount }),
       []

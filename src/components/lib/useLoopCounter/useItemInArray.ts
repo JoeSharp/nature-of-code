@@ -9,12 +9,13 @@ interface Props<T> {
 interface UseItemInArray<T> {
   item: T;
   index: number;
+  reset: () => void;
   stepForward: () => void;
   stepBackward: () => void;
 }
 
 const useItemInArray = <T>({ items }: Props<T>): UseItemInArray<T> => {
-  const { count: index, decrement, increment } = useLoopCounter({
+  const { count: index, reset, decrement, increment } = useLoopCounter({
     max: items.length - 1,
   });
 
@@ -23,6 +24,7 @@ const useItemInArray = <T>({ items }: Props<T>): UseItemInArray<T> => {
   return {
     item,
     index,
+    reset,
     stepForward: React.useCallback(() => increment(1), [increment]),
     stepBackward: React.useCallback(() => decrement(1), [decrement]),
   };
