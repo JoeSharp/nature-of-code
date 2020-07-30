@@ -1,7 +1,13 @@
 import p5 from "p5";
+import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
 import { AbstractSketch } from "src/components/p5/P5Sketch/useSketch";
 
-import { SortStage, DEFAULT_SORT_STAGE } from "../types";
+import {
+  SortStage,
+  DEFAULT_SORT_STAGE,
+  SortStageType,
+  SortObservation,
+} from "../types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -45,9 +51,43 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     };
 
     s.draw = function () {
+      const { sortStage = DEFAULT_SORT_STAGE } = that.config;
+
+      const { data, stageName, positionVars }: SortObservation<string> =
+        sortStage.type === SortStageType.observation
+          ? sortStage
+          : sortStage.lastObservation;
+
       const {
-        sortStage: { data, stageName, positionVars } = DEFAULT_SORT_STAGE,
-      } = that.config;
+        compareIndexA,
+        compareValueA,
+        compareIndexB,
+        compareValueB,
+        compareResult,
+      } =
+        sortStage.type === SortStageType.compare
+          ? {
+              compareValueA: sortStage.a,
+              compareValueB: sortStage.b,
+              compareIndexA: sortStage.aIndex,
+              compareIndexB: sortStage.bIndex,
+              compareResult: sortStage.result,
+            }
+          : {
+              compareValueA: NO_MATCH,
+              compareValueB: NO_MATCH,
+              compareIndexA: NO_MATCH,
+              compareIndexB: NO_MATCH,
+              compareResult: 0,
+            };
+
+      const { swapFrom, swapTo } =
+        sortStage.type === SortStageType.swap
+          ? { swapFrom: sortStage.from, swapTo: sortStage.to }
+          : {
+              swapFrom: NO_MATCH,
+              swapTo: NO_MATCH,
+            };
 
       s.background("white");
 
@@ -57,7 +97,20 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
 
       data.forEach((item, i) => {
         let x = getDataX(i);
-        s.fill("blue");
+        switch (i) {
+          case compareIndexA:
+          case compareIndexB:
+            s.fill("green");
+            break;
+          case swapFrom:
+          case swapTo:
+            s.fill("red");
+            break;
+          default:
+            s.fill("blue");
+            break;
+        }
+
         s.ellipse(x, datyaY, dataWidth, dataWidth);
         s.fill("white");
         s.text(`${item}`, x, datyaY);
@@ -66,7 +119,25 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.fill("black");
 
       s.textAlign(s.LEFT, s.CENTER);
+
+      let subTitle = "";
+      switch (sortStage.type) {
+        case SortStageType.compare:
+          let comparisonSymbol = "=";
+          if (compareResult < 0) {
+            comparisonSymbol = "<";
+          } else {
+            comparisonSymbol = ">";
+          }
+
+          subTitle = `Comparing data[${compareIndexA}]=${compareValueA} ${comparisonSymbol} data[${compareIndexB}]=${compareValueB}`;
+          break;
+        case SortStageType.swap:
+          subTitle = `Swapping Items [${swapFrom}] and [${swapTo}]`;
+          break;
+      }
       s.text(stageName, 20, 20);
+      s.text(subTitle, 20, 50);
 
       // Ensure position vars are in consistent order
 
