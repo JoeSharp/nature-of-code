@@ -81,7 +81,7 @@ const useSortedData = ({ algorithm }: Props): UseSortedData => {
     stages.push({
       type: SortStageType.observation,
       stageName: "Finished",
-      data: [...inputList],
+      data: [...sortedData],
       positionVars: {},
     });
 

@@ -23,6 +23,11 @@ const getDefaultConfig = <T>(): Config<T> => ({
 class SortingSketch<T> extends AbstractSketch<Config<T>> {
   knownPositionVars: string[];
 
+  // keep track for animation
+  swappingFrom: number = NO_MATCH;
+  swappingTo: number = NO_MATCH;
+  swappingProgress: number = 0;
+
   constructor() {
     super(getDefaultConfig());
     this.knownPositionVars = [];
@@ -30,12 +35,13 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
 
   reset() {
     this.knownPositionVars = [];
+    this.swappingFrom = NO_MATCH;
+    this.swappingTo = NO_MATCH;
   }
 
   getPositionVarIndex(positionVar: string): number {
     if (!this.knownPositionVars.includes(positionVar)) {
       this.knownPositionVars.push(positionVar);
-      console.log("New Position Var", positionVar);
     }
 
     return this.knownPositionVars.indexOf(positionVar);
@@ -89,8 +95,27 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
               swapTo: NO_MATCH,
             };
 
+      // Are we animating a swap?
+      if (sortStage.type === SortStageType.swap) {
+        if (that.swappingProgress < 1.0) {
+          that.swappingProgress += 0.05;
+        }
+
+        // Check to see if swapping has changed
+        if (swapFrom !== that.swappingFrom || swapTo !== that.swappingTo) {
+          that.swappingProgress = 0.0;
+        }
+
+        // Keep track of the swap we are watching
+        that.swappingFrom = swapFrom;
+        that.swappingTo = swapTo;
+      } else {
+        that.swappingProgress = 0.0;
+      }
+
       s.background("white");
 
+      // Draw the data
       let datyaY = 100;
       let dataWidth = s.width / (data.length + 2);
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
@@ -102,10 +127,18 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
           case compareIndexB:
             s.fill("green");
             break;
-          case swapFrom:
-          case swapTo:
+          case swapFrom: {
+            let xTo = getDataX(swapTo);
+            x += (xTo - x) * that.swappingProgress;
             s.fill("red");
             break;
+          }
+          case swapTo: {
+            let xFrom = getDataX(swapFrom);
+            x += (xFrom - x) * that.swappingProgress;
+            s.fill("red");
+            break;
+          }
           default:
             s.fill("blue");
             break;
@@ -120,6 +153,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
 
       s.textAlign(s.LEFT, s.CENTER);
 
+      // Generate the title based on stage information
       let subTitle = "";
       switch (sortStage.type) {
         case SortStageType.compare:

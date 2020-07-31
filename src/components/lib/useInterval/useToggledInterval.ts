@@ -4,6 +4,7 @@ import useInterval from "./useInterval";
 
 interface Props {
   iterate: () => any;
+  interval?: number;
 }
 
 interface UseToggledInterval {
@@ -11,7 +12,10 @@ interface UseToggledInterval {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const useToggledInterval = ({ iterate }: Props): UseToggledInterval => {
+const useToggledInterval = ({
+  iterate,
+  interval = 1000,
+}: Props): UseToggledInterval => {
   const [isAutoIterating, setIsAutoIterating] = React.useState<boolean>(false);
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
@@ -24,7 +28,7 @@ const useToggledInterval = ({ iterate }: Props): UseToggledInterval => {
     iterate,
   ]);
 
-  useInterval(autoIterate, 1000);
+  useInterval(autoIterate, interval);
 
   return { isAutoIterating, onChange };
 };

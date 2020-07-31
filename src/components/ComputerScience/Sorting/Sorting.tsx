@@ -8,12 +8,13 @@ import SortingSketch from "./SortingSketch";
 import { SortStage } from "./types";
 import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
 import useSortedData from "./useSortedData";
+import { useToggledInterval } from "src/components/lib/useInterval";
 
 const Sorting: React.FunctionComponent = () => {
   const {
     algorithm,
     componentProps: algorithmPickerProps,
-  } = useSortingAlgorithmPicker();
+  } = useSortingAlgorithmPicker("form-control");
 
   const {
     sortingData: { stages },
@@ -22,9 +23,13 @@ const Sorting: React.FunctionComponent = () => {
   const { updateConfig, sketchContainer, refContainer } = useSketch(
     SortingSketch
   );
-  const { item: sortStage, reset, stepBackward, stepForward } = useItemInArray<
-    SortStage<string>
-  >({ items: stages });
+  const {
+    index,
+    item: sortStage,
+    reset,
+    stepBackward,
+    stepForward,
+  } = useItemInArray<SortStage<string>>({ items: stages });
 
   // Whenever the sort is redone, tell the sketch
   React.useEffect(() => {
@@ -36,23 +41,51 @@ const Sorting: React.FunctionComponent = () => {
     sketchContainer.reset();
   }, [reset, sketchContainer, algorithm]);
 
+  // Only auto iterate forward if we aren't on the final step
+  const autoStepForward = React.useCallback(() => {
+    if (index < stages.length - 1) {
+      stepForward();
+    }
+  }, [index, stages.length, stepForward]);
+
+  const {
+    isAutoIterating,
+    onChange: onAutoIterateChange,
+  } = useToggledInterval({ iterate: autoStepForward, interval: 500 });
+
   return (
     <div>
       <h1>Sorting Algorithms</h1>
 
       <form>
-        <label>Choose Algorithm</label>
-        <SortingAlgorithmPicker {...algorithmPickerProps} />
+        <div className="form-group">
+          <label>Choose Algorithm</label>
+          <SortingAlgorithmPicker {...algorithmPickerProps} />
+        </div>
       </form>
 
       <h2>{!!algorithm ? algorithm.name : "please select algorithm"}</h2>
       <div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={isAutoIterating}
+            onChange={onAutoIterateChange}
+            id="chkAutoIterate"
+          />
+          <label className="form-check-label" htmlFor="chkAutoIterate">
+            Auto Iterate
+          </label>
+        </div>
         <button className="btn btn-danger" onClick={reset}>
           Reset
         </button>
+        &nbsp;
         <button className="btn btn-primary" onClick={stepBackward}>
           Back
         </button>
+        &nbsp;
         <button className="btn btn-primary" onClick={stepForward}>
           Forward
         </button>
