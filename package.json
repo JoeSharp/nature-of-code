@@ -21,7 +21,6 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.19",
     "lorem-ipsum": "^2.0.3",
-    "ocr-cs-alevel-ts": "4.0.0",
     "p5": "^1.1.9",
     "popper.js": "^1.14.7",
     "react": "^16.13.1",

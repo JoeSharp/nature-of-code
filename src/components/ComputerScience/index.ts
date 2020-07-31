@@ -1,6 +1,7 @@
 import AnalogueSignals from "./AnalogueSignals";
 import PageRank from "./PageRank";
 import Sorting from "./Sorting";
+import Search from "./Search";
 import { Page } from "src/types";
 
 const sessions: Page[] = [
@@ -18,6 +19,11 @@ const sessions: Page[] = [
     href: "/computerScience/sorting",
     title: "Sorting",
     component: Sorting,
+  },
+  {
+    href: "/computerScience/searching",
+    title: "Search",
+    component: Search,
   },
 ];
 

@@ -19,13 +19,9 @@ interface Props {
   algorithm?: NamedSort;
 }
 
-interface UseSortedData {
-  sortingData: SortingData<string>;
-}
-
-const useSortedData = ({ algorithm }: Props): UseSortedData => {
+const useSortedData = ({ algorithm }: Props): SortingData<string> => {
   const inputList = React.useMemo(() => generateRandomLetters(10), []);
-  const sortingData: SortingData<string> = React.useMemo(() => {
+  const { sortedData, stages }: SortingData<string> = React.useMemo(() => {
     let sortedData = inputList;
     let stages: SortStage<string>[] = [];
     let lastObservation: SortObservation<string>;
@@ -88,6 +84,6 @@ const useSortedData = ({ algorithm }: Props): UseSortedData => {
     return { sortedData, stages };
   }, [algorithm, inputList]);
 
-  return { sortingData };
+  return { sortedData, stages };
 };
 export default useSortedData;

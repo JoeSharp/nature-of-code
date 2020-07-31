@@ -160,7 +160,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
           let comparisonSymbol = "=";
           if (compareResult < 0) {
             comparisonSymbol = "<";
-          } else {
+          } else if (compareResult > 0) {
             comparisonSymbol = ">";
           }
 

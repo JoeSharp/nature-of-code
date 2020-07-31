@@ -1,10 +1,13 @@
 import React from "react";
 import useSieveOfEratosthenes from "./useSieveOfEratosthenes";
 import useItemInArray from "../../lib/useLoopCounter/useItemInArray";
+import PrimesListing from "./PrimesListing";
+
+const LIMIT: number = 20;
 
 const SieveOfEratosthenes: React.FunctionComponent = () => {
   const { primeNumbers, iterations } = useSieveOfEratosthenes({
-    limit: 20,
+    limit: LIMIT,
   });
 
   const {
@@ -36,6 +39,8 @@ const SieveOfEratosthenes: React.FunctionComponent = () => {
           Increment
         </button>
       </div>
+
+      <PrimesListing limit={LIMIT} primeNumbers={tickedOff} />
     </div>
   );
 };
