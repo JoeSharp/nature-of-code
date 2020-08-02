@@ -1,6 +1,6 @@
 import React from "react";
 
-import algorithms from "ocr-cs-alevel-ts/dist/algorithms/sort";
+import algorithms from "ocr-cs-alevel-ts/dist/algorithms/sort/monitored";
 import { NamedSort } from "ocr-cs-alevel-ts/dist/types";
 import { ControlledInput } from "src/types";
 

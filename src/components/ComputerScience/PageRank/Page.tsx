@@ -9,12 +9,12 @@ interface Props {
 }
 
 interface EdgeWithHandler {
-  edge: Edge;
+  edge: Edge<string>;
   onRemove: () => void;
 }
 
 interface EdgesProps {
-  getOtherEnd: (edge: Edge) => void;
+  getOtherEnd: (edge: Edge<string>) => void;
   edges: EdgeWithHandler[];
 }
 
@@ -34,9 +34,9 @@ const Edges: React.FunctionComponent<EdgesProps> = ({ edges, getOtherEnd }) => {
 };
 
 interface UseEdgesWithHandlers {
-  edges: Edge[];
+  edges: Edge<string>[];
   removeEdge: (from: string, to: string) => void;
-  filter: (edge: Edge) => boolean;
+  filter: (edge: Edge<string>) => boolean;
 }
 
 const useEdgesWithHandlers = ({
@@ -53,8 +53,8 @@ const useEdgesWithHandlers = ({
     [filter, edges, removeEdge]
   );
 
-const GET_EDGE_FROM = (edge: Edge) => edge.from;
-const GET_EDGE_TO = (edge: Edge) => edge.to;
+const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
+const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 
 const Page: React.FunctionComponent<Props> = ({
   page,
@@ -84,12 +84,14 @@ const Page: React.FunctionComponent<Props> = ({
     removePage,
   ]);
 
-  const filterOutgoing = React.useCallback((edge: Edge) => edge.from === page, [
-    page,
-  ]);
-  const filterIncoming = React.useCallback((edge: Edge) => edge.to === page, [
-    page,
-  ]);
+  const filterOutgoing = React.useCallback(
+    (edge: Edge<string>) => edge.from === page,
+    [page]
+  );
+  const filterIncoming = React.useCallback(
+    (edge: Edge<string>) => edge.to === page,
+    [page]
+  );
   const outgoingEdges = useEdgesWithHandlers({
     edges,
     removeEdge,

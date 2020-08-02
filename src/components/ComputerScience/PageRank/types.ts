@@ -2,7 +2,7 @@ import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 export interface PageGraphBuilder {
   pendingFrom: string | undefined;
-  graph: GraphData;
+  graph: GraphData<string>;
 }
 
 export interface PageRanks {

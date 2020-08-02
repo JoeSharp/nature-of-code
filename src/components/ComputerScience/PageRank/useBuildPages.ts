@@ -12,7 +12,7 @@ const EMPTY_PAGE_GRAPH: PageGraphBuilder = {
 
 const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
   pendingFrom: undefined,
-  graph: new Graph()
+  graph: new Graph<string>()
     .addUnidirectionalEdge("a", "b")
     .addUnidirectionalEdge("b", "a")
     .addUnidirectionalEdge("b", "c")
@@ -75,7 +75,7 @@ const pageReducer = (
         ...state,
         graph: {
           ...state.graph,
-          vertices: new Set([...state.graph.vertices, action.page]),
+          vertices: [...state.graph.vertices, action.page],
         },
       };
     case "removePage":
@@ -83,9 +83,7 @@ const pageReducer = (
         ...state,
         graph: {
           ...state.graph,
-          vertices: new Set(
-            [...state.graph.vertices].filter((p) => p !== action.page)
-          ),
+          vertices: [...state.graph.vertices].filter((p) => p !== action.page),
           edges: state.graph.edges.filter(
             ({ from, to }) => !(from === action.page || to === action.page)
           ),

@@ -3,7 +3,7 @@ import { PageRanks } from "./types";
 import { roundTo2Dp } from "ocr-cs-alevel-ts/dist/algorithms/pageRank/pageRank";
 
 interface Props {
-  pages: Set<string>;
+  pages: string[];
   ranks: PageRanks;
 }
 
@@ -21,7 +21,7 @@ const CurrentRanksRable: React.FunctionComponent<Props> = ({
         </tr>
       </thead>
       <tbody>
-        {[...pages].map((page) => (
+        {pages.map((page) => (
           <tr key={page}>
             <td>{page}</td>
             <td>{roundTo2Dp(ranks[page])}</td>

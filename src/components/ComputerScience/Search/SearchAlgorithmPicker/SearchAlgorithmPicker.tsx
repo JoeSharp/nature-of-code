@@ -1,6 +1,6 @@
 import React from "react";
 
-import algorithms from "ocr-cs-alevel-ts/dist/algorithms/search";
+import algorithms from "ocr-cs-alevel-ts/dist/algorithms/search/monitored";
 import { NamedSearch } from "ocr-cs-alevel-ts/dist/types";
 import { ControlledInput } from "src/types";
 

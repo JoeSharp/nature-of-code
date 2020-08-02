@@ -11,7 +11,7 @@ import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 interface Props {
   dampingFactor: number;
-  graph: GraphData;
+  graph: GraphData<string>;
 }
 
 interface UsePageRank {
@@ -29,7 +29,7 @@ interface IterateAction {
 interface InitialiseAction {
   type: "initialise";
   dampingFactor: number;
-  graph: GraphData;
+  graph: GraphData<string>;
 }
 
 type RankReducerAction = IterateAction | InitialiseAction;
