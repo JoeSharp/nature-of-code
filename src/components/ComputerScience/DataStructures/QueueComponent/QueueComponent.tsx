@@ -1,12 +1,12 @@
 import React from "react";
 
-import Stack from "ocr-cs-alevel-ts/dist/dataStructures/stack/Stack";
+import Queue from "ocr-cs-alevel-ts/dist/dataStructures/queue/Queue";
 import useListReducer from "src/components/lib/useListReducer";
 
-import "./stack.css";
+import "./queue.css";
 
 const StackComponent: React.FunctionComponent = () => {
-  const stack = React.useRef<Stack<number>>(new Stack());
+  const queue = React.useRef<Queue<number>>(new Queue());
 
   const [items, setItems] = React.useState<number[]>([]);
   const [newItem, setNewItem] = React.useState<number>(0);
@@ -23,7 +23,7 @@ const StackComponent: React.FunctionComponent = () => {
   );
 
   const updateItems = React.useCallback(
-    () => setItems(stack.current.getItems().toArray()),
+    () => setItems(queue.current.items.toArray()),
     [setItems]
   );
 
@@ -33,15 +33,15 @@ const StackComponent: React.FunctionComponent = () => {
     setNewItem(0);
   }, [setNewItem, setItems, clearPoppedItems]);
 
-  const onPush = React.useCallback(() => {
-    stack.current.push(newItem);
+  const onEnqueue = React.useCallback(() => {
+    queue.current.enqueue(newItem);
     setNewItem(newItem + 1);
     updateItems();
   }, [newItem, setNewItem, updateItems]);
 
-  const onPop = React.useCallback(() => {
+  const onDequeue = React.useCallback(() => {
     try {
-      addPoppedItem(stack.current.pop());
+      addPoppedItem(queue.current.dequeue());
       updateItems();
     } catch (e) {
       addPoppedItem(`${e}`);
@@ -50,8 +50,10 @@ const StackComponent: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Stack</h1>
-      <p>Items are pushed and popped, the ordering follows First In Last Out</p>
+      <h1>Queue</h1>
+      <p>
+        Items are enqueued and dequeued, the ordering follows First In First Out
+      </p>
 
       <form>
         <div className="form-group">
@@ -66,11 +68,11 @@ const StackComponent: React.FunctionComponent = () => {
       </form>
 
       <div className="btn-group">
-        <button className="btn btn-primary" onClick={onPush}>
-          Push
+        <button className="btn btn-primary" onClick={onEnqueue}>
+          Enqueue
         </button>
-        <button className="btn btn-primary" onClick={onPop}>
-          Pop
+        <button className="btn btn-primary" onClick={onDequeue}>
+          Dequeue
         </button>
         <button className="btn btn-danger" onClick={onReset}>
           Reset
@@ -79,7 +81,7 @@ const StackComponent: React.FunctionComponent = () => {
 
       <div className="stackItems">
         <div>
-          <h2>Stack Contents</h2>
+          <h2>Queue Contents</h2>
           <ol>
             {items.map((item, i) => (
               <li key={i}>{item}</li>
@@ -88,7 +90,7 @@ const StackComponent: React.FunctionComponent = () => {
         </div>
 
         <div>
-          <h2>Popped Items</h2>
+          <h2>Dequeued Items</h2>
           <ol>
             {poppedItems.map((item, i) => (
               <li key={i}>{item}</li>

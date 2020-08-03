@@ -5,6 +5,7 @@ import Search from "./Algorithms/Search";
 import { Page } from "src/types";
 import GraphComponent from "./DataStructures/GraphComponent";
 import StackComponent from "./DataStructures/StackComponent";
+import QueueComponent from "./DataStructures/QueueComponent";
 
 const sessions: Page[] = [
   {
@@ -36,6 +37,11 @@ const sessions: Page[] = [
     href: "/computerScience/dataStructures/stack",
     title: "Stack",
     component: StackComponent,
+  },
+  {
+    href: "/computerScience/dataStructures/queue",
+    title: "Queue",
+    component: QueueComponent,
   },
 ];
 
