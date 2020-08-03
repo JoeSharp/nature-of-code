@@ -1,6 +1,6 @@
 import React from "react";
 
-import useBuildPages from "./useBuildPages";
+import useBuildPages from "../GraphBuilder/useBuildGraph";
 import usePageRank from "./usePageRank";
 import Page from "./Page";
 import CurrentRanksTable from "./CurrentRanksTable";
@@ -16,15 +16,15 @@ const PageRank: React.FunctionComponent = () => {
   );
   const buildPages = useBuildPages();
   const {
-    pageGraphBuilder: {
+    graphBuilder: {
       graph: { vertices: pages },
     },
     clearAll,
-    addPage,
+    addVertex,
   } = buildPages;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
-    graph: buildPages.pageGraphBuilder.graph,
+    graph: buildPages.graphBuilder.graph,
   });
   const [newPageName, setNewPageName] = React.useState<string>(
     "www.somewhere.com"
@@ -34,8 +34,8 @@ const PageRank: React.FunctionComponent = () => {
     setDampingFactor(DEFAULT_DAMPING_FACTOR);
   }, [begin, setDampingFactor]);
   const onAddPage = React.useCallback(
-    () => newPageName.length > 0 && addPage(newPageName),
-    [newPageName, addPage]
+    () => newPageName.length > 0 && addVertex(newPageName),
+    [newPageName, addVertex]
   );
   const onDampingFactorChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setDampingFactor(parseFloat(value)),

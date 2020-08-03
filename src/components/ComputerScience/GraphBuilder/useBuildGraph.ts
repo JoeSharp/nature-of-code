@@ -3,14 +3,14 @@ import Graph, {
   EMPTY_GRAPH_DATA,
 } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
-import { PageGraphBuilder, UseBuildPages } from "./types";
+import { GraphBuilder, UseBuildGraph } from "./types";
 
-const EMPTY_PAGE_GRAPH: PageGraphBuilder = {
+const EMPTY_GRAPH: GraphBuilder = {
   pendingFrom: undefined,
   graph: EMPTY_GRAPH_DATA,
 };
 
-const DEFAULT_PAGE_GRAPH: PageGraphBuilder = {
+const DEFAULT_GRAPH_GRAPH: GraphBuilder = {
   pendingFrom: undefined,
   graph: new Graph<string>()
     .addUnidirectionalEdge("a", "b")
@@ -24,14 +24,14 @@ interface ClearAll {
   type: "clearAll";
 }
 
-interface AddPage {
-  type: "addPage";
-  page: string;
+interface AddGraph {
+  type: "addVertex";
+  graph: string;
 }
 
-interface RemovePage {
-  type: "removePage";
-  page: string;
+interface RemoveGraph {
+  type: "removeVertex";
+  graph: string;
 }
 
 interface PrepareEdge {
@@ -54,38 +54,38 @@ interface RemoveEdge {
   to: string;
 }
 
-type PageReducerAction =
+type GraphReducerAction =
   | ClearAll
-  | AddPage
-  | RemovePage
+  | AddGraph
+  | RemoveGraph
   | PrepareEdge
   | CancelEdge
   | CompleteEdge
   | RemoveEdge;
 
-const pageReducer = (
-  state: PageGraphBuilder,
-  action: PageReducerAction
-): PageGraphBuilder => {
+const graphReducer = (
+  state: GraphBuilder,
+  action: GraphReducerAction
+): GraphBuilder => {
   switch (action.type) {
     case "clearAll":
-      return EMPTY_PAGE_GRAPH;
-    case "addPage":
+      return EMPTY_GRAPH;
+    case "addVertex":
       return {
         ...state,
         graph: {
           ...state.graph,
-          vertices: [...state.graph.vertices, action.page],
+          vertices: [...state.graph.vertices, action.graph],
         },
       };
-    case "removePage":
+    case "removeVertex":
       return {
         ...state,
         graph: {
           ...state.graph,
-          vertices: [...state.graph.vertices].filter((p) => p !== action.page),
+          vertices: [...state.graph.vertices].filter((p) => p !== action.graph),
           edges: state.graph.edges.filter(
-            ({ from, to }) => !(from === action.page || to === action.page)
+            ({ from, to }) => !(from === action.graph || to === action.graph)
           ),
         },
       };
@@ -128,19 +128,19 @@ const pageReducer = (
   return state;
 };
 
-const useBuildPages = (): UseBuildPages => {
-  const [pageGraphBuilder, dispatch] = React.useReducer(
-    pageReducer,
-    DEFAULT_PAGE_GRAPH
+const useBuildGraphs = (): UseBuildGraph => {
+  const [graphBuilder, dispatch] = React.useReducer(
+    graphReducer,
+    DEFAULT_GRAPH_GRAPH
   );
 
   const clearAll = React.useCallback(() => dispatch({ type: "clearAll" }), []);
-  const addPage = React.useCallback(
-    (page: string) => dispatch({ type: "addPage", page }),
+  const addVertex = React.useCallback(
+    (graph: string) => dispatch({ type: "addVertex", graph }),
     []
   );
-  const removePage = React.useCallback(
-    (page: string) => dispatch({ type: "removePage", page }),
+  const removeVertex = React.useCallback(
+    (graph: string) => dispatch({ type: "removeVertex", graph }),
     []
   );
   const prepareEdge = React.useCallback(
@@ -161,10 +161,10 @@ const useBuildPages = (): UseBuildPages => {
   );
 
   return {
-    pageGraphBuilder,
+    graphBuilder,
     clearAll,
-    addPage,
-    removePage,
+    addVertex,
+    removeVertex,
     prepareEdge,
     cancelEdge,
     completeEdge,
@@ -172,4 +172,4 @@ const useBuildPages = (): UseBuildPages => {
   };
 };
 
-export default useBuildPages;
+export default useBuildGraphs;

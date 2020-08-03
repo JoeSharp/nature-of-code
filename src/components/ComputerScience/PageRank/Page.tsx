@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
-import { UseBuildPages } from "./types";
+import { UseBuildGraph } from "../GraphBuilder/types";
 
 interface Props {
   page: string;
-  buildPages: UseBuildPages;
+  buildPages: UseBuildGraph;
 }
 
 interface EdgeWithHandler {
@@ -59,14 +59,14 @@ const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 const Page: React.FunctionComponent<Props> = ({
   page,
   buildPages: {
-    pageGraphBuilder: {
+    graphBuilder: {
       pendingFrom,
       graph: { edges },
     },
     prepareEdge,
     cancelEdge,
     completeEdge,
-    removePage,
+    removeVertex,
     removeEdge,
   },
 }) => {
@@ -79,9 +79,9 @@ const Page: React.FunctionComponent<Props> = ({
     completeEdge,
   ]);
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
-  const onRemovePage = React.useCallback(() => removePage(page), [
+  const onRemovePage = React.useCallback(() => removeVertex(page), [
     page,
-    removePage,
+    removeVertex,
   ]);
 
   const filterOutgoing = React.useCallback(
