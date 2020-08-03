@@ -11,7 +11,7 @@ import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 interface Props {
   dampingFactor: number;
-  graph: GraphData<string>;
+  graphData: GraphData<string>;
 }
 
 interface UsePageRank {
@@ -29,7 +29,7 @@ interface IterateAction {
 interface InitialiseAction {
   type: "initialise";
   dampingFactor: number;
-  graph: GraphData<string>;
+  graphData: GraphData<string>;
 }
 
 type RankReducerAction = IterateAction | InitialiseAction;
@@ -43,11 +43,11 @@ const rankReducer = (
       return iteratePageRank(state);
     }
     case "initialise":
-      return initialisePageRank(action.graph, action.dampingFactor);
+      return initialisePageRank(action.graphData, action.dampingFactor);
   }
 };
 
-const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
+const usePageRank = ({ graphData, dampingFactor }: Props): UsePageRank => {
   const [rankState, dispatch] = React.useReducer(
     rankReducer,
     BLANK_PAGE_RANK_STATE
@@ -56,8 +56,8 @@ const usePageRank = ({ graph, dampingFactor }: Props): UsePageRank => {
   const iterate = React.useCallback(() => dispatch({ type: "iterate" }), []);
 
   const begin = React.useCallback(
-    () => dispatch({ type: "initialise", graph, dampingFactor }),
-    [graph, dampingFactor]
+    () => dispatch({ type: "initialise", graphData, dampingFactor }),
+    [graphData, dampingFactor]
   );
 
   React.useEffect(begin, [begin]);

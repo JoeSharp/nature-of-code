@@ -2,13 +2,9 @@ import React from "react";
 
 import SketchPicker from "../SketchPicker";
 import P5Sketch from "../../p5/P5Sketch";
-import p5 from "p5";
+import sketches from "../sketches";
 
-interface Props {
-  sketches: { [name: string]: (s: p5) => void };
-}
-
-const P5SketchLibrary: React.FunctionComponent<Props> = ({ sketches }) => {
+const P5SketchLibrary: React.FunctionComponent = () => {
   const [sketch, onSketchChange] = React.useState<string | undefined>(
     undefined
   );

@@ -30,7 +30,7 @@ export default class Boid<T> implements BoidArgs<T> {
     colour,
     maxSpeed,
     maxForce,
-    environmentalFriction = 0.95,
+    environmentalFriction = 0.9,
   }: BoidArgs<T>) {
     this.sketch = sketch;
     this.entity = entity;
@@ -40,7 +40,7 @@ export default class Boid<T> implements BoidArgs<T> {
     this.colour = colour;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
-    this.minForce = 0.05;
+    this.minForce = 0.01;
     this.environmentalFriction = environmentalFriction;
     this.grabbed = false;
   }
@@ -122,6 +122,7 @@ export default class Boid<T> implements BoidArgs<T> {
 
   draw() {
     // To be overridden
+    this.sketch.circle(this.location.x, this.location.y, 50);
   }
 
   onScreen() {

@@ -7,12 +7,12 @@ import { GraphBuilder, UseBuildGraph } from "./types";
 
 const EMPTY_GRAPH: GraphBuilder = {
   pendingFrom: undefined,
-  graph: EMPTY_GRAPH_DATA,
+  graphData: EMPTY_GRAPH_DATA,
 };
 
 const DEFAULT_GRAPH_GRAPH: GraphBuilder = {
   pendingFrom: undefined,
-  graph: new Graph<string>()
+  graphData: new Graph<string>()
     .addUnidirectionalEdge("a", "b")
     .addUnidirectionalEdge("b", "a")
     .addUnidirectionalEdge("b", "c")
@@ -73,18 +73,20 @@ const graphReducer = (
     case "addVertex":
       return {
         ...state,
-        graph: {
-          ...state.graph,
-          vertices: [...state.graph.vertices, action.graph],
+        graphData: {
+          ...state.graphData,
+          vertices: [...state.graphData.vertices, action.graph],
         },
       };
     case "removeVertex":
       return {
         ...state,
-        graph: {
-          ...state.graph,
-          vertices: [...state.graph.vertices].filter((p) => p !== action.graph),
-          edges: state.graph.edges.filter(
+        graphData: {
+          ...state.graphData,
+          vertices: [...state.graphData.vertices].filter(
+            (p) => p !== action.graph
+          ),
+          edges: state.graphData.edges.filter(
             ({ from, to }) => !(from === action.graph || to === action.graph)
           ),
         },
@@ -101,10 +103,10 @@ const graphReducer = (
         ? {
             ...state,
             pendingFrom: undefined,
-            graph: {
-              ...state.graph,
+            graphData: {
+              ...state.graphData,
               edges: [
-                ...state.graph.edges.filter(
+                ...state.graphData.edges.filter(
                   (l) => !(l.from === state.pendingFrom && l.to === action.to)
                 ),
                 { from: state.pendingFrom, to: action.to, weight: 1.0 },
@@ -115,10 +117,9 @@ const graphReducer = (
     case "removeEdge":
       return {
         ...state,
-        graph: {
-          ...state.graph,
-
-          edges: state.graph.edges.filter(
+        graphData: {
+          ...state.graphData,
+          edges: state.graphData.edges.filter(
             (l) => !(l.from === action.from && l.to === action.to)
           ),
         },

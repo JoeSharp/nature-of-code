@@ -8,7 +8,12 @@ interface Props extends ControlledInput<string> {
   className?: string;
 }
 
-const SketchPicker = ({ sketches, value, onChange, className }: Props) => {
+const SketchPicker: React.FunctionComponent<Props> = ({
+  sketches,
+  value,
+  onChange,
+  className,
+}: Props) => {
   const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
     ({ target: { value } }) => onChange(value),
     [onChange]

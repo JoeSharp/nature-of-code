@@ -6,6 +6,9 @@ export const SIGNAL_MODE_NOISE = "Perlin Noise";
 
 export const signalTypes = [SIGNAL_MODE_SINE, SIGNAL_MODE_NOISE];
 
+const WIDTH = 480;
+const HEIGHT = 320;
+
 interface Sample {
   signal: number;
   x: number;
@@ -45,7 +48,7 @@ class Sketch extends AbstractSketch<Config> {
     const CROSS_LENGTH = 5;
 
     s.setup = function () {
-      s.createCanvas(600, 600);
+      s.createCanvas(WIDTH, HEIGHT);
     };
 
     s.draw = function () {

@@ -2,7 +2,7 @@ import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 export interface GraphBuilder {
   pendingFrom: string | undefined;
-  graph: GraphData<string>;
+  graphData: GraphData<string>;
 }
 
 export interface UseBuildGraph {

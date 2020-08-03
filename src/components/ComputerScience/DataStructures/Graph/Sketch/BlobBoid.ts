@@ -14,16 +14,27 @@ export default class BlobBoid extends Boid<string> {
     this.radius = radius;
   }
 
-  update() {
-    if (!this.grabbed) {
-      super.update();
-    }
-    // otherwise we are holding onto the boid
-  }
-
   isMouseOver(mousePosition: p5.Vector) {
     let diff = p5.Vector.sub(this.location, mousePosition);
     return diff.mag() < this.radius;
+  }
+
+  update() {
+    super.update();
+
+    // Clip to Sides
+    if (this.location.x > this.sketch.width) {
+      this.location.x = this.sketch.width;
+    } else if (this.location.x < 0) {
+      this.location.x = 0;
+    }
+
+    // Clip to top and bottom
+    if (this.location.y > this.sketch.height) {
+      this.location.y = this.sketch.height;
+    } else if (this.location.y < 0) {
+      this.location.y = 0;
+    }
   }
 
   draw() {

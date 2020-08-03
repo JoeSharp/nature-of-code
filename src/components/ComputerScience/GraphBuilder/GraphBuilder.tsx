@@ -1,8 +1,9 @@
 import React from "react";
 import useBuildGraph from "./useBuildGraph";
-import Vertex from "./Vertex";
+import VertexRow from "./VertexRow";
 import { UseBuildGraph } from "./types";
-import { GraphData } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import useSketch from "src/components/p5/P5Sketch/useSketch";
+import Sketch from "src/components/ComputerScience/DataStructures/Graph/Sketch";
 
 interface Props {
   buildGraph: UseBuildGraph;
@@ -10,9 +11,7 @@ interface Props {
 
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
   const {
-    graphBuilder: {
-      graph: { vertices },
-    },
+    graphBuilder: { graphData },
     clearAll,
     addVertex,
   } = buildGraph;
@@ -27,9 +26,14 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
     [setNewVertexName]
   );
 
+  const { refContainer, updateConfig } = useSketch(Sketch);
+
+  React.useEffect(() => updateConfig({ graphData }), [graphData, updateConfig]);
+
   return (
     <div>
       <h2>Build Graph</h2>
+      <div className="sketch" ref={refContainer} />
       <form>
         <div className="form-group">
           <label htmlFor="newVertexName">New Vertex Name</label>
@@ -41,25 +45,34 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
           />
         </div>
       </form>
-      <button className="btn btn-primary" onClick={onAddVertex}>
-        Add Vertex
-      </button>
-      <button className="btn btn-danger" onClick={clearAll}>
-        Clear All
-      </button>
-      <div className="row">
-        {vertices.map((vertex, i) => (
-          <div className="col-sm-4" key={i}>
-            <Vertex vertex={vertex} buildGraph={buildGraph} />
-          </div>
-        ))}
+      <div className="btn-group">
+        <button className="btn btn-primary" onClick={onAddVertex}>
+          Add Vertex
+        </button>
+        <button className="btn btn-danger" onClick={clearAll}>
+          Clear All
+        </button>
       </div>
+      <table className="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Vertex</th>
+            <th>Outgoing</th>
+            <th>Incoming</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {graphData.vertices.map((vertex, i) => (
+            <VertexRow key={i} vertex={vertex} buildGraph={buildGraph} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
 interface UseGraphBuilder {
-  graphData: GraphData<string>;
   componentProps: Props;
 }
 
@@ -68,7 +81,6 @@ export const useGraphBuilder = (): UseGraphBuilder => {
 
   return {
     componentProps: { buildGraph },
-    graphData: buildGraph.graphBuilder.graph,
   };
 };
 

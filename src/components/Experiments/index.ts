@@ -3,6 +3,7 @@ import Dobble from "./Dobble";
 import LogicPadlock from "./LogicPadlock";
 import MidiFun from "./MidiFun";
 import { Page } from "src/types";
+import P5SketchLibrary from "../p5/P5SketchLibrary";
 
 export default [
   {
@@ -24,5 +25,10 @@ export default [
     component: MidiFun,
     href: "/experiments/midiFun",
     title: "MIDI",
+  },
+  {
+    component: P5SketchLibrary,
+    href: "/experiments/sketches",
+    title: "P5 Sketches",
   },
 ] as Page[];

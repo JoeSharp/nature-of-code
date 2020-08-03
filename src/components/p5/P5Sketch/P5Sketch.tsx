@@ -1,5 +1,5 @@
 import React from "react";
-import p5 from 'p5';
+import p5 from "p5";
 
 interface IProps {
   sketch: (...args: any[]) => any;
@@ -25,7 +25,7 @@ const P5Sketch = ({ sketch }: IProps) => {
     };
   }, [sketch]);
 
-  return <div ref={refContainer} />;
+  return <div className="sketch" ref={refContainer} />;
 };
 
 export default P5Sketch;

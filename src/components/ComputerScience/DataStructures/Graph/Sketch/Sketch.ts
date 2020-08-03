@@ -7,12 +7,12 @@ import {
 } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import BlobBoid from "./BlobBoid";
 
-const WIDTH = 600;
-const HEIGHT = 600;
+const WIDTH = 480;
+const HEIGHT = 320;
 
 const MAX_SPEED = 1.5;
 const MAX_FORCE = 0.5;
-const RADIUS = 30;
+// const RADIUS = 30;
 
 interface BlobBoids {
   [id: string]: BlobBoid;
@@ -39,7 +39,7 @@ class GraphSketch extends AbstractSketch<Config> {
       this.boids[id] = new BlobBoid({
         sketch,
         entity: id,
-        radius: RADIUS,
+        radius: sketch.width / 12,
         colour: "red",
         maxForce: MAX_FORCE,
         maxSpeed: MAX_SPEED,
@@ -59,7 +59,7 @@ class GraphSketch extends AbstractSketch<Config> {
     s.setup = function () {
       s.createCanvas(WIDTH, HEIGHT);
       s.colorMode(s.HSB, 255);
-      s.textFont("Helvetica", 18);
+      s.textFont("Helvetica", 24);
       s.textAlign(s.CENTER, s.CENTER);
       screenCentre = s.createVector(s.width / 2, s.height / 2);
     };
@@ -84,7 +84,7 @@ class GraphSketch extends AbstractSketch<Config> {
     };
 
     s.draw = function () {
-      s.background("white");
+      s.background(230);
       s.fill("blue");
 
       const {

@@ -15,10 +15,15 @@ const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const { componentProps: graphBuilderProps, graphData } = useGraphBuilder();
+  const { componentProps: graphBuilderProps } = useGraphBuilder();
+  const {
+    buildGraph: {
+      graphBuilder: { graphData },
+    },
+  } = graphBuilderProps;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
-    graph: graphData,
+    graphData,
   });
 
   const onReset = React.useCallback(() => {

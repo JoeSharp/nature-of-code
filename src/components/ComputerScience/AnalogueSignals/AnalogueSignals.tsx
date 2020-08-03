@@ -160,7 +160,7 @@ const AnalogueSignals: React.FunctionComponent = () => {
           </label>
         </div>
       </form>
-      <div ref={refContainer} />
+      <div className="sketch" ref={refContainer} />
     </div>
   );
 };
