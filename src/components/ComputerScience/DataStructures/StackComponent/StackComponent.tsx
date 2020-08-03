@@ -11,7 +11,11 @@ const StackComponent: React.FunctionComponent = () => {
   const [items, setItems] = React.useState<number[]>([]);
   const [newItem, setNewItem] = React.useState<number>(0);
 
-  const { items: poppedItems, addItem: addPoppedItem } = useListReducer();
+  const {
+    items: poppedItems,
+    addItem: addPoppedItem,
+    clearItems: clearPoppedItems,
+  } = useListReducer();
 
   const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewItem(parseInt(value)),
@@ -22,6 +26,12 @@ const StackComponent: React.FunctionComponent = () => {
     () => setItems(stack.current.getItems().toArray()),
     [setItems]
   );
+
+  const onReset = React.useCallback(() => {
+    setItems([]);
+    clearPoppedItems();
+    setNewItem(0);
+  }, [setNewItem, setItems, clearPoppedItems]);
 
   const onPush = React.useCallback(() => {
     stack.current.push(newItem);
@@ -58,26 +68,23 @@ const StackComponent: React.FunctionComponent = () => {
         <button className="btn btn-primary" onClick={onPush}>
           Push
         </button>
-        <button className="btn btn-danger" onClick={onPop}>
+        <button className="btn btn-primary" onClick={onPop}>
           Pop
+        </button>
+        <button className="btn btn-danger" onClick={onReset}>
+          Reset
         </button>
       </div>
 
       <div className="stackItems">
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((i) => (
-              <tr>
-                <td>{i}</td>
-              </tr>
+        <div>
+          <h2>Stack Contents</h2>
+          <ol>
+            {items.map((item, i) => (
+              <li key={i}>{item}</li>
             ))}
-          </tbody>
-        </table>
+          </ol>
+        </div>
 
         <div>
           <h2>Popped Items</h2>

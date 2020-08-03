@@ -20,6 +20,9 @@ interface RemovedAction<T> {
   type: "itemRemoved";
   matcher: (i: T) => boolean;
 }
+interface ClearedAction {
+  type: "itemsCleared";
+}
 interface UpdatedAction<T> {
   type: "itemUpdated";
   matcher: (i: T) => boolean;
@@ -45,6 +48,7 @@ const createListReducer = <T extends {}>() => {
       | RemovedAction<T>
       | UpdatedAtIndexAction<T>
       | RemovedByIndexAction
+      | ClearedAction
   ): T[] => {
     switch (action.type) {
       case "itemsReceived":
@@ -59,6 +63,8 @@ const createListReducer = <T extends {}>() => {
         return state.map((u, i) => (i === action.index ? action.newValue : u));
       case "itemRemovedByIndex":
         return state.filter((u, i) => i !== action.index);
+      case "itemsCleared":
+        return [];
       default:
         return state;
     }
@@ -99,6 +105,9 @@ const useListReducer = <T extends {}>(
         }),
       [dispatch]
     ),
+    clearItems: React.useCallback(() => dispatch({ type: "itemsCleared" }), [
+      dispatch,
+    ]),
     updateItem: React.useCallback(
       (matcher: (i: T) => boolean, newValue: T) =>
         dispatch({
