@@ -9,7 +9,7 @@ import useSearchedData from "./useSearchData";
 import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
 import { SearchStage } from "./types";
 import { useToggledInterval } from "src/components/lib/useInterval";
-import useSketch from "src/components/p5/P5Sketch/useSketch";
+import useSketch from "src/components/p5/useSketch";
 
 const Searching: React.FunctionComponent = () => {
   const {

@@ -1,15 +1,14 @@
 import React from "react";
 
-import p5 from "p5";
 import { ControlledInput } from "src/types";
 
 interface Props extends ControlledInput<string> {
-  sketches: { [name: string]: (s: p5) => void };
+  sketchNames: string[];
   className?: string;
 }
 
 const SketchPicker: React.FunctionComponent<Props> = ({
-  sketches,
+  sketchNames,
   value,
   onChange,
   className,
@@ -22,7 +21,7 @@ const SketchPicker: React.FunctionComponent<Props> = ({
   return (
     <select className={className} onChange={onSelectChange} value={value}>
       <option />
-      {Object.keys(sketches).map((s) => (
+      {sketchNames.map((s) => (
         <option key={s} value={s}>
           {s}
         </option>

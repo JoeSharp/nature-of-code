@@ -1,6 +1,7 @@
 import p5 from "p5";
 
 import ArrowBoid from "../rainbowFlowField/ArrowBoid";
+import { AbstractSketch } from "../../useSketch";
 
 /**
  * Generate a random integer within a p5 sketch.
@@ -25,54 +26,56 @@ const MAX_FORCE = 0.5;
 // Size of boid
 const RADIUS = 3;
 
-export default (s: p5) => {
-  let boids: Array<ArrowBoid> = [];
-  let centreScreen: p5.Vector;
+export default class GravitySketch extends AbstractSketch<{}> {
+  sketch = (s: p5) => {
+    let boids: Array<ArrowBoid> = [];
+    let centreScreen: p5.Vector;
 
-  // Create the initial list of boids
-  s.setup = function () {
-    s.createCanvas(400, 400);
-    centreScreen = s.createVector(200, 200);
+    // Create the initial list of boids
+    s.setup = function () {
+      s.createCanvas(400, 400);
+      centreScreen = s.createVector(200, 200);
 
-    for (let i = 0; i < 5; i++) {
-      // Place the boids randomly anywhere within the view
-      let location = s.createVector(
-        randomInt(s, 0, s.width),
-        randomInt(s, 0, s.height)
-      );
+      for (let i = 0; i < 5; i++) {
+        // Place the boids randomly anywhere within the view
+        let location = s.createVector(
+          randomInt(s, 0, s.width),
+          randomInt(s, 0, s.height)
+        );
 
-      // Each boid will be a random colour
-      let colour = s.random(COLOURS);
+        // Each boid will be a random colour
+        let colour = s.random(COLOURS);
 
-      boids.push(
-        new ArrowBoid({
-          sketch: s,
-          location,
-          radius: RADIUS,
-          maxSpeed: MAX_SPEED,
-          maxForce: MAX_FORCE,
-          colour,
-        })
-      );
-    }
+        boids.push(
+          new ArrowBoid({
+            sketch: s,
+            location,
+            radius: RADIUS,
+            maxSpeed: MAX_SPEED,
+            maxForce: MAX_FORCE,
+            colour,
+          })
+        );
+      }
+    };
+
+    s.draw = function () {
+      // Draw the background
+      s.background(0);
+
+      // Loop through the boids
+      boids.forEach((b) => {
+        b.seek(centreScreen);
+      });
+
+      // Loop through each boid, calling update
+      boids.forEach((b) => b.update());
+
+      // Loop through each boid, calling display
+      boids.forEach((b) => b.draw());
+
+      // Filter boids by calling onScreen
+      boids = boids.filter((b) => b.onScreen());
+    };
   };
-
-  s.draw = function () {
-    // Draw the background
-    s.background(0);
-
-    // Loop through the boids
-    boids.forEach((b) => {
-      b.seek(centreScreen);
-    });
-
-    // Loop through each boid, calling update
-    boids.forEach((b) => b.update());
-
-    // Loop through each boid, calling display
-    boids.forEach((b) => b.draw());
-
-    // Filter boids by calling onScreen
-    boids = boids.filter((b) => b.onScreen());
-  };
-};
+}

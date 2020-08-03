@@ -1,7 +1,7 @@
 import React from "react";
 
 import Sketch, { signalTypes } from "./Sketch";
-import useSketch from "../../p5/P5Sketch/useSketch";
+import useSketch from "../../p5/useSketch";
 
 const AnalogueSignals: React.FunctionComponent = () => {
   const {

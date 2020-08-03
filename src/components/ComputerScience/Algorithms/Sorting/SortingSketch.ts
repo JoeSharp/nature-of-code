@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
-import { AbstractSketch } from "src/components/p5/P5Sketch/useSketch";
+import { AbstractSketch } from "src/components/p5/useSketch";
 
 import {
   SortStage,

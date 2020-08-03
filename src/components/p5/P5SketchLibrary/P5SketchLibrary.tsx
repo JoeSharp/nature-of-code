@@ -1,13 +1,15 @@
 import React from "react";
 
 import SketchPicker from "../SketchPicker";
-import P5Sketch from "../../p5/P5Sketch";
 import sketches from "../sketches";
+import useSketch from "../useSketch";
 
 const P5SketchLibrary: React.FunctionComponent = () => {
-  const [sketch, onSketchChange] = React.useState<string | undefined>(
-    undefined
+  const [sketch, onSketchChange] = React.useState<string>(
+    Object.keys(sketches)[0]
   );
+
+  const { refContainer } = useSketch(sketches[sketch]);
 
   return (
     <div>
@@ -16,7 +18,7 @@ const P5SketchLibrary: React.FunctionComponent = () => {
         <div className="form-group">
           <label>Sketch</label>
           <SketchPicker
-            sketches={sketches}
+            sketchNames={Object.keys(sketches)}
             className="form-control"
             value={sketch}
             onChange={onSketchChange}
@@ -24,7 +26,7 @@ const P5SketchLibrary: React.FunctionComponent = () => {
         </div>
       </form>
 
-      {sketch && <P5Sketch sketch={sketches[sketch]} />}
+      <div ref={refContainer} />
     </div>
   );
 };

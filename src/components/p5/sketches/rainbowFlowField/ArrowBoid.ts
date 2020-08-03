@@ -1,5 +1,5 @@
 import FlowField from "./FlowField";
-import Boid, { BoidArgs } from "../../P5Sketch/Boid";
+import Boid, { BoidArgs } from "../../useSketch/Boid";
 
 interface ArrowBoidArgs extends BoidArgs<void> {
   radius: number;

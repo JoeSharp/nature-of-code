@@ -1,5 +1,5 @@
 import p5 from "p5";
-import Boid, { BoidArgs } from "src/components/p5/P5Sketch/Boid";
+import Boid, { BoidArgs } from "src/components/p5/useSketch/Boid";
 
 interface BlobBoidArgs<T> extends BoidArgs<T> {
   radius: number;

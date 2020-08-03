@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { AbstractSketch } from "../../p5/P5Sketch/useSketch";
+import { AbstractSketch } from "../../p5/useSketch";
 import Ship from "./Ship";
 import Asteroid from "./Asteroid";
 import Monster from "./Monster";

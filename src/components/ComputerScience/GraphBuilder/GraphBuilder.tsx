@@ -2,7 +2,7 @@ import React from "react";
 import useBuildGraph from "./useBuildGraph";
 import VertexRow from "./VertexRow";
 import { UseBuildGraph } from "./types";
-import useSketch from "src/components/p5/P5Sketch/useSketch";
+import useSketch from "src/components/p5/useSketch";
 import Sketch from "src/components/ComputerScience/DataStructures/Graph/Sketch";
 
 interface Props {

@@ -3,7 +3,7 @@ import React from "react";
 import SortingAlgorithmPicker, {
   useSortingAlgorithmPicker,
 } from "./SortingAlgorithmPicker";
-import useSketch from "src/components/p5/P5Sketch/useSketch";
+import useSketch from "src/components/p5/useSketch";
 import SortingSketch from "./SortingSketch";
 import { SortStage } from "./types";
 import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
