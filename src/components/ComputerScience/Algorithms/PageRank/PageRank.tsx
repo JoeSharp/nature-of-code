@@ -1,12 +1,13 @@
 import React from "react";
 
-import useBuildPages from "../GraphBuilder/useBuildGraph";
 import usePageRank from "./usePageRank";
-import Page from "./Page";
 import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
-import { useToggledInterval } from "../../lib/useInterval";
+import { useToggledInterval } from "src/components/lib/useInterval";
+import GraphBuilder, {
+  useGraphBuilder,
+} from "src/components/ComputerScience/GraphBuilder";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -14,37 +15,20 @@ const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const buildPages = useBuildPages();
-  const {
-    graphBuilder: {
-      graph: { vertices: pages },
-    },
-    clearAll,
-    addVertex,
-  } = buildPages;
+  const { componentProps: graphBuilderProps, graphData } = useGraphBuilder();
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
-    graph: buildPages.graphBuilder.graph,
+    graph: graphData,
   });
-  const [newPageName, setNewPageName] = React.useState<string>(
-    "www.somewhere.com"
-  );
+
   const onReset = React.useCallback(() => {
     begin();
     setDampingFactor(DEFAULT_DAMPING_FACTOR);
   }, [begin, setDampingFactor]);
-  const onAddPage = React.useCallback(
-    () => newPageName.length > 0 && addVertex(newPageName),
-    [newPageName, addVertex]
-  );
+
   const onDampingFactorChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setDampingFactor(parseFloat(value)),
     [setDampingFactor]
-  );
-
-  const onNewPageChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setNewPageName(value),
-    [setNewPageName]
   );
 
   const {
@@ -93,7 +77,7 @@ const PageRank: React.FunctionComponent = () => {
         <div className="row">
           <div className="col-md-8">
             <h2>Current Ranks</h2>
-            <CurrentRanksTable {...{ pages, ranks }} />
+            <CurrentRanksTable pages={graphData.vertices} ranks={ranks} />
           </div>
           <div className="col-md-4">
             <h2>In Order</h2>
@@ -101,32 +85,12 @@ const PageRank: React.FunctionComponent = () => {
           </div>
         </div>
         <h2>All Iterations</h2>
-        <RankHistoryTable {...{ pages, rankHistory }} />
-      </div>
-      <h2>Build Graph of Pages</h2>
-      <form>
-        <div className="form-group">
-          <label htmlFor="newPageName">New Page Name</label>
-          <input
-            id="newPageName"
-            className="form-control"
-            value={newPageName}
-            onChange={onNewPageChange}
-          />
-        </div>
-      </form>
-      <button className="btn btn-primary" onClick={onAddPage}>
-        Add Page
-      </button>
-      <button className="btn btn-danger" onClick={clearAll}>
-        Clear All
-      </button>
-      <div className="row">
-        {[...pages].map((page, i) => (
-          <div className="col-sm-4" key={i}>
-            <Page page={page} buildPages={buildPages} />
-          </div>
-        ))}
+        <RankHistoryTable
+          pages={graphData.vertices}
+          rankHistory={rankHistory}
+        />
+
+        <GraphBuilder {...graphBuilderProps} />
       </div>
     </div>
   );

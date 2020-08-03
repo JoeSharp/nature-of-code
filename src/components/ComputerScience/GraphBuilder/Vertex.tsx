@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
-import { UseBuildGraph } from "../GraphBuilder/types";
+import { UseBuildGraph } from "./types";
 
 interface Props {
-  page: string;
-  buildPages: UseBuildGraph;
+  vertex: string;
+  buildGraph: UseBuildGraph;
 }
 
 interface EdgeWithHandler {
@@ -56,9 +56,9 @@ const useEdgesWithHandlers = ({
 const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
 const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 
-const Page: React.FunctionComponent<Props> = ({
-  page,
-  buildPages: {
+const Vertex: React.FunctionComponent<Props> = ({
+  vertex,
+  buildGraph: {
     graphBuilder: {
       pendingFrom,
       graph: { edges },
@@ -70,27 +70,27 @@ const Page: React.FunctionComponent<Props> = ({
     removeEdge,
   },
 }) => {
-  const onPrepareEdge = React.useCallback(() => prepareEdge(page), [
-    page,
+  const onPrepareEdge = React.useCallback(() => prepareEdge(vertex), [
+    vertex,
     prepareEdge,
   ]);
-  const onCompleteEdge = React.useCallback(() => completeEdge(page), [
-    page,
+  const onCompleteEdge = React.useCallback(() => completeEdge(vertex), [
+    vertex,
     completeEdge,
   ]);
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
-  const onRemovePage = React.useCallback(() => removeVertex(page), [
-    page,
+  const onRemoveVertex = React.useCallback(() => removeVertex(vertex), [
+    vertex,
     removeVertex,
   ]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<string>) => edge.from === page,
-    [page]
+    (edge: Edge<string>) => edge.from === vertex,
+    [vertex]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<string>) => edge.to === page,
-    [page]
+    (edge: Edge<string>) => edge.to === vertex,
+    [vertex]
   );
   const outgoingEdges = useEdgesWithHandlers({
     edges,
@@ -105,7 +105,7 @@ const Page: React.FunctionComponent<Props> = ({
 
   return (
     <div className="card">
-      <div className="card-header">{page}</div>
+      <div className="card-header">{vertex}</div>
       <div className="card-body">
         {outgoingEdges.length > 0 && (
           <React.Fragment>
@@ -129,22 +129,22 @@ const Page: React.FunctionComponent<Props> = ({
             Edge From
           </button>
         )}
-        {pendingFrom !== undefined && pendingFrom !== page && (
+        {pendingFrom !== undefined && pendingFrom !== vertex && (
           <button className="btn btn-sm btn-success" onClick={onCompleteEdge}>
             Edge To
           </button>
         )}
-        {pendingFrom === page && (
+        {pendingFrom === vertex && (
           <button className="btn btn-sm btn-warning" onClick={onCancelEdge}>
             Cancel Edge
           </button>
         )}
-        <button className="btn btn-sm btn-danger" onClick={onRemovePage}>
-          Remove Page
+        <button className="btn btn-sm btn-danger" onClick={onRemoveVertex}>
+          Remove Vertex
         </button>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default Vertex;

@@ -124,11 +124,9 @@ const graphReducer = (
         },
       };
   }
-
-  return state;
 };
 
-const useBuildGraphs = (): UseBuildGraph => {
+const useBuildGraph = (): UseBuildGraph => {
   const [graphBuilder, dispatch] = React.useReducer(
     graphReducer,
     DEFAULT_GRAPH_GRAPH
@@ -172,4 +170,4 @@ const useBuildGraphs = (): UseBuildGraph => {
   };
 };
 
-export default useBuildGraphs;
+export default useBuildGraph;

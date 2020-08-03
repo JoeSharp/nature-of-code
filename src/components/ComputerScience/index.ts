@@ -1,8 +1,8 @@
 import AnalogueSignals from "./AnalogueSignals";
-import PageRank from "./PageRank";
-import Sorting from "./Sorting";
-import Search from "./Search";
-import GraphBuilder from "./GraphBuilder";
+import PageRank from "./Algorithms/PageRank";
+import Sorting from "./Algorithms/Sorting";
+import Search from "./Algorithms/Search";
+import WeightedGraph from "./DataStructures/Graph";
 import { Page } from "src/types";
 
 const sessions: Page[] = [
@@ -12,24 +12,24 @@ const sessions: Page[] = [
     component: AnalogueSignals,
   },
   {
-    href: "/computerScience/pageRank",
+    href: "/computerScience/algorithms/pageRank",
     title: "Page Rank",
     component: PageRank,
   },
   {
-    href: "/computerScience/sorting",
+    href: "/computerScience/algorithms/sorting",
     title: "Sorting",
     component: Sorting,
   },
   {
-    href: "/computerScience/searching",
+    href: "/computerScience/algorithms/searching",
     title: "Search",
     component: Search,
   },
   {
-    href: "/computerScience/graphBuilder",
-    title: "Graph Builder",
-    component: GraphBuilder,
+    href: "/computerScience/dataStructures/weightedGraph",
+    title: "Weighted Graph",
+    component: WeightedGraph,
   },
 ];
 
