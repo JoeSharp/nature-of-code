@@ -7,7 +7,7 @@ import {
   DEFAULT_SORT_STAGE,
   SortStageType,
   SortObservation,
-} from "../types";
+} from "./types";
 
 const WIDTH = 600;
 const HEIGHT = 600;

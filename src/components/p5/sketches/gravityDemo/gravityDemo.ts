@@ -1,6 +1,6 @@
 import p5 from "p5";
 
-import Boid from "../rainbowFlowField/Boid";
+import ArrowBoid from "../rainbowFlowField/ArrowBoid";
 
 /**
  * Generate a random integer within a p5 sketch.
@@ -26,7 +26,7 @@ const MAX_FORCE = 0.5;
 const RADIUS = 3;
 
 export default (s: p5) => {
-  let boids: Array<Boid> = [];
+  let boids: Array<ArrowBoid> = [];
   let centreScreen: p5.Vector;
 
   // Create the initial list of boids
@@ -45,7 +45,7 @@ export default (s: p5) => {
       let colour = s.random(COLOURS);
 
       boids.push(
-        new Boid({
+        new ArrowBoid({
           sketch: s,
           location,
           radius: RADIUS,
@@ -63,17 +63,14 @@ export default (s: p5) => {
 
     // Loop through the boids
     boids.forEach((b) => {
-      // Call seek and get the force
-      let seekForce = b.seek(centreScreen);
-      // Pass the force to apply force
-      b.applyForce(seekForce);
+      b.seek(centreScreen);
     });
 
     // Loop through each boid, calling update
     boids.forEach((b) => b.update());
 
     // Loop through each boid, calling display
-    boids.forEach((b) => b.display());
+    boids.forEach((b) => b.draw());
 
     // Filter boids by calling onScreen
     boids = boids.filter((b) => b.onScreen());

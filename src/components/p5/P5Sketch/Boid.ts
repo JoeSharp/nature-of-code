@@ -1,18 +1,19 @@
 import p5 from "p5";
 
-import FlowField from "./FlowField";
-
-interface BoidArgs {
+interface BoidArgs<T> {
   sketch: p5;
+  entity?: T;
   location: p5.Vector;
   colour: any;
   radius: number;
   maxSpeed: number;
   maxForce: number;
+  environmentalFriction?: number;
 }
 
-export default class Boid implements BoidArgs {
+export default class Boid<T> implements BoidArgs<T> {
   sketch: p5;
+  entity?: T;
   location: p5.Vector;
   velocity: p5.Vector;
   acceleration: p5.Vector;
@@ -20,24 +21,28 @@ export default class Boid implements BoidArgs {
   radius: number;
   maxSpeed: number;
   maxForce: number;
+  environmentalFriction: number;
 
   constructor({
     sketch,
+    entity,
     location,
     radius,
     colour,
     maxSpeed,
     maxForce,
-  }: BoidArgs) {
+    environmentalFriction = 0.95,
+  }: BoidArgs<T>) {
     this.sketch = sketch;
-    const { createVector, random } = this.sketch;
+    this.entity = entity;
     this.location = location;
-    this.velocity = createVector(random(), random());
-    this.acceleration = createVector();
+    this.velocity = sketch.createVector();
+    this.acceleration = sketch.createVector();
     this.colour = colour;
     this.radius = radius;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
+    this.environmentalFriction = environmentalFriction;
   }
 
   applyForce(force: p5.Vector) {
@@ -46,20 +51,32 @@ export default class Boid implements BoidArgs {
 
   update() {
     this.velocity.add(this.acceleration);
+    this.velocity.mult(this.environmentalFriction);
     this.location.add(this.velocity);
     this.acceleration.mult(0);
   }
 
-  seek(target: p5.Vector) {
+  seek(target: p5.Vector): void {
     let desired = p5.Vector.sub(target, this.location);
     desired.normalize();
     desired.mult(this.maxSpeed);
     desired.sub(this.velocity);
     desired.limit(this.maxForce);
-    return desired;
+    this.applyForce(desired);
   }
 
-  arrive(target: p5.Vector, arriveRadius: number) {
+  flee(target: p5.Vector, radius: number = 20): void {
+    let desired = p5.Vector.sub(target, this.location);
+    if (desired.mag() < radius) {
+      desired.normalize();
+      desired.mult(-this.maxSpeed);
+      desired.sub(this.velocity);
+      desired.limit(this.maxForce);
+      this.applyForce(desired);
+    }
+  }
+
+  arrive(target: p5.Vector, arriveRadius: number): void {
     const s = this.sketch;
     let desired = p5.Vector.sub(target, this.location);
     let d = desired.mag();
@@ -72,32 +89,11 @@ export default class Boid implements BoidArgs {
     }
     desired.sub(this.velocity);
     desired.limit(this.maxForce);
-    return desired;
+    this.applyForce(desired);
   }
 
-  follow(flow: FlowField) {
-    let desired = flow.lookup(this.location);
-    desired.mult(this.maxSpeed);
-    desired.sub(this.velocity);
-    desired.limit(this.maxForce);
-    return desired;
-  }
-
-  display() {
-    let s = this.sketch;
-
-    let theta = this.velocity.heading() + s.PI / 2;
-    s.fill(this.colour);
-    s.noStroke();
-    s.push();
-    s.translate(this.location.x, this.location.y);
-    s.rotate(theta);
-    s.beginShape();
-    s.vertex(0, -this.radius * 2);
-    s.vertex(-this.radius, this.radius * 2);
-    s.vertex(this.radius, this.radius * 2);
-    s.endShape();
-    s.pop();
+  draw() {
+    // To be overridden
   }
 
   onScreen() {

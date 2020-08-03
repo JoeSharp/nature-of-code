@@ -7,7 +7,7 @@ import {
   SearchObservation,
   DEFAULT_SEARCH_STAGE,
   SearchStageType,
-} from "../types";
+} from "./types";
 
 const WIDTH = 600;
 const HEIGHT = 600;

@@ -1,5 +1,5 @@
 import p5 from "p5";
-import Boid from "./Boid";
+import Boid from "./ArrowBoid";
 import FlowField from "./FlowField";
 
 const COLOURS = [
@@ -55,7 +55,7 @@ export default (s: p5) => {
     flowField.display();
     boids.forEach((boid) => {
       boid.update();
-      boid.display();
+      boid.draw();
     });
 
     boids = boids.filter((b) => b.onScreen());
