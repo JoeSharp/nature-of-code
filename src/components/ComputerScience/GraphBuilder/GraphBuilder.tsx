@@ -3,7 +3,7 @@ import useBuildGraph from "./useBuildGraph";
 import VertexRow from "./VertexRow";
 import { UseBuildGraph } from "./types";
 import useSketch from "src/components/p5/useSketch";
-import Sketch from "src/components/ComputerScience/DataStructures/Graph/Sketch";
+import Sketch from "src/components/ComputerScience/DataStructures/GraphComponent/Sketch";
 
 interface Props {
   buildGraph: UseBuildGraph;

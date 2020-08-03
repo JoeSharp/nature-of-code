@@ -1,7 +1,7 @@
 import React from "react";
 import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 
-const WeightedGraph: React.FunctionComponent = () => {
+const GraphComponent: React.FunctionComponent = () => {
   const { componentProps } = useGraphBuilder();
 
   return (
@@ -11,4 +11,4 @@ const WeightedGraph: React.FunctionComponent = () => {
   );
 };
 
-export default WeightedGraph;
+export default GraphComponent;

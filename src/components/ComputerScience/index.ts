@@ -2,8 +2,9 @@ import AnalogueSignals from "./AnalogueSignals";
 import PageRank from "./Algorithms/PageRank";
 import Sorting from "./Algorithms/Sorting";
 import Search from "./Algorithms/Search";
-import WeightedGraph from "./DataStructures/Graph";
 import { Page } from "src/types";
+import GraphComponent from "./DataStructures/GraphComponent";
+import StackComponent from "./DataStructures/StackComponent";
 
 const sessions: Page[] = [
   {
@@ -27,9 +28,14 @@ const sessions: Page[] = [
     component: Search,
   },
   {
-    href: "/computerScience/dataStructures/weightedGraph",
-    title: "Weighted Graph",
-    component: WeightedGraph,
+    href: "/computerScience/dataStructures/graph",
+    title: "Graph",
+    component: GraphComponent,
+  },
+  {
+    href: "/computerScience/dataStructures/stack",
+    title: "Stack",
+    component: StackComponent,
   },
 ];
 
