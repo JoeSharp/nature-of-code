@@ -1,7 +1,18 @@
 import FlowField from "./FlowField";
-import Boid from "../../P5Sketch/Boid";
+import Boid, { BoidArgs } from "../../P5Sketch/Boid";
+
+interface ArrowBoidArgs extends BoidArgs<void> {
+  radius: number;
+}
 
 export default class ArrowBoidBoid extends Boid<void> {
+  radius: number;
+
+  constructor({ radius, ...rest }: ArrowBoidArgs) {
+    super(rest);
+    this.radius = radius;
+  }
+
   follow(flow: FlowField) {
     let desired = flow.lookup(this.location);
     desired.mult(this.maxSpeed);

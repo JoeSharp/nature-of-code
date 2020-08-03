@@ -17,9 +17,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
     addVertex,
   } = buildGraph;
 
-  const [newVertexName, setNewVertexName] = React.useState<string>(
-    "www.somewhere.com"
-  );
+  const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(
     () => newVertexName.length > 0 && addVertex(newVertexName),
     [newVertexName, addVertex]

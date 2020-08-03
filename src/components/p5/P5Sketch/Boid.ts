@@ -1,11 +1,10 @@
 import p5 from "p5";
 
-interface BoidArgs<T> {
+export interface BoidArgs<T> {
   sketch: p5;
   entity?: T;
   location: p5.Vector;
   colour: any;
-  radius: number;
   maxSpeed: number;
   maxForce: number;
   environmentalFriction?: number;
@@ -18,16 +17,16 @@ export default class Boid<T> implements BoidArgs<T> {
   velocity: p5.Vector;
   acceleration: p5.Vector;
   colour: any;
-  radius: number;
   maxSpeed: number;
   maxForce: number;
+  minForce: number;
   environmentalFriction: number;
+  grabbed: boolean;
 
   constructor({
     sketch,
     entity,
     location,
-    radius,
     colour,
     maxSpeed,
     maxForce,
@@ -39,20 +38,40 @@ export default class Boid<T> implements BoidArgs<T> {
     this.velocity = sketch.createVector();
     this.acceleration = sketch.createVector();
     this.colour = colour;
-    this.radius = radius;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
+    this.minForce = 0.05;
     this.environmentalFriction = environmentalFriction;
+    this.grabbed = false;
+  }
+
+  grab() {
+    this.grabbed = true;
+    this.velocity.mult(0);
+    this.acceleration.mult(0);
+  }
+
+  dragged(mousePosition: p5.Vector) {
+    if (this.grabbed) {
+      this.location = mousePosition;
+    }
+  }
+
+  releaseGrab() {
+    this.grabbed = false;
   }
 
   applyForce(force: p5.Vector) {
+    force.limit(this.maxForce);
     this.acceleration.add(force);
   }
 
   update() {
-    this.velocity.add(this.acceleration);
-    this.velocity.mult(this.environmentalFriction);
-    this.location.add(this.velocity);
+    if (this.acceleration.mag() > this.minForce) {
+      this.velocity.add(this.acceleration);
+      this.velocity.mult(this.environmentalFriction);
+      this.location.add(this.velocity);
+    }
     this.acceleration.mult(0);
   }
 
@@ -61,7 +80,6 @@ export default class Boid<T> implements BoidArgs<T> {
     desired.normalize();
     desired.mult(this.maxSpeed);
     desired.sub(this.velocity);
-    desired.limit(this.maxForce);
     this.applyForce(desired);
   }
 
@@ -71,7 +89,18 @@ export default class Boid<T> implements BoidArgs<T> {
       desired.normalize();
       desired.mult(-this.maxSpeed);
       desired.sub(this.velocity);
-      desired.limit(this.maxForce);
+      this.applyForce(desired);
+    }
+  }
+
+  spring(tether: p5.Vector, springLength: number, tolerance: number) {
+    let desired = p5.Vector.sub(tether, this.location);
+    let diff = desired.mag() - springLength;
+    if (diff < -tolerance) {
+      desired.mult(-this.maxSpeed);
+      this.applyForce(desired);
+    } else if (diff > tolerance) {
+      desired.mult(+this.maxSpeed);
       this.applyForce(desired);
     }
   }
@@ -88,7 +117,6 @@ export default class Boid<T> implements BoidArgs<T> {
       desired.mult(this.maxSpeed);
     }
     desired.sub(this.velocity);
-    desired.limit(this.maxForce);
     this.applyForce(desired);
   }
 

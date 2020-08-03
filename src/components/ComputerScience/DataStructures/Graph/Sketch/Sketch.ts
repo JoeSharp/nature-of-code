@@ -5,7 +5,7 @@ import {
   GraphData,
   EMPTY_GRAPH_DATA,
 } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
-import Boid from "src/components/p5/P5Sketch/Boid";
+import BlobBoid from "./BlobBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -13,15 +13,6 @@ const HEIGHT = 600;
 const MAX_SPEED = 1.5;
 const MAX_FORCE = 0.5;
 const RADIUS = 30;
-
-class BlobBoid extends Boid<string> {
-  draw() {
-    this.sketch.fill(this.colour);
-    this.sketch.ellipse(this.location.x, this.location.y, this.radius);
-    this.sketch.fill("white");
-    this.sketch.text(this.entity || "NONE", this.location.x, this.location.y);
-  }
-}
 
 interface BlobBoids {
   [id: string]: BlobBoid;
@@ -73,6 +64,25 @@ class GraphSketch extends AbstractSketch<Config> {
       screenCentre = s.createVector(s.width / 2, s.height / 2);
     };
 
+    s.mousePressed = function () {
+      const mousePosition = s.createVector(s.mouseX, s.mouseY);
+      const boid = Object.values(that.boids).find((boid) =>
+        boid.isMouseOver(mousePosition)
+      );
+      if (boid !== undefined) {
+        boid.grab();
+      }
+    };
+
+    s.mouseDragged = function () {
+      const mousePosition = s.createVector(s.mouseX, s.mouseY);
+      Object.values(that.boids).forEach((boid) => boid.dragged(mousePosition));
+    };
+
+    s.mouseReleased = function () {
+      Object.values(that.boids).forEach((boid) => boid.releaseGrab());
+    };
+
     s.draw = function () {
       s.background("white");
       s.fill("blue");
@@ -105,8 +115,8 @@ class GraphSketch extends AbstractSketch<Config> {
 
       // Apply force of a spring between connected boids
       boidEdges.forEach(({ from, to }) => {
-        from.arrive(to.location, s.width / 8);
-        to.arrive(from.location, s.width / 8);
+        from.spring(to.location, s.width / 8, s.width / 32);
+        to.spring(from.location, s.width / 8, s.width / 32);
       });
 
       // Draw the lines
