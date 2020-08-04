@@ -94,13 +94,24 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       const boidsInSketch: BlobBoid[] = vertices
         .map(getKey)
         .map((v) => that.getBoid(s, v));
+      const boidIdsInSketch: string[] = vertices.map(getKey);
 
       // Get the list of boid edges
-      const boidEdges: Edge<BlobBoid>[] = edges.map(({ from, to, weight }) => ({
-        from: that.getBoid(s, getKey(from)),
-        to: that.getBoid(s, getKey(to)),
-        weight,
-      }));
+      const boidEdges: Edge<BlobBoid>[] = edges
+        .map(({ from, to, weight }) => ({
+          from: getKey(from),
+          to: getKey(to),
+          weight,
+        }))
+        .filter(
+          ({ from, to }) =>
+            boidIdsInSketch.includes(from) && boidIdsInSketch.includes(to)
+        )
+        .map(({ from, to, weight }) => ({
+          from: that.getBoid(s, from),
+          to: that.getBoid(s, to),
+          weight,
+        }));
 
       // Attract the first boid to the centre
       if (boidsInSketch.length > 0) {

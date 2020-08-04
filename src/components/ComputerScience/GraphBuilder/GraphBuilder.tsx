@@ -10,7 +10,7 @@ interface Props {
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
-  const { version, tickVersion, graph, clearAll } = buildGraph;
+  const { tickVersion, graph, clearAll } = buildGraph;
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
@@ -65,7 +65,6 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
           ))}
         </tbody>
       </table>
-      <div>{version}</div>
     </div>
   );
 };
