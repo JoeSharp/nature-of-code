@@ -14,15 +14,17 @@ interface BlobBoids {
   [id: string]: BlobBoid;
 }
 
-interface Config {
-  graph: Graph<string>;
+interface Config<T> {
+  graph: Graph<T>;
+  getKey: (vertex: T) => string;
 }
 
-const getDefaultConfig = (): Config => ({
+const getDefaultConfig = (): Config<any> => ({
   graph: new Graph(),
+  getKey: (v) => `${v}`,
 });
 
-class GraphSketch extends AbstractSketch<Config> {
+class GraphSketch<T> extends AbstractSketch<Config<T>> {
   boids: BlobBoids;
 
   constructor() {
@@ -85,15 +87,18 @@ class GraphSketch extends AbstractSketch<Config> {
 
       const {
         graph: { vertices, edges },
+        getKey,
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
-      const boidsInSketch: BlobBoid[] = vertices.map((v) => that.getBoid(s, v));
+      const boidsInSketch: BlobBoid[] = vertices
+        .map(getKey)
+        .map((v) => that.getBoid(s, v));
 
       // Get the list of boid edges
       const boidEdges: Edge<BlobBoid>[] = edges.map(({ from, to, weight }) => ({
-        from: that.getBoid(s, from),
-        to: that.getBoid(s, to),
+        from: that.getBoid(s, getKey(from)),
+        to: that.getBoid(s, getKey(to)),
         weight,
       }));
 
