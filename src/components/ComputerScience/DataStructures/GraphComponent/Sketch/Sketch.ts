@@ -132,6 +132,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       });
 
       // Draw the lines
+      s.strokeWeight(4);
       boidEdges.forEach(({ from, to }) => {
         s.line(from.location.x, from.location.y, to.location.x, to.location.y);
       });

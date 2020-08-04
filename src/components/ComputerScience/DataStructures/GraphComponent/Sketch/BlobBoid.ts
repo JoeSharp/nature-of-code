@@ -38,6 +38,12 @@ export default class BlobBoid extends Boid<string> {
   }
 
   draw() {
+    if (this.grabbed) {
+      this.sketch.strokeWeight(4);
+    } else {
+      this.sketch.strokeWeight(1);
+    }
+
     this.sketch.fill(this.colour);
     this.sketch.ellipse(this.location.x, this.location.y, this.radius);
     this.sketch.fill("white");

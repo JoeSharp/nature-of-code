@@ -67,7 +67,7 @@ export default class Boid<T> implements BoidArgs<T> {
   }
 
   update() {
-    if (this.acceleration.mag() > this.minForce) {
+    if (!this.grabbed && this.acceleration.mag() > this.minForce) {
       this.velocity.add(this.acceleration);
       this.velocity.mult(this.environmentalFriction);
       this.location.add(this.velocity);
