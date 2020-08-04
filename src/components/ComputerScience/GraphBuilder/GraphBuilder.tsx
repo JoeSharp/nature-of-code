@@ -1,26 +1,23 @@
 import React from "react";
-import useBuildGraph from "./useBuildGraph";
 import VertexRow from "./VertexRow";
-import { UseBuildGraph } from "./types";
 import useSketch from "src/components/p5/useSketch";
 import Sketch from "src/components/ComputerScience/DataStructures/GraphComponent/Sketch";
+import { UseBuildGraph } from "./types";
+import useBuildGraph from "./useBuildGraph";
 
 interface Props {
   buildGraph: UseBuildGraph;
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
-  const {
-    graphBuilder: { graphData },
-    clearAll,
-    addVertex,
-  } = buildGraph;
-
+  const { version, tickVersion, graph, clearAll } = buildGraph;
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
-  const onAddVertex = React.useCallback(
-    () => newVertexName.length > 0 && addVertex(newVertexName),
-    [newVertexName, addVertex]
-  );
+  const onAddVertex = React.useCallback(() => {
+    if (newVertexName.length > 0) {
+      graph.addVertex(newVertexName);
+    }
+    tickVersion();
+  }, [newVertexName, tickVersion, graph]);
   const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewVertexName(value),
     [setNewVertexName]
@@ -28,7 +25,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
 
   const { refContainer, updateConfig } = useSketch(Sketch);
 
-  React.useEffect(() => updateConfig({ graphData }), [graphData, updateConfig]);
+  React.useEffect(() => updateConfig({ graph }), [graph, updateConfig]);
 
   return (
     <div>
@@ -63,11 +60,12 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
           </tr>
         </thead>
         <tbody>
-          {graphData.vertices.map((vertex, i) => (
+          {graph.vertices.map((vertex, i) => (
             <VertexRow key={i} vertex={vertex} buildGraph={buildGraph} />
           ))}
         </tbody>
       </table>
+      <div>{version}</div>
     </div>
   );
 };

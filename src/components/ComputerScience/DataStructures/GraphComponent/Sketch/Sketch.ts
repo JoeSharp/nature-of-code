@@ -1,10 +1,6 @@
 import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
-import {
-  Edge,
-  GraphData,
-  EMPTY_GRAPH_DATA,
-} from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import BlobBoid from "./BlobBoid";
 
 const WIDTH = 480;
@@ -19,11 +15,11 @@ interface BlobBoids {
 }
 
 interface Config {
-  graphData: GraphData<string>;
+  graph: Graph<string>;
 }
 
 const getDefaultConfig = (): Config => ({
-  graphData: EMPTY_GRAPH_DATA,
+  graph: new Graph(),
 });
 
 class GraphSketch extends AbstractSketch<Config> {
@@ -88,7 +84,7 @@ class GraphSketch extends AbstractSketch<Config> {
       s.fill("blue");
 
       const {
-        graphData: { vertices, edges },
+        graph: { vertices, edges },
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs

@@ -1,173 +1,51 @@
 import React from "react";
-import Graph, {
-  EMPTY_GRAPH_DATA,
-} from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import { UseBuildGraph } from "./types";
 
-import { GraphBuilder, UseBuildGraph } from "./types";
-
-const EMPTY_GRAPH: GraphBuilder = {
-  pendingFrom: undefined,
-  graphData: EMPTY_GRAPH_DATA,
-};
-
-const DEFAULT_GRAPH_GRAPH: GraphBuilder = {
-  pendingFrom: undefined,
-  graphData: new Graph<string>()
-    .addUnidirectionalEdge("a", "b")
-    .addUnidirectionalEdge("b", "a")
-    .addUnidirectionalEdge("b", "c")
-    .addUnidirectionalEdge("b", "d")
-    .addUnidirectionalEdge("d", "a"),
-};
-
-interface ClearAll {
-  type: "clearAll";
-}
-
-interface AddGraph {
-  type: "addVertex";
-  graph: string;
-}
-
-interface RemoveGraph {
-  type: "removeVertex";
-  graph: string;
-}
-
-interface PrepareEdge {
-  type: "prepareEdge";
-  from: string;
-}
-
-interface CancelEdge {
-  type: "cancelEdge";
-}
-
-interface CompleteEdge {
-  type: "completeEdge";
-  to: string;
-}
-
-interface RemoveEdge {
-  type: "removeEdge";
-  from: string;
-  to: string;
-}
-
-type GraphReducerAction =
-  | ClearAll
-  | AddGraph
-  | RemoveGraph
-  | PrepareEdge
-  | CancelEdge
-  | CompleteEdge
-  | RemoveEdge;
-
-const graphReducer = (
-  state: GraphBuilder,
-  action: GraphReducerAction
-): GraphBuilder => {
-  switch (action.type) {
-    case "clearAll":
-      return EMPTY_GRAPH;
-    case "addVertex":
-      return {
-        ...state,
-        graphData: {
-          ...state.graphData,
-          vertices: [...state.graphData.vertices, action.graph],
-        },
-      };
-    case "removeVertex":
-      return {
-        ...state,
-        graphData: {
-          ...state.graphData,
-          vertices: [...state.graphData.vertices].filter(
-            (p) => p !== action.graph
-          ),
-          edges: state.graphData.edges.filter(
-            ({ from, to }) => !(from === action.graph || to === action.graph)
-          ),
-        },
-      };
-    case "prepareEdge":
-      return {
-        ...state,
-        pendingFrom: action.from,
-      };
-    case "cancelEdge":
-      return { ...state, pendingFrom: undefined };
-    case "completeEdge":
-      return state.pendingFrom !== undefined
-        ? {
-            ...state,
-            pendingFrom: undefined,
-            graphData: {
-              ...state.graphData,
-              edges: [
-                ...state.graphData.edges.filter(
-                  (l) => !(l.from === state.pendingFrom && l.to === action.to)
-                ),
-                { from: state.pendingFrom, to: action.to, weight: 1.0 },
-              ],
-            },
-          }
-        : state;
-    case "removeEdge":
-      return {
-        ...state,
-        graphData: {
-          ...state.graphData,
-          edges: state.graphData.edges.filter(
-            (l) => !(l.from === action.from && l.to === action.to)
-          ),
-        },
-      };
-  }
-};
+const versionReducer = (state: number): number => state + 1;
 
 const useBuildGraph = (): UseBuildGraph => {
-  const [graphBuilder, dispatch] = React.useReducer(
-    graphReducer,
-    DEFAULT_GRAPH_GRAPH
+  const [version, tickVersion] = React.useReducer(versionReducer, 0);
+
+  const graph = React.useRef<Graph<string>>(
+    new Graph<string>()
+      .addUnidirectionalEdge("a", "b")
+      .addUnidirectionalEdge("b", "a")
+      .addUnidirectionalEdge("b", "c")
+      .addUnidirectionalEdge("b", "d")
+      .addUnidirectionalEdge("d", "a")
+  );
+  const [pendingFrom, prepareEdge] = React.useState<string | undefined>(
+    undefined
   );
 
-  const clearAll = React.useCallback(() => dispatch({ type: "clearAll" }), []);
-  const addVertex = React.useCallback(
-    (graph: string) => dispatch({ type: "addVertex", graph }),
-    []
-  );
-  const removeVertex = React.useCallback(
-    (graph: string) => dispatch({ type: "removeVertex", graph }),
-    []
-  );
-  const prepareEdge = React.useCallback(
-    (from: string) => dispatch({ type: "prepareEdge", from }),
-    []
-  );
-  const cancelEdge = React.useCallback(
-    () => dispatch({ type: "cancelEdge" }),
-    []
-  );
   const completeEdge = React.useCallback(
-    (to: string) => dispatch({ type: "completeEdge", to }),
-    []
+    (to: string) => {
+      if (pendingFrom !== undefined) {
+        graph.current.addUnidirectionalEdge(pendingFrom, to);
+      }
+      prepareEdge(undefined);
+      tickVersion();
+    },
+    [pendingFrom]
   );
-  const removeEdge = React.useCallback(
-    (from: string, to: string) => dispatch({ type: "removeEdge", from, to }),
-    []
-  );
+  const cancelEdge = React.useCallback(() => prepareEdge(undefined), [
+    prepareEdge,
+  ]);
 
+  const clearAll = React.useCallback(() => {
+    graph.current.vertices.forEach((v) => graph.current.removeVertex(v));
+    tickVersion();
+  }, [tickVersion]);
   return {
-    graphBuilder,
-    clearAll,
-    addVertex,
-    removeVertex,
+    version,
+    tickVersion,
+    graph: graph.current,
+    pendingFrom,
     prepareEdge,
     cancelEdge,
     completeEdge,
-    removeEdge,
+    clearAll,
   };
 };
 

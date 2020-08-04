@@ -1,29 +1,35 @@
 import React from "react";
 
-import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
-interface EdgeWithHandler {
-  edge: Edge<string>;
-  onRemove: () => void;
-}
-
-interface EdgesProps {
+interface Props {
+  version: number;
+  graph: Graph<string>;
+  filter: (edge: Edge<string>) => boolean;
   getOtherEnd: (edge: Edge<string>) => void;
-  edges: EdgeWithHandler[];
+  tickVersion: () => void;
 }
 
-const EdgesCell: React.FunctionComponent<EdgesProps> = ({
-  edges,
+const EdgesCell: React.FunctionComponent<Props> = ({
+  graph,
+  tickVersion,
+  filter,
   getOtherEnd,
 }) => {
   return (
     <div className="btn-toolbar mb-3">
-      {edges.map(({ edge, onRemove }, i) => (
+      {graph.edges.filter(filter).map((edge, i) => (
         <span key={i} className="input-group btn-group">
           <div className="input-group-prepend">
             <div className="input-group-text">{getOtherEnd(edge)} </div>
           </div>
-          <button className="btn btn-danger btn-sm" onClick={onRemove}>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => {
+              tickVersion();
+              graph.removeEdge(edge.from, edge.to);
+            }}
+          >
             Remove
           </button>
         </span>
@@ -32,23 +38,4 @@ const EdgesCell: React.FunctionComponent<EdgesProps> = ({
   );
 };
 
-interface UseEdgesWithHandlers {
-  edges: Edge<string>[];
-  removeEdge: (from: string, to: string) => void;
-  filter: (edge: Edge<string>) => boolean;
-}
-
-export const useEdgesWithHandlers = ({
-  edges,
-  removeEdge,
-  filter,
-}: UseEdgesWithHandlers) =>
-  React.useMemo(
-    () =>
-      edges.filter(filter).map((edge) => ({
-        edge,
-        onRemove: () => removeEdge(edge.from, edge.to),
-      })),
-    [filter, edges, removeEdge]
-  );
 export default EdgesCell;

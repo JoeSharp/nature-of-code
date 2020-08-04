@@ -2,7 +2,7 @@ import React from "react";
 
 import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import { UseBuildGraph } from "./types";
-import EdgesCell, { useEdgesWithHandlers } from "./EdgeCell";
+import EdgesCell from "./EdgeCell";
 
 interface Props {
   vertex: string;
@@ -15,15 +15,13 @@ const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
   buildGraph: {
-    graphBuilder: {
-      pendingFrom,
-      graphData: { edges },
-    },
+    version,
+    tickVersion,
+    graph,
+    pendingFrom,
     prepareEdge,
-    cancelEdge,
     completeEdge,
-    removeVertex,
-    removeEdge,
+    cancelEdge,
   },
 }) => {
   const onPrepareEdge = React.useCallback(() => prepareEdge(vertex), [
@@ -35,10 +33,10 @@ const VertexRow: React.FunctionComponent<Props> = ({
     completeEdge,
   ]);
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
-  const onRemoveVertex = React.useCallback(() => removeVertex(vertex), [
-    vertex,
-    removeVertex,
-  ]);
+  const onRemoveVertex = React.useCallback(() => {
+    graph.removeVertex(vertex);
+    tickVersion();
+  }, [vertex, graph, tickVersion]);
 
   const filterOutgoing = React.useCallback(
     (edge: Edge<string>) => edge.from === vertex,
@@ -48,33 +46,27 @@ const VertexRow: React.FunctionComponent<Props> = ({
     (edge: Edge<string>) => edge.to === vertex,
     [vertex]
   );
-  const outgoingEdges = useEdgesWithHandlers({
-    edges,
-    removeEdge,
-    filter: filterOutgoing,
-  });
-  const incomingEdges = useEdgesWithHandlers({
-    edges,
-    removeEdge,
-    filter: filterIncoming,
-  });
 
   return (
     <tr>
       <td>{vertex}</td>
       <td>
-        {outgoingEdges.length > 0 ? (
-          <EdgesCell getOtherEnd={GET_EDGE_TO} edges={outgoingEdges} />
-        ) : (
-          "None"
-        )}
+        <EdgesCell
+          version={version}
+          tickVersion={tickVersion}
+          filter={filterOutgoing}
+          getOtherEnd={GET_EDGE_TO}
+          graph={graph}
+        />
       </td>
       <td>
-        {incomingEdges.length > 0 ? (
-          <EdgesCell getOtherEnd={GET_EDGE_FROM} edges={incomingEdges} />
-        ) : (
-          "None"
-        )}
+        <EdgesCell
+          version={version}
+          tickVersion={tickVersion}
+          filter={filterIncoming}
+          getOtherEnd={GET_EDGE_FROM}
+          graph={graph}
+        />
       </td>
       <td>
         <div className="btn-group">

@@ -17,13 +17,11 @@ const PageRank: React.FunctionComponent = () => {
   );
   const { componentProps: graphBuilderProps } = useGraphBuilder();
   const {
-    buildGraph: {
-      graphBuilder: { graphData },
-    },
+    buildGraph: { graph },
   } = graphBuilderProps;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
-    graphData,
+    graph,
   });
 
   const onReset = React.useCallback(() => {
@@ -82,7 +80,7 @@ const PageRank: React.FunctionComponent = () => {
         <div className="row">
           <div className="col-md-8">
             <h2>Current Ranks</h2>
-            <CurrentRanksTable pages={graphData.vertices} ranks={ranks} />
+            <CurrentRanksTable pages={graph.vertices} ranks={ranks} />
           </div>
           <div className="col-md-4">
             <h2>In Order</h2>
@@ -90,10 +88,7 @@ const PageRank: React.FunctionComponent = () => {
           </div>
         </div>
         <h2>All Iterations</h2>
-        <RankHistoryTable
-          pages={graphData.vertices}
-          rankHistory={rankHistory}
-        />
+        <RankHistoryTable pages={graph.vertices} rankHistory={rankHistory} />
 
         <GraphBuilder {...graphBuilderProps} />
       </div>
