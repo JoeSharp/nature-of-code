@@ -1,7 +1,7 @@
 import React from "react";
 import VertexRow from "./VertexRow";
 import useSketch from "src/components/p5/useSketch";
-import Sketch from "src/components/ComputerScience/DataStructures/GraphComponent/Sketch";
+import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
 import { UseBuildGraph } from "./types";
 import useBuildGraph from "./useBuildGraph";
 
@@ -10,26 +10,26 @@ interface Props {
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
-  const { tickVersion, graph, clearAll } = buildGraph;
+  const { graph, clearAll } = buildGraph;
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
       graph.addVertex(newVertexName);
     }
-    tickVersion();
-  }, [newVertexName, tickVersion, graph]);
+  }, [newVertexName, graph]);
   const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewVertexName(value),
     [setNewVertexName]
   );
 
-  const { refContainer, updateConfig } = useSketch(Sketch);
+  const { refContainer, updateConfig } = useSketch(GraphSketch);
 
   React.useEffect(() => updateConfig({ graph }), [graph, updateConfig]);
 
   return (
     <div>
       <h2>Build Graph</h2>
+      <span>Version: {graph.version}</span>
       <div className="sketch" ref={refContainer} />
       <form>
         <div className="form-group">

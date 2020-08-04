@@ -3,7 +3,7 @@ import React from "react";
 import {
   stringComparator,
   generateRandomLetters,
-} from "ocr-cs-alevel-ts/dist/algorithms/common";
+} from "ocr-cs-alevel-ts/dist/common";
 import { NamedSearch, SearchUtilities } from "ocr-cs-alevel-ts/dist/types";
 
 import {
@@ -24,7 +24,7 @@ const useSearchedData = ({
   searchItem,
 }: Props): SearchingData<string> => {
   let data: string[] = React.useMemo(
-    () => generateRandomLetters(10).sort(),
+    () => generateRandomLetters(10, { unique: true, sorted: true }),
     []
   );
 

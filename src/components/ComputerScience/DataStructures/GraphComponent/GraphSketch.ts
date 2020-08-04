@@ -1,18 +1,10 @@
 import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
-import BlobBoid from "./BlobBoid";
+import DataItemBoid from "../../../p5/DataItemBoid";
 
 const WIDTH = 480;
 const HEIGHT = 320;
-
-const MAX_SPEED = 1.5;
-const MAX_FORCE = 0.5;
-// const RADIUS = 30;
-
-interface BlobBoids {
-  [id: string]: BlobBoid;
-}
 
 interface Config<T> {
   graph: Graph<T>;
@@ -25,7 +17,9 @@ const getDefaultConfig = (): Config<any> => ({
 });
 
 class GraphSketch<T> extends AbstractSketch<Config<T>> {
-  boids: BlobBoids;
+  boids: {
+    [id: string]: DataItemBoid;
+  };
 
   constructor() {
     super(getDefaultConfig());
@@ -34,13 +28,11 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
 
   getBoid(sketch: p5, id: string) {
     if (!this.boids[id]) {
-      this.boids[id] = new BlobBoid({
+      this.boids[id] = new DataItemBoid({
         sketch,
         entity: id,
         radius: sketch.width / 12,
         colour: "red",
-        maxForce: MAX_FORCE,
-        maxSpeed: MAX_SPEED,
         location: sketch.createVector(
           sketch.random(0, sketch.width),
           sketch.random(0, sketch.height)
@@ -91,13 +83,13 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
-      const boidsInSketch: BlobBoid[] = vertices
+      const boidsInSketch: DataItemBoid[] = vertices
         .map(getKey)
         .map((v) => that.getBoid(s, v));
       const boidIdsInSketch: string[] = vertices.map(getKey);
 
       // Get the list of boid edges
-      const boidEdges: Edge<BlobBoid>[] = edges
+      const boidEdges: Edge<DataItemBoid>[] = edges
         .map(({ from, to, weight }) => ({
           from: getKey(from),
           to: getKey(to),

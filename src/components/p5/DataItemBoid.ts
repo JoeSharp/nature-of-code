@@ -1,19 +1,7 @@
 import p5 from "p5";
-import Boid, { BoidArgs } from "src/components/p5/useSketch/Boid";
+import Boid from "src/components/p5/Boid";
 
-interface BlobBoidArgs<T> extends BoidArgs<T> {
-  radius: number;
-}
-
-export default class BlobBoid extends Boid<string> {
-  radius: number;
-
-  constructor({ radius, ...args }: BlobBoidArgs<string>) {
-    super(args);
-
-    this.radius = radius;
-  }
-
+export default class DataItemBoid extends Boid<string> {
   isMouseOver(mousePosition: p5.Vector) {
     let diff = p5.Vector.sub(this.location, mousePosition);
     return diff.mag() < this.radius;

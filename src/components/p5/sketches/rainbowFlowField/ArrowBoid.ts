@@ -1,18 +1,7 @@
 import FlowField from "./FlowField";
-import Boid, { BoidArgs } from "../../useSketch/Boid";
-
-interface ArrowBoidArgs extends BoidArgs<void> {
-  radius: number;
-}
+import Boid from "../../Boid";
 
 export default class ArrowBoidBoid extends Boid<void> {
-  radius: number;
-
-  constructor({ radius, ...rest }: ArrowBoidArgs) {
-    super(rest);
-    this.radius = radius;
-  }
-
   follow(flow: FlowField) {
     let desired = flow.lookup(this.location);
     desired.mult(this.maxSpeed);

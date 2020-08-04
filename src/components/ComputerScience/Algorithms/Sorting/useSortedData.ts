@@ -4,7 +4,7 @@ import {
   stringComparator,
   generateRandomLetters,
   simpleSwap,
-} from "ocr-cs-alevel-ts/dist/algorithms/common";
+} from "ocr-cs-alevel-ts/dist/common";
 import { NamedSort, SortUtility } from "ocr-cs-alevel-ts/dist/types";
 
 import {
@@ -20,7 +20,10 @@ interface Props {
 }
 
 const useSortedData = ({ algorithm }: Props): SortingData<string> => {
-  const inputList = React.useMemo(() => generateRandomLetters(10), []);
+  const inputList = React.useMemo(
+    () => generateRandomLetters(10, { unique: true, sorted: false }),
+    []
+  );
   const { sortedData, stages }: SortingData<string> = React.useMemo(() => {
     let sortedData = inputList;
     let stages: SortStage<string>[] = [];

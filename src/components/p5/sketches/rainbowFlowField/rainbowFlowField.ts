@@ -13,8 +13,6 @@ const COLOURS = [
   "violet",
 ];
 const MINIMUM_BOIDS = 200;
-const MAX_SPEED = 1.5;
-const MAX_FORCE = 0.5;
 const RADIUS = 3;
 const RESOLUTION = 10;
 const MOUSE_RANGE = RESOLUTION * 3;
@@ -74,8 +72,6 @@ export default class RainbowFlowField extends AbstractSketch<{}> {
             sketch: s,
             location,
             radius: RADIUS,
-            maxSpeed: MAX_SPEED,
-            maxForce: MAX_FORCE,
             colour,
           })
         );

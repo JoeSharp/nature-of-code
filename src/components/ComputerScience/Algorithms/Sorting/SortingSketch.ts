@@ -8,9 +8,12 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
+import DataItemBoid from "src/components/p5/DataItemBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
+
+const DATA_Y = 100;
 
 interface Config<T> {
   sortStage: SortStage<T>;
@@ -21,22 +24,19 @@ const getDefaultConfig = <T>(): Config<T> => ({
 });
 
 class SortingSketch<T> extends AbstractSketch<Config<T>> {
+  boids: {
+    [id: string]: DataItemBoid;
+  };
   knownPositionVars: string[];
-
-  // keep track for animation
-  swappingFrom: number = NO_MATCH;
-  swappingTo: number = NO_MATCH;
-  swappingProgress: number = 0;
 
   constructor() {
     super(getDefaultConfig());
+    this.boids = {};
     this.knownPositionVars = [];
   }
 
   reset() {
     this.knownPositionVars = [];
-    this.swappingFrom = NO_MATCH;
-    this.swappingTo = NO_MATCH;
   }
 
   getPositionVarIndex(positionVar: string): number {
@@ -45,6 +45,23 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     }
 
     return this.knownPositionVars.indexOf(positionVar);
+  }
+
+  getBoid(sketch: p5, id: string) {
+    if (!this.boids[id]) {
+      this.boids[id] = new DataItemBoid({
+        sketch,
+        entity: id,
+        radius: sketch.width / 12,
+        minForce: 0,
+        maxSpeed: 3,
+        location: sketch.createVector(
+          sketch.random(0, sketch.width),
+          sketch.random(0, sketch.height)
+        ),
+      });
+    }
+    return this.boids[id];
   }
 
   sketch = (s: p5) => {
@@ -95,62 +112,41 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
               swapTo: NO_MATCH,
             };
 
-      // Are we animating a swap?
-      if (sortStage.type === SortStageType.swap) {
-        if (that.swappingProgress < 1.0) {
-          that.swappingProgress += 0.05;
-        }
-
-        // Check to see if swapping has changed
-        if (swapFrom !== that.swappingFrom || swapTo !== that.swappingTo) {
-          that.swappingProgress = 0.0;
-        }
-
-        // Keep track of the swap we are watching
-        that.swappingFrom = swapFrom;
-        that.swappingTo = swapTo;
-      } else {
-        that.swappingProgress = 0.0;
-      }
-
       s.background("white");
 
       // Draw the data
-      let datyaY = 100;
       let dataWidth = s.width / (data.length + 2);
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
 
-      data.forEach((item, i) => {
+      const boids: DataItemBoid[] = data.map((item, i) => {
+        const boid = that.getBoid(s, item);
         let x = getDataX(i);
         switch (i) {
           case compareIndexA:
           case compareIndexB:
-            s.fill("green");
+            boid.colour = "green";
             break;
           case swapFrom: {
-            let xTo = getDataX(swapTo);
-            x += (xTo - x) * that.swappingProgress;
-            s.fill("red");
+            x = getDataX(swapTo);
+            boid.colour = "red";
             break;
           }
           case swapTo: {
-            let xFrom = getDataX(swapFrom);
-            x += (xFrom - x) * that.swappingProgress;
-            s.fill("red");
+            x = getDataX(swapFrom);
+            boid.colour = "red";
             break;
           }
           default:
-            s.fill("blue");
+            boid.colour = "blue";
             break;
         }
 
-        s.ellipse(x, datyaY, dataWidth, dataWidth);
-        s.fill("white");
-        s.text(`${item}`, x, datyaY);
+        boid.arrive(s.createVector(x, DATA_Y), 5);
+
+        return boid;
       });
 
       s.fill("black");
-
       s.textAlign(s.LEFT, s.CENTER);
 
       // Generate the title based on stage information
@@ -173,9 +169,13 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.text(stageName, 20, 20);
       s.text(subTitle, 20, 50);
 
-      // Ensure position vars are in consistent order
-
       s.textAlign(s.CENTER, s.CENTER);
+      boids.forEach((b) => b.update());
+      boids.forEach((b) => b.draw());
+
+      // Ensure position vars are in consistent order
+      s.textAlign(s.CENTER, s.CENTER);
+      s.fill("black");
       Object.entries(positionVars)
         .map((k) => ({
           key: k[0],
