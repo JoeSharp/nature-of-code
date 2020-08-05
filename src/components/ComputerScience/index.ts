@@ -2,6 +2,7 @@ import AnalogueSignals from "./AnalogueSignals";
 import PageRank from "./Algorithms/PageRank";
 import Sorting from "./Algorithms/Sorting";
 import Search from "./Algorithms/Search";
+import Routing from "./Algorithms/Routing";
 import { Page } from "src/types";
 import GraphComponent from "./DataStructures/GraphComponent";
 import StackComponent from "./DataStructures/StackComponent";
@@ -17,6 +18,11 @@ const sessions: Page[] = [
     href: "/computerScience/algorithms/pageRank",
     title: "Page Rank",
     component: PageRank,
+  },
+  {
+    href: "/computerScience/algorithms/routing",
+    title: "Routing",
+    component: Routing,
   },
   {
     href: "/computerScience/algorithms/sorting",

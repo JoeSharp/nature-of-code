@@ -1,5 +1,18 @@
 import p5 from "p5";
-import Boid from "src/components/p5/Boid";
+import Boid from "./Boid";
+
+export const defaultDataItemDraw = (boid: DataItemBoid) => {
+  if (boid.grabbed) {
+    boid.sketch.strokeWeight(4);
+  } else {
+    boid.sketch.strokeWeight(1);
+  }
+
+  boid.sketch.fill("red");
+  boid.sketch.ellipse(boid.location.x, boid.location.y, boid.radius);
+  boid.sketch.fill("white");
+  boid.sketch.text(boid.entity || "NONE", boid.location.x, boid.location.y);
+};
 
 export default class DataItemBoid extends Boid<string> {
   isMouseOver(mousePosition: p5.Vector) {
@@ -23,18 +36,5 @@ export default class DataItemBoid extends Boid<string> {
     } else if (this.location.y < 0) {
       this.location.y = 0;
     }
-  }
-
-  draw() {
-    if (this.grabbed) {
-      this.sketch.strokeWeight(4);
-    } else {
-      this.sketch.strokeWeight(1);
-    }
-
-    this.sketch.fill(this.colour);
-    this.sketch.ellipse(this.location.x, this.location.y, this.radius);
-    this.sketch.fill("white");
-    this.sketch.text(this.entity || "NONE", this.location.x, this.location.y);
   }
 }

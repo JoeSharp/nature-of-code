@@ -1,7 +1,9 @@
 import FlowField from "./FlowField";
-import Boid from "../../Boid";
+import Boid from "../../Boid/Boid";
 
 export default class ArrowBoidBoid extends Boid<void> {
+  colour: string = "red";
+
   follow(flow: FlowField) {
     let desired = flow.lookup(this.location);
     desired.mult(this.maxSpeed);

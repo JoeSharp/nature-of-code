@@ -1,21 +1,9 @@
 import p5 from "p5";
+import { BoidArgs } from "./types";
 
-const DEFAULT_COLOUR = "red";
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
 const DEFAULT_MIN_FORCE = 0.01;
-
-export interface BoidArgs<T> {
-  sketch: p5;
-  entity?: T;
-  location: p5.Vector;
-  radius: number;
-  colour?: any;
-  maxSpeed?: number;
-  maxForce?: number;
-  minForce?: number;
-  environmentalFriction?: number;
-}
 
 export default class Boid<T> implements BoidArgs<T> {
   sketch: p5;
@@ -24,7 +12,6 @@ export default class Boid<T> implements BoidArgs<T> {
   velocity: p5.Vector;
   acceleration: p5.Vector;
   radius: number;
-  colour: any;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -35,7 +22,6 @@ export default class Boid<T> implements BoidArgs<T> {
     sketch,
     entity,
     location,
-    colour = DEFAULT_COLOUR,
     radius,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
@@ -47,7 +33,6 @@ export default class Boid<T> implements BoidArgs<T> {
     this.location = location;
     this.velocity = sketch.createVector();
     this.acceleration = sketch.createVector();
-    this.colour = colour;
     this.radius = radius;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
@@ -129,11 +114,6 @@ export default class Boid<T> implements BoidArgs<T> {
     }
     desired.sub(this.velocity);
     this.applyForce(desired);
-  }
-
-  draw() {
-    // To be overridden
-    this.sketch.circle(this.location.x, this.location.y, 50);
   }
 
   onScreen() {

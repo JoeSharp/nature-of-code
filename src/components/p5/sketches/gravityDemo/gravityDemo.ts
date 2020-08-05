@@ -44,18 +44,15 @@ export default class GravitySketch extends AbstractSketch<{}> {
         );
 
         // Each boid will be a random colour
-        let colour = s.random(COLOURS);
-
-        boids.push(
-          new ArrowBoid({
-            sketch: s,
-            location,
-            radius: RADIUS,
-            maxSpeed: MAX_SPEED,
-            maxForce: MAX_FORCE,
-            colour,
-          })
-        );
+        let aBoid = new ArrowBoid({
+          sketch: s,
+          location,
+          radius: RADIUS,
+          maxSpeed: MAX_SPEED,
+          maxForce: MAX_FORCE,
+        });
+        aBoid.colour = s.random(COLOURS);
+        boids.push(aBoid);
       }
     };
 

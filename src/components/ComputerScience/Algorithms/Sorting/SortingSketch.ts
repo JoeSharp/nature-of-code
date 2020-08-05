@@ -8,7 +8,7 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
-import DataItemBoid from "src/components/p5/DataItemBoid";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -124,20 +124,16 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         switch (i) {
           case compareIndexA:
           case compareIndexB:
-            boid.colour = "green";
             break;
           case swapFrom: {
             x = getDataX(swapTo);
-            boid.colour = "red";
             break;
           }
           case swapTo: {
             x = getDataX(swapFrom);
-            boid.colour = "red";
             break;
           }
           default:
-            boid.colour = "blue";
             break;
         }
 
@@ -171,7 +167,39 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
 
       s.textAlign(s.CENTER, s.CENTER);
       boids.forEach((b) => b.update());
-      boids.forEach((b) => b.draw());
+      boids.forEach((boid, i) => {
+        if (boid.grabbed) {
+          s.strokeWeight(4);
+        } else {
+          s.strokeWeight(1);
+        }
+
+        switch (i) {
+          case compareIndexA:
+          case compareIndexB:
+            s.fill("green");
+            break;
+          case swapFrom: {
+            s.fill("red");
+            break;
+          }
+          case swapTo: {
+            s.fill("red");
+            break;
+          }
+          default:
+            s.fill("blue");
+            break;
+        }
+
+        boid.sketch.ellipse(boid.location.x, boid.location.y, boid.radius);
+        boid.sketch.fill("white");
+        boid.sketch.text(
+          boid.entity || "NONE",
+          boid.location.x,
+          boid.location.y
+        );
+      });
 
       // Ensure position vars are in consistent order
       s.textAlign(s.CENTER, s.CENTER);

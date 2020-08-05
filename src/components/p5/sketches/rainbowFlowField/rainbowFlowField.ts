@@ -62,19 +62,16 @@ export default class RainbowFlowField extends AbstractSketch<{}> {
 
       // Keep the population up
       while (boids.length < MINIMUM_BOIDS) {
-        let location = s.createVector(
-          randomInt(s, 0, s.width),
-          randomInt(s, 0, s.height)
-        );
-        let colour = s.random(COLOURS);
-        boids.push(
-          new Boid({
-            sketch: s,
-            location,
-            radius: RADIUS,
-            colour,
-          })
-        );
+        let aBoid = new Boid({
+          sketch: s,
+          location: s.createVector(
+            randomInt(s, 0, s.width),
+            randomInt(s, 0, s.height)
+          ),
+          radius: RADIUS,
+        });
+        aBoid.colour = s.random(COLOURS);
+        boids.push(aBoid);
       }
     };
   };

@@ -17,9 +17,9 @@ const EdgesCell: React.FunctionComponent<Props> = ({
   getOtherEnd,
 }) => {
   return (
-    <div className="btn-toolbar mb-3">
+    <div className="btn-toolbar">
       {graph.edges.filter(filter).map((edge, i) => (
-        <span key={i} className="input-group btn-group">
+        <span key={i} className="input-group btn-group edge-buttons">
           <div className="input-group-prepend">
             <div className="input-group-text">{getOtherEnd(edge)} </div>
           </div>
@@ -30,7 +30,7 @@ const EdgesCell: React.FunctionComponent<Props> = ({
               graph.removeEdge(edge.from, edge.to);
             }}
           >
-            Remove
+            X
           </button>
         </span>
       ))}
