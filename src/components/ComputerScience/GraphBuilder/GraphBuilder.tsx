@@ -3,7 +3,6 @@ import VertexRow from "./VertexRow";
 import useSketch from "src/components/p5/useSketch";
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import { UseBuildGraph } from "./types";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 import "./graphBuilder.css";
 
@@ -90,55 +89,6 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
       </table>
     </div>
   );
-};
-
-const versionReducer = (state: number): number => state + 1;
-
-const defaultInitialGraph: Graph<string> = new Graph<string>()
-  .addUnidirectionalEdge("a", "b")
-  .addUnidirectionalEdge("b", "a")
-  .addUnidirectionalEdge("b", "c")
-  .addUnidirectionalEdge("b", "d")
-  .addUnidirectionalEdge("d", "a");
-
-export const useGraphBuilder = (initialGraph = defaultInitialGraph): Props => {
-  const [version, tickVersion] = React.useReducer(versionReducer, 0);
-
-  const graph = React.useRef<Graph<string>>(initialGraph);
-  const [pendingFrom, prepareEdge] = React.useState<string | undefined>(
-    undefined
-  );
-
-  const completeEdge = React.useCallback(
-    (to: string) => {
-      if (pendingFrom !== undefined) {
-        graph.current.addUnidirectionalEdge(pendingFrom, to);
-      }
-      prepareEdge(undefined);
-      tickVersion();
-    },
-    [pendingFrom]
-  );
-  const cancelEdge = React.useCallback(() => prepareEdge(undefined), [
-    prepareEdge,
-  ]);
-
-  const clearAll = React.useCallback(() => {
-    graph.current.vertices.forEach((v) => graph.current.removeVertex(v));
-    tickVersion();
-  }, [tickVersion]);
-  return {
-    buildGraph: {
-      version,
-      tickVersion,
-      graph: graph.current,
-      pendingFrom,
-      prepareEdge,
-      cancelEdge,
-      completeEdge,
-      clearAll,
-    },
-  };
 };
 
 export default GraphBuilder;

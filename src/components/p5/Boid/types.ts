@@ -5,6 +5,7 @@ export interface BoidArgs<T> {
   entity?: T;
   location: p5.Vector;
   radius: number;
+  borderWeight?: number;
   colour?: string;
   maxSpeed?: number;
   maxForce?: number;

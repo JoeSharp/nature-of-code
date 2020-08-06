@@ -26,10 +26,8 @@ const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("J", "K", 4);
 
 const Routing: React.FunctionComponent = () => {
-  const graphBuilderProps = useGraphBuilder(initialGraph);
-  const {
-    buildGraph: { graph },
-  } = graphBuilderProps;
+  const buildGraph = useGraphBuilder(initialGraph);
+  const { graph } = buildGraph;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
     graph,
@@ -65,7 +63,7 @@ const Routing: React.FunctionComponent = () => {
         ))}
       </ol>
 
-      <GraphBuilder {...graphBuilderProps} />
+      <GraphBuilder buildGraph={buildGraph} />
     </div>
   );
 };

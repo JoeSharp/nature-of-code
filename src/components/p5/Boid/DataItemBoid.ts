@@ -3,6 +3,7 @@ import Boid from "./Boid";
 
 export default class DataItemBoid extends Boid<string> {
   isMouseOver(mousePosition: p5.Vector) {
+    // Is the mouse pointer within the radius of our boid circle?
     let diff = p5.Vector.sub(this.location, mousePosition);
     return diff.mag() < this.radius;
   }
@@ -29,7 +30,7 @@ export default class DataItemBoid extends Boid<string> {
     if (this.grabbed) {
       this.sketch.strokeWeight(4);
     } else {
-      this.sketch.strokeWeight(1);
+      this.sketch.strokeWeight(this.borderWeight);
     }
 
     this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);

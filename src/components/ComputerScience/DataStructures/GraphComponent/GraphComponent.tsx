@@ -2,11 +2,11 @@ import React from "react";
 import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 
 const GraphComponent: React.FunctionComponent = () => {
-  const graphBuilderProps = useGraphBuilder();
+  const buildGraph = useGraphBuilder();
 
   return (
     <div>
-      <GraphBuilder {...graphBuilderProps} />
+      <GraphBuilder buildGraph={buildGraph} />
     </div>
   );
 };

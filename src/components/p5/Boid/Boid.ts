@@ -1,6 +1,7 @@
 import p5 from "p5";
 import { BoidArgs } from "./types";
 
+const DEFAULT_BORDER_WEIGTH = 1;
 const DEFAULT_COLOUR = "red";
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
@@ -14,6 +15,7 @@ export default class Boid<T> implements BoidArgs<T> {
   acceleration: p5.Vector;
   radius: number;
   colour: string;
+  borderWeight: number;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -25,6 +27,7 @@ export default class Boid<T> implements BoidArgs<T> {
     entity,
     location,
     radius,
+    borderWeight = DEFAULT_BORDER_WEIGTH,
     colour = DEFAULT_COLOUR,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
@@ -38,6 +41,7 @@ export default class Boid<T> implements BoidArgs<T> {
     this.acceleration = sketch.createVector();
     this.radius = radius;
     this.colour = colour;
+    this.borderWeight = borderWeight;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.minForce = minForce;
