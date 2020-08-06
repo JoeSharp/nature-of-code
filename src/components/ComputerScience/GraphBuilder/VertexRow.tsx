@@ -17,6 +17,7 @@ const VertexRow: React.FunctionComponent<Props> = ({
   buildGraph: {
     version,
     tickVersion,
+    newEdgeWeight,
     graph,
     pendingFrom,
     prepareEdge,
@@ -28,10 +29,10 @@ const VertexRow: React.FunctionComponent<Props> = ({
     vertex,
     prepareEdge,
   ]);
-  const onCompleteEdge = React.useCallback(() => completeEdge(vertex), [
-    vertex,
-    completeEdge,
-  ]);
+  const onCompleteEdge = React.useCallback(
+    () => completeEdge(vertex, newEdgeWeight),
+    [vertex, newEdgeWeight, completeEdge]
+  );
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
   const onRemoveVertex = React.useCallback(() => {
     graph.removeVertex(vertex);

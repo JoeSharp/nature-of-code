@@ -122,10 +122,17 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         }));
 
       if (physicsEnabled) {
-        // Attract the first boid to the centre
-        if (boidsInSketch.length > 0) {
-          boidsInSketch[0].arrive(screenCentre, s.width / 4);
-        }
+        // Attract any boids that are very near the edge to the centre
+        boidsInSketch
+          .filter(({ location: { x, y } }) => {
+            return (
+              x < s.width / 8 ||
+              x > (s.width * 7) / 8 ||
+              y < s.height / 8 ||
+              y > (s.height * 7) / 8
+            );
+          })
+          .forEach((b) => b.seek(screenCentre));
 
         // They should all repel each other
         boidsInSketch.forEach((ba, ia) => {
@@ -146,8 +153,19 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
 
       // Draw the lines
       s.strokeWeight(4);
-      boidEdges.forEach(({ from, to }) => {
+      boidEdges.forEach(({ from, to, weight }) => {
         s.line(from.location.x, from.location.y, to.location.x, to.location.y);
+        let midpoint: p5.Vector = (p5.Vector.lerp(
+          from.location,
+          to.location,
+          0.5
+        ) as unknown) as p5.Vector; // error in p5 type definition
+
+        s.fill("white");
+        s.circle(midpoint.x, midpoint.y, 30);
+        s.fill("black");
+        s.textAlign(s.CENTER, s.CENTER);
+        s.text(`${weight}`, midpoint.x, midpoint.y);
       });
 
       /// Call upon all boids to draw themselves

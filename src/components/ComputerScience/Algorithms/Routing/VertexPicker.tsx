@@ -3,12 +3,14 @@ import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 export interface Props {
   className?: string;
+  version: number;
   graph: Graph<string>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
 
 const VertexPicker: React.FunctionComponent<Props> = ({
+  version,
   graph: { vertices },
   value,
   onChange,
@@ -24,7 +26,7 @@ const VertexPicker: React.FunctionComponent<Props> = ({
 
   return (
     <select className={className} onChange={onSelectChange} value={value}>
-      <option />
+      <option key={version} value={version} />
       {vertices.map((vertex) => (
         <option key={vertex} value={vertex}>
           {vertex}
@@ -40,6 +42,7 @@ interface UsePicker {
 }
 
 export const usePicker = (
+  version: number,
   graph: Graph<string>,
   className?: string
 ): UsePicker => {
@@ -48,6 +51,7 @@ export const usePicker = (
   return {
     vertex: value,
     componentProps: {
+      version,
       graph,
       className,
       value,

@@ -20,10 +20,12 @@ const useGraphBuilder = (initialGraph = defaultInitialGraph): UseBuildGraph => {
     undefined
   );
 
+  const [newEdgeWeight, setNewEdgeWeight] = React.useState<number>(1);
+
   const completeEdge = React.useCallback(
-    (to: string) => {
+    (to: string, weight: number) => {
       if (pendingFrom !== undefined) {
-        graph.current.addUnidirectionalEdge(pendingFrom, to);
+        graph.current.addUnidirectionalEdge(pendingFrom, to, weight);
       }
       prepareEdge(undefined);
       tickVersion();
@@ -45,6 +47,8 @@ const useGraphBuilder = (initialGraph = defaultInitialGraph): UseBuildGraph => {
     version,
     drawDetails,
     tickVersion,
+    newEdgeWeight,
+    setNewEdgeWeight,
     graph: graph.current,
     pendingFrom,
     prepareEdge,

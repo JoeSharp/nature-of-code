@@ -26,6 +26,10 @@ const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("J", "L", 4)
   .addBiDirectionalEdge("J", "K", 4);
 
+const isEndpointDrawDetails: BoidDrawDetails = {
+  borderWeight: 3,
+  colour: "green",
+};
 const inPathDrawDetails: BoidDrawDetails = {
   borderWeight: 3,
   colour: "red",
@@ -38,26 +42,34 @@ const notInPathDrawDetails: BoidDrawDetails = {
 const Routing: React.FunctionComponent = () => {
   const buildGraph = useGraphBuilder(initialGraph);
   const {
+    version,
     graph,
     drawDetails: { setDetails },
   } = buildGraph;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
+    version,
     graph,
     "form-control"
   );
   const {
     vertex: destinationNode,
     componentProps: destinationPickerProps,
-  } = usePicker(graph, "form-control");
+  } = usePicker(version, graph, "form-control");
 
   const { path } = useRoutingAlgorithm({ graph, sourceNode, destinationNode });
 
   React.useEffect(() => {
-    graph.vertices.forEach((v) =>
-      setDetails(v, path.includes(v) ? inPathDrawDetails : notInPathDrawDetails)
-    );
-  }, [graph, path, setDetails]);
+    graph.vertices.forEach((v) => {
+      if (sourceNode === v || destinationNode === v) {
+        setDetails(v, isEndpointDrawDetails);
+      } else if (path.includes(v)) {
+        setDetails(v, inPathDrawDetails);
+      } else {
+        setDetails(v, notInPathDrawDetails);
+      }
+    });
+  }, [sourceNode, destinationNode, graph, path, setDetails]);
 
   return (
     <div>

@@ -13,9 +13,12 @@ interface Props {
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
   const {
     graph,
+    setNewEdgeWeight,
+    newEdgeWeight,
     drawDetails: { drawDetails },
     clearAll,
   } = buildGraph;
+
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
@@ -25,6 +28,11 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
   const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewVertexName(value),
     [setNewVertexName]
+  );
+
+  const onNewEdgeWeightChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { value } }) => setNewEdgeWeight(parseInt(value)),
+    [setNewEdgeWeight]
   );
 
   const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(true);
@@ -66,6 +74,16 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
             className="form-control"
             value={newVertexName}
             onChange={onNewVertexChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="newEdgeWeight">New Edge Weight</label>
+          <input
+            id="newEdgeWeight"
+            className="form-control"
+            type="number"
+            value={newEdgeWeight}
+            onChange={onNewEdgeWeightChange}
           />
         </div>
       </form>

@@ -34,10 +34,10 @@ export default class DataItemBoid extends Boid<string> {
       this.sketch.strokeWeight(borderWeight);
     }
 
-    this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
     this.sketch.fill(colour);
     this.sketch.ellipse(this.location.x, this.location.y, this.radius);
     this.sketch.fill("white");
+    this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
     this.sketch.text(this.entity || "NONE", this.location.x, this.location.y);
   }
 }
