@@ -61,7 +61,7 @@ const Searching: React.FunctionComponent = () => {
   React.useEffect(() => {
     reset();
     sketchContainer.reset();
-  }, [reset, sketchContainer, algorithm]);
+  }, [reset, sketchContainer, algorithm, searchItem]);
 
   // Only auto iterate forward if we aren't on the final step
   const autoStepForward = React.useCallback(() => {

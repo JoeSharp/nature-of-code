@@ -5,10 +5,9 @@ export interface BoidArgs<T> {
   entity?: T;
   location: p5.Vector;
   radius: number;
+  colour?: string;
   maxSpeed?: number;
   maxForce?: number;
   minForce?: number;
   environmentalFriction?: number;
 }
-
-export type BoidDraw<E, T extends BoidArgs<E>> = (boid: T) => void;

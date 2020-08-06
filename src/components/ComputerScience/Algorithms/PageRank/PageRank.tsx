@@ -15,7 +15,7 @@ const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const graphBuilderProps = useGraphBuilder({});
+  const graphBuilderProps = useGraphBuilder();
   const {
     buildGraph: { graph },
   } = graphBuilderProps;

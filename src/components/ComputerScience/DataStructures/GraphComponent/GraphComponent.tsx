@@ -2,7 +2,7 @@ import React from "react";
 import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 
 const GraphComponent: React.FunctionComponent = () => {
-  const graphBuilderProps = useGraphBuilder({});
+  const graphBuilderProps = useGraphBuilder();
 
   return (
     <div>

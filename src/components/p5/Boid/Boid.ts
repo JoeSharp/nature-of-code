@@ -1,6 +1,7 @@
 import p5 from "p5";
 import { BoidArgs } from "./types";
 
+const DEFAULT_COLOUR = "red";
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
 const DEFAULT_MIN_FORCE = 0.01;
@@ -12,6 +13,7 @@ export default class Boid<T> implements BoidArgs<T> {
   velocity: p5.Vector;
   acceleration: p5.Vector;
   radius: number;
+  colour: string;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -23,6 +25,7 @@ export default class Boid<T> implements BoidArgs<T> {
     entity,
     location,
     radius,
+    colour = DEFAULT_COLOUR,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
     minForce = DEFAULT_MIN_FORCE,
@@ -34,6 +37,7 @@ export default class Boid<T> implements BoidArgs<T> {
     this.velocity = sketch.createVector();
     this.acceleration = sketch.createVector();
     this.radius = radius;
+    this.colour = colour;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.minForce = minForce;
@@ -69,6 +73,13 @@ export default class Boid<T> implements BoidArgs<T> {
       this.location.add(this.velocity);
     }
     this.acceleration.mult(0);
+  }
+
+  draw() {
+    // Expect to be overridden
+    this.sketch.strokeWeight(1);
+    this.sketch.fill("lime");
+    this.sketch.circle(this.location.x, this.location.y, this.radius);
   }
 
   seek(target: p5.Vector): void {

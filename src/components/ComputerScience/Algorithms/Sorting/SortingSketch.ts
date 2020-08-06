@@ -120,20 +120,25 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
 
       const boids: DataItemBoid[] = data.map((item, i) => {
         const boid = that.getBoid(s, item);
+
         let x = getDataX(i);
         switch (i) {
           case compareIndexA:
           case compareIndexB:
+            boid.colour = "green";
             break;
           case swapFrom: {
+            boid.colour = "red";
             x = getDataX(swapTo);
             break;
           }
           case swapTo: {
+            boid.colour = "red";
             x = getDataX(swapFrom);
             break;
           }
           default:
+            boid.colour = "blue";
             break;
         }
 
@@ -165,41 +170,8 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.text(stageName, 20, 20);
       s.text(subTitle, 20, 50);
 
-      s.textAlign(s.CENTER, s.CENTER);
       boids.forEach((b) => b.update());
-      boids.forEach((boid, i) => {
-        if (boid.grabbed) {
-          s.strokeWeight(4);
-        } else {
-          s.strokeWeight(1);
-        }
-
-        switch (i) {
-          case compareIndexA:
-          case compareIndexB:
-            s.fill("green");
-            break;
-          case swapFrom: {
-            s.fill("red");
-            break;
-          }
-          case swapTo: {
-            s.fill("red");
-            break;
-          }
-          default:
-            s.fill("blue");
-            break;
-        }
-
-        boid.sketch.ellipse(boid.location.x, boid.location.y, boid.radius);
-        boid.sketch.fill("white");
-        boid.sketch.text(
-          boid.entity || "NONE",
-          boid.location.x,
-          boid.location.y
-        );
-      });
+      boids.forEach((b) => b.draw());
 
       // Ensure position vars are in consistent order
       s.textAlign(s.CENTER, s.CENTER);

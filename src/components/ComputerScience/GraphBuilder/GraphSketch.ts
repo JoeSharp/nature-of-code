@@ -2,7 +2,6 @@ import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
-import { BoidDraw } from "src/components/p5/Boid/types";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -11,19 +10,12 @@ interface Config<T> {
   graph: Graph<T>;
   getKey: (vertex: T) => string;
   physicsEnabled: boolean;
-  drawBoid: BoidDraw<string, DataItemBoid>;
 }
 
 const getDefaultConfig = (): Config<any> => ({
   graph: new Graph(),
   getKey: (v) => `${v}`,
   physicsEnabled: true,
-  drawBoid: (boid: DataItemBoid) => {
-    boid.sketch.fill("red");
-    boid.sketch.ellipse(boid.location.x, boid.location.y, boid.radius);
-    boid.sketch.fill("white");
-    boid.sketch.text(boid.entity || "NONE", boid.location.x, boid.location.y);
-  },
 });
 
 class GraphSketch<T> extends AbstractSketch<Config<T>> {
@@ -90,7 +82,6 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         graph: { vertices, edges },
         getKey,
         physicsEnabled,
-        drawBoid,
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
@@ -125,7 +116,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         // They should all repel each other
         boidsInSketch.forEach((ba, ia) => {
           boidsInSketch
-            .filter((bb, ib) => ia !== ib)
+            .filter((_, ib) => ia !== ib)
             .forEach((bb) => ba.flee(bb.location, s.width / 4));
         });
 
@@ -146,7 +137,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       });
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) => drawBoid(b));
+      boidsInSketch.forEach((b) => b.draw());
     };
   };
 }

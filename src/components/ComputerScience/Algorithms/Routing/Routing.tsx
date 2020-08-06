@@ -26,7 +26,7 @@ const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("J", "K", 4);
 
 const Routing: React.FunctionComponent = () => {
-  const graphBuilderProps = useGraphBuilder({ initialGraph });
+  const graphBuilderProps = useGraphBuilder(initialGraph);
   const {
     buildGraph: { graph },
   } = graphBuilderProps;

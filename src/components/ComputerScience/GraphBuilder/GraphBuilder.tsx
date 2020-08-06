@@ -6,20 +6,12 @@ import { UseBuildGraph } from "./types";
 import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 
 import "./graphBuilder.css";
-import { BoidDraw } from "src/components/p5/Boid/types";
-import DataItemBoid, {
-  defaultDataItemDraw,
-} from "src/components/p5/Boid/DataItemBoid";
 
 interface Props {
   buildGraph: UseBuildGraph;
-  drawBoid: BoidDraw<string, DataItemBoid>;
 }
 
-const GraphBuilder: React.FunctionComponent<Props> = ({
-  buildGraph,
-  drawBoid,
-}) => {
+const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
   const { graph, clearAll } = buildGraph;
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
@@ -44,7 +36,6 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     physicsEnabled,
     graph,
     updateConfig,
-    drawBoid,
   ]);
 
   return (
@@ -110,15 +101,7 @@ const defaultInitialGraph: Graph<string> = new Graph<string>()
   .addUnidirectionalEdge("b", "d")
   .addUnidirectionalEdge("d", "a");
 
-export interface UseGraphBuilderProps {
-  initialGraph?: Graph<string>;
-  drawBoid?: BoidDraw<string, DataItemBoid>;
-}
-
-export const useGraphBuilder = ({
-  initialGraph = defaultInitialGraph,
-  drawBoid = defaultDataItemDraw,
-}: UseGraphBuilderProps): Props => {
+export const useGraphBuilder = (initialGraph = defaultInitialGraph): Props => {
   const [version, tickVersion] = React.useReducer(versionReducer, 0);
 
   const graph = React.useRef<Graph<string>>(initialGraph);
@@ -145,7 +128,6 @@ export const useGraphBuilder = ({
     tickVersion();
   }, [tickVersion]);
   return {
-    drawBoid,
     buildGraph: {
       version,
       tickVersion,
