@@ -3,8 +3,6 @@ import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import { UseBuildGraph } from "./types";
 import useDrawDetails from "../../p5/Boid/useDrawDetails";
 
-const versionReducer = (state: number): number => state + 1;
-
 const defaultInitialGraph: Graph<string> = new Graph<string>()
   .addUnidirectionalEdge("a", "b")
   .addUnidirectionalEdge("b", "a")
@@ -13,7 +11,7 @@ const defaultInitialGraph: Graph<string> = new Graph<string>()
   .addUnidirectionalEdge("d", "a");
 
 const useGraphBuilder = (initialGraph = defaultInitialGraph): UseBuildGraph => {
-  const [version, tickVersion] = React.useReducer(versionReducer, 0);
+  const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
 
   const graph = React.useRef<Graph<string>>(initialGraph);
   const [pendingFrom, prepareEdge] = React.useState<string | undefined>(

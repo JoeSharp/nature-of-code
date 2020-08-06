@@ -39,7 +39,7 @@ const notInPathDrawDetails: BoidDrawDetails = {
   colour: "blue",
 };
 
-const Routing: React.FunctionComponent = () => {
+const GraphRouting: React.FunctionComponent = () => {
   const buildGraph = useGraphBuilder(initialGraph);
   const {
     version,
@@ -57,7 +57,12 @@ const Routing: React.FunctionComponent = () => {
     componentProps: destinationPickerProps,
   } = usePicker(version, graph, "form-control");
 
-  const { path } = useRoutingAlgorithm({ graph, sourceNode, destinationNode });
+  const { path } = useRoutingAlgorithm({
+    version,
+    graph,
+    sourceNode,
+    destinationNode,
+  });
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
@@ -73,7 +78,7 @@ const Routing: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Routing Algorithms</h1>
+      <h1>Routing Algorithms - Using Graph</h1>
 
       <h2>Choose Endpoints</h2>
       <form>
@@ -99,4 +104,4 @@ const Routing: React.FunctionComponent = () => {
   );
 };
 
-export default Routing;
+export default GraphRouting;

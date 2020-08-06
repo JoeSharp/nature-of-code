@@ -7,24 +7,26 @@ import {
 } from "ocr-cs-alevel-ts/dist/algorithms/routing/dijkstras";
 import { ShortestPathTree } from "ocr-cs-alevel-ts/dist/algorithms/routing/types";
 
-export interface Props {
-  sourceNode?: string;
-  destinationNode?: string;
-  graph: Graph<string>;
+export interface Props<T> {
+  version: number;
+  sourceNode?: T;
+  destinationNode?: T;
+  graph: Graph<T>;
 }
 
-export interface UseRoutingAlgorithm {
-  shortestPathTree: ShortestPathTree;
-  path: string[];
+export interface UseRoutingAlgorithm<T> {
+  shortestPathTree: ShortestPathTree<T>;
+  path: T[];
 }
 
-export default ({
+export default <T>({
+  version,
   sourceNode,
   destinationNode,
   graph,
-}: Props): UseRoutingAlgorithm =>
+}: Props<T>): UseRoutingAlgorithm<T> =>
   React.useMemo(() => {
-    const shortestPathTree: ShortestPathTree =
+    const shortestPathTree: ShortestPathTree<T> =
       sourceNode !== undefined
         ? dijstraks({
             graph,
@@ -34,9 +36,9 @@ export default ({
         : {};
     const path =
       destinationNode !== undefined
-        ? getPath(shortestPathTree, destinationNode)
+        ? getPath(graph, shortestPathTree, destinationNode)
         : [];
     path.reverse();
 
-    return { shortestPathTree, path };
-  }, [sourceNode, destinationNode, graph]);
+    return { version, shortestPathTree, path };
+  }, [sourceNode, destinationNode, graph, version]);
