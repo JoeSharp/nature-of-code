@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { BoidArgs, BoidDrawDetails } from "./types";
+import { ToString } from "ocr-cs-alevel-ts/dist/types";
 
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
@@ -71,7 +72,10 @@ export default class Boid<T> implements BoidArgs<T> {
     this.acceleration.mult(0);
   }
 
-  draw({ colour = "red", borderWeight = 1 }: BoidDrawDetails) {
+  draw(
+    toString: ToString<T>,
+    { colour = "red", borderWeight = 1 }: BoidDrawDetails
+  ) {
     // Expect to be overridden
     this.sketch.strokeWeight(borderWeight);
     this.sketch.fill(colour);

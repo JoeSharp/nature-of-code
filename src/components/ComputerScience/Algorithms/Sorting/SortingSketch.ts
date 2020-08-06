@@ -9,6 +9,7 @@ import {
   SortObservation,
 } from "./types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { ToString } from "ocr-cs-alevel-ts/dist/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -17,15 +18,17 @@ const DATA_Y = 100;
 
 interface Config<T> {
   sortStage: SortStage<T>;
+  dataToString: ToString<T>;
 }
 
 const getDefaultConfig = <T>(): Config<T> => ({
   sortStage: DEFAULT_SORT_STAGE,
+  dataToString: (d) => `${d}`,
 });
 
 class SortingSketch<T> extends AbstractSketch<Config<T>> {
   boids: {
-    [id: string]: DataItemBoid;
+    [id: string]: DataItemBoid<T>;
   };
   knownPositionVars: string[];
 
@@ -47,11 +50,12 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     return this.knownPositionVars.indexOf(positionVar);
   }
 
-  getBoid(sketch: p5, id: string) {
-    if (!this.boids[id]) {
-      this.boids[id] = new DataItemBoid({
+  getBoid(sketch: p5, vertexToString: ToString<T>, vertex: T) {
+    const vAsStr = vertexToString(vertex);
+    if (!this.boids[vAsStr]) {
+      this.boids[vAsStr] = new DataItemBoid<T>({
         sketch,
-        entity: id,
+        entity: vertex,
         radius: sketch.width / 12,
         minForce: 0,
         maxSpeed: 3,
@@ -61,7 +65,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         ),
       });
     }
-    return this.boids[id];
+    return this.boids[vAsStr];
   }
 
   sketch = (s: p5) => {
@@ -74,9 +78,9 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     };
 
     s.draw = function () {
-      const { sortStage = DEFAULT_SORT_STAGE } = that.config;
+      const { sortStage = DEFAULT_SORT_STAGE, dataToString } = that.config;
 
-      const { data, stageName, positionVars }: SortObservation<string> =
+      const { data, stageName, positionVars }: SortObservation<T> =
         sortStage.type === SortStageType.observation
           ? sortStage
           : sortStage.lastObservation;
@@ -118,8 +122,8 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       let dataWidth = s.width / (data.length + 2);
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
 
-      const boids: DataItemBoid[] = data.map((item, i) => {
-        const boid = that.getBoid(s, item);
+      const boids: DataItemBoid<T>[] = data.map((item, i) => {
+        const boid = that.getBoid(s, dataToString, item);
 
         let x = getDataX(i);
         if (i === swapFrom) {
@@ -173,7 +177,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
             break;
           }
         }
-        b.draw({ colour });
+        b.draw(dataToString, { colour });
       });
 
       // Ensure position vars are in consistent order

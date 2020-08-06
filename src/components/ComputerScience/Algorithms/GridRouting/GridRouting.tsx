@@ -12,6 +12,7 @@ const GridRouting: React.FunctionComponent = () => {
     graph,
     topLeft: sourceNode,
     bottomRight: destinationNode,
+    toggleConnection,
   } = useGridGraph({
     rows: 8,
     columns: 15,
@@ -25,8 +26,8 @@ const GridRouting: React.FunctionComponent = () => {
   });
 
   React.useEffect(() => {
-    updateConfig({ graph, path });
-  }, [path, graph, updateConfig]);
+    updateConfig({ graph, path, toggleConnection });
+  }, [path, graph, updateConfig, toggleConnection]);
 
   return (
     <div>

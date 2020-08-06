@@ -6,7 +6,7 @@ import EdgesCell from "./EdgeCell";
 
 interface Props {
   vertex: string;
-  buildGraph: UseBuildGraph;
+  buildGraph: UseBuildGraph<string>;
 }
 
 const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
@@ -25,6 +25,7 @@ const VertexRow: React.FunctionComponent<Props> = ({
     cancelEdge,
   },
 }) => {
+  const { removeVertex, equalityCheck } = graph;
   const onPrepareEdge = React.useCallback(() => prepareEdge(vertex), [
     vertex,
     prepareEdge,
@@ -35,17 +36,17 @@ const VertexRow: React.FunctionComponent<Props> = ({
   );
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
   const onRemoveVertex = React.useCallback(() => {
-    graph.removeVertex(vertex);
+    removeVertex(vertex);
     tickVersion();
-  }, [vertex, graph, tickVersion]);
+  }, [vertex, removeVertex, tickVersion]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<string>) => edge.from === vertex,
-    [vertex]
+    (edge: Edge<string>) => equalityCheck(edge.from, vertex),
+    [vertex, equalityCheck]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<string>) => edge.to === vertex,
-    [vertex]
+    (edge: Edge<string>) => equalityCheck(edge.to, vertex),
+    [vertex, equalityCheck]
   );
 
   return (

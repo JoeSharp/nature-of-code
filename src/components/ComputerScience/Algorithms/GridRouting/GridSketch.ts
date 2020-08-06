@@ -1,13 +1,17 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import p5 from "p5";
 import { createVector } from "./useGridGraph";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { ToString } from "ocr-cs-alevel-ts/dist/types";
+import { BoidDrawDetailsById } from "src/components/p5/Boid/types";
 
 interface Config {
   sourceNode: p5.Vector;
   destinationNode: p5.Vector;
   graph: Graph<p5.Vector>;
   path: p5.Vector[];
+  toggleConnection: (vertex: p5.Vector) => void;
 }
 
 const getDefaultConfig = (): Config => ({
@@ -15,6 +19,7 @@ const getDefaultConfig = (): Config => ({
   sourceNode: createVector(0, 0),
   destinationNode: createVector(0, 0),
   path: [],
+  toggleConnection: () => {},
 });
 
 const WIDTH = 800;
@@ -22,8 +27,29 @@ const HEIGHT = 500;
 const SPREAD = 50;
 
 class GridSketch extends AbstractSketch<Config> {
+  boids: {
+    [id: string]: DataItemBoid<p5.Vector>;
+  };
+
   constructor() {
     super(getDefaultConfig());
+    this.boids = {};
+  }
+
+  getBoid(sketch: p5, vToString: ToString<p5.Vector>, vertex: p5.Vector) {
+    const vAsStr = vToString(vertex);
+    if (!this.boids[vAsStr]) {
+      this.boids[vAsStr] = new DataItemBoid<p5.Vector>({
+        sketch,
+        entity: vertex,
+        radius: 20,
+        location: sketch.createVector(
+          (vertex.x + 1) * SPREAD,
+          (vertex.y + 1) * SPREAD
+        ),
+      });
+    }
+    return this.boids[vAsStr];
   }
 
   sketch = (s: p5) => {
@@ -32,46 +58,81 @@ class GridSketch extends AbstractSketch<Config> {
     s.setup = function () {
       s.createCanvas(WIDTH, HEIGHT);
       s.colorMode(s.HSB, 255);
-      s.textFont("Helvetica", 24);
+      s.textFont("Helvetica", 10);
       s.textAlign(s.CENTER, s.CENTER);
+    };
+
+    s.mouseClicked = function () {
+      const mousePosition = s.createVector(s.mouseX, s.mouseY);
+      const boid = Object.values(that.boids).find((boid) =>
+        boid.isMouseOver(mousePosition)
+      );
+      if (boid !== undefined) {
+        that.config.toggleConnection(boid.entity);
+      }
     };
 
     s.draw = function () {
       s.background(230);
       s.push();
-      s.translate(SPREAD, SPREAD);
 
       const {
-        graph: { equalityCheck, vertices, edges },
+        graph: { equalityCheck, vertexToString, vertices, edges },
         sourceNode,
         destinationNode,
         path,
       } = that.config;
 
-      // Draw Edges
-      s.strokeWeight(1);
-      s.stroke("black");
-      edges.forEach(({ from, to }) => {
-        s.line(from.x * SPREAD, from.y * SPREAD, to.x * SPREAD, to.y * SPREAD);
+      let boidsInSketch: DataItemBoid<p5.Vector>[] = vertices.map((v) =>
+        that.getBoid(s, vertexToString, v)
+      );
+      let boidColours: BoidDrawDetailsById = vertices
+        .map((v) => {
+          let colour;
+          if (equalityCheck(v, sourceNode)) {
+            colour = "blue";
+          } else if (equalityCheck(v, destinationNode)) {
+            colour = "red";
+          } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
+            colour = "green";
+          } else {
+            colour = "black";
+          }
+          return { vertex: vertexToString(v), colour };
+        })
+        .reduce(
+          (acc, { vertex, colour }) => ({
+            ...acc,
+            [vertex]: { colour, radius: 20 },
+          }),
+          {}
+        );
+
+      const boidIdsInSketch: string[] = vertices.map(vertexToString);
+
+      // Get the list of boid edges
+      const boidEdges: Edge<DataItemBoid<p5.Vector>>[] = edges
+        .filter(
+          ({ from, to }) =>
+            boidIdsInSketch.includes(vertexToString(from)) &&
+            boidIdsInSketch.includes(vertexToString(to))
+        )
+        .map(({ from, to, weight }) => ({
+          from: that.getBoid(s, vertexToString, from),
+          to: that.getBoid(s, vertexToString, to),
+          weight,
+        }));
+
+      // Draw the lines
+      s.strokeWeight(4);
+      boidEdges.forEach(({ from, to }) => {
+        s.line(from.location.x, from.location.y, to.location.x, to.location.y);
       });
 
-      // Draw Vertices
-      s.strokeWeight(20);
-      vertices.forEach((v) => {
-        if (equalityCheck(v, sourceNode)) {
-          s.stroke("blue");
-        } else if (equalityCheck(v, destinationNode)) {
-          s.stroke("red");
-        } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
-          s.stroke("green");
-        } else {
-          s.stroke("black");
-        }
-        s.point(v.x * SPREAD, v.y * SPREAD);
-      });
-
-      // Undo translate
-      s.pop();
+      /// Call upon all boids to draw themselves
+      boidsInSketch.forEach((b) =>
+        b.draw(vertexToString, boidColours[vertexToString(b.entity)])
+      );
     };
   };
 }

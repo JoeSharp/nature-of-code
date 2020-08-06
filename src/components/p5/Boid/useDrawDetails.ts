@@ -12,9 +12,11 @@ interface ClearAction {
   type: "clear";
 }
 
+type Action = SetDetailsAction | ClearAction;
+
 const reducer = (
   state: BoidDrawDetailsById,
-  action: SetDetailsAction | ClearAction
+  action: Action
 ): BoidDrawDetailsById => {
   switch (action.type) {
     case "set":

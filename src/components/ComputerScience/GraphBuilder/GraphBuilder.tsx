@@ -7,10 +7,12 @@ import { UseBuildGraph } from "./types";
 import "./graphBuilder.css";
 
 interface Props {
-  buildGraph: UseBuildGraph;
+  buildGraph: UseBuildGraph<string>;
 }
 
-const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
+const GraphBuilder: React.FunctionComponent<Props> = ({
+  buildGraph,
+}: Props) => {
   const {
     graph,
     setNewEdgeWeight,

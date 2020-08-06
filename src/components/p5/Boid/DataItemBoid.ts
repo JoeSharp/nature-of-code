@@ -1,8 +1,9 @@
 import p5 from "p5";
 import Boid from "./Boid";
 import { BoidDrawDetails } from "./types";
+import { ToString } from "ocr-cs-alevel-ts/dist/types";
 
-export default class DataItemBoid extends Boid<string> {
+export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {
     // Is the mouse pointer within the radius of our boid circle?
     let diff = p5.Vector.sub(this.location, mousePosition);
@@ -27,7 +28,10 @@ export default class DataItemBoid extends Boid<string> {
     }
   }
 
-  draw({ colour = "red", borderWeight = 1 }: BoidDrawDetails) {
+  draw(
+    toString: ToString<T>,
+    { colour = "red", borderWeight = 1 }: BoidDrawDetails
+  ) {
     if (this.grabbed) {
       this.sketch.strokeWeight(4);
     } else {
@@ -38,6 +42,6 @@ export default class DataItemBoid extends Boid<string> {
     this.sketch.ellipse(this.location.x, this.location.y, this.radius);
     this.sketch.fill("white");
     this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-    this.sketch.text(this.entity || "NONE", this.location.x, this.location.y);
+    this.sketch.text(toString(this.entity), this.location.x, this.location.y);
   }
 }

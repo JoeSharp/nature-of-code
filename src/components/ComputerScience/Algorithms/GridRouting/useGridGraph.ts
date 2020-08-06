@@ -17,6 +17,9 @@ export interface UseGridGraph {
   topLeft: p5.Vector;
   bottomRight: p5.Vector;
   graph: Graph<p5.Vector>;
+  connect: (vertex: p5.Vector) => void;
+  disconnect: (vertex: p5.Vector) => void;
+  toggleConnection: (vertex: p5.Vector) => void;
 }
 
 export function createVector(x: number, y: number): p5.Vector {
@@ -33,36 +36,65 @@ export default ({ rows, columns }: Props): UseGridGraph => {
     })
   );
 
+  const connect = React.useCallback(
+    (vertex: p5.Vector) => {
+      if (vertex.y > 1) {
+        const to: p5.Vector = createVector(vertex.x, vertex.y - 1);
+        graph.current.addBiDirectionalEdge(vertex, to);
+      }
+      if (vertex.y < rows - 1) {
+        const to: p5.Vector = createVector(vertex.x, vertex.y + 1);
+        graph.current.addBiDirectionalEdge(vertex, to);
+      }
+      if (vertex.x > 1) {
+        const to: p5.Vector = createVector(vertex.x - 1, vertex.y);
+        graph.current.addBiDirectionalEdge(vertex, to);
+      }
+      if (vertex.x < columns - 1) {
+        const to: p5.Vector = createVector(vertex.x + 1, vertex.y);
+        graph.current.addBiDirectionalEdge(vertex, to);
+      }
+      tickVersion();
+    },
+    [rows, columns, graph, tickVersion]
+  );
+  const disconnect = React.useCallback(
+    (vertex: p5.Vector) => {
+      graph.current.removeVertex(vertex);
+      graph.current.addVertex(vertex);
+
+      tickVersion();
+    },
+    [graph]
+  );
+
+  const toggleConnection = React.useCallback(
+    (vertex: p5.Vector) => {
+      if (
+        graph.current.getIncoming(vertex).length > 0 ||
+        graph.current.getOutgoing(vertex).length > 0
+      ) {
+        disconnect(vertex);
+      } else {
+        connect(vertex);
+      }
+    },
+    [graph, disconnect, connect]
+  );
+
   React.useEffect(() => {
     graph.current.clearAll();
 
     for (let col = 0; col < columns; col++) {
       for (let row = 0; row < rows; row++) {
-        if (row > 1) {
-          const from: p5.Vector = createVector(col, row);
-          const to: p5.Vector = createVector(col, row - 1);
-          graph.current.addBiDirectionalEdge(from, to);
-        }
-        if (row < rows - 1) {
-          const from: p5.Vector = createVector(col, row);
-          const to: p5.Vector = createVector(col, row + 1);
-          graph.current.addBiDirectionalEdge(from, to);
-        }
-        if (col > 1) {
-          const from: p5.Vector = createVector(col, row);
-          const to: p5.Vector = createVector(col - 1, row);
-          graph.current.addBiDirectionalEdge(from, to);
-        }
-        if (col < columns - 1) {
-          const from: p5.Vector = createVector(col, row);
-          const to: p5.Vector = createVector(col + 1, row);
-          graph.current.addBiDirectionalEdge(from, to);
-        }
+        graph.current.addVertex(createVector(col, row));
       }
     }
 
+    graph.current.vertices.forEach((v) => connect(v));
+
     tickVersion();
-  }, [rows, columns]);
+  }, [rows, columns, connect]);
 
   return {
     version,
@@ -72,5 +104,8 @@ export default ({ rows, columns }: Props): UseGridGraph => {
       columns,
     ]),
     graph: graph.current,
+    connect,
+    disconnect,
+    toggleConnection,
   };
 };

@@ -8,6 +8,7 @@ import { useToggledInterval } from "src/components/lib/useInterval";
 import GraphBuilder, {
   useGraphBuilder,
 } from "src/components/ComputerScience/GraphBuilder";
+import { defaultStringGraph } from "../../GraphBuilder/useGraphBuilder";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -15,7 +16,7 @@ const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const buildGraph = useGraphBuilder();
+  const buildGraph = useGraphBuilder(defaultStringGraph);
   const { graph } = buildGraph;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,

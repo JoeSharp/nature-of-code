@@ -1,16 +1,16 @@
 import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import { UseDrawDetails } from "src/components/p5/Boid/types";
 
-export interface UseBuildGraph {
+export interface UseBuildGraph<T> {
   version: number;
-  graph: Graph<string>;
+  graph: Graph<T>;
   drawDetails: UseDrawDetails;
-  pendingFrom: string | undefined;
+  pendingFrom: T | undefined;
   newEdgeWeight: number;
   setNewEdgeWeight: (e: number) => void;
-  prepareEdge: (from: string) => void;
+  prepareEdge: (from: T) => void;
   cancelEdge: () => void;
-  completeEdge: (to: string, weight: number) => void;
+  completeEdge: (to: T, weight: number) => void;
   clearAll: () => void;
   tickVersion: () => void;
 }
