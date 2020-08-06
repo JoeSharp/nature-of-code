@@ -2,7 +2,7 @@ import p5 from "p5";
 
 export interface BoidArgs<T> {
   sketch: p5;
-  entity?: T;
+  entity: T;
   location: p5.Vector;
   radius: number;
   borderWeight?: number;
@@ -11,4 +11,19 @@ export interface BoidArgs<T> {
   maxForce?: number;
   minForce?: number;
   environmentalFriction?: number;
+}
+
+export interface BoidDrawDetails {
+  colour?: string;
+  borderWeight?: number;
+}
+
+export interface BoidDrawDetailsById {
+  [id: string]: BoidDrawDetails;
+}
+
+export interface UseDrawDetails {
+  drawDetails: BoidDrawDetailsById;
+  setDetails: (id: string, details: BoidDrawDetails) => void;
+  clearDetails: () => void;
 }

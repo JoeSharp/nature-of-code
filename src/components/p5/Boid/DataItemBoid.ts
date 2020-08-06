@@ -1,5 +1,6 @@
 import p5 from "p5";
 import Boid from "./Boid";
+import { BoidDrawDetails } from "./types";
 
 export default class DataItemBoid extends Boid<string> {
   isMouseOver(mousePosition: p5.Vector) {
@@ -26,15 +27,15 @@ export default class DataItemBoid extends Boid<string> {
     }
   }
 
-  draw() {
+  draw({ colour = "red", borderWeight = 1 }: BoidDrawDetails) {
     if (this.grabbed) {
       this.sketch.strokeWeight(4);
     } else {
-      this.sketch.strokeWeight(this.borderWeight);
+      this.sketch.strokeWeight(borderWeight);
     }
 
     this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-    this.sketch.fill(this.colour);
+    this.sketch.fill(colour);
     this.sketch.ellipse(this.location.x, this.location.y, this.radius);
     this.sketch.fill("white");
     this.sketch.text(this.entity || "NONE", this.location.x, this.location.y);

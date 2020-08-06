@@ -64,6 +64,7 @@ export default class RainbowFlowField extends AbstractSketch<{}> {
       while (boids.length < MINIMUM_BOIDS) {
         let aBoid = new Boid({
           sketch: s,
+          entity: boids.length,
           location: s.createVector(
             randomInt(s, 0, s.width),
             randomInt(s, 0, s.height)

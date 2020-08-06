@@ -1,7 +1,7 @@
 import FlowField from "./FlowField";
 import Boid from "../../Boid/Boid";
 
-export default class ArrowBoidBoid extends Boid<void> {
+export default class ArrowBoidBoid extends Boid<number> {
   colour: string = "red";
 
   follow(flow: FlowField) {

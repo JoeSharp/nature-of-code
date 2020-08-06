@@ -2,6 +2,10 @@ import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
+import {
+  BoidDrawDetailsById,
+  BoidDrawDetails,
+} from "src/components/p5/Boid/types";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -10,12 +14,14 @@ interface Config<T> {
   graph: Graph<T>;
   getKey: (vertex: T) => string;
   physicsEnabled: boolean;
+  drawDetails: BoidDrawDetailsById;
 }
 
 const getDefaultConfig = (): Config<any> => ({
   graph: new Graph(),
   getKey: (v) => `${v}`,
   physicsEnabled: true,
+  drawDetails: {},
 });
 
 class GraphSketch<T> extends AbstractSketch<Config<T>> {
@@ -26,6 +32,14 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
+  }
+
+  getBoidDrawDetails(id: string): BoidDrawDetails {
+    return {
+      colour: "red",
+      borderWeight: 1,
+      ...this.config.drawDetails[id],
+    };
   }
 
   getBoid(sketch: p5, id: string) {
@@ -137,7 +151,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       });
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) => b.draw());
+      boidsInSketch.forEach((b) => b.draw(that.getBoidDrawDetails(b.entity)));
     };
   };
 }

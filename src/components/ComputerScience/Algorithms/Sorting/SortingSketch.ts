@@ -122,24 +122,10 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         const boid = that.getBoid(s, item);
 
         let x = getDataX(i);
-        switch (i) {
-          case compareIndexA:
-          case compareIndexB:
-            boid.colour = "green";
-            break;
-          case swapFrom: {
-            boid.colour = "red";
-            x = getDataX(swapTo);
-            break;
-          }
-          case swapTo: {
-            boid.colour = "red";
-            x = getDataX(swapFrom);
-            break;
-          }
-          default:
-            boid.colour = "blue";
-            break;
+        if (i === swapFrom) {
+          x = getDataX(swapTo);
+        } else if (i === swapTo) {
+          x = getDataX(swapFrom);
         }
 
         boid.arrive(s.createVector(x, DATA_Y), 5);
@@ -171,7 +157,24 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.text(subTitle, 20, 50);
 
       boids.forEach((b) => b.update());
-      boids.forEach((b) => b.draw());
+      boids.forEach((b, i) => {
+        let colour = "blue";
+        switch (i) {
+          case compareIndexA:
+          case compareIndexB:
+            colour = "green";
+            break;
+          case swapFrom: {
+            colour = "red";
+            break;
+          }
+          case swapTo: {
+            colour = "red";
+            break;
+          }
+        }
+        b.draw({ colour });
+      });
 
       // Ensure position vars are in consistent order
       s.textAlign(s.CENTER, s.CENTER);

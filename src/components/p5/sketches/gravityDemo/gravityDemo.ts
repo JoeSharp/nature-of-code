@@ -46,6 +46,7 @@ export default class GravitySketch extends AbstractSketch<{}> {
         // Each boid will be a random colour
         let aBoid = new ArrowBoid({
           sketch: s,
+          entity: i,
           location,
           radius: RADIUS,
           maxSpeed: MAX_SPEED,

@@ -1,21 +1,17 @@
 import p5 from "p5";
-import { BoidArgs } from "./types";
+import { BoidArgs, BoidDrawDetails } from "./types";
 
-const DEFAULT_BORDER_WEIGTH = 1;
-const DEFAULT_COLOUR = "red";
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
 const DEFAULT_MIN_FORCE = 0.01;
 
 export default class Boid<T> implements BoidArgs<T> {
   sketch: p5;
-  entity?: T;
+  entity: T;
   location: p5.Vector;
   velocity: p5.Vector;
   acceleration: p5.Vector;
   radius: number;
-  colour: string;
-  borderWeight: number;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -27,8 +23,6 @@ export default class Boid<T> implements BoidArgs<T> {
     entity,
     location,
     radius,
-    borderWeight = DEFAULT_BORDER_WEIGTH,
-    colour = DEFAULT_COLOUR,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
     minForce = DEFAULT_MIN_FORCE,
@@ -40,8 +34,6 @@ export default class Boid<T> implements BoidArgs<T> {
     this.velocity = sketch.createVector();
     this.acceleration = sketch.createVector();
     this.radius = radius;
-    this.colour = colour;
-    this.borderWeight = borderWeight;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.minForce = minForce;
@@ -79,10 +71,10 @@ export default class Boid<T> implements BoidArgs<T> {
     this.acceleration.mult(0);
   }
 
-  draw() {
+  draw({ colour = "red", borderWeight = 1 }: BoidDrawDetails) {
     // Expect to be overridden
-    this.sketch.strokeWeight(1);
-    this.sketch.fill("lime");
+    this.sketch.strokeWeight(borderWeight);
+    this.sketch.fill(colour);
     this.sketch.circle(this.location.x, this.location.y, this.radius);
   }
 

@@ -5,6 +5,7 @@ import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import useRoutingAlgorithm from "./useRoutingAlgorithm";
 import VertexPicker, { usePicker } from "./VertexPicker";
+import { BoidDrawDetails } from "src/components/p5/Boid/types";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -25,9 +26,21 @@ const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("J", "L", 4)
   .addBiDirectionalEdge("J", "K", 4);
 
+const inPathDrawDetails: BoidDrawDetails = {
+  borderWeight: 3,
+  colour: "red",
+};
+const notInPathDrawDetails: BoidDrawDetails = {
+  borderWeight: 1,
+  colour: "blue",
+};
+
 const Routing: React.FunctionComponent = () => {
   const buildGraph = useGraphBuilder(initialGraph);
-  const { graph } = buildGraph;
+  const {
+    graph,
+    drawDetails: { setDetails },
+  } = buildGraph;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
     graph,
@@ -39,6 +52,12 @@ const Routing: React.FunctionComponent = () => {
   } = usePicker(graph, "form-control");
 
   const { path } = useRoutingAlgorithm({ graph, sourceNode, destinationNode });
+
+  React.useEffect(() => {
+    graph.vertices.forEach((v) =>
+      setDetails(v, path.includes(v) ? inPathDrawDetails : notInPathDrawDetails)
+    );
+  }, [graph, path, setDetails]);
 
   return (
     <div>
@@ -59,7 +78,7 @@ const Routing: React.FunctionComponent = () => {
       <h2>Shortest Path</h2>
       <ol>
         {path.map((p) => (
-          <li>{p}</li>
+          <li key={p}>{p}</li>
         ))}
       </ol>
 

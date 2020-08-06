@@ -1,6 +1,7 @@
 import React from "react";
 import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
 import { UseBuildGraph } from "./types";
+import useDrawDetails from "../../p5/Boid/useDrawDetails";
 
 const versionReducer = (state: number): number => state + 1;
 
@@ -37,8 +38,12 @@ const useGraphBuilder = (initialGraph = defaultInitialGraph): UseBuildGraph => {
     graph.current.vertices.forEach((v) => graph.current.removeVertex(v));
     tickVersion();
   }, [tickVersion]);
+
+  const drawDetails = useDrawDetails();
+
   return {
     version,
+    drawDetails,
     tickVersion,
     graph: graph.current,
     pendingFrom,

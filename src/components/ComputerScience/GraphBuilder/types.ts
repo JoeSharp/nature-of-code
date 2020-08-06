@@ -1,13 +1,10 @@
 import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
-
-export interface GraphBuilder {
-  pendingFrom: string | undefined;
-  graph: Graph<string>;
-}
+import { UseDrawDetails } from "src/components/p5/Boid/types";
 
 export interface UseBuildGraph {
   version: number;
   graph: Graph<string>;
+  drawDetails: UseDrawDetails;
   pendingFrom: string | undefined;
   prepareEdge: (from: string) => void;
   cancelEdge: () => void;

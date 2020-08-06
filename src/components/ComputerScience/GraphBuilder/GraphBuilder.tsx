@@ -11,7 +11,11 @@ interface Props {
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
-  const { graph, clearAll } = buildGraph;
+  const {
+    graph,
+    drawDetails: { drawDetails },
+    clearAll,
+  } = buildGraph;
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
@@ -31,10 +35,11 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ buildGraph }) => {
 
   const { refContainer, updateConfig } = useSketch(GraphSketch);
 
-  React.useEffect(() => updateConfig({ graph, physicsEnabled }), [
+  React.useEffect(() => updateConfig({ graph, physicsEnabled, drawDetails }), [
     physicsEnabled,
     graph,
     updateConfig,
+    drawDetails,
   ]);
 
   return (
