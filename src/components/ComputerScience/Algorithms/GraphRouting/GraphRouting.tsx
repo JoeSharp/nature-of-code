@@ -6,6 +6,8 @@ import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import useRoutingAlgorithm from "./useRoutingAlgorithm";
 import VertexPicker, { usePicker } from "./VertexPicker";
 import { BoidDrawDetails } from "src/components/p5/Boid/types";
+import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
+import { useToggledInterval } from "src/components/lib/useInterval";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -57,12 +59,31 @@ const GraphRouting: React.FunctionComponent = () => {
     componentProps: destinationPickerProps,
   } = usePicker(version, graph, "form-control");
 
-  const { path } = useRoutingAlgorithm({
+  const { path, stages } = useRoutingAlgorithm({
     version,
     graph,
     sourceNode,
     destinationNode,
   });
+
+  const {
+    item: currentStage,
+    index,
+    stepForward,
+    stepBackward,
+  } = useItemInArray({ items: stages });
+
+  // Only auto iterate forward if we aren't on the final step
+  const autoStepForward = React.useCallback(() => {
+    if (index < stages.length - 1) {
+      stepForward();
+    }
+  }, [index, stages.length, stepForward]);
+
+  const {
+    isAutoIterating,
+    onChange: onAutoIterateChange,
+  } = useToggledInterval({ iterate: autoStepForward, interval: 500 });
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
@@ -90,6 +111,18 @@ const GraphRouting: React.FunctionComponent = () => {
           <label>Destination</label>
           <VertexPicker {...destinationPickerProps} />
         </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={isAutoIterating}
+            onChange={onAutoIterateChange}
+            id="chkAutoIterate"
+          />
+          <label className="form-check-label" htmlFor="chkAutoIterate">
+            Auto Iterate
+          </label>{" "}
+        </div>
       </form>
 
       <h2>Shortest Path</h2>
@@ -98,6 +131,19 @@ const GraphRouting: React.FunctionComponent = () => {
           <li key={p}>{p}</li>
         ))}
       </ol>
+      <h2>This Stage</h2>
+      <ol>
+        {currentStage && currentStage.pathFrom.map((p) => <li key={p}>{p}</li>)}
+      </ol>
+
+      <div className="btn-group">
+        <button className="btn btn-primary" onClick={stepBackward}>
+          Back
+        </button>
+        <button className="btn btn-primary" onClick={stepForward}>
+          Forward
+        </button>
+      </div>
 
       <GraphBuilder buildGraph={buildGraph} />
     </div>
