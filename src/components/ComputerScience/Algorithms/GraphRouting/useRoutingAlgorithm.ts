@@ -36,7 +36,7 @@ export default <T>({
         : {};
     const path =
       destinationNode !== undefined
-        ? getPath(graph, shortestPathTree, destinationNode)
+        ? getPath({ graph, shortestPathTree, destinationNode })
         : [];
     path.reverse();
 

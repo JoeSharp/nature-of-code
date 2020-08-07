@@ -92,9 +92,32 @@ export default ({ rows, columns }: Props): UseGridGraph => {
     }
 
     graph.current.vertices.forEach((v) => connect(v));
+    disconnect(createVector(0, 7));
+    disconnect(createVector(1, 6));
+    disconnect(createVector(2, 5));
+    disconnect(createVector(3, 4));
+    disconnect(createVector(4, 3));
+    disconnect(createVector(4, 4));
+    disconnect(createVector(4, 5));
+
+    disconnect(createVector(8, 1));
+    disconnect(createVector(8, 2));
+    disconnect(createVector(8, 3));
+    disconnect(createVector(8, 4));
+
+    disconnect(createVector(9, 4));
+    disconnect(createVector(9, 7));
+    disconnect(createVector(10, 3));
+    disconnect(createVector(11, 1));
+    disconnect(createVector(11, 6));
+    disconnect(createVector(11, 7));
+
+    disconnect(createVector(12, 1));
+    disconnect(createVector(12, 4));
+    disconnect(createVector(12, 5));
 
     tickVersion();
-  }, [rows, columns, connect]);
+  }, [rows, columns, connect, disconnect]);
 
   return {
     version,
