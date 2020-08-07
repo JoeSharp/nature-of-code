@@ -1,7 +1,7 @@
 import p5 from "p5";
 import Boid from "./Boid";
 import { BoidDrawDetails } from "./types";
-import { ToString } from "ocr-cs-alevel-ts/dist/types";
+import { ToString } from "comp-sci-maths-lib/dist/types";
 
 export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {

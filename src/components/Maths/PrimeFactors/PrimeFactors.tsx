@@ -3,8 +3,8 @@ import React from "react";
 import {
   getPrimeFactors,
   getPrimeFactorTree,
-} from "ocr-cs-alevel-ts/dist/algorithms/primeNumbers/primeFactors";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import useSketch from "src/components/p5/useSketch";

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PageRanks } from "./types";
-import { roundTo2Dp } from "ocr-cs-alevel-ts/dist/algorithms/pageRank/pageRank";
+import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 
 interface Props {
   pages: string[];

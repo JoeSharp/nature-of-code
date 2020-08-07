@@ -1,9 +1,11 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
-import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, {
+  Edge,
+} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import p5 from "p5";
 import { createVector } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { ToString } from "ocr-cs-alevel-ts/dist/types";
+import { ToString } from "comp-sci-maths-lib/dist/types";
 import {
   BoidDrawDetailsById,
   BoidDrawDetails,
@@ -30,7 +32,7 @@ const HEIGHT = 500;
 const SPREAD = 50;
 
 const commonDrawDetails: BoidDrawDetails = {
-  includeText: false,
+  // includeText: false,
 };
 
 class GridSketch extends AbstractSketch<Config> {

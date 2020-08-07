@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
+import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { AbstractSketch } from "src/components/p5/useSketch";
 
 import {

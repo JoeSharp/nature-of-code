@@ -1,12 +1,14 @@
 import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
-import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, {
+  Edge,
+} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
 import {
   BoidDrawDetailsById,
   BoidDrawDetails,
 } from "src/components/p5/Boid/types";
-import { ToString } from "ocr-cs-alevel-ts/dist/types";
+import { ToString } from "comp-sci-maths-lib/dist/types";
 
 const WIDTH = 800;
 const HEIGHT = 500;

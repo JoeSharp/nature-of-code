@@ -1,4 +1,4 @@
-import { PositionVars } from "ocr-cs-alevel-ts/dist/types";
+import { PositionVars } from "comp-sci-maths-lib/dist/types";
 
 export enum SearchStageType {
   observation,

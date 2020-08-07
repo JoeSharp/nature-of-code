@@ -1,7 +1,7 @@
 import React from "react";
 
-import algorithms from "ocr-cs-alevel-ts/dist/algorithms/search/monitored";
-import { NamedSearch } from "ocr-cs-alevel-ts/dist/types";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/search/monitored";
+import { NamedSearch } from "comp-sci-maths-lib/dist/types";
 import { ControlledInput } from "src/types";
 
 interface Props extends ControlledInput<NamedSearch | undefined> {

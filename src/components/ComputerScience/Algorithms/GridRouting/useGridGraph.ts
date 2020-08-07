@@ -1,7 +1,7 @@
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import React from "react";
 import p5 from "p5";
-import { EqualityCheck, ToString } from "ocr-cs-alevel-ts/dist/types";
+import { EqualityCheck, ToString } from "comp-sci-maths-lib/dist/types";
 
 interface Props {
   rows: number;

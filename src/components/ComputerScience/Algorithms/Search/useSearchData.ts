@@ -3,8 +3,8 @@ import React from "react";
 import {
   stringComparator,
   generateRandomLetters,
-} from "ocr-cs-alevel-ts/dist/common";
-import { NamedSearch, SearchUtilities } from "ocr-cs-alevel-ts/dist/types";
+} from "comp-sci-maths-lib/dist/common";
+import { NamedSearch, SearchUtilities } from "comp-sci-maths-lib/dist/types";
 
 import {
   SearchStage,
@@ -12,7 +12,7 @@ import {
   SearchStageType,
   SearchObservation,
 } from "./types";
-import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
+import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 
 interface Props {
   algorithm?: NamedSearch;

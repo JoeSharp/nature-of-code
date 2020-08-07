@@ -3,9 +3,9 @@ import React from "react";
 import {
   divisibilityRules,
   defaultNamedDivisibilityRule,
-} from "ocr-cs-alevel-ts/dist/algorithms/primeNumbers/divisibilityRules";
+} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/divisibilityRules";
 import { ControlledInput } from "src/types";
-import { NamedDivisibilityRule } from "ocr-cs-alevel-ts/dist/types";
+import { NamedDivisibilityRule } from "comp-sci-maths-lib/dist/types";
 
 interface Props extends ControlledInput<NamedDivisibilityRule> {
   className?: string;

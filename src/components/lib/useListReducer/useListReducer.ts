@@ -38,7 +38,7 @@ interface RemovedByIndexAction {
   index: number;
 }
 
-const createListReducer = <T extends {}>() => {
+const createListReducer = <T>() => {
   return (
     state: T[],
     action:

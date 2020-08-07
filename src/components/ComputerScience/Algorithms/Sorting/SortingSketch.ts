@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
+import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { AbstractSketch } from "src/components/p5/useSketch";
 
 import {
@@ -9,7 +9,7 @@ import {
   SortObservation,
 } from "./types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { ToString } from "ocr-cs-alevel-ts/dist/types";
+import { ToString } from "comp-sci-maths-lib/dist/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;

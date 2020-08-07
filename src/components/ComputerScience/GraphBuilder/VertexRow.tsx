@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseBuildGraph } from "./types";
 import EdgesCell from "./EdgeCell";
 

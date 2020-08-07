@@ -1,6 +1,8 @@
 import React from "react";
 
-import Graph, { Edge } from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph, {
+  Edge,
+} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props {
   version: number;

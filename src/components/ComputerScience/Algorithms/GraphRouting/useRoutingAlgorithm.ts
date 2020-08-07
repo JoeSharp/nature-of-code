@@ -1,14 +1,15 @@
 import React from "react";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { cloneDeep } from "lodash";
 
 import {
   dijstraks,
   getPathTo,
-} from "ocr-cs-alevel-ts/dist/algorithms/routing/dijkstras";
+} from "comp-sci-maths-lib/dist/algorithms/routing/dijkstras";
 import {
   ShortestPathTree,
   ObserverArgsWithPathFrom,
-} from "ocr-cs-alevel-ts/dist/algorithms/routing/types";
+} from "comp-sci-maths-lib/dist/algorithms/routing/types";
 
 export interface Props<T> {
   version: number;
@@ -38,16 +39,21 @@ export default <T>({
             sourceNode,
             destinationNode,
             observer: ({ shortestPathTree, currentDistances, currentItem }) =>
-              stages.push({
-                currentItem,
-                currentDistances,
-                shortestPathTree,
-                pathFrom: getPathTo({
-                  graph,
+              stages.push(
+                cloneDeep({
+                  currentItem,
+                  currentDistances,
                   shortestPathTree,
-                  node: !!currentItem ? currentItem.node : sourceNode,
-                }),
-              }),
+                  pathFrom: getPathTo({
+                    graph,
+                    shortestPathTree,
+                    node:
+                      (currentItem !== undefined && currentItem.viaNode) ||
+                      destinationNode ||
+                      sourceNode,
+                  }),
+                })
+              ),
           })
         : {};
     const path =

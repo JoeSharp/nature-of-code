@@ -4,8 +4,8 @@ import {
   stringComparator,
   generateRandomLetters,
   simpleSwap,
-} from "ocr-cs-alevel-ts/dist/common";
-import { NamedSort, SortUtility } from "ocr-cs-alevel-ts/dist/types";
+} from "comp-sci-maths-lib/dist/common";
+import { NamedSort, SortUtility } from "comp-sci-maths-lib/dist/types";
 
 import {
   SortStage,
@@ -13,7 +13,7 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
-import { NO_MATCH } from "ocr-cs-alevel-ts/dist/algorithms/search/common";
+import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 
 interface Props {
   algorithm?: NamedSort;

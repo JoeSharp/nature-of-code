@@ -1,6 +1,6 @@
 import React from "react";
 
-import Stack from "ocr-cs-alevel-ts/dist/dataStructures/stack/Stack";
+import Stack from "comp-sci-maths-lib/dist/dataStructures/stack/Stack";
 import useListReducer from "src/components/lib/useListReducer";
 
 import "./stack.css";

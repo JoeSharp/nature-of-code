@@ -1,4 +1,4 @@
-export interface UseListReducer<T extends {}> {
+export interface UseListReducer<T> {
   items: T[];
   receiveItems: (items: T[]) => void;
   addItem: (item: T) => void;

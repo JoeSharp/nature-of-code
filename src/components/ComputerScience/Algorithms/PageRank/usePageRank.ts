@@ -5,9 +5,9 @@ import {
   initialisePageRank,
   iteratePageRank,
   BLANK_PAGE_RANK_STATE,
-} from "ocr-cs-alevel-ts/dist/algorithms/pageRank/pageRank";
-import { PageRankState } from "ocr-cs-alevel-ts/dist/algorithms/pageRank/types";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+} from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import { PageRankState } from "comp-sci-maths-lib/dist/algorithms/pageRank/types";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props {
   dampingFactor: number;

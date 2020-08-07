@@ -1,6 +1,6 @@
 import React from "react";
 
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import useRoutingAlgorithm from "./useRoutingAlgorithm";
@@ -8,6 +8,7 @@ import VertexPicker, { usePicker } from "./VertexPicker";
 import { BoidDrawDetails } from "src/components/p5/Boid/types";
 import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
 import { useToggledInterval } from "src/components/lib/useInterval";
+import Checkbox from "src/components/lib/Checkbox";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -111,18 +112,12 @@ const GraphRouting: React.FunctionComponent = () => {
           <label>Destination</label>
           <VertexPicker {...destinationPickerProps} />
         </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            checked={isAutoIterating}
-            onChange={onAutoIterateChange}
-            id="chkAutoIterate"
-          />
-          <label className="form-check-label" htmlFor="chkAutoIterate">
-            Auto Iterate
-          </label>{" "}
-        </div>
+        <Checkbox
+          id="chkAutoIterating"
+          checked={isAutoIterating}
+          onChange={onAutoIterateChange}
+          label="Auto Iterate"
+        />
       </form>
 
       <h2>Shortest Path</h2>

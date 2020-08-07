@@ -1,5 +1,5 @@
 import React from "react";
-import Graph from "ocr-cs-alevel-ts/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseBuildGraph } from "./types";
 import useDrawDetails from "../../p5/Boid/useDrawDetails";
 

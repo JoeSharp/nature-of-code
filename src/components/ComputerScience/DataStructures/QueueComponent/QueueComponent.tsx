@@ -1,6 +1,6 @@
 import React from "react";
 
-import Queue from "ocr-cs-alevel-ts/dist/dataStructures/queue/Queue";
+import Queue from "comp-sci-maths-lib/dist/dataStructures/queue/Queue";
 import useListReducer from "src/components/lib/useListReducer";
 
 import "./queue.css";
