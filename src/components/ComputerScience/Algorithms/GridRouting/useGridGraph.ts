@@ -38,7 +38,7 @@ export default ({ rows, columns }: Props): UseGridGraph => {
 
   const connect = React.useCallback(
     (vertex: p5.Vector) => {
-      if (vertex.y > 1) {
+      if (vertex.y > 0) {
         const to: p5.Vector = createVector(vertex.x, vertex.y - 1);
         graph.current.addBiDirectionalEdge(vertex, to);
       }
@@ -46,7 +46,7 @@ export default ({ rows, columns }: Props): UseGridGraph => {
         const to: p5.Vector = createVector(vertex.x, vertex.y + 1);
         graph.current.addBiDirectionalEdge(vertex, to);
       }
-      if (vertex.x > 1) {
+      if (vertex.x > 0) {
         const to: p5.Vector = createVector(vertex.x - 1, vertex.y);
         graph.current.addBiDirectionalEdge(vertex, to);
       }

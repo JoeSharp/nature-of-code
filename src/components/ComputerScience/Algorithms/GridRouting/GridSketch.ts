@@ -4,7 +4,10 @@ import p5 from "p5";
 import { createVector } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import { ToString } from "ocr-cs-alevel-ts/dist/types";
-import { BoidDrawDetailsById } from "src/components/p5/Boid/types";
+import {
+  BoidDrawDetailsById,
+  BoidDrawDetails,
+} from "src/components/p5/Boid/types";
 
 interface Config {
   sourceNode: p5.Vector;
@@ -25,6 +28,10 @@ const getDefaultConfig = (): Config => ({
 const WIDTH = 800;
 const HEIGHT = 500;
 const SPREAD = 50;
+
+const commonDrawDetails: BoidDrawDetails = {
+  includeText: false,
+};
 
 class GridSketch extends AbstractSketch<Config> {
   boids: {
@@ -90,11 +97,11 @@ class GridSketch extends AbstractSketch<Config> {
         .map((v) => {
           let colour;
           if (equalityCheck(v, sourceNode)) {
-            colour = "blue";
+            colour = "lime";
           } else if (equalityCheck(v, destinationNode)) {
             colour = "red";
           } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
-            colour = "green";
+            colour = "cyan";
           } else {
             colour = "black";
           }
@@ -103,7 +110,7 @@ class GridSketch extends AbstractSketch<Config> {
         .reduce(
           (acc, { vertex, colour }) => ({
             ...acc,
-            [vertex]: { colour, radius: 20 },
+            [vertex]: { colour, ...commonDrawDetails },
           }),
           {}
         );
@@ -123,11 +130,21 @@ class GridSketch extends AbstractSketch<Config> {
           weight,
         }));
 
-      // Draw the lines
+      // Draw the lines for all connections
+      s.stroke("black");
       s.strokeWeight(4);
       boidEdges.forEach(({ from, to }) => {
         s.line(from.location.x, from.location.y, to.location.x, to.location.y);
       });
+
+      // Draw the lines on our route
+      s.stroke("cyan");
+      s.strokeWeight(4);
+      for (let i = 0; i < path.length - 1; i++) {
+        const from = that.getBoid(s, vertexToString, path[i]);
+        const to = that.getBoid(s, vertexToString, path[i + 1]);
+        s.line(from.location.x, from.location.y, to.location.x, to.location.y);
+      }
 
       /// Call upon all boids to draw themselves
       boidsInSketch.forEach((b) =>

@@ -25,7 +25,6 @@ const VertexRow: React.FunctionComponent<Props> = ({
     cancelEdge,
   },
 }) => {
-  const { removeVertex, equalityCheck } = graph;
   const onPrepareEdge = React.useCallback(() => prepareEdge(vertex), [
     vertex,
     prepareEdge,
@@ -36,17 +35,17 @@ const VertexRow: React.FunctionComponent<Props> = ({
   );
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
   const onRemoveVertex = React.useCallback(() => {
-    removeVertex(vertex);
+    graph.removeVertex(vertex);
     tickVersion();
-  }, [vertex, removeVertex, tickVersion]);
+  }, [vertex, graph, tickVersion]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<string>) => equalityCheck(edge.from, vertex),
-    [vertex, equalityCheck]
+    (edge: Edge<string>) => graph.equalityCheck(edge.from, vertex),
+    [vertex, graph]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<string>) => equalityCheck(edge.to, vertex),
-    [vertex, equalityCheck]
+    (edge: Edge<string>) => graph.equalityCheck(edge.to, vertex),
+    [vertex, graph]
   );
 
   return (

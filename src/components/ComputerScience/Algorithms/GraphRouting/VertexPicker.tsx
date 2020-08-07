@@ -11,23 +11,32 @@ export interface Props {
 
 const VertexPicker: React.FunctionComponent<Props> = ({
   version,
-  graph: { vertices },
+  graph,
   value,
   onChange,
   className,
 }) => {
-  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
-    ({ target: { value } }) =>
-      onChange(vertices.find((vertex) => vertex === value)),
-    [onChange, vertices]
+  const findVertex = React.useCallback(
+    (value) =>
+      graph.vertices.find((vertex) => graph.vertexToString(vertex) === value),
+    [graph]
   );
 
-  React.useEffect(() => onChange(vertices[0]), [vertices, onChange]);
+  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
+    ({ target: { value } }) => onChange(findVertex(value)),
+    [onChange, findVertex]
+  );
+
+  React.useEffect(() => {
+    if (findVertex(value) === undefined) {
+      onChange(graph.vertices[0]);
+    }
+  }, [value, graph, onChange, findVertex]);
 
   return (
     <select className={className} onChange={onSelectChange} value={value}>
       <option key={version} value={version} />
-      {vertices.map((vertex) => (
+      {graph.vertices.map((vertex) => (
         <option key={vertex} value={vertex}>
           {vertex}
         </option>

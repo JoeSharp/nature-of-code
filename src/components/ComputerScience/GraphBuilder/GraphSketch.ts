@@ -159,6 +159,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         s.fill("white");
         s.circle(midpoint.x, midpoint.y, 30);
         s.fill("black");
+        s.strokeWeight(1);
         s.textAlign(s.CENTER, s.CENTER);
         s.text(`${weight}`, midpoint.x, midpoint.y);
       });

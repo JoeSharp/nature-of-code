@@ -16,6 +16,7 @@ export interface BoidArgs<T> {
 export interface BoidDrawDetails {
   colour?: string;
   borderWeight?: number;
+  includeText?: boolean;
 }
 
 export interface BoidDrawDetailsById {

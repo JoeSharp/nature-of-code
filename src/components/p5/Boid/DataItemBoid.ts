@@ -30,8 +30,9 @@ export default class DataItemBoid<T> extends Boid<T> {
 
   draw(
     toString: ToString<T>,
-    { colour = "red", borderWeight = 1 }: BoidDrawDetails
+    { colour = "red", borderWeight = 1, includeText = true }: BoidDrawDetails
   ) {
+    this.sketch.stroke("black");
     if (this.grabbed) {
       this.sketch.strokeWeight(4);
     } else {
@@ -40,8 +41,11 @@ export default class DataItemBoid<T> extends Boid<T> {
 
     this.sketch.fill(colour);
     this.sketch.ellipse(this.location.x, this.location.y, this.radius);
-    this.sketch.fill("white");
-    this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-    this.sketch.text(toString(this.entity), this.location.x, this.location.y);
+
+    if (includeText) {
+      this.sketch.fill("white");
+      this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
+      this.sketch.text(toString(this.entity), this.location.x, this.location.y);
+    }
   }
 }
