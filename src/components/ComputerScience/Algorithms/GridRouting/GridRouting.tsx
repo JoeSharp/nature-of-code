@@ -3,12 +3,13 @@ import useSketch from "src/components/p5/useSketch";
 import GridSketch from "./GridSketch";
 import useGridGraph from "./useGridGraph";
 import useRoutingAlgorithm from "../GraphRouting/useRoutingAlgorithm";
-import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
-import { useToggledInterval } from "src/components/lib/useInterval";
 import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import Checkbox from "src/components/lib/Checkbox";
 
 import "./routing.css";
+import SteppingControls, {
+  useSteppingControls,
+} from "src/components/lib/SteppingControls";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig } = useSketch(GridSketch);
@@ -32,25 +33,9 @@ const GridRouting: React.FunctionComponent = () => {
   });
 
   const {
-    index,
     item: { currentItem, currentDistances, pathFrom, shortestPathTree },
-    stepForward,
-    stepBackward,
-  } = useItemInArray({
-    items: stages,
-  });
-
-  // Only auto iterate forward if we aren't on the final step
-  const autoStepForward = React.useCallback(() => {
-    if (index < stages.length - 1) {
-      stepForward();
-    }
-  }, [index, stages.length, stepForward]);
-
-  const {
-    isAutoIterating,
-    onChange: onAutoIterateChange,
-  } = useToggledInterval({ iterate: autoStepForward, interval: 100 });
+    componentProps: steppingControlProps,
+  } = useSteppingControls(stages);
 
   const [showFinalPath, setShowFinalPath] = React.useState<boolean>(false);
   const onShowFinalPathChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
@@ -65,8 +50,6 @@ const GridRouting: React.FunctionComponent = () => {
       toggleConnection,
     });
   }, [showFinalPath, path, pathFrom, graph, updateConfig, toggleConnection]);
-
-  React.useEffect(() => console.log(path), [path]);
 
   const shortestPathTreeItems = React.useMemo(
     () =>
@@ -99,12 +82,6 @@ const GridRouting: React.FunctionComponent = () => {
 
       <form>
         <Checkbox
-          id="chkAutoIterating"
-          checked={isAutoIterating}
-          onChange={onAutoIterateChange}
-          label="Auto Iterate"
-        />
-        <Checkbox
           id="chkFinalPath"
           checked={showFinalPath}
           onChange={onShowFinalPathChange}
@@ -112,14 +89,7 @@ const GridRouting: React.FunctionComponent = () => {
         />
       </form>
 
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={stepBackward}>
-          Back
-        </button>
-        <button className="btn btn-primary" onClick={stepForward}>
-          Forward
-        </button>
-      </div>
+      <SteppingControls {...steppingControlProps} />
 
       <div ref={refContainer} />
 

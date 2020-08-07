@@ -2,23 +2,24 @@ import React from "react";
 
 import useInterval from "./useInterval";
 
-interface Props {
+export interface Props {
   iterate: () => any;
   interval?: number;
 }
 
-interface UseToggledInterval {
+export interface UseToggledInterval {
   isAutoIterating: boolean;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  setIsAutoIterating: (value: boolean) => void;
+  onAutoIteratingChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const useToggledInterval = ({
+export const useToggledInterval = ({
   iterate,
   interval = 1000,
 }: Props): UseToggledInterval => {
   const [isAutoIterating, setIsAutoIterating] = React.useState<boolean>(false);
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+  const onAutoIteratingChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { checked } }) => setIsAutoIterating(checked),
     [setIsAutoIterating]
   );
@@ -30,7 +31,5 @@ const useToggledInterval = ({
 
   useInterval(autoIterate, interval);
 
-  return { isAutoIterating, onChange };
+  return { setIsAutoIterating, isAutoIterating, onAutoIteratingChange };
 };
-
-export default useToggledInterval;

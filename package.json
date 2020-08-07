@@ -1,7 +1,7 @@
 {
-  "name": "ocr-cs-alevel-react",
+  "name": "comp-sci-maths-ui",
   "version": "0.1.0",
-  "homepage": "https://joesharp.github.io/ocr-cs-alevel-react/",
+  "homepage": "https://joesharp.github.io/comp-sci-maths-ui/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -21,6 +21,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.19",
     "lorem-ipsum": "^2.0.3",
+    "open-iconic": "^1.1.1",
     "p5": "^1.1.9",
     "popper.js": "^1.14.7",
     "react": "^16.13.1",

@@ -9,6 +9,7 @@ import GraphBuilder, {
   useGraphBuilder,
 } from "src/components/ComputerScience/GraphBuilder";
 import { defaultStringGraph } from "../../GraphBuilder/useGraphBuilder";
+import Checkbox from "src/components/lib/Checkbox";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -33,10 +34,9 @@ const PageRank: React.FunctionComponent = () => {
     [setDampingFactor]
   );
 
-  const {
-    isAutoIterating,
-    onChange: onAutoIterateChange,
-  } = useToggledInterval({ iterate });
+  const { isAutoIterating, onAutoIteratingChange } = useToggledInterval({
+    iterate,
+  });
 
   return (
     <div className="container">
@@ -63,18 +63,12 @@ const PageRank: React.FunctionComponent = () => {
               onChange={onDampingFactorChange}
             />
           </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={isAutoIterating}
-              onChange={onAutoIterateChange}
-              id="chkAutoIterate"
-            />
-            <label className="form-check-label" htmlFor="chkAutoIterate">
-              Auto Iterate
-            </label>
-          </div>
+          <Checkbox
+            id="chkAutoIterate"
+            label="Auto Iterate"
+            checked={isAutoIterating}
+            onChange={onAutoIteratingChange}
+          />
         </div>
         <div className="row">
           <div className="col-md-8">

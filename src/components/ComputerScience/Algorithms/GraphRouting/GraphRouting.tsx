@@ -6,9 +6,9 @@ import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import useRoutingAlgorithm from "./useRoutingAlgorithm";
 import VertexPicker, { usePicker } from "./VertexPicker";
 import { BoidDrawDetails } from "src/components/p5/Boid/types";
-import useItemInArray from "src/components/lib/useLoopCounter/useItemInArray";
-import { useToggledInterval } from "src/components/lib/useInterval";
-import Checkbox from "src/components/lib/Checkbox";
+import SteppingControls, {
+  useSteppingControls,
+} from "src/components/lib/SteppingControls";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -69,22 +69,8 @@ const GraphRouting: React.FunctionComponent = () => {
 
   const {
     item: currentStage,
-    index,
-    stepForward,
-    stepBackward,
-  } = useItemInArray({ items: stages });
-
-  // Only auto iterate forward if we aren't on the final step
-  const autoStepForward = React.useCallback(() => {
-    if (index < stages.length - 1) {
-      stepForward();
-    }
-  }, [index, stages.length, stepForward]);
-
-  const {
-    isAutoIterating,
-    onChange: onAutoIterateChange,
-  } = useToggledInterval({ iterate: autoStepForward, interval: 500 });
+    componentProps: steppingControlProps,
+  } = useSteppingControls(stages);
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
@@ -112,13 +98,9 @@ const GraphRouting: React.FunctionComponent = () => {
           <label>Destination</label>
           <VertexPicker {...destinationPickerProps} />
         </div>
-        <Checkbox
-          id="chkAutoIterating"
-          checked={isAutoIterating}
-          onChange={onAutoIterateChange}
-          label="Auto Iterate"
-        />
       </form>
+
+      <SteppingControls {...steppingControlProps} />
 
       <h2>Shortest Path</h2>
       <ol>
@@ -130,15 +112,6 @@ const GraphRouting: React.FunctionComponent = () => {
       <ol>
         {currentStage && currentStage.pathFrom.map((p) => <li key={p}>{p}</li>)}
       </ol>
-
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={stepBackward}>
-          Back
-        </button>
-        <button className="btn btn-primary" onClick={stepForward}>
-          Forward
-        </button>
-      </div>
 
       <GraphBuilder buildGraph={buildGraph} />
     </div>
