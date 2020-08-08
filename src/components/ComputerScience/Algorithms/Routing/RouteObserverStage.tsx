@@ -10,7 +10,7 @@ interface Props<T> {
 
 const RouteObserverStage = <T,>({
   vertexToString,
-  currentStage: { shortestPathTree, currentItem, currentDistances },
+  currentStage: { shortestPathTree, currentItem, currentDistances, outgoing },
 }: Props<T>) => {
   const shortestPathTreeItems = React.useMemo(
     () =>
@@ -44,7 +44,25 @@ const RouteObserverStage = <T,>({
         vertexToString={vertexToString}
         items={currentItemForTable}
       />
-
+      <h2>Unvisited Outgoing Links</h2>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Node</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          {outgoing
+            .map(({ to, weight }) => ({ to: vertexToString(to), weight }))
+            .map(({ to, weight }) => (
+              <tr key={to}>
+                <td>{to}</td>
+                <td>{weight}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
       <div className="routing-visual">
         <div>
           <h2>Routing Queue</h2>

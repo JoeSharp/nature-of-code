@@ -38,12 +38,18 @@ export default <T>({
             graph,
             sourceNode,
             destinationNode,
-            observer: ({ shortestPathTree, currentDistances, currentItem }) =>
+            observer: ({
+              shortestPathTree,
+              currentDistances,
+              currentItem,
+              outgoing,
+            }) =>
               stages.push(
                 cloneDeep({
                   currentItem,
                   currentDistances,
                   shortestPathTree,
+                  outgoing,
                   pathFrom: getPathTo({
                     graph,
                     shortestPathTree,
