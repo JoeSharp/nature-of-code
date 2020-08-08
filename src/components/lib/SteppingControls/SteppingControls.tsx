@@ -1,13 +1,11 @@
 import React from "react";
 import { useToggledInterval, UseToggledInterval } from "../useInterval";
-import useItemInArray from "../useLoopCounter/useItemInArray";
+import useItemInArray, {
+  UseItemInArray,
+} from "../useLoopCounter/useItemInArray";
 
-interface Props<T> extends UseToggledInterval {
-  index: number;
+interface Props<T> extends UseToggledInterval, UseItemInArray<T> {
   items: T[];
-  stepForward: () => void;
-  stepBackward: () => void;
-  reset: () => void;
 }
 
 const SteppingControls = <T,>({
@@ -17,43 +15,60 @@ const SteppingControls = <T,>({
   setIsAutoIterating,
   stepForward,
   stepBackward,
-  reset,
+  goToLast,
+  goToFirst,
 }: Props<T>) => (
   <div>
     <h4>Stepping Through Stages</h4>
     <p>
-      Step {index} of {items.length}
+      Step {index + 1} of {items.length}
     </p>
     <div>
+      <button
+        disabled={isAutoIterating}
+        className="btn btn-danger mr-2"
+        onClick={goToFirst}
+      >
+        <span className="oi oi-media-skip-backward"></span>
+      </button>
+      <button
+        disabled={isAutoIterating}
+        className="btn btn-primary mr-2"
+        onClick={stepBackward}
+      >
+        <span className="oi oi-media-step-backward"></span>
+      </button>
+
       {isAutoIterating ? (
-        <React.Fragment>
-          <button
-            className="btn btn-danger mr-2"
-            onClick={() => setIsAutoIterating(false)}
-          >
-            <span className="oi oi-media-stop"></span>
-          </button>
-          <span>Auto Stepping</span>
-        </React.Fragment>
+        <button
+          className="btn btn-danger mr-2"
+          onClick={() => setIsAutoIterating(false)}
+        >
+          <span className="oi oi-media-stop"></span>
+        </button>
       ) : (
-        <React.Fragment>
-          <button className="btn btn-danger mr-2" onClick={reset}>
-            <span className="oi oi-media-skip-backward"></span>
-          </button>
-          <button className="btn btn-primary mr-2" onClick={stepBackward}>
-            <span className="oi oi-media-step-backward"></span>
-          </button>
-          <button className="btn btn-primary mr-2" onClick={stepForward}>
-            <span className="oi oi-media-step-forward"></span>
-          </button>
-          <button
-            className="btn btn-primary mr-2"
-            onClick={() => setIsAutoIterating(true)}
-          >
-            <span className="oi oi-media-skip-forward"></span>
-          </button>
-        </React.Fragment>
+        <button
+          className="btn btn-primary mr-2"
+          onClick={() => setIsAutoIterating(true)}
+        >
+          <span className="oi oi-media-play"></span>
+        </button>
       )}
+
+      <button
+        disabled={isAutoIterating}
+        className="btn btn-primary mr-2"
+        onClick={stepForward}
+      >
+        <span className="oi oi-media-step-forward"></span>
+      </button>
+      <button
+        disabled={isAutoIterating}
+        className="btn btn-danger mr-2"
+        onClick={goToLast}
+      >
+        <span className="oi oi-media-skip-forward"></span>
+      </button>
     </div>
   </div>
 );
@@ -65,9 +80,11 @@ interface UseSteppingControls<T> {
 }
 
 export const useSteppingControls = <T,>(items: T[]): UseSteppingControls<T> => {
-  const { item, index, reset, stepForward, stepBackward } = useItemInArray({
+  const itemsInArray = useItemInArray({
     items,
   });
+
+  const { index, stepForward, item } = itemsInArray;
 
   // Only auto iterate forward if we aren't on the final step
   const autoStepForward = React.useCallback(() => {
@@ -86,11 +103,8 @@ export const useSteppingControls = <T,>(items: T[]): UseSteppingControls<T> => {
     item,
     componentProps: {
       ...toggledInterval,
-      index,
+      ...itemsInArray,
       items,
-      reset,
-      stepForward,
-      stepBackward,
     },
   };
 };

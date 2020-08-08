@@ -1,6 +1,5 @@
 import React from "react";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional, ToString } from "comp-sci-maths-lib/dist/types";
 
 interface Item<T> {
   node: string;
@@ -9,14 +8,11 @@ interface Item<T> {
 }
 
 interface Props<T> {
-  graph: Graph<T>;
+  vertexToString: ToString<T>;
   items: Item<T>[];
 }
 
-const ShortestPathWithNodeTable = <T,>({
-  graph: { vertexToString },
-  items,
-}: Props<T>) => (
+const ShortestPathWithNodeTable = <T,>({ vertexToString, items }: Props<T>) => (
   <table className="table table-striped">
     <thead>
       <tr>

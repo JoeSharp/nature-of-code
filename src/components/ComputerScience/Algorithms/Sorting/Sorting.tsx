@@ -22,7 +22,7 @@ const Sorting: React.FunctionComponent = () => {
     item: sortStage,
     componentProps: steppingControlProps,
   } = useSteppingControls(stages);
-  const { reset } = steppingControlProps;
+  const { goToFirst } = steppingControlProps;
 
   const { updateConfig, sketchContainer, refContainer } = useSketch(
     SortingSketch
@@ -34,9 +34,9 @@ const Sorting: React.FunctionComponent = () => {
   }, [sortStage, updateConfig]);
 
   React.useEffect(() => {
-    reset();
+    goToFirst();
     sketchContainer.reset();
-  }, [reset, sketchContainer, algorithm]);
+  }, [goToFirst, sketchContainer, algorithm]);
 
   return (
     <div>

@@ -7,7 +7,6 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "open-iconic/font/css/open-iconic-bootstrap.css";
 import codeClubSessions from "./components/CodeClub";
 import experiments from "./components/Experiments";
 import computerScience from "./components/ComputerScience";

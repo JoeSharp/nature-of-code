@@ -2,13 +2,14 @@ import React from "react";
 
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
-import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
-import useRoutingAlgorithm from "./useRoutingAlgorithm";
+import GraphBuilder, { useGraphBuilder } from "../../../GraphBuilder";
+import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, { usePicker } from "./VertexPicker";
 import { BoidDrawDetails } from "src/components/p5/Boid/types";
 import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
+import RouteObserverStage from "../RouteObserverStage";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -102,16 +103,10 @@ const GraphRouting: React.FunctionComponent = () => {
 
       <SteppingControls {...steppingControlProps} />
 
-      <h2>Shortest Path</h2>
-      <ol>
-        {path.map((p) => (
-          <li key={p}>{p}</li>
-        ))}
-      </ol>
-      <h2>This Stage</h2>
-      <ol>
-        {currentStage && currentStage.pathFrom.map((p) => <li key={p}>{p}</li>)}
-      </ol>
+      <RouteObserverStage
+        vertexToString={graph.vertexToString}
+        currentStage={currentStage}
+      />
 
       <GraphBuilder buildGraph={buildGraph} />
     </div>

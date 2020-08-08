@@ -58,7 +58,7 @@ const Searching: React.FunctionComponent = () => {
   ]);
 
   React.useEffect(() => {
-    steppingControlProps.reset();
+    steppingControlProps.goToFirst();
     sketchContainer.reset();
   }, [steppingControlProps, sketchContainer, algorithm, searchItem]);
 
