@@ -8,7 +8,7 @@ import {
   BoidDrawDetailsById,
   BoidDrawDetails,
 } from "src/components/p5/Boid/types";
-import { ToString } from "comp-sci-maths-lib/dist/types";
+import { defaultToString } from "comp-sci-maths-lib/dist/common";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -17,12 +17,14 @@ interface Config<T> {
   graph: Graph<T>;
   physicsEnabled: boolean;
   drawDetails: BoidDrawDetailsById;
+  getKey: (item: T) => string;
 }
 
 const getDefaultConfig = (): Config<any> => ({
   graph: new Graph(),
   physicsEnabled: true,
   drawDetails: {},
+  getKey: defaultToString,
 });
 
 class GraphSketch<T> extends AbstractSketch<Config<T>> {
@@ -35,16 +37,16 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
     this.boids = {};
   }
 
-  getBoidDrawDetails(id: string): BoidDrawDetails {
+  getBoidDrawDetails(key: string): BoidDrawDetails {
     return {
       colour: "red",
       borderWeight: 1,
-      ...this.config.drawDetails[id],
+      ...this.config.drawDetails[key],
     };
   }
 
-  getBoid(sketch: p5, vertexToString: ToString<T>, vertex: T) {
-    const vAsStr = vertexToString(vertex);
+  getBoid(sketch: p5, vertex: T) {
+    const vAsStr = this.config.getKey(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<T>({
         sketch,
@@ -56,6 +58,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         ),
       });
     }
+    this.boids[vAsStr].entity = vertex;
     return this.boids[vAsStr];
   }
 
@@ -95,26 +98,27 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       s.fill("blue");
 
       const {
+        getKey,
         graph: { vertexToString, vertices, edges },
         physicsEnabled,
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
       const boidsInSketch: DataItemBoid<T>[] = vertices.map((v) =>
-        that.getBoid(s, vertexToString, v)
+        that.getBoid(s, v)
       );
-      const boidIdsInSketch: string[] = vertices.map(vertexToString);
+      const boidIdsInSketch: string[] = vertices.map(getKey);
 
       // Get the list of boid edges
       const boidEdges: Edge<DataItemBoid<T>>[] = edges
         .filter(
           ({ from, to }) =>
-            boidIdsInSketch.includes(vertexToString(from)) &&
-            boidIdsInSketch.includes(vertexToString(to))
+            boidIdsInSketch.includes(getKey(from)) &&
+            boidIdsInSketch.includes(getKey(to))
         )
         .map(({ from, to, weight }) => ({
-          from: that.getBoid(s, vertexToString, from),
-          to: that.getBoid(s, vertexToString, to),
+          from: that.getBoid(s, from),
+          to: that.getBoid(s, to),
           weight,
         }));
 
@@ -149,8 +153,8 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       }
 
       // Draw the lines
-      s.strokeWeight(4);
       boidEdges.forEach(({ from, to, weight }) => {
+        s.strokeWeight(4);
         s.line(from.position.x, from.position.y, to.position.x, to.position.y);
         let midpoint: p5.Vector = (p5.Vector.lerp(
           from.position,

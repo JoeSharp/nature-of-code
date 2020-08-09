@@ -26,7 +26,12 @@ const useItemInArray = <T>({ items }: Props<T>): UseItemInArray<T> => {
     max: items.length - 1,
   });
 
-  const item = React.useMemo(() => items[index], [items, index]);
+  // The items can be updated before the index has a chance to change,
+  // so we must guard against running off the end of the items list.
+  const item = React.useMemo(
+    () => (index < items.length - 1 ? items[index] : items[items.length - 1]),
+    [items, index]
+  );
 
   return {
     item,

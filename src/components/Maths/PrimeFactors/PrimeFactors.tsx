@@ -1,13 +1,8 @@
 import React from "react";
 
-import {
-  getPrimeFactors,
-  getPrimeFactorTree,
-} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import useSketch from "src/components/p5/useSketch";
+import usePrimeFactorTree from "./usePrimeFactorTree";
 
 // Delete
 interface PrimeFactor {
@@ -25,19 +20,13 @@ const PrimeFactors: React.FunctionComponent = () => {
     [setValue]
   );
 
-  const primeFactors: number[] = React.useMemo(() => getPrimeFactors(value), [
-    value,
-  ]);
-  const primeFactorTree: Graph<PrimeFactor> = React.useMemo(
-    () => getPrimeFactorTree(value),
-    [value]
-  );
-
   const { refContainer, updateConfig } = useSketch(PrimeFactorSketch);
 
-  React.useEffect(() => updateConfig({ getKey: (i: PrimeFactor) => i.value }), [
+  React.useEffect(() => updateConfig({ getKey: (i: PrimeFactor) => i.key }), [
     updateConfig,
   ]);
+
+  const { primeFactorTree, primeFactors } = usePrimeFactorTree(value);
 
   React.useEffect(() => updateConfig({ graph: primeFactorTree }), [
     primeFactorTree,
