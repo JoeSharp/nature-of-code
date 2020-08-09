@@ -17,7 +17,7 @@ const BinaryTreeBuilder: React.FunctionComponent<Props> = ({
     [setNewValue]
   );
   const onAddNewItem: React.MouseEventHandler = React.useCallback(
-    () => addValue(newValue),
+    () => newValue.length > 0 && addValue(newValue),
     [addValue, newValue]
   );
 
@@ -30,6 +30,7 @@ const BinaryTreeBuilder: React.FunctionComponent<Props> = ({
 
   return (
     <div>
+      <h4>Binary Tree Builder</h4>
       <form>
         <div className="form-group">
           <label>New Value</label>

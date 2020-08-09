@@ -29,12 +29,7 @@ const BinaryTreeTraversal: React.FunctionComponent = () => {
         </div>
       </form>
 
-      <h2>Visited Items</h2>
-      <ol>
-        {visitedItems.map((v, i) => (
-          <li key={i}>{v}</li>
-        ))}
-      </ol>
+      <h2>Item Visit Order: {visitedItems.join(" -> ")}</h2>
 
       <BinaryTreeBuilder binaryTreeBuilder={binaryTreeBuilder} />
     </div>
