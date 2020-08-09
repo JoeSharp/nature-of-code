@@ -6,7 +6,7 @@ import { ToString } from "comp-sci-maths-lib/dist/types";
 export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {
     // Is the mouse pointer within the radius of our boid circle?
-    let diff = p5.Vector.sub(this.location, mousePosition);
+    let diff = p5.Vector.sub(this.position, mousePosition);
     return diff.mag() < this.radius;
   }
 
@@ -14,17 +14,17 @@ export default class DataItemBoid<T> extends Boid<T> {
     super.update();
 
     // Clip to Sides
-    if (this.location.x > this.sketch.width) {
-      this.location.x = this.sketch.width;
-    } else if (this.location.x < 0) {
-      this.location.x = 0;
+    if (this.position.x > this.sketch.width) {
+      this.position.x = this.sketch.width;
+    } else if (this.position.x < 0) {
+      this.position.x = 0;
     }
 
     // Clip to top and bottom
-    if (this.location.y > this.sketch.height) {
-      this.location.y = this.sketch.height;
-    } else if (this.location.y < 0) {
-      this.location.y = 0;
+    if (this.position.y > this.sketch.height) {
+      this.position.y = this.sketch.height;
+    } else if (this.position.y < 0) {
+      this.position.y = 0;
     }
   }
 
@@ -40,12 +40,12 @@ export default class DataItemBoid<T> extends Boid<T> {
     }
 
     this.sketch.fill(colour);
-    this.sketch.ellipse(this.location.x, this.location.y, this.radius);
+    this.sketch.ellipse(this.position.x, this.position.y, this.radius);
 
     if (includeText) {
       this.sketch.fill("white");
       this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-      this.sketch.text(toString(this.entity), this.location.x, this.location.y);
+      this.sketch.text(toString(this.entity), this.position.x, this.position.y);
     }
   }
 }

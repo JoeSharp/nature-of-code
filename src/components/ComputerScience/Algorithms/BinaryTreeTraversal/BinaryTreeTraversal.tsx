@@ -2,27 +2,20 @@ import React from "react";
 import BinaryTreeTraversalAlgorithmPicker, {
   usePicker,
 } from "./BinaryTreeTraversalAlgorithmPicker";
-import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
-import { stringComparator } from "comp-sci-maths-lib/dist/common";
 import useBinaryTreeTraversal from "./useBinaryTreeTraversal";
+import useBinaryTreeBuilder from "../../BinaryTreeBuilder/useBinaryTreeBuilder";
+import BinaryTreeBuilder from "../../BinaryTreeBuilder";
 
 const BinaryTreeTraversal: React.FunctionComponent = () => {
   const { algorithmName, componentProps } = usePicker("form-control");
 
-  const binaryTree = React.useMemo(() => {
-    const myTree: BinaryTree<string> = new BinaryTree<string>(stringComparator)
-      .add("B")
-      .add("A")
-      .add("D")
-      .add("E")
-      .add("C")
-      .add("F");
-    return myTree;
-  }, []);
+  const binaryTreeBuilder = useBinaryTreeBuilder();
+  const { binaryTree, version } = binaryTreeBuilder;
 
   const { visitedItems } = useBinaryTreeTraversal({
     binaryTree,
     algorithmName,
+    version,
   });
 
   return (
@@ -42,6 +35,8 @@ const BinaryTreeTraversal: React.FunctionComponent = () => {
           <li key={i}>{v}</li>
         ))}
       </ol>
+
+      <BinaryTreeBuilder binaryTreeBuilder={binaryTreeBuilder} />
     </div>
   );
 };

@@ -59,7 +59,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         radius: sketch.width / 12,
         minForce: 0,
         maxSpeed: 3,
-        location: sketch.createVector(
+        position: sketch.createVector(
           sketch.random(0, sketch.width),
           sketch.random(0, sketch.height)
         ),

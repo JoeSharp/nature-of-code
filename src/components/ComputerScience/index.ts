@@ -6,6 +6,7 @@ import GraphRouting from "./Algorithms/Routing/GraphRouting";
 import GridRouting from "./Algorithms/Routing/GridRouting";
 import GraphTraversal from "./Algorithms/GraphTraversal";
 import { Page } from "src/types";
+import BinaryTreeComponent from "./DataStructures/BinaryTreeComponent";
 import GraphComponent from "./DataStructures/GraphComponent";
 import StackComponent from "./DataStructures/StackComponent";
 import QueueComponent from "./DataStructures/QueueComponent";
@@ -34,12 +35,12 @@ const sessions: Page[] = [
   },
   {
     href: "/computerScience/dataStructures/graphTraversal",
-    title: "Graph Traversal",
+    title: "Traversal - Graph",
     component: GraphTraversal,
   },
   {
     href: "/computerScience/dataStructures/binaryTreeTraversal",
-    title: "Binary Tree Traversal",
+    title: "Traversal - Binary Tree",
     component: BinaryTreeTraversal,
   },
   {
@@ -57,6 +58,12 @@ const sessions: Page[] = [
     title: "Graph",
     component: GraphComponent,
   },
+  {
+    href: "/computerScience/dataStructures/binaryTree",
+    title: "Binary Tree",
+    component: BinaryTreeComponent,
+  },
+
   {
     href: "/computerScience/dataStructures/stack",
     title: "Stack",

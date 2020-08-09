@@ -52,7 +52,7 @@ class GridSketch extends AbstractSketch<Config> {
         sketch,
         entity: vertex,
         radius: 20,
-        location: sketch.createVector(
+        position: sketch.createVector(
           (vertex.x + 1) * SPREAD,
           (vertex.y + 1) * SPREAD
         ),
@@ -136,7 +136,7 @@ class GridSketch extends AbstractSketch<Config> {
       s.stroke("black");
       s.strokeWeight(4);
       boidEdges.forEach(({ from, to }) => {
-        s.line(from.location.x, from.location.y, to.location.x, to.location.y);
+        s.line(from.position.x, from.position.y, to.position.x, to.position.y);
       });
 
       // Draw the lines on our route
@@ -145,7 +145,7 @@ class GridSketch extends AbstractSketch<Config> {
       for (let i = 0; i < path.length - 1; i++) {
         const from = that.getBoid(s, vertexToString, path[i]);
         const to = that.getBoid(s, vertexToString, path[i + 1]);
-        s.line(from.location.x, from.location.y, to.location.x, to.location.y);
+        s.line(from.position.x, from.position.y, to.position.x, to.position.y);
       }
 
       /// Call upon all boids to draw themselves

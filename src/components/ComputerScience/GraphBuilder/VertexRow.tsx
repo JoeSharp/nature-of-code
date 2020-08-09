@@ -1,12 +1,12 @@
 import React from "react";
 
 import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { UseBuildGraph } from "./types";
+import { UseGraphBuilder } from "./types";
 import EdgesCell from "./EdgeCell";
 
 interface Props {
   vertex: string;
-  buildGraph: UseBuildGraph<string>;
+  graphBuilder: UseGraphBuilder<string>;
 }
 
 const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
@@ -14,7 +14,7 @@ const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
-  buildGraph: {
+  graphBuilder: {
     version,
     tickVersion,
     newEdgeWeight,

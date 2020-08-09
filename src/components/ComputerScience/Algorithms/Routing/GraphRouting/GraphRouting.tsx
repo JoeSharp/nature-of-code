@@ -44,12 +44,12 @@ const notInPathDrawDetails: BoidDrawDetails = {
 };
 
 const GraphRouting: React.FunctionComponent = () => {
-  const buildGraph = useGraphBuilder(initialGraph);
+  const graphBuilder = useGraphBuilder(initialGraph);
   const {
     version,
     graph,
     drawDetails: { setDetails },
-  } = buildGraph;
+  } = graphBuilder;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
     version,
@@ -108,7 +108,7 @@ const GraphRouting: React.FunctionComponent = () => {
         currentStage={currentStage}
       />
 
-      <GraphBuilder buildGraph={buildGraph} />
+      <GraphBuilder graphBuilder={graphBuilder} />
     </div>
   );
 };

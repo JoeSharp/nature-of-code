@@ -5,7 +5,7 @@ export default class ArrowBoidBoid extends Boid<number> {
   colour: string = "red";
 
   follow(flow: FlowField) {
-    let desired = flow.lookup(this.location);
+    let desired = flow.lookup(this.position);
     desired.mult(this.maxSpeed);
     desired.sub(this.velocity);
     desired.limit(this.maxForce);
@@ -19,7 +19,7 @@ export default class ArrowBoidBoid extends Boid<number> {
     s.fill(this.colour);
     s.noStroke();
     s.push();
-    s.translate(this.location.x, this.location.y);
+    s.translate(this.position.x, this.position.y);
     s.rotate(theta);
     s.beginShape();
     s.vertex(0, -this.radius * 2);

@@ -3,11 +3,11 @@ import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import { defaultStringGraph } from "../../GraphBuilder/useGraphBuilder";
 
 const GraphComponent: React.FunctionComponent = () => {
-  const buildGraph = useGraphBuilder(defaultStringGraph);
+  const graphBuilder = useGraphBuilder(defaultStringGraph);
 
   return (
     <div>
-      <GraphBuilder buildGraph={buildGraph} />
+      <GraphBuilder graphBuilder={graphBuilder} />
     </div>
   );
 };

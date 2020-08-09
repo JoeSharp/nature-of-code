@@ -25,8 +25,8 @@ const Traversal: React.FunctionComponent = () => {
     "form-control"
   );
 
-  const buildGraph = useGraphBuilder(initialGraph);
-  const { version, graph } = buildGraph;
+  const graphBuilder = useGraphBuilder(initialGraph);
+  const { version, graph } = graphBuilder;
   const {
     vertex: startVertex,
     componentProps: vertexPickerProps,
@@ -60,7 +60,7 @@ const Traversal: React.FunctionComponent = () => {
         ))}
       </ol>
 
-      <GraphBuilder buildGraph={buildGraph} />
+      <GraphBuilder graphBuilder={graphBuilder} />
     </div>
   );
 };

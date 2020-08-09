@@ -3,7 +3,7 @@ import p5 from "p5";
 export interface BoidArgs<T> {
   sketch: p5;
   entity: T;
-  location: p5.Vector;
+  position: p5.Vector;
   radius: number;
   borderWeight?: number;
   colour?: string;

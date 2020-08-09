@@ -1,6 +1,6 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { UseBuildGraph } from "./types";
+import { UseGraphBuilder } from "./types";
 import useDrawDetails from "../../p5/Boid/useDrawDetails";
 
 export const defaultStringGraph: Graph<string> = new Graph<string>()
@@ -10,7 +10,7 @@ export const defaultStringGraph: Graph<string> = new Graph<string>()
   .addUnidirectionalEdge("b", "d")
   .addUnidirectionalEdge("d", "a");
 
-const useGraphBuilder = <T>(initialGraph: Graph<T>): UseBuildGraph<T> => {
+const useGraphBuilder = <T>(initialGraph: Graph<T>): UseGraphBuilder<T> => {
   const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
 
   const graph = React.useRef<Graph<T>>(initialGraph);

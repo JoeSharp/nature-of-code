@@ -50,7 +50,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         sketch,
         entity: vertex,
         radius: sketch.width / 12,
-        location: sketch.createVector(
+        position: sketch.createVector(
           sketch.random(0, sketch.width),
           sketch.random(0, sketch.height)
         ),
@@ -121,7 +121,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       if (physicsEnabled) {
         // Attract any boids that are very near the edge to the centre
         boidsInSketch
-          .filter(({ location: { x, y } }) => {
+          .filter(({ position: { x, y } }) => {
             return (
               x < s.width / 8 ||
               x > (s.width * 7) / 8 ||
@@ -135,13 +135,13 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
         boidsInSketch.forEach((ba, ia) => {
           boidsInSketch
             .filter((_, ib) => ia !== ib)
-            .forEach((bb) => ba.flee(bb.location, s.width / 4));
+            .forEach((bb) => ba.flee(bb.position, s.width / 4));
         });
 
         // Apply force of a spring between connected boids
         boidEdges.forEach(({ from, to }) => {
-          from.spring(to.location, s.width / 8, s.width / 32);
-          to.spring(from.location, s.width / 8, s.width / 32);
+          from.spring(to.position, s.width / 8, s.width / 32);
+          to.spring(from.position, s.width / 8, s.width / 32);
         });
 
         // Call upon all boids to update themselves
@@ -151,10 +151,10 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       // Draw the lines
       s.strokeWeight(4);
       boidEdges.forEach(({ from, to, weight }) => {
-        s.line(from.location.x, from.location.y, to.location.x, to.location.y);
+        s.line(from.position.x, from.position.y, to.position.x, to.position.y);
         let midpoint: p5.Vector = (p5.Vector.lerp(
-          from.location,
-          to.location,
+          from.position,
+          to.position,
           0.5
         ) as unknown) as p5.Vector; // error in p5 type definition
 

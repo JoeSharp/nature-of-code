@@ -38,7 +38,7 @@ export default class GravitySketch extends AbstractSketch<{}> {
 
       for (let i = 0; i < 5; i++) {
         // Place the boids randomly anywhere within the view
-        let location = s.createVector(
+        let position = s.createVector(
           randomInt(s, 0, s.width),
           randomInt(s, 0, s.height)
         );
@@ -47,7 +47,7 @@ export default class GravitySketch extends AbstractSketch<{}> {
         let aBoid = new ArrowBoid({
           sketch: s,
           entity: i,
-          location,
+          position,
           radius: RADIUS,
           maxSpeed: MAX_SPEED,
           maxForce: MAX_FORCE,

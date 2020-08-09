@@ -8,6 +8,7 @@ import { VisitFunction } from "comp-sci-maths-lib/dist/types";
 import { PRE_ORDER, IN_ORDER, POST_ORDER } from "./common";
 
 interface Props<T> {
+  version: number;
   algorithmName: string;
   binaryTree: BinaryTree<T>;
 }
@@ -17,6 +18,7 @@ export interface UseBinaryTreeTraversal<T> {
 }
 
 const useBinaryTreeTraversal = <T>({
+  version,
   algorithmName,
   binaryTree,
 }: Props<T>): UseBinaryTreeTraversal<T> => {
@@ -37,7 +39,9 @@ const useBinaryTreeTraversal = <T>({
     }
 
     return items;
-  }, [algorithmName, binaryTree]);
+    /// ewwww
+    // eslint-disable-next-line
+  }, [version, algorithmName, binaryTree]);
 
   return { visitedItems };
 };

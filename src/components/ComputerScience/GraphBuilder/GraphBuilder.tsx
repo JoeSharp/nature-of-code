@@ -2,16 +2,16 @@ import React from "react";
 import VertexRow from "./VertexRow";
 import useSketch from "src/components/p5/useSketch";
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
-import { UseBuildGraph } from "./types";
+import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
 
 interface Props {
-  buildGraph: UseBuildGraph<string>;
+  graphBuilder: UseGraphBuilder<string>;
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({
-  buildGraph,
+  graphBuilder,
 }: Props) => {
   const {
     graph,
@@ -19,7 +19,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     newEdgeWeight,
     drawDetails: { drawDetails },
     clearAll,
-  } = buildGraph;
+  } = graphBuilder;
 
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
@@ -108,7 +108,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
         </thead>
         <tbody>
           {graph.vertices.map((vertex, i) => (
-            <VertexRow key={i} vertex={vertex} buildGraph={buildGraph} />
+            <VertexRow key={i} vertex={vertex} graphBuilder={graphBuilder} />
           ))}
         </tbody>
       </table>

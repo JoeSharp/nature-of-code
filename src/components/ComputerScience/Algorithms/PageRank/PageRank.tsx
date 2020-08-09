@@ -17,8 +17,8 @@ const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const buildGraph = useGraphBuilder(defaultStringGraph);
-  const { graph } = buildGraph;
+  const graphBuilder = useGraphBuilder(defaultStringGraph);
+  const { graph } = graphBuilder;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
     graph,
@@ -83,7 +83,7 @@ const PageRank: React.FunctionComponent = () => {
         <h2>All Iterations</h2>
         <RankHistoryTable pages={graph.vertices} rankHistory={rankHistory} />
 
-        <GraphBuilder buildGraph={buildGraph} />
+        <GraphBuilder graphBuilder={graphBuilder} />
       </div>
     </div>
   );

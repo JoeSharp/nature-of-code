@@ -7,7 +7,7 @@ interface FlowFieldArgs {
 }
 
 interface FlowCell {
-  location: p5.Vector;
+  position: p5.Vector;
   angle: number;
   force: p5.Vector;
 }
@@ -40,7 +40,7 @@ export default class FlowField {
       for (let j = 0; j < this.rows; j++) {
         let theta = s.map(s.noise(xoff, yoff), 0, 1, 0, s.TWO_PI);
         let flowCell: FlowCell = {
-          location: s.createVector(i * this.resolution, j * this.resolution),
+          position: s.createVector(i * this.resolution, j * this.resolution),
           angle: theta,
           force: s.createVector(s.cos(theta), s.sin(theta)),
         };
@@ -58,7 +58,7 @@ export default class FlowField {
     const s = this.sketch;
 
     this.flowCells.forEach((flowCell) => {
-      let diff: p5.Vector = p5.Vector.sub(focalPoint, flowCell.location);
+      let diff: p5.Vector = p5.Vector.sub(focalPoint, flowCell.position);
       if (diff.mag() < range) {
         let a: number = diff.heading();
         flowCell.angle = a;
@@ -69,10 +69,10 @@ export default class FlowField {
 
   display() {
     this.field.forEach((row) => {
-      row.forEach(({ location, angle, force }) => {
+      row.forEach(({ position, angle, force }) => {
         drawArrow({
           sketch: this.sketch,
-          location,
+          position,
           angle,
           colour: 50,
           radius: force.mag() * 2,
