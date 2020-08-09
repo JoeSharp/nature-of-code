@@ -50,14 +50,19 @@ export default <T>({
                   currentDistances,
                   shortestPathTree,
                   outgoing,
-                  pathFrom: getPathTo({
-                    graph,
-                    shortestPathTree,
-                    node:
-                      (currentItem !== undefined && currentItem.viaNode) ||
+                  pathFrom: [
+                    ...getPathTo({
+                      graph,
+                      shortestPathTree,
+                      node:
+                        (currentItem !== undefined && currentItem.viaNode) ||
+                        destinationNode ||
+                        sourceNode,
+                    }),
+                    (currentItem !== undefined && currentItem.node) ||
                       destinationNode ||
-                      sourceNode,
-                  }),
+                      sourceNode, // hmm not sure about needing this...
+                  ],
                 })
               ),
           })

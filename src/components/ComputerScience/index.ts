@@ -4,10 +4,12 @@ import Sorting from "./Algorithms/Sorting";
 import Search from "./Algorithms/Search";
 import GraphRouting from "./Algorithms/Routing/GraphRouting";
 import GridRouting from "./Algorithms/Routing/GridRouting";
+import GraphTraversal from "./Algorithms/GraphTraversal";
 import { Page } from "src/types";
 import GraphComponent from "./DataStructures/GraphComponent";
 import StackComponent from "./DataStructures/StackComponent";
 import QueueComponent from "./DataStructures/QueueComponent";
+import BinaryTreeTraversal from "./Algorithms/BinaryTreeTraversal";
 
 const sessions: Page[] = [
   {
@@ -29,6 +31,16 @@ const sessions: Page[] = [
     href: "/computerScience/algorithms/gridRouting",
     title: "Routing - Grid",
     component: GridRouting,
+  },
+  {
+    href: "/computerScience/dataStructures/graphTraversal",
+    title: "Graph Traversal",
+    component: GraphTraversal,
+  },
+  {
+    href: "/computerScience/dataStructures/binaryTreeTraversal",
+    title: "Binary Tree Traversal",
+    component: BinaryTreeTraversal,
   },
   {
     href: "/computerScience/algorithms/sorting",

@@ -4,7 +4,7 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import GraphBuilder, { useGraphBuilder } from "../../../GraphBuilder";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
-import VertexPicker, { usePicker } from "./VertexPicker";
+import VertexPicker, { usePicker } from "../../../GraphBuilder/VertexPicker";
 import { BoidDrawDetails } from "src/components/p5/Boid/types";
 import SteppingControls, {
   useSteppingControls,
