@@ -67,6 +67,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
         entity: treeNode,
         position,
       });
+    } else {
+      this.boids[id].entity = treeNode;
     }
     const thisBoid = this.boids[id];
     boidReceiver(thisBoid);
@@ -167,10 +169,10 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
           .forEach((b) => a.flee(b.position, RADIUS * 2));
       });
 
-      Object.values(this.boids)
+      Object.values(boids)
         .filter((_, i) => i > 0)
         .forEach((b) => b.update());
-      Object.values(this.boids).forEach((b) =>
+      Object.values(boids).forEach((b) =>
         b.draw(
           (v) => toString(v.value),
           this.getBoidDrawDetails(toString(b.entity.value))

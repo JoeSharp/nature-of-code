@@ -5,6 +5,7 @@ import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch
 import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
+import Checkbox from "src/components/lib/Checkbox";
 
 interface Props {
   graphBuilder: UseGraphBuilder<string>;
@@ -55,18 +56,13 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
   return (
     <div>
       <h2>Build Graph (v{graph.version})</h2>
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          checked={physicsEnabled}
-          onChange={onPhysicsEnabledChange}
-          id="chkPhysicsEnabled"
-        />
-        <label className="form-check-label" htmlFor="chkPhysicsEnabled">
-          Physics Enabled
-        </label>
-      </div>
+      <Checkbox
+        id="chkPhysics"
+        checked={physicsEnabled}
+        onChange={onPhysicsEnabledChange}
+        label="Physics Enabled"
+      />
+
       <div className="sketch" ref={refContainer} />
       <form>
         <div className="form-group">
