@@ -59,13 +59,16 @@ export const usePicker = (
 
   return {
     vertex: value,
-    componentProps: {
-      version,
-      graph,
-      className,
-      value,
-      onChange,
-    },
+    componentProps: React.useMemo(
+      () => ({
+        version,
+        graph,
+        className,
+        value,
+        onChange,
+      }),
+      [version, graph, className, value, onChange]
+    ),
   };
 };
 

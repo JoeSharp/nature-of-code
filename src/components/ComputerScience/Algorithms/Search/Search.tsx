@@ -11,7 +11,7 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 
-const Searching: React.FunctionComponent = () => {
+const Search: React.FunctionComponent = () => {
   const {
     algorithm,
     componentProps: algorithmPickerProps,
@@ -57,10 +57,11 @@ const Searching: React.FunctionComponent = () => {
     updateConfig,
   ]);
 
+  const { goToFirst } = steppingControlProps;
   React.useEffect(() => {
-    steppingControlProps.goToFirst();
+    goToFirst();
     sketchContainer.reset();
-  }, [steppingControlProps, sketchContainer, algorithm, searchItem]);
+  }, [goToFirst, sketchContainer, algorithm, searchItem]);
 
   return (
     <div>
@@ -91,4 +92,4 @@ const Searching: React.FunctionComponent = () => {
   );
 };
 
-export default Searching;
+export default Search;

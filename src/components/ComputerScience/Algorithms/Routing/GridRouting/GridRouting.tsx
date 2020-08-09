@@ -39,10 +39,10 @@ const GridRouting: React.FunctionComponent = () => {
   React.useEffect(() => {
     updateConfig({
       graph,
-      path: currentStage.pathFrom,
+      path: currentStage !== undefined ? currentStage.pathFrom : [],
       toggleConnection,
     });
-  }, [currentStage.pathFrom, graph, updateConfig, toggleConnection]);
+  }, [currentStage, graph, updateConfig, toggleConnection]);
 
   return (
     <div>
@@ -52,10 +52,12 @@ const GridRouting: React.FunctionComponent = () => {
 
       <SteppingControls {...steppingControlProps} />
 
-      <RouteObserverStage
-        vertexToString={graph.vertexToString}
-        currentStage={currentStage}
-      />
+      {currentStage && (
+        <RouteObserverStage
+          vertexToString={graph.vertexToString}
+          currentStage={currentStage}
+        />
+      )}
     </div>
   );
 };

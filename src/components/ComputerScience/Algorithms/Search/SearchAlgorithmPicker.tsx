@@ -47,11 +47,14 @@ export const useSearchAlgorithmPicker = (className?: string): UsePicker => {
 
   return {
     algorithm: value,
-    componentProps: {
-      className,
-      value,
-      onChange,
-    },
+    componentProps: React.useMemo(
+      () => ({
+        className,
+        value,
+        onChange,
+      }),
+      [className, value, onChange]
+    ),
   };
 };
 

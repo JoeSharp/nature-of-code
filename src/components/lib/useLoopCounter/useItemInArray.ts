@@ -7,7 +7,7 @@ interface Props<T> {
 }
 
 export interface UseItemInArray<T> {
-  item: T;
+  item?: T;
   index: number;
   goToFirst: () => void;
   goToLast: () => void;
@@ -23,15 +23,12 @@ const useItemInArray = <T>({ items }: Props<T>): UseItemInArray<T> => {
     decrement,
     increment,
   } = useLoopCounter({
-    max: items.length - 1,
+    max: items.length > 0 ? items.length - 1 : 0,
   });
 
   // The items can be updated before the index has a chance to change,
   // so we must guard against running off the end of the items list.
-  const item = React.useMemo(
-    () => (index < items.length - 1 ? items[index] : items[items.length - 1]),
-    [items, index]
-  );
+  const item = React.useMemo(() => items[index], [items, index]);
 
   return {
     item,

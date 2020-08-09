@@ -75,7 +75,7 @@ const SteppingControls = <T,>({
 
 interface UseSteppingControls<T> {
   index: number;
-  item: T;
+  item?: T;
   componentProps: Props<T>;
 }
 
@@ -101,11 +101,14 @@ export const useSteppingControls = <T,>(items: T[]): UseSteppingControls<T> => {
   return {
     index,
     item,
-    componentProps: {
-      ...toggledInterval,
-      ...itemsInArray,
-      items,
-    },
+    componentProps: React.useMemo(
+      () => ({
+        ...toggledInterval,
+        ...itemsInArray,
+        items,
+      }),
+      [toggledInterval, itemsInArray, items]
+    ),
   };
 };
 

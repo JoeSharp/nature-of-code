@@ -21,13 +21,15 @@ const ShortestPathWithNodeTable = <T,>({ vertexToString, items }: Props<T>) => (
         <th>Via Node</th>
       </tr>
     </thead>
-    {items.map(({ node, cost, viaNode }) => (
-      <tr>
-        <td>{node}</td>
-        <td>{cost}</td>
-        <td>{!!viaNode ? vertexToString(viaNode) : "NONE"}</td>
-      </tr>
-    ))}
+    <tbody>
+      {items.map(({ node, cost, viaNode }) => (
+        <tr key={node}>
+          <td>{node}</td>
+          <td>{cost}</td>
+          <td>{!!viaNode ? vertexToString(viaNode) : "NONE"}</td>
+        </tr>
+      ))}
+    </tbody>
   </table>
 );
 

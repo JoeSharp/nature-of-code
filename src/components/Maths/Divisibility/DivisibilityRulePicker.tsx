@@ -55,11 +55,14 @@ export const useDivisibilityRulePicker = (className?: string): UsePicker => {
 
   return {
     divisibilityRule: value || defaultNamedDivisibilityRule,
-    componentProps: {
-      className,
-      value,
-      onChange,
-    },
+    componentProps: React.useMemo(
+      () => ({
+        className,
+        value,
+        onChange,
+      }),
+      [className, value, onChange]
+    ),
   };
 };
 

@@ -10,12 +10,11 @@ const SieveOfEratosthenes: React.FunctionComponent = () => {
     limit: LIMIT,
   });
 
-  const {
-    index,
-    item: { p, tickedOff },
-    stepBackward,
-    stepForward,
-  } = useItemInArray({ items: iterations });
+  const { index, item, stepBackward, stepForward } = useItemInArray({
+    items: iterations,
+  });
+
+  const { p, tickedOff } = item || { p: 0, tickedOff: [] };
 
   return (
     <div>

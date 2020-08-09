@@ -41,11 +41,14 @@ export const usePicker = <T,>(className?: string): UsePicker<T> => {
 
   return {
     algorithmName: value,
-    componentProps: {
-      className,
-      value,
-      onChange,
-    },
+    componentProps: React.useMemo(
+      () => ({
+        className,
+        value,
+        onChange,
+      }),
+      [className, value, onChange]
+    ),
   };
 };
 
