@@ -2,6 +2,10 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import GraphSketch from "./GraphSketch";
 import { UseSketch } from "src/components/p5/useSketch";
 
+export interface HeuristicCostById {
+  [id: string]: number;
+}
+
 export interface GraphSketchConfig<T> {
   graph: Graph<T>;
   physicsEnabled: boolean;

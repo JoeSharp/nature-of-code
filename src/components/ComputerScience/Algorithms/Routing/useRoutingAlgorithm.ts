@@ -9,6 +9,7 @@ import {
 import {
   ShortestPathTree,
   ObserverArgsWithPathFrom,
+  HeuristicCostFunction,
 } from "comp-sci-maths-lib/dist/algorithms/routing/types";
 
 export interface Props<T> {
@@ -16,6 +17,7 @@ export interface Props<T> {
   sourceNode?: T;
   destinationNode?: T;
   graph: Graph<T>;
+  getHeuristicCost?: HeuristicCostFunction<T>;
 }
 
 export interface UseRoutingAlgorithm<T> {
@@ -29,6 +31,7 @@ export default <T>({
   sourceNode,
   destinationNode,
   graph,
+  getHeuristicCost,
 }: Props<T>): UseRoutingAlgorithm<T> =>
   React.useMemo(() => {
     const stages: ObserverArgsWithPathFrom<T>[] = [];
@@ -38,6 +41,7 @@ export default <T>({
             graph,
             sourceNode,
             destinationNode,
+            getHeuristicCost,
             observer: ({
               shortestPathTree,
               currentDistances,
@@ -73,4 +77,4 @@ export default <T>({
         : [];
 
     return { version, shortestPathTree, path, stages };
-  }, [sourceNode, destinationNode, graph, version]);
+  }, [getHeuristicCost, sourceNode, destinationNode, graph, version]);

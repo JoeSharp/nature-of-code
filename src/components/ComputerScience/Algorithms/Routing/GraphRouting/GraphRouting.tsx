@@ -9,6 +9,11 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
+import p5 from "p5";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { HeuristicCostFunction } from "comp-sci-maths-lib/dist/algorithms/routing/types";
+import { HeuristicCostById } from "src/components/ComputerScience/GraphBuilder/types";
+import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
 
 const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("S", "A", 7)
@@ -47,11 +52,41 @@ const GraphRouting: React.FunctionComponent = () => {
     componentProps: destinationPickerProps,
   } = usePicker(version, graph, "form-control");
 
+  const [heuristicCosts, setHeuristicsCosts] = React.useState<
+    HeuristicCostById
+  >({});
+
+  const getHeuristicCost: HeuristicCostFunction<string> = React.useCallback(
+    (id: string) => heuristicCosts[id] || 0,
+    [heuristicCosts]
+  );
+
+  const onHarvestDistances = React.useCallback(() => {
+    if (destinationNode !== undefined) {
+      const destinationBoid: DataItemBoid<string> = sketchContainer.getBoid(
+        destinationNode
+      );
+
+      const costs: HeuristicCostById = Object.values(sketchContainer.boids)
+        .map((boid) => ({
+          vertex: boid.entity,
+          distance: p5.Vector.sub(
+            boid.position,
+            destinationBoid.position
+          ).mag(),
+        }))
+        .reduce((acc, curr) => ({ ...acc, [curr.vertex]: curr.distance }), {});
+
+      setHeuristicsCosts(costs);
+    }
+  }, [sketchContainer, destinationNode, setHeuristicsCosts]);
+
   const { path, stages } = useRoutingAlgorithm({
     version,
     graph,
     sourceNode,
     destinationNode,
+    getHeuristicCost,
   });
 
   const {
@@ -90,6 +125,11 @@ const GraphRouting: React.FunctionComponent = () => {
           <VertexPicker {...destinationPickerProps} />
         </div>
       </form>
+      <button className="btn btn-primary" onClick={onHarvestDistances}>
+        Harvest Distances
+      </button>
+
+      <HeuristicCostTable heuristicCostsById={heuristicCosts} />
 
       <SteppingControls {...steppingControlProps} />
 
