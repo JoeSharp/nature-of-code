@@ -1,30 +1,15 @@
 import p5 from "p5";
 
-export interface BoidArgs<T> {
+export interface AbstractBoid<T> {
   sketch: p5;
   entity: T;
   position: p5.Vector;
   radius: number;
+  label?: string;
   borderWeight?: number;
   colour?: string;
   maxSpeed?: number;
   maxForce?: number;
   minForce?: number;
   environmentalFriction?: number;
-}
-
-export interface BoidDrawDetails {
-  colour?: string;
-  borderWeight?: number;
-  includeText?: boolean;
-}
-
-export interface BoidDrawDetailsById {
-  [id: string]: BoidDrawDetails;
-}
-
-export interface UseDrawDetails {
-  drawDetails: BoidDrawDetailsById;
-  setDetails: (id: string, details: BoidDrawDetails) => void;
-  clearDetails: () => void;
 }

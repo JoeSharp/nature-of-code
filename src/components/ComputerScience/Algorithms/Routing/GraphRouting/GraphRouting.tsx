@@ -5,7 +5,6 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import GraphBuilder, { useGraphBuilder } from "../../../GraphBuilder";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, { usePicker } from "../../../GraphBuilder/VertexPicker";
-import { BoidDrawDetails } from "src/components/p5/Boid/types";
 import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
@@ -30,25 +29,12 @@ const initialGraph = new Graph<string>()
   .addBiDirectionalEdge("J", "L", 4)
   .addBiDirectionalEdge("J", "K", 4);
 
-const isEndpointDrawDetails: BoidDrawDetails = {
-  borderWeight: 3,
-  colour: "green",
-};
-const inPathDrawDetails: BoidDrawDetails = {
-  borderWeight: 3,
-  colour: "red",
-};
-const notInPathDrawDetails: BoidDrawDetails = {
-  borderWeight: 1,
-  colour: "blue",
-};
-
 const GraphRouting: React.FunctionComponent = () => {
   const graphBuilder = useGraphBuilder(initialGraph);
   const {
     version,
     graph,
-    drawDetails: { setDetails },
+    sketchUse: { sketchContainer },
   } = graphBuilder;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
@@ -75,15 +61,19 @@ const GraphRouting: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
+      const boid = sketchContainer.getBoid(v);
       if (sourceNode === v || destinationNode === v) {
-        setDetails(v, isEndpointDrawDetails);
+        boid.borderWeight = 3;
+        boid.colour = "green";
       } else if (path.includes(v)) {
-        setDetails(v, inPathDrawDetails);
+        boid.borderWeight = 3;
+        boid.colour = "red";
       } else {
-        setDetails(v, notInPathDrawDetails);
+        boid.borderWeight = 1;
+        boid.colour = "blue";
       }
     });
-  }, [sourceNode, destinationNode, graph, path, setDetails]);
+  }, [sourceNode, destinationNode, graph, path, sketchContainer]);
 
   return (
     <div>

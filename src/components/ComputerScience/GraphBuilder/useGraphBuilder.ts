@@ -1,7 +1,8 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { UseGraphBuilder } from "./types";
-import useDrawDetails from "../../p5/Boid/useDrawDetails";
+import { UseGraphBuilder, GraphSketchConfig } from "./types";
+import useSketch from "src/components/p5/useSketch";
+import GraphSketch from "./GraphSketch";
 
 export const defaultStringGraph: Graph<string> = new Graph<string>()
   .addUnidirectionalEdge("a", "b")
@@ -37,11 +38,12 @@ const useGraphBuilder = <T>(initialGraph: Graph<T>): UseGraphBuilder<T> => {
     tickVersion();
   }, [tickVersion]);
 
-  const drawDetails = useDrawDetails();
+  const sketchUse = useSketch<GraphSketchConfig<T>, GraphSketch<T>>(
+    GraphSketch
+  );
 
   return {
     version,
-    drawDetails,
     tickVersion,
     newEdgeWeight,
     setNewEdgeWeight,
@@ -51,6 +53,7 @@ const useGraphBuilder = <T>(initialGraph: Graph<T>): UseGraphBuilder<T> => {
     cancelEdge,
     completeEdge,
     clearAll,
+    sketchUse,
   };
 };
 

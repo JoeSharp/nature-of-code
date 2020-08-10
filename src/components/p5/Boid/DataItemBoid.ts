@@ -1,7 +1,5 @@
 import p5 from "p5";
 import Boid from "./Boid";
-import { BoidDrawDetails } from "./types";
-import { ToString } from "comp-sci-maths-lib/dist/types";
 
 export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {
@@ -28,24 +26,21 @@ export default class DataItemBoid<T> extends Boid<T> {
     }
   }
 
-  draw(
-    toString: ToString<T>,
-    { colour = "red", borderWeight = 1, includeText = true }: BoidDrawDetails
-  ) {
+  draw() {
     this.sketch.stroke("black");
     if (this.grabbed) {
       this.sketch.strokeWeight(4);
     } else {
-      this.sketch.strokeWeight(borderWeight);
+      this.sketch.strokeWeight(this.borderWeight);
     }
 
-    this.sketch.fill(colour);
+    this.sketch.fill(this.colour);
     this.sketch.ellipse(this.position.x, this.position.y, this.radius);
 
-    if (includeText) {
+    if (this.label !== undefined) {
       this.sketch.fill("white");
       this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-      this.sketch.text(toString(this.entity), this.position.x, this.position.y);
+      this.sketch.text(this.label, this.position.x, this.position.y);
     }
   }
 }

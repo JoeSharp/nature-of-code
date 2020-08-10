@@ -1,18 +1,22 @@
 import p5 from "p5";
-import { BoidArgs, BoidDrawDetails } from "./types";
-import { ToString } from "comp-sci-maths-lib/dist/types";
+import { AbstractBoid } from "./types";
 
+const DEFAULT_COLOUR = "red";
+const DEFAULT_BORDER_WEIGHT = 1;
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
 const DEFAULT_MIN_FORCE = 0.01;
 
-export default class Boid<T> implements BoidArgs<T> {
+export default class Boid<T> implements AbstractBoid<T> {
   sketch: p5;
   entity: T;
+  label?: string;
   position: p5.Vector;
   velocity: p5.Vector;
   acceleration: p5.Vector;
   radius: number;
+  colour: string;
+  borderWeight: number;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -24,17 +28,23 @@ export default class Boid<T> implements BoidArgs<T> {
     entity,
     position,
     radius,
+    label,
+    colour = DEFAULT_COLOUR,
+    borderWeight = DEFAULT_BORDER_WEIGHT,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
     minForce = DEFAULT_MIN_FORCE,
     environmentalFriction = 0.9,
-  }: BoidArgs<T>) {
+  }: AbstractBoid<T>) {
     this.sketch = sketch;
     this.entity = entity;
     this.position = position;
+    this.label = label;
     this.velocity = sketch.createVector();
     this.acceleration = sketch.createVector();
     this.radius = radius;
+    this.colour = colour;
+    this.borderWeight = borderWeight;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.minForce = minForce;
@@ -72,13 +82,10 @@ export default class Boid<T> implements BoidArgs<T> {
     this.acceleration.mult(0);
   }
 
-  draw(
-    toString: ToString<T>,
-    { colour = "red", borderWeight = 1 }: BoidDrawDetails
-  ) {
+  draw() {
     // Expect to be overridden
-    this.sketch.strokeWeight(borderWeight);
-    this.sketch.fill(colour);
+    this.sketch.strokeWeight(this.borderWeight);
+    this.sketch.fill(this.colour);
     this.sketch.circle(this.position.x, this.position.y, this.radius);
   }
 

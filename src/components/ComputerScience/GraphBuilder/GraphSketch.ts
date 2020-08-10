@@ -4,30 +4,19 @@ import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
-import {
-  BoidDrawDetailsById,
-  BoidDrawDetails,
-} from "src/components/p5/Boid/types";
 import { defaultToString } from "comp-sci-maths-lib/dist/common";
+import { GraphSketchConfig } from "./types";
 
 const WIDTH = 800;
 const HEIGHT = 500;
 
-interface Config<T> {
-  graph: Graph<T>;
-  physicsEnabled: boolean;
-  drawDetails: BoidDrawDetailsById;
-  getKey: (item: T) => string;
-}
-
-const getDefaultConfig = (): Config<any> => ({
+const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
   physicsEnabled: true,
-  drawDetails: {},
   getKey: defaultToString,
 });
 
-class GraphSketch<T> extends AbstractSketch<Config<T>> {
+class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
   boids: {
     [id: string]: DataItemBoid<T>;
   };
@@ -37,21 +26,20 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
     this.boids = {};
   }
 
-  getBoidDrawDetails(key: string): BoidDrawDetails {
-    return {
-      colour: "red",
-      borderWeight: 1,
-      ...this.config.drawDetails[key],
-    };
-  }
-
-  getBoid(sketch: p5, vertex: T) {
+  getBoid(vertex: T): DataItemBoid<T> {
+    const sketch = this.s;
+    if (sketch === undefined) {
+      throw new Error("Sketch Undefined when Getting Boid");
+    }
     const vAsStr = this.config.getKey(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<T>({
         sketch,
         entity: vertex,
+        label: vAsStr,
         radius: sketch.width / 12,
+        colour: "red",
+        borderWeight: 1,
         position: sketch.createVector(
           sketch.random(0, sketch.width),
           sketch.random(0, sketch.height)
@@ -64,6 +52,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
 
   sketch = (s: p5) => {
     const that = this;
+    that.s = s;
     let screenCentre: p5.Vector;
 
     s.setup = function () {
@@ -99,13 +88,13 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
 
       const {
         getKey,
-        graph: { vertexToString, vertices, edges },
+        graph: { vertices, edges },
         physicsEnabled,
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
       const boidsInSketch: DataItemBoid<T>[] = vertices.map((v) =>
-        that.getBoid(s, v)
+        that.getBoid(v)
       );
       const boidIdsInSketch: string[] = vertices.map(getKey);
 
@@ -117,8 +106,8 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
             boidIdsInSketch.includes(getKey(to))
         )
         .map(({ from, to, weight }) => ({
-          from: that.getBoid(s, from),
-          to: that.getBoid(s, to),
+          from: that.getBoid(from),
+          to: that.getBoid(to),
           weight,
         }));
 
@@ -171,12 +160,7 @@ class GraphSketch<T> extends AbstractSketch<Config<T>> {
       });
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) =>
-        b.draw(
-          vertexToString,
-          that.getBoidDrawDetails(vertexToString(b.entity))
-        )
-      );
+      boidsInSketch.forEach((b) => b.draw());
     };
   };
 }

@@ -24,7 +24,7 @@ const useSearchedData = ({
   searchItem,
 }: Props): SearchingData<string> => {
   let data: string[] = React.useMemo(
-    () => generateRandomLetters(10, { unique: true, sorted: true }),
+    () => generateRandomLetters(20, { unique: true, sorted: true }),
     []
   );
 

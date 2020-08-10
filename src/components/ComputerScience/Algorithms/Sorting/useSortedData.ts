@@ -21,7 +21,7 @@ interface Props {
 
 const useSortedData = ({ algorithm }: Props): SortingData<string> => {
   const inputList = React.useMemo(
-    () => generateRandomLetters(10, { unique: true, sorted: false }),
+    () => generateRandomLetters(20, { unique: true, sorted: false }),
     []
   );
   const { sortedData, stages }: SortingData<string> = React.useMemo(() => {

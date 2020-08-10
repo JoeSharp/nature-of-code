@@ -6,10 +6,6 @@ import p5 from "p5";
 import { createVector } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import { ToString } from "comp-sci-maths-lib/dist/types";
-import {
-  BoidDrawDetailsById,
-  BoidDrawDetails,
-} from "src/components/p5/Boid/types";
 
 interface Config {
   sourceNode: p5.Vector;
@@ -31,10 +27,6 @@ const WIDTH = 800;
 const HEIGHT = 500;
 const SPREAD = 50;
 
-const commonDrawDetails: BoidDrawDetails = {
-  // includeText: false,
-};
-
 class GridSketch extends AbstractSketch<Config> {
   boids: {
     [id: string]: DataItemBoid<p5.Vector>;
@@ -51,6 +43,7 @@ class GridSketch extends AbstractSketch<Config> {
       this.boids[vAsStr] = new DataItemBoid<p5.Vector>({
         sketch,
         entity: vertex,
+        label: vAsStr,
         radius: 20,
         position: sketch.createVector(
           (vertex.x + 1) * SPREAD,
@@ -58,6 +51,8 @@ class GridSketch extends AbstractSketch<Config> {
         ),
       });
     }
+    this.boids[vAsStr].entity = vertex;
+    this.boids[vAsStr].label = vAsStr;
     return this.boids[vAsStr];
   }
 
@@ -92,30 +87,19 @@ class GridSketch extends AbstractSketch<Config> {
         path,
       } = that.config;
 
-      let boidsInSketch: DataItemBoid<p5.Vector>[] = vertices.map((v) =>
-        that.getBoid(s, vertexToString, v)
-      );
-      let boidColours: BoidDrawDetailsById = vertices
-        .map((v) => {
-          let colour;
-          if (equalityCheck(v, sourceNode)) {
-            colour = "lime";
-          } else if (equalityCheck(v, destinationNode)) {
-            colour = "red";
-          } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
-            colour = "cyan";
-          } else {
-            colour = "black";
-          }
-          return { vertex: vertexToString(v), colour };
-        })
-        .reduce(
-          (acc, { vertex, colour }) => ({
-            ...acc,
-            [vertex]: { colour, ...commonDrawDetails },
-          }),
-          {}
-        );
+      let boidsInSketch: DataItemBoid<p5.Vector>[] = vertices.map((v) => {
+        const boid = that.getBoid(s, vertexToString, v);
+        if (equalityCheck(v, sourceNode)) {
+          boid.colour = "lime";
+        } else if (equalityCheck(v, destinationNode)) {
+          boid.colour = "red";
+        } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
+          boid.colour = "cyan";
+        } else {
+          boid.colour = "black";
+        }
+        return boid;
+      });
 
       const boidIdsInSketch: string[] = vertices.map(vertexToString);
 
@@ -149,9 +133,7 @@ class GridSketch extends AbstractSketch<Config> {
       }
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) =>
-        b.draw(vertexToString, boidColours[vertexToString(b.entity)])
-      );
+      boidsInSketch.forEach((b) => b.draw());
     };
   };
 }

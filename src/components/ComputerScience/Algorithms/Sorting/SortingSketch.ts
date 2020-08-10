@@ -50,13 +50,19 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     return this.knownPositionVars.indexOf(positionVar);
   }
 
-  getBoid(sketch: p5, vertexToString: ToString<T>, vertex: T) {
+  getBoid(
+    sketch: p5,
+    vertexToString: ToString<T>,
+    vertex: T,
+    dataLength: number
+  ) {
     const vAsStr = vertexToString(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<T>({
         sketch,
         entity: vertex,
-        radius: sketch.width / 12,
+        label: vAsStr,
+        radius: sketch.width / (dataLength + 2),
         minForce: 0,
         maxSpeed: 3,
         position: sketch.createVector(
@@ -65,6 +71,8 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         ),
       });
     }
+    this.boids[vAsStr].entity = vertex;
+    this.boids[vAsStr].label = vAsStr;
     return this.boids[vAsStr];
   }
 
@@ -123,13 +131,26 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
 
       const boids: DataItemBoid<T>[] = data.map((item, i) => {
-        const boid = that.getBoid(s, dataToString, item);
+        const boid = that.getBoid(s, dataToString, item, data.length);
 
         let x = getDataX(i);
-        if (i === swapFrom) {
-          x = getDataX(swapTo);
-        } else if (i === swapTo) {
-          x = getDataX(swapFrom);
+        switch (i) {
+          case compareIndexA:
+          case compareIndexB:
+            boid.colour = "green";
+            break;
+          case swapFrom: {
+            boid.colour = "red";
+            x = getDataX(swapTo);
+            break;
+          }
+          case swapTo: {
+            boid.colour = "red";
+            x = getDataX(swapFrom);
+            break;
+          }
+          default:
+            boid.colour = "red";
         }
 
         boid.arrive(s.createVector(x, DATA_Y), 5);
@@ -161,24 +182,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.text(subTitle, 20, 50);
 
       boids.forEach((b) => b.update());
-      boids.forEach((b, i) => {
-        let colour = "blue";
-        switch (i) {
-          case compareIndexA:
-          case compareIndexB:
-            colour = "green";
-            break;
-          case swapFrom: {
-            colour = "red";
-            break;
-          }
-          case swapTo: {
-            colour = "red";
-            break;
-          }
-        }
-        b.draw(dataToString, { colour });
-      });
+      boids.forEach((b, i) => b.draw());
 
       // Ensure position vars are in consistent order
       s.textAlign(s.CENTER, s.CENTER);

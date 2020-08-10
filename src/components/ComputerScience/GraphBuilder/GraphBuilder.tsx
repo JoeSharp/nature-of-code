@@ -1,7 +1,5 @@
 import React from "react";
 import VertexRow from "./VertexRow";
-import useSketch from "src/components/p5/useSketch";
-import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
@@ -18,8 +16,8 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     graph,
     setNewEdgeWeight,
     newEdgeWeight,
-    drawDetails: { drawDetails },
     clearAll,
+    sketchUse,
   } = graphBuilder;
 
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
@@ -44,13 +42,12 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     [setPhysicsEnabled]
   );
 
-  const { refContainer, updateConfig } = useSketch(GraphSketch);
+  const { updateConfig, refContainer } = sketchUse;
 
-  React.useEffect(() => updateConfig({ graph, physicsEnabled, drawDetails }), [
+  React.useEffect(() => updateConfig({ graph, physicsEnabled }), [
     physicsEnabled,
     graph,
     updateConfig,
-    drawDetails,
   ]);
 
   return (

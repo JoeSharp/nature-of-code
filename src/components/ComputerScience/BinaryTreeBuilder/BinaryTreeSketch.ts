@@ -1,10 +1,6 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
 import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import {
-  BoidDrawDetails,
-  BoidDrawDetailsById,
-} from "src/components/p5/Boid/types";
 import p5 from "p5";
 import { createVector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
@@ -16,12 +12,10 @@ const SPRING_LENGTH = 120;
 
 interface Config<T> {
   binaryTree: BinaryTree<T>;
-  drawDetails: BoidDrawDetailsById;
 }
 
 const getDefaultConfig = (): Config<any> => ({
   binaryTree: new BinaryTree<any>((a, b) => a - b),
-  drawDetails: {},
 });
 
 const toString = (d: any) => `${d}`;
@@ -38,14 +32,6 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
     this.boids = {};
     this.headLeft = createVector(-50, 50);
     this.headRight = createVector(50, 50);
-  }
-
-  getBoidDrawDetails(id: string): BoidDrawDetails {
-    return {
-      colour: "red",
-      borderWeight: 1,
-      ...this.config.drawDetails[id],
-    };
   }
 
   visitBoids(
@@ -65,10 +51,12 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
         sketch,
         radius: RADIUS,
         entity: treeNode,
+        label: toString(treeNode.value),
         position,
       });
     } else {
       this.boids[id].entity = treeNode;
+      this.boids[id].label = toString(treeNode.value);
     }
     const thisBoid = this.boids[id];
     boidReceiver(thisBoid);
@@ -172,12 +160,7 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
       Object.values(boids)
         .filter((_, i) => i > 0)
         .forEach((b) => b.update());
-      Object.values(boids).forEach((b) =>
-        b.draw(
-          (v) => toString(v.value),
-          this.getBoidDrawDetails(toString(b.entity.value))
-        )
-      );
+      Object.values(boids).forEach((b) => b.draw());
     };
   };
 }

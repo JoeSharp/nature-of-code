@@ -11,6 +11,7 @@ type ChangeEventHandlerFactory<T> = (
 
 export abstract class AbstractSketch<T> {
   config: T;
+  s?: p5;
 
   constructor(defaultConfig: T) {
     this.config = defaultConfig;
@@ -23,7 +24,7 @@ export abstract class AbstractSketch<T> {
   abstract sketch: (s: p5) => void;
 }
 
-interface UseConfig<T, SKETCH extends AbstractSketch<T>> {
+export interface UseSketch<T, SKETCH extends AbstractSketch<T>> {
   config: T;
   refContainer: any;
   sketchContainer: SKETCH;
@@ -39,7 +40,7 @@ interface BaseConfig {
 
 function useSketch<T extends BaseConfig, SKETCH extends AbstractSketch<T>>(s: {
   new (): SKETCH;
-}): UseConfig<T, SKETCH> {
+}): UseSketch<T, SKETCH> {
   const refContainer = React.useRef(null);
   const sketchContainer: SKETCH = React.useMemo(() => new s(), [s]);
   React.useEffect(() => {
