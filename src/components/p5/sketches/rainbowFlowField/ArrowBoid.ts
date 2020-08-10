@@ -1,5 +1,6 @@
 import FlowField from "./FlowField";
 import Boid from "../../Boid/Boid";
+import p5 from "p5";
 
 export default class ArrowBoidBoid extends Boid<number> {
   colour: string = "red";
@@ -12,9 +13,7 @@ export default class ArrowBoidBoid extends Boid<number> {
     return desired;
   }
 
-  draw() {
-    let s = this.sketch;
-
+  draw(s: p5) {
     let theta = this.velocity.heading() + s.PI / 2;
     s.fill(this.colour);
     s.noStroke();

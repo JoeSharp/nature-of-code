@@ -59,7 +59,6 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     const vAsStr = vertexToString(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<T>({
-        sketch,
         entity: vertex,
         label: vAsStr,
         radius: sketch.width / (dataLength + 2),
@@ -153,7 +152,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
             boid.colour = "red";
         }
 
-        boid.arrive(s.createVector(x, DATA_Y), 5);
+        boid.arrive(s, s.createVector(x, DATA_Y), 5);
 
         return boid;
       });
@@ -181,8 +180,8 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       s.text(stageName, 20, 20);
       s.text(subTitle, 20, 50);
 
-      boids.forEach((b) => b.update());
-      boids.forEach((b, i) => b.draw());
+      boids.forEach((b) => b.update(s));
+      boids.forEach((b, i) => b.draw(s));
 
       // Ensure position vars are in consistent order
       s.textAlign(s.CENTER, s.CENTER);

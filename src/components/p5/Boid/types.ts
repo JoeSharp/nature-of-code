@@ -1,7 +1,6 @@
 import p5 from "p5";
 
 export interface AbstractBoid<T> {
-  sketch: p5;
   entity: T;
   position: p5.Vector;
   radius: number;

@@ -11,7 +11,6 @@ type ChangeEventHandlerFactory<T> = (
 
 export abstract class AbstractSketch<T> {
   config: T;
-  s?: p5;
 
   constructor(defaultConfig: T) {
     this.config = defaultConfig;
@@ -27,6 +26,7 @@ export abstract class AbstractSketch<T> {
 export interface UseSketch<T, SKETCH extends AbstractSketch<T>> {
   config: T;
   refContainer: any;
+  sketchInUse?: p5;
   sketchContainer: SKETCH;
   updateConfig: (s: Partial<T>) => void;
   onNumericConfigChange: ChangeEventHandlerFactory<T>;
@@ -41,21 +41,20 @@ interface BaseConfig {
 function useSketch<T extends BaseConfig, SKETCH extends AbstractSketch<T>>(s: {
   new (): SKETCH;
 }): UseSketch<T, SKETCH> {
+  const sketchInUse = React.useRef<p5>();
   const refContainer = React.useRef(null);
   const sketchContainer: SKETCH = React.useMemo(() => new s(), [s]);
   React.useEffect(() => {
-    let sketchInUse: p5;
-
     if (!!refContainer) {
-      sketchInUse = new p5(
+      sketchInUse.current = new p5(
         sketchContainer.sketch.bind(sketchContainer),
         (refContainer.current as unknown) as HTMLElement
       );
     }
 
     return () => {
-      if (!!sketchInUse) {
-        sketchInUse.remove();
+      if (!!sketchInUse.current) {
+        sketchInUse.current.remove();
       }
     };
   }, [sketchContainer]);
@@ -99,6 +98,7 @@ function useSketch<T extends BaseConfig, SKETCH extends AbstractSketch<T>>(s: {
   return {
     config: config as T,
     sketchContainer,
+    sketchInUse: sketchInUse.current,
     updateConfig,
     onNumericConfigChange,
     onStringConfigChange,

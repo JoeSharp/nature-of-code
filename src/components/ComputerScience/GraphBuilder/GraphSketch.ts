@@ -6,6 +6,7 @@ import Graph, {
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
 import { defaultToString } from "comp-sci-maths-lib/dist/common";
 import { GraphSketchConfig } from "./types";
+import { createVector } from "../Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -21,30 +22,48 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
     [id: string]: DataItemBoid<T>;
   };
 
+  colours: {
+    [id: string]: string;
+  };
+  borderWeights: {
+    [id: string]: number;
+  };
+
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
+    this.colours = {};
+    this.borderWeights = {};
   }
 
-  getBoid(vertex: T): DataItemBoid<T> {
-    const sketch = this.s;
-    if (sketch === undefined) {
-      throw new Error("Sketch Undefined when Getting Boid");
-    }
+  setColour(vertex: T, colour: string) {
+    this.colours[this.config.getKey(vertex)] = colour;
+  }
+
+  setBorderWeight(vertex: T, borderWeight: number) {
+    this.borderWeights[this.config.getKey(vertex)] = borderWeight;
+  }
+
+  getBoid(vertex: T): DataItemBoid<T> | undefined {
+    return this.boids[this.config.getKey(vertex)];
+  }
+
+  getOrCreateBoid(s: p5, vertex: T): DataItemBoid<T> {
     const vAsStr = this.config.getKey(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<T>({
-        sketch,
         entity: vertex,
         label: vAsStr,
-        radius: sketch.width / 12,
-        colour: "red",
-        borderWeight: 1,
-        position: sketch.createVector(
-          sketch.random(0, sketch.width),
-          sketch.random(0, sketch.height)
-        ),
+        radius: !!s ? s.width / 12 : 5,
+        colour: this.colours[vAsStr] || "red",
+        borderWeight: this.borderWeights[vAsStr] || 1,
+        position: !!s
+          ? s.createVector(s.random(0, s.width), s.random(0, s.height))
+          : createVector(0, 0),
       });
+    } else {
+      this.boids[vAsStr].colour = this.colours[vAsStr] || "red";
+      this.boids[vAsStr].borderWeight = this.borderWeights[vAsStr] || 1;
     }
     this.boids[vAsStr].entity = vertex;
     return this.boids[vAsStr];
@@ -52,7 +71,6 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
 
   sketch = (s: p5) => {
     const that = this;
-    that.s = s;
     let screenCentre: p5.Vector;
 
     s.setup = function () {
@@ -94,7 +112,7 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
 
       // Get the list of boids in this sketch based on the vertex IDs
       const boidsInSketch: DataItemBoid<T>[] = vertices.map((v) =>
-        that.getBoid(v)
+        that.getOrCreateBoid(s, v)
       );
       const boidIdsInSketch: string[] = vertices.map(getKey);
 
@@ -106,8 +124,8 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
             boidIdsInSketch.includes(getKey(to))
         )
         .map(({ from, to, weight }) => ({
-          from: that.getBoid(from),
-          to: that.getBoid(to),
+          from: that.getOrCreateBoid(s, from),
+          to: that.getOrCreateBoid(s, to),
           weight,
         }));
 
@@ -138,7 +156,7 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
         });
 
         // Call upon all boids to update themselves
-        boidsInSketch.forEach((b) => b.update());
+        boidsInSketch.forEach((b) => b.update(s));
       }
 
       // Draw the lines
@@ -160,7 +178,7 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
       });
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) => b.draw());
+      boidsInSketch.forEach((b) => b.draw(s));
     };
   };
 }

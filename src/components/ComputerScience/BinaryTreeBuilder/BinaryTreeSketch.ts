@@ -48,7 +48,6 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
 
     if (!this.boids[id]) {
       this.boids[id] = new DataItemBoid({
-        sketch,
         radius: RADIUS,
         entity: treeNode,
         label: toString(treeNode.value),
@@ -159,8 +158,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
 
       Object.values(boids)
         .filter((_, i) => i > 0)
-        .forEach((b) => b.update());
-      Object.values(boids).forEach((b) => b.draw());
+        .forEach((b) => b.update(s));
+      Object.values(boids).forEach((b) => b.draw(s));
     };
   };
 }

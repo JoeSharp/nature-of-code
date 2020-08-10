@@ -45,7 +45,6 @@ export default class GravitySketch extends AbstractSketch<{}> {
 
         // Each boid will be a random colour
         let aBoid = new ArrowBoid({
-          sketch: s,
           entity: i,
           position,
           radius: RADIUS,
@@ -67,13 +66,13 @@ export default class GravitySketch extends AbstractSketch<{}> {
       });
 
       // Loop through each boid, calling update
-      boids.forEach((b) => b.update());
+      boids.forEach((b) => b.update(s));
 
       // Loop through each boid, calling display
-      boids.forEach((b) => b.draw());
+      boids.forEach((b) => b.draw(s));
 
       // Filter boids by calling onScreen
-      boids = boids.filter((b) => b.onScreen());
+      boids = boids.filter((b) => b.onScreen(s));
     };
   };
 }

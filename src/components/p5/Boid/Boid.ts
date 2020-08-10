@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { AbstractBoid } from "./types";
+import { createVector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
 const DEFAULT_COLOUR = "red";
 const DEFAULT_BORDER_WEIGHT = 1;
@@ -8,7 +9,6 @@ const DEFAULT_MAX_FORCE = 0.5;
 const DEFAULT_MIN_FORCE = 0.01;
 
 export default class Boid<T> implements AbstractBoid<T> {
-  sketch: p5;
   entity: T;
   label?: string;
   position: p5.Vector;
@@ -24,7 +24,6 @@ export default class Boid<T> implements AbstractBoid<T> {
   grabbed: boolean;
 
   constructor({
-    sketch,
     entity,
     position,
     radius,
@@ -36,12 +35,11 @@ export default class Boid<T> implements AbstractBoid<T> {
     minForce = DEFAULT_MIN_FORCE,
     environmentalFriction = 0.9,
   }: AbstractBoid<T>) {
-    this.sketch = sketch;
     this.entity = entity;
     this.position = position;
     this.label = label;
-    this.velocity = sketch.createVector();
-    this.acceleration = sketch.createVector();
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
     this.radius = radius;
     this.colour = colour;
     this.borderWeight = borderWeight;
@@ -73,7 +71,7 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.acceleration.add(force);
   }
 
-  update() {
+  update(s: p5) {
     if (!this.grabbed && this.acceleration.mag() > this.minForce) {
       this.velocity.add(this.acceleration);
       this.velocity.mult(this.environmentalFriction);
@@ -82,11 +80,11 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.acceleration.mult(0);
   }
 
-  draw() {
+  draw(s: p5) {
     // Expect to be overridden
-    this.sketch.strokeWeight(this.borderWeight);
-    this.sketch.fill(this.colour);
-    this.sketch.circle(this.position.x, this.position.y, this.radius);
+    s.strokeWeight(this.borderWeight);
+    s.fill(this.colour);
+    s.circle(this.position.x, this.position.y, this.radius);
   }
 
   seek(target: p5.Vector): void {
@@ -119,8 +117,7 @@ export default class Boid<T> implements AbstractBoid<T> {
     }
   }
 
-  arrive(target: p5.Vector, arriveRadius: number): void {
-    const s = this.sketch;
+  arrive(s: p5, target: p5.Vector, arriveRadius: number): void {
     let desired = p5.Vector.sub(target, this.position);
     let d = desired.mag();
     desired.normalize();
@@ -134,9 +131,9 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.applyForce(desired);
   }
 
-  onScreen() {
+  onScreen(s: p5) {
     const { x, y } = this.position;
-    const { width, height } = this.sketch;
+    const { width, height } = s;
     return x > 0 && x < width && y > 0 && y < height;
   }
 }

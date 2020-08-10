@@ -9,10 +9,6 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
-import p5 from "p5";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { HeuristicCostFunction } from "comp-sci-maths-lib/dist/algorithms/routing/types";
-import { HeuristicCostById } from "src/components/ComputerScience/GraphBuilder/types";
 import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
 
 const initialGraph = new Graph<string>()
@@ -39,7 +35,11 @@ const GraphRouting: React.FunctionComponent = () => {
   const {
     version,
     graph,
-    sketchUse: { sketchContainer },
+    sketchUse: {
+      sketchContainer,
+      sketchInUse,
+      config: { getKey },
+    },
   } = graphBuilder;
 
   const { vertex: sourceNode, componentProps: sourcePickerProps } = usePicker(
@@ -52,41 +52,26 @@ const GraphRouting: React.FunctionComponent = () => {
     componentProps: destinationPickerProps,
   } = usePicker(version, graph, "form-control");
 
-  const [heuristicCosts, setHeuristicsCosts] = React.useState<
-    HeuristicCostById
-  >({});
-
-  const getHeuristicCost: HeuristicCostFunction<string> = React.useCallback(
-    (id: string) => heuristicCosts[id] || 0,
-    [heuristicCosts]
+  const getPositionOfNode = React.useCallback(
+    (d: string) => {
+      const boid = sketchContainer.getBoid(d);
+      return !!boid ? boid.position : undefined;
+    },
+    [sketchContainer]
   );
 
-  const onHarvestDistances = React.useCallback(() => {
-    if (destinationNode !== undefined) {
-      const destinationBoid: DataItemBoid<string> = sketchContainer.getBoid(
-        destinationNode
-      );
-
-      const costs: HeuristicCostById = Object.values(sketchContainer.boids)
-        .map((boid) => ({
-          vertex: boid.entity,
-          distance: p5.Vector.sub(
-            boid.position,
-            destinationBoid.position
-          ).mag(),
-        }))
-        .reduce((acc, curr) => ({ ...acc, [curr.vertex]: curr.distance }), {});
-
-      setHeuristicsCosts(costs);
-    }
-  }, [sketchContainer, destinationNode, setHeuristicsCosts]);
-
-  const { path, stages } = useRoutingAlgorithm({
+  const {
+    path,
+    stages,
+    onHarvestDistances,
+    heuristicCosts,
+  } = useRoutingAlgorithm({
     version,
     graph,
     sourceNode,
     destinationNode,
-    getHeuristicCost,
+    getKey,
+    getPositionOfNode,
   });
 
   const {
@@ -96,19 +81,18 @@ const GraphRouting: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
-      const boid = sketchContainer.getBoid(v);
       if (sourceNode === v || destinationNode === v) {
-        boid.borderWeight = 3;
-        boid.colour = "green";
+        sketchContainer.setBorderWeight(v, 3);
+        sketchContainer.setColour(v, "green");
       } else if (path.includes(v)) {
-        boid.borderWeight = 3;
-        boid.colour = "red";
+        sketchContainer.setBorderWeight(v, 3);
+        sketchContainer.setColour(v, "red");
       } else {
-        boid.borderWeight = 1;
-        boid.colour = "blue";
+        sketchContainer.setBorderWeight(v, 1);
+        sketchContainer.setColour(v, "blue");
       }
     });
-  }, [sourceNode, destinationNode, graph, path, sketchContainer]);
+  }, [sourceNode, destinationNode, graph, path, sketchContainer, sketchInUse]);
 
   return (
     <div>

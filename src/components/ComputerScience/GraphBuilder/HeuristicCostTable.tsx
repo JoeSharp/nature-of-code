@@ -17,7 +17,7 @@ const HeuristicCostTable: React.FunctionComponent<Props> = ({
     </thead>
     <tbody>
       {Object.entries(heuristicCostsById).map(([id, cost]) => (
-        <tr>
+        <tr key={id}>
           <td>{id}</td>
           <td>{cost}</td>
         </tr>

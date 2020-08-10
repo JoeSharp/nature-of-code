@@ -9,9 +9,14 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
+import p5 from "p5";
 
 const GridRouting: React.FunctionComponent = () => {
-  const { refContainer, updateConfig } = useSketch(GridSketch);
+  const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
+
+  const {
+    config: { getKey },
+  } = sketchContainer;
 
   const {
     version,
@@ -29,6 +34,14 @@ const GridRouting: React.FunctionComponent = () => {
     graph,
     sourceNode,
     destinationNode,
+    getKey,
+    getPositionOfNode: React.useCallback(
+      (d: p5.Vector) => {
+        const boid = sketchContainer.getBoid(d);
+        return !!boid ? boid.position : undefined;
+      },
+      [sketchContainer]
+    ),
   });
 
   const {

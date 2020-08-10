@@ -8,39 +8,39 @@ export default class DataItemBoid<T> extends Boid<T> {
     return diff.mag() < this.radius;
   }
 
-  update() {
-    super.update();
+  update(s: p5) {
+    super.update(s);
 
     // Clip to Sides
-    if (this.position.x > this.sketch.width) {
-      this.position.x = this.sketch.width;
+    if (this.position.x > s.width) {
+      this.position.x = s.width;
     } else if (this.position.x < 0) {
       this.position.x = 0;
     }
 
     // Clip to top and bottom
-    if (this.position.y > this.sketch.height) {
-      this.position.y = this.sketch.height;
+    if (this.position.y > s.height) {
+      this.position.y = s.height;
     } else if (this.position.y < 0) {
       this.position.y = 0;
     }
   }
 
-  draw() {
-    this.sketch.stroke("black");
+  draw(s: p5) {
+    s.stroke("black");
     if (this.grabbed) {
-      this.sketch.strokeWeight(4);
+      s.strokeWeight(4);
     } else {
-      this.sketch.strokeWeight(this.borderWeight);
+      s.strokeWeight(this.borderWeight);
     }
 
-    this.sketch.fill(this.colour);
-    this.sketch.ellipse(this.position.x, this.position.y, this.radius);
+    s.fill(this.colour);
+    s.ellipse(this.position.x, this.position.y, this.radius);
 
     if (this.label !== undefined) {
-      this.sketch.fill("white");
-      this.sketch.textAlign(this.sketch.CENTER, this.sketch.CENTER);
-      this.sketch.text(this.label, this.position.x, this.position.y);
+      s.fill("white");
+      s.textAlign(s.CENTER, s.CENTER);
+      s.text(this.label, this.position.x, this.position.y);
     }
   }
 }

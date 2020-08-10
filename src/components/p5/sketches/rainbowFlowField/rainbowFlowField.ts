@@ -54,16 +54,15 @@ export default class RainbowFlowField extends AbstractSketch<{}> {
 
       flowField.display();
       boids.forEach((boid) => {
-        boid.update();
-        boid.draw();
+        boid.update(s);
+        boid.draw(s);
       });
 
-      boids = boids.filter((b) => b.onScreen());
+      boids = boids.filter((b) => b.onScreen(s));
 
       // Keep the population up
       while (boids.length < MINIMUM_BOIDS) {
         let aBoid = new Boid({
-          sketch: s,
           entity: boids.length,
           position: s.createVector(
             randomInt(s, 0, s.width),

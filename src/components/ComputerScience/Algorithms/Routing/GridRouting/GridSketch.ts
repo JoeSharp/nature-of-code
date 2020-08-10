@@ -12,6 +12,7 @@ interface Config {
   destinationNode: p5.Vector;
   graph: Graph<p5.Vector>;
   path: p5.Vector[];
+  getKey: (item: p5.Vector) => string;
   toggleConnection: (vertex: p5.Vector) => void;
 }
 
@@ -20,6 +21,7 @@ const getDefaultConfig = (): Config => ({
   sourceNode: createVector(0, 0),
   destinationNode: createVector(0, 0),
   path: [],
+  getKey: (v) => `${v.x}-${v.y}`,
   toggleConnection: () => {},
 });
 
@@ -37,11 +39,18 @@ class GridSketch extends AbstractSketch<Config> {
     this.boids = {};
   }
 
-  getBoid(sketch: p5, vToString: ToString<p5.Vector>, vertex: p5.Vector) {
+  getBoid(vertex: p5.Vector): DataItemBoid<p5.Vector> | undefined {
+    return this.boids[this.config.getKey(vertex)];
+  }
+
+  getOrCreateBoid(
+    sketch: p5,
+    vToString: ToString<p5.Vector>,
+    vertex: p5.Vector
+  ) {
     const vAsStr = vToString(vertex);
     if (!this.boids[vAsStr]) {
       this.boids[vAsStr] = new DataItemBoid<p5.Vector>({
-        sketch,
         entity: vertex,
         label: vAsStr,
         radius: 20,
@@ -88,7 +97,7 @@ class GridSketch extends AbstractSketch<Config> {
       } = that.config;
 
       let boidsInSketch: DataItemBoid<p5.Vector>[] = vertices.map((v) => {
-        const boid = that.getBoid(s, vertexToString, v);
+        const boid = that.getOrCreateBoid(s, vertexToString, v);
         if (equalityCheck(v, sourceNode)) {
           boid.colour = "lime";
         } else if (equalityCheck(v, destinationNode)) {
@@ -111,8 +120,8 @@ class GridSketch extends AbstractSketch<Config> {
             boidIdsInSketch.includes(vertexToString(to))
         )
         .map(({ from, to, weight }) => ({
-          from: that.getBoid(s, vertexToString, from),
-          to: that.getBoid(s, vertexToString, to),
+          from: that.getOrCreateBoid(s, vertexToString, from),
+          to: that.getOrCreateBoid(s, vertexToString, to),
           weight,
         }));
 
@@ -127,13 +136,13 @@ class GridSketch extends AbstractSketch<Config> {
       s.stroke("cyan");
       s.strokeWeight(4);
       for (let i = 0; i < path.length - 1; i++) {
-        const from = that.getBoid(s, vertexToString, path[i]);
-        const to = that.getBoid(s, vertexToString, path[i + 1]);
+        const from = that.getOrCreateBoid(s, vertexToString, path[i]);
+        const to = that.getOrCreateBoid(s, vertexToString, path[i + 1]);
         s.line(from.position.x, from.position.y, to.position.x, to.position.y);
       }
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) => b.draw());
+      boidsInSketch.forEach((b) => b.draw(s));
     };
   };
 }
