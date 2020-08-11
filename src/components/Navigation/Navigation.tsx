@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { pages as csPages } from "../ComputerScience";
+import { pages as mathsPages } from "../Maths";
 import codeClubSessions from "../CodeClub";
 import experiments from "../Experiments";
-import maths from "../Maths";
-import computerScience from "../ComputerScience";
 import { Page } from "src/types";
 
 interface PageCollection {
@@ -12,8 +12,8 @@ interface PageCollection {
 }
 
 const pages: PageCollection[] = [
-  { title: "Computer Science", pages: computerScience },
-  { title: "Maths", pages: maths },
+  { title: "Computer Science", pages: csPages },
+  { title: "Maths", pages: mathsPages },
   { title: "Code Club", pages: codeClubSessions },
   { title: "Experiments", pages: experiments },
 ];
