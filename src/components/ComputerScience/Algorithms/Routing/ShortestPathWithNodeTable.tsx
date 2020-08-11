@@ -1,5 +1,7 @@
 import React from "react";
 import { Optional, ToString } from "comp-sci-maths-lib/dist/types";
+import Table from "src/components/General/Table";
+import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 
 interface Item<T> {
   node: string;
@@ -12,25 +14,18 @@ interface Props<T> {
   items: Item<T>[];
 }
 
-const ShortestPathWithNodeTable = <T,>({ vertexToString, items }: Props<T>) => (
-  <table className="table table-striped">
-    <thead>
-      <tr>
-        <th>Node</th>
-        <th>Cost</th>
-        <th>Via Node</th>
-      </tr>
-    </thead>
-    <tbody>
-      {items.map(({ node, cost, viaNode }) => (
-        <tr key={node}>
-          <td>{node}</td>
-          <td>{cost}</td>
-          <td>{!!viaNode ? vertexToString(viaNode) : "NONE"}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+const ShortestPathWithNodeTable = <T,>({ vertexToString, items }: Props<T>) => {
+  const tableData = React.useMemo(
+    () =>
+      items.map(({ node, cost, viaNode }) => ({
+        node,
+        cost: roundTo2Dp(cost),
+        viaNode: viaNode ? vertexToString(viaNode) : "NONE",
+      })),
+    [items, vertexToString]
+  );
+
+  return <Table headings={["node", "cost", "viaNode"]} data={tableData} />;
+};
 
 export default ShortestPathWithNodeTable;

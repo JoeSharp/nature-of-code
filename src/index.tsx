@@ -14,7 +14,8 @@ import { page as mathsPage, pages as mathsPages } from "./components/Maths";
 import Navigation from "./components/Navigation";
 
 import "./index.css";
-import Card from "./components/lib/Card";
+import Card from "./components/General/Card";
+import Jumbotron from "./components/General/Jumbotron";
 
 const App = () => (
   <Router>
@@ -33,16 +34,12 @@ const App = () => (
         component={() => {
           return (
             <React.Fragment>
-              <div className="jumbotron">
-                <div className="container">
-                  <h1 className="display-4">Computer Science and Maths</h1>
-                  <p className="lead">
-                    This site contains interactive demonstrations of various
+              <Jumbotron
+                title="Computer Science and Maths"
+                lead="This site contains interactive demonstrations of various
                     algorithms and data structures used in Maths and Computer
-                    Science up to A Level.
-                  </p>
-                </div>
-              </div>
+                    Science up to A Level."
+              />
 
               <div className="row">
                 <div className="col-sm-6">

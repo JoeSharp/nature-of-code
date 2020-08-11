@@ -1,9 +1,15 @@
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import GraphSketch from "./GraphSketch";
 import { UseSketch } from "src/components/p5/useSketch";
+import p5 from "p5";
+
+export interface HeuristicCost {
+  position: p5.Vector;
+  distance: number;
+}
 
 export interface HeuristicCostById {
-  [id: string]: number;
+  [id: string]: HeuristicCost;
 }
 
 export interface GraphSketchConfig<T> {

@@ -3,7 +3,7 @@ import React from "react";
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import useSketch from "src/components/p5/useSketch";
 import usePrimeFactorTree from "./usePrimeFactorTree";
-import Checkbox from "src/components/lib/Checkbox";
+import Checkbox from "src/components/General/Checkbox";
 
 // Delete
 interface PrimeFactor {

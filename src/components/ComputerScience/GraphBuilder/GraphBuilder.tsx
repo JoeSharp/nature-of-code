@@ -3,7 +3,7 @@ import VertexRow from "./VertexRow";
 import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
-import Checkbox from "src/components/lib/Checkbox";
+import Checkbox from "src/components/General/Checkbox";
 
 interface Props {
   graphBuilder: UseGraphBuilder<string>;
@@ -90,7 +90,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
           Clear All
         </button>
       </div>
-      <table className="table table-striped table-bordered">
+      <table className="table table-striped table-bordered table-sm">
         <thead>
           <tr>
             <th>Vertex</th>

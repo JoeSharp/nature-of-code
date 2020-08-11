@@ -118,10 +118,12 @@ const GraphRouting: React.FunctionComponent = () => {
       <SteppingControls {...steppingControlProps} />
 
       {currentStage && (
-        <RouteObserverStage
-          vertexToString={graph.vertexToString}
-          currentStage={currentStage}
-        />
+        <div className="mt-3">
+          <RouteObserverStage
+            vertexToString={graph.vertexToString}
+            currentStage={currentStage}
+          />
+        </div>
       )}
 
       <GraphBuilder graphBuilder={graphBuilder} />

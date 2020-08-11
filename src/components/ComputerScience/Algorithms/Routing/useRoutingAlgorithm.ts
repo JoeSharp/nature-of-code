@@ -10,6 +10,7 @@ import {
   ShortestPathTree,
   ObserverArgsWithPathFrom,
   HeuristicCostFunction,
+  RoutingObserver,
 } from "comp-sci-maths-lib/dist/algorithms/routing/types";
 import { HeuristicCostById } from "../../GraphBuilder/types";
 import p5 from "p5";
@@ -43,35 +44,79 @@ export default <T>({
   const [heuristicCosts, setHeuristicsCosts] = React.useState<
     HeuristicCostById
   >({});
-  return React.useMemo(() => {
-    const getHeuristicCost: HeuristicCostFunction<T> = (vertex: T) =>
-      heuristicCosts[getKey(vertex)] || 0;
 
-    const onHarvestDistances = () => {
-      if (destinationNode !== undefined) {
-        const destinationPosition = getPositionOfNode(destinationNode);
+  const getHeuristicCost: HeuristicCostFunction<T> = React.useCallback(
+    (vertex: T) =>
+      heuristicCosts[getKey(vertex)]
+        ? heuristicCosts[getKey(vertex)].distance
+        : 0,
+    [heuristicCosts, getKey]
+  );
 
-        if (!!destinationPosition) {
-          const costs: HeuristicCostById = graph.vertices
-            .map((vertex) => ({
-              vertex,
-              position: getPositionOfNode(vertex) || destinationPosition,
-            }))
-            .map(({ vertex, position }) => ({
-              vertex,
-              distance: p5.Vector.sub(position, destinationPosition).mag(),
-            }))
-            .reduce(
-              (acc, curr) => ({ ...acc, [getKey(curr.vertex)]: curr.distance }),
-              {}
-            );
+  const onHarvestDistances = React.useCallback(() => {
+    if (destinationNode !== undefined && version !== undefined) {
+      const destinationPosition = getPositionOfNode(destinationNode);
+      if (!!destinationPosition) {
+        const costs: HeuristicCostById = graph.vertices
+          .map((vertex) => ({
+            vertex,
+            position: getPositionOfNode(vertex) || destinationPosition,
+          }))
+          .map(({ vertex, position }) => ({
+            vertex,
+            position,
+            distance: p5.Vector.sub(position, destinationPosition).mag(),
+          }))
+          .reduce(
+            (acc, { position, vertex, distance }) => ({
+              ...acc,
+              [getKey(vertex)]: { position, distance },
+            }),
+            {}
+          );
 
-          setHeuristicsCosts(costs);
-        }
+        setHeuristicsCosts(costs);
       }
-    };
+    }
+  }, [
+    version,
+    destinationNode,
+    getPositionOfNode,
+    getKey,
+    graph.vertices,
+    setHeuristicsCosts,
+  ]);
 
+  const { stages, shortestPathTree, path } = React.useMemo(() => {
     const stages: ObserverArgsWithPathFrom<T>[] = [];
+    const observer: RoutingObserver<T> = ({
+      shortestPathTree,
+      currentDistances,
+      currentItem,
+      outgoing,
+    }) => {
+      const endNode: T =
+        currentItem !== undefined && currentItem.viaNode !== undefined
+          ? currentItem.viaNode
+          : destinationNode !== undefined
+          ? destinationNode
+          : (sourceNode as T);
+      const observerArgs: ObserverArgsWithPathFrom<T> = {
+        currentItem,
+        currentDistances,
+        shortestPathTree,
+        outgoing,
+        pathFrom: [
+          ...getPathTo({
+            graph,
+            shortestPathTree,
+            node: endNode,
+          }),
+          endNode,
+        ],
+      };
+      stages.push(cloneDeep(observerArgs));
+    };
     const shortestPathTree: ShortestPathTree<T> =
       sourceNode !== undefined
         ? dijstraks({
@@ -79,33 +124,7 @@ export default <T>({
             sourceNode,
             destinationNode,
             getHeuristicCost,
-            observer: ({
-              shortestPathTree,
-              currentDistances,
-              currentItem,
-              outgoing,
-            }) =>
-              stages.push(
-                cloneDeep({
-                  currentItem,
-                  currentDistances,
-                  shortestPathTree,
-                  outgoing,
-                  pathFrom: [
-                    ...getPathTo({
-                      graph,
-                      shortestPathTree,
-                      node:
-                        (currentItem !== undefined && currentItem.viaNode) ||
-                        destinationNode ||
-                        sourceNode,
-                    }),
-                    (currentItem !== undefined && currentItem.node) ||
-                      destinationNode ||
-                      sourceNode, // hmm not sure about needing this...
-                  ],
-                })
-              ),
+            observer,
           })
         : {};
     const path =
@@ -114,20 +133,18 @@ export default <T>({
         : [];
 
     return {
-      heuristicCosts,
-      onHarvestDistances,
       version,
       shortestPathTree,
       path,
       stages,
     };
-  }, [
+  }, [getHeuristicCost, sourceNode, destinationNode, version, graph]);
+
+  return {
+    stages,
+    shortestPathTree,
+    path,
     heuristicCosts,
-    getKey,
-    getPositionOfNode,
-    sourceNode,
-    destinationNode,
-    graph,
-    version,
-  ]);
+    onHarvestDistances,
+  };
 };
