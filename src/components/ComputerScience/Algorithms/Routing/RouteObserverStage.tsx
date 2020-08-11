@@ -2,7 +2,7 @@ import React from "react";
 import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import { ObserverArgsWithPathFrom } from "comp-sci-maths-lib/dist/algorithms/routing/types";
 import { ToString } from "comp-sci-maths-lib/dist/types";
-import Table from "src/components/General/Table";
+import Table from "src/components/Bootstrap/Table";
 
 interface Props<T> {
   vertexToString: ToString<T>;

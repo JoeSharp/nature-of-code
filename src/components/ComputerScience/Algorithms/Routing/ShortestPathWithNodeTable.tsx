@@ -1,6 +1,6 @@
 import React from "react";
 import { Optional, ToString } from "comp-sci-maths-lib/dist/types";
-import Table from "src/components/General/Table";
+import Table from "src/components/Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 
 interface Item<T> {

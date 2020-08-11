@@ -1,6 +1,6 @@
 import React from "react";
 import { HeuristicCostById } from "./types";
-import Table from "src/components/General/Table";
+import Table from "src/components/Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 
 interface Props {

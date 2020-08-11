@@ -9,7 +9,7 @@ import GraphBuilder, {
   useGraphBuilder,
 } from "src/components/ComputerScience/GraphBuilder";
 import { defaultStringGraph } from "../../GraphBuilder/useGraphBuilder";
-import Checkbox from "src/components/General/Checkbox";
+import Checkbox from "src/components/Bootstrap/Checkbox";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 

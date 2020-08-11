@@ -3,7 +3,7 @@ import VertexRow from "./VertexRow";
 import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
-import Checkbox from "src/components/General/Checkbox";
+import Checkbox from "src/components/Bootstrap/Checkbox";
 
 interface Props {
   graphBuilder: UseGraphBuilder<string>;

@@ -7,26 +7,22 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import codeClubSessions from "./components/CodeClub";
-import experiments from "./components/Experiments";
-import { page as csPage, pages as csPages } from "./components/ComputerScience";
-import { page as mathsPage, pages as mathsPages } from "./components/Maths";
-import Navigation from "./components/Navigation";
+import { page as csPage } from "./components/ComputerScience";
+import { page as mathsPage } from "./components/Maths";
+import Navigation, { pages } from "./components/Navigation";
 
 import "./index.css";
-import Card from "./components/General/Card";
-import Jumbotron from "./components/General/Jumbotron";
+import Card from "./components/Bootstrap/Card";
+import Jumbotron from "./components/Bootstrap/Jumbotron";
 
 const App = () => (
   <Router>
     <div className="container">
       <Navigation />
 
-      {[...codeClubSessions, ...experiments, ...csPages, ...mathsPages].map(
-        ({ href, component }) => (
-          <Route key={href} path={href} component={component} />
-        )
-      )}
+      {pages.map(({ href, component }) => (
+        <Route key={href} path={href} component={component} />
+      ))}
 
       <Route
         path="/"
