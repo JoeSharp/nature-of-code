@@ -40,7 +40,8 @@ class GridSketch extends AbstractSketch<Config> {
   }
 
   getBoid(vertex: p5.Vector): DataItemBoid<p5.Vector> | undefined {
-    return this.boids[this.config.getKey(vertex)];
+    const key = this.config.getKey(vertex);
+    return this.boids[key];
   }
 
   getOrCreateBoid(
@@ -48,9 +49,10 @@ class GridSketch extends AbstractSketch<Config> {
     vToString: ToString<p5.Vector>,
     vertex: p5.Vector
   ) {
+    const key = this.config.getKey(vertex);
     const vAsStr = vToString(vertex);
-    if (!this.boids[vAsStr]) {
-      this.boids[vAsStr] = new DataItemBoid<p5.Vector>({
+    if (!this.boids[key]) {
+      this.boids[key] = new DataItemBoid<p5.Vector>({
         entity: vertex,
         label: vAsStr,
         radius: 20,
@@ -60,9 +62,9 @@ class GridSketch extends AbstractSketch<Config> {
         ),
       });
     }
-    this.boids[vAsStr].entity = vertex;
-    this.boids[vAsStr].label = vAsStr;
-    return this.boids[vAsStr];
+    this.boids[key].entity = vertex;
+    this.boids[key].label = vAsStr;
+    return this.boids[key];
   }
 
   sketch = (s: p5) => {

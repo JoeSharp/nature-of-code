@@ -10,6 +10,7 @@ import SteppingControls, {
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
 import p5 from "p5";
+import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
@@ -29,19 +30,26 @@ const GridRouting: React.FunctionComponent = () => {
     columns: 15,
   });
 
-  const { stages } = useRoutingAlgorithm({
+  const getPositionOfNode = React.useCallback(
+    (d: p5.Vector) => {
+      const boid = sketchContainer.getBoid(d);
+      return !!boid ? boid.position : undefined;
+    },
+    [sketchContainer]
+  );
+
+  const {
+    stages,
+    onHarvestDistances,
+    onResetDistances,
+    heuristicCosts,
+  } = useRoutingAlgorithm({
     version,
     graph,
     sourceNode,
     destinationNode,
     getKey,
-    getPositionOfNode: React.useCallback(
-      (d: p5.Vector) => {
-        const boid = sketchContainer.getBoid(d);
-        return !!boid ? boid.position : undefined;
-      },
-      [sketchContainer]
-    ),
+    getPositionOfNode,
   });
 
   const {
@@ -62,6 +70,25 @@ const GridRouting: React.FunctionComponent = () => {
       <h1>Routing Algorithms - Using Grids</h1>
 
       <div ref={refContainer} />
+
+      <div className="mb-3">
+        <p>
+          The A* algorithm is an enchancement on Dijkstras. It takes into
+          account the estimated distance from a given node to the endpoint when
+          calculating the cost for it's priority queue. To make use of this
+          enhancement, click on 'Harvest Distances' and the euclidean distances
+          from each node to the destination will be calculated and used as part
+          of the routing algorithm.
+        </p>
+        <button className="btn btn-primary mr-2" onClick={onHarvestDistances}>
+          Harvest Distances
+        </button>
+        <button className="btn btn-danger" onClick={onResetDistances}>
+          Reset Distances
+        </button>
+      </div>
+
+      <HeuristicCostTable heuristicCostsById={heuristicCosts} />
 
       <SteppingControls {...steppingControlProps} />
 
