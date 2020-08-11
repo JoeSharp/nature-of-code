@@ -31,6 +31,7 @@ export interface UseRoutingAlgorithm<T> {
   heuristicCosts: HeuristicCostById;
   stages: ObserverArgsWithPathFrom<T>[];
   onHarvestDistances: () => void;
+  onResetDistances: () => void;
 }
 
 export default <T>({
@@ -52,6 +53,10 @@ export default <T>({
         : 0,
     [heuristicCosts, getKey]
   );
+
+  const onResetDistances = React.useCallback(() => setHeuristicsCosts({}), [
+    setHeuristicsCosts,
+  ]);
 
   const onHarvestDistances = React.useCallback(() => {
     if (destinationNode !== undefined && version !== undefined) {
@@ -146,5 +151,6 @@ export default <T>({
     path,
     heuristicCosts,
     onHarvestDistances,
+    onResetDistances,
   };
 };

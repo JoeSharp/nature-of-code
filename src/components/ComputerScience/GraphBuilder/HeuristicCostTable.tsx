@@ -21,7 +21,7 @@ const HeuristicCostTable: React.FunctionComponent<Props> = ({
           },
         ]) => ({
           id,
-          position: `${roundTo2Dp(x)}, ${roundTo2Dp(y)}`,
+          position: `x: ${roundTo2Dp(x)}, y: ${roundTo2Dp(y)}`,
           distance: roundTo2Dp(distance),
         })
       ),

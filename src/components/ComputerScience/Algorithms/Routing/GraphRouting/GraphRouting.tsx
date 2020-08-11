@@ -64,6 +64,7 @@ const GraphRouting: React.FunctionComponent = () => {
     path,
     stages,
     onHarvestDistances,
+    onResetDistances,
     heuristicCosts,
   } = useRoutingAlgorithm({
     version,
@@ -109,9 +110,22 @@ const GraphRouting: React.FunctionComponent = () => {
           <VertexPicker {...destinationPickerProps} />
         </div>
       </form>
-      <button className="btn btn-primary" onClick={onHarvestDistances}>
-        Harvest Distances
-      </button>
+      <div className="mb-3">
+        <p>
+          The A* algorithm is an enchancement on Dijkstras. It takes into
+          account the estimated distance from a given node to the endpoint when
+          calculating the cost for it's priority queue. To make use of this
+          enhancement, click on 'Harvest Distances' and the euclidean distances
+          from each node to the destination will be calculated and used as part
+          of the routing algorithm.
+        </p>
+        <button className="btn btn-primary mr-2" onClick={onHarvestDistances}>
+          Harvest Distances
+        </button>
+        <button className="btn btn-danger" onClick={onResetDistances}>
+          Reset Distances
+        </button>
+      </div>
 
       <HeuristicCostTable heuristicCostsById={heuristicCosts} />
 
