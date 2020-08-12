@@ -13,6 +13,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
   graphBuilder,
 }: Props) => {
   const {
+    version,
     graph,
     setNewEdgeWeight,
     newEdgeWeight,
@@ -52,7 +53,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
 
   return (
     <div>
-      <h2>Build Graph (v{graph.version})</h2>
+      <h2>Build Graph (v{version})</h2>
       <Checkbox
         id="chkPhysics"
         checked={physicsEnabled}
