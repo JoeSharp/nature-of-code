@@ -12,8 +12,10 @@ import { page as mathsPage } from "./components/Maths";
 import Navigation, { pages } from "./components/Navigation";
 
 import "./index.css";
-import Card from "./components/Bootstrap/Card";
 import Jumbotron from "./components/Bootstrap/Jumbotron";
+import CardCollection from "./components/Bootstrap/CardCollection";
+
+const cards = [csPage, mathsPage];
 
 const App = () => (
   <Router>
@@ -21,7 +23,7 @@ const App = () => (
       <Navigation />
 
       {pages.map(({ href, component }) => (
-        <Route key={href} path={href} component={component} />
+        <Route key={href} exact path={href} component={component} />
       ))}
 
       <Route
@@ -37,14 +39,7 @@ const App = () => (
                     Science up to A Level."
               />
 
-              <div className="row">
-                <div className="col-sm-6">
-                  <Card {...csPage} />
-                </div>
-                <div className="col-sm-6">
-                  <Card {...mathsPage} />
-                </div>
-              </div>
+              <CardCollection cards={cards} />
             </React.Fragment>
           );
         }}

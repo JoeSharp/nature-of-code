@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-interface Props {
+export interface Props {
   title: string;
   description: string;
   href?: string;
@@ -10,13 +10,14 @@ interface Props {
 const Card: React.FunctionComponent<Props> = ({ title, description, href }) => (
   <div className="card h-100">
     <div className="card-body">
-      <h5 className="card-title">{title}</h5>
-      <p className="card-text">{description}</p>
-      {href && (
-        <Link to={href} className="btn btn-primary">
-          Try it
+      {href ? (
+        <Link to={href} className="card-title">
+          {title}
         </Link>
+      ) : (
+        <h5 className="card-title">{title}</h5>
       )}
+      <p className="card-text">{description}</p>
     </div>
   </div>
 );

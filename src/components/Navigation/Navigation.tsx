@@ -1,29 +1,17 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import codeClubSessions from "../CodeClub";
 import experiments from "../Experiments";
 import { Page } from "src/types";
 import SearchBox from "../SearchBox/SearchBox";
-import { pages as csPages } from "../ComputerScience";
-import { pages as mathsPages } from "../Maths";
-
-interface PageCollection {
-  title: string;
-  pages: Page[];
-}
+import { page as csPage, pages as csPages } from "../ComputerScience";
+import { page as mathsPage, pages as mathsPages } from "../Maths";
 
 export const pages: Page[] = [
   ...codeClubSessions,
   ...experiments,
   ...csPages,
   ...mathsPages,
-];
-
-const pageSections: PageCollection[] = [
-  { title: "Computer Science", pages: csPages },
-  { title: "Maths", pages: mathsPages },
-  { title: "Code Club", pages: codeClubSessions },
-  { title: "Experiments", pages: experiments },
 ];
 
 export default () => {
@@ -41,40 +29,67 @@ export default () => {
   );
   const pageToString = React.useCallback((p: Page) => p.title, []);
 
-  return (
-    <ul className="nav nav-tabs navbar-expand-lg navbar-light bg-light">
-      <li className="nav-item">
-        <Link className="nav-link active" to="/">
-          Joe's Experiments
-        </Link>
-      </li>
-
-      {pageSections.map(({ title, pages }, i) => (
-        <li key={i} className="nav-item dropdown">
-          <button
-            className="nav-link dropdown-toggle"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            {title}
-          </button>
-          <div className="dropdown-menu">
-            {pages.map(({ href, title }) => (
-              <Link key={title} className="dropdown-item" to={href}>
-                {title}
-              </Link>
-            ))}
-          </div>
-        </li>
-      ))}
-
-      <SearchBox
-        items={pages}
-        itemChosen={pageSelected}
-        filter={pageFilter}
-        itemToString={pageToString}
-      />
-    </ul>
+  console.log("Where are we", history.location.pathname);
+  const thisPage = React.useMemo(
+    () => pages.find(({ href }) => href === history.location.pathname),
+    [history.location.pathname]
   );
+
+  return (
+    <React.Fragment>
+      <div className="navbar justify-content-between">
+        <ol className="breadcrumb mr-auto">
+          <Link className="breadcrumb-item" to="/">
+            Joe's Experiments
+          </Link>
+          {history.location.pathname.includes(csPage.href + "/") && (
+            <Link className="breadcrumb-item" to={csPage.href}>
+              Computer Science
+            </Link>
+          )}
+          {history.location.pathname.includes(mathsPage.href + "/") && (
+            <Link className="breadcrumb-item" to={mathsPage.href}>
+              Maths
+            </Link>
+          )}
+          {thisPage !== undefined && (
+            <li className="breadcrumb-item active" aria-current="page">
+              {thisPage.title}
+            </li>
+          )}
+        </ol>
+        <SearchBox
+          items={pages}
+          itemChosen={pageSelected}
+          filter={pageFilter}
+          itemToString={pageToString}
+        />
+      </div>
+    </React.Fragment>
+  );
+
+  // return (
+  //   <nav
+  //     className="nav nav-tabs navbar-expand-lg navbar-light bg-light"
+  //     aria-label="breadcrumb"
+  //   >
+  // <ol className="breadcrumb">
+  //   <Link className="breadcrumb-item" to="/">
+  //     Joe's Experiments
+  //   </Link>
+  //   <li className="breadcrumb-item">
+  //     <a href="#">Library</a>
+  //   </li>
+  //   <li className="breadcrumb-item active" aria-current="page">
+  //     Data
+  //   </li>
+  // </ol>
+  //     <SearchBox
+  //       items={pages}
+  //       itemChosen={pageSelected}
+  //       filter={pageFilter}
+  //       itemToString={pageToString}
+  //     />
+  //   </nav>
+  // );
 };

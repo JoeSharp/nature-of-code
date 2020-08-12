@@ -12,14 +12,34 @@ import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphComponent";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
+import CardCollection from "../Bootstrap/CardCollection";
+import Jumbotron from "../Bootstrap/Jumbotron";
+
+const algorithmPages = [
+  binaryTreeTraversalPage,
+  graphTraversalPage,
+  pageRankPage,
+  routingGraphPage,
+  routingGridPage,
+  searchPage,
+  sortingPage,
+];
+
+const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>
-    <h1>Computer Science</h1>
-    <p>
-      The algorithms and data structures are focussed on those required by the
-      OCR GCSE and A Level
-    </p>
+    <Jumbotron
+      title="Computer Science"
+      lead="The algorithms and data structures are focussed on those required by the
+      OCR GCSE and A Level"
+    />
+
+    <h2>Algorithms</h2>
+    <CardCollection cards={algorithmPages} />
+
+    <h2>Data Structures</h2>
+    <CardCollection cards={dataStructurePages} />
   </div>
 );
 
