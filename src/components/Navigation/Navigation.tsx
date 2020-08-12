@@ -23,7 +23,7 @@ const homePage: Page = {
   title: "Computer Science and Maths",
   description: `This site contains interactive demonstrations of various algorithms 
     and data structures used in Maths and Computer Science up to A Level.`,
-  href: "/.",
+  href: "/",
   component: HomePage,
 };
 

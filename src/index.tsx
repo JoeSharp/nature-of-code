@@ -17,7 +17,7 @@ import "./index.css";
 
 const App = () => (
   <Router>
-    <div className="container">
+    <div className="container pb-5">
       <Route
         component={({ history: { location } }: RouteComponentProps) => (
           <Navigation location={location.pathname} />
