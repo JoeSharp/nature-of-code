@@ -65,7 +65,11 @@ const CommonPageHeader: React.FunctionComponent<Props> = ({ location }) => {
           {rootPages.map(
             (rootPage) =>
               location.includes(rootPage.href + "/") && (
-                <Link className="breadcrumb-item" to={rootPage.href}>
+                <Link
+                  key={rootPage.href}
+                  className="breadcrumb-item"
+                  to={rootPage.href}
+                >
                   {rootPage.title}
                 </Link>
               )

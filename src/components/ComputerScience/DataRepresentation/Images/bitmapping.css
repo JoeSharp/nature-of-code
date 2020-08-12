@@ -1,0 +1,20 @@
+.bitmap-table,
+.bitmap-table td {
+  border: solid thin black;
+  border-collapse: collapse;
+}
+
+.bitmap-table td,
+.pallette-square {
+  width: 30px;
+  height: 30px;
+}
+
+.colour-palette {
+  display: flex;
+  flex-direction: row;
+}
+
+.pallette-square__current-selection {
+  border: solid thick black;
+}

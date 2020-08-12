@@ -13,6 +13,7 @@ import { page as graphPage } from "./DataStructures/GraphComponent";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
 import { page as analogueSignalPage } from "./DataRepresentation/AnalogueSignals";
+import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import CardCollection from "../Bootstrap/CardCollection";
 
 const algorithmPages = [
@@ -27,7 +28,7 @@ const algorithmPages = [
 
 const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
 
-const dataRepresentationPages = [analogueSignalPage];
+const dataRepresentationPages = [analogueSignalPage, bitmapImagesPage];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>
@@ -52,18 +53,9 @@ export const page: Page = {
 
 export const pages: Page[] = [
   page,
-  binaryTreeTraversalPage,
-  graphTraversalPage,
-  pageRankPage,
-  routingGridPage,
-  routingGraphPage,
-  searchPage,
-  sortingPage,
-  binaryTreePage,
-  graphPage,
-  stackPage,
-  queuePage,
-  analogueSignalPage,
+  ...algorithmPages,
+  ...dataStructurePages,
+  ...dataRepresentationPages,
 ];
 
 export default ComputerScience;
