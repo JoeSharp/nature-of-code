@@ -11,25 +11,28 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navigation, { pages } from "./components/Navigation";
+import CommonPageHeader, { pages } from "./components/CommonPageHeader";
 
 import "./index.css";
 
 const App = () => (
-  <Router>
-    <div className="container pb-5">
-      <Route
-        component={({ history: { location } }: RouteComponentProps) => (
-          <Navigation location={location.pathname} />
-        )}
-      />
+  <div className="container pb-5">
+    <Route
+      component={({ history: { location } }: RouteComponentProps) => (
+        <CommonPageHeader location={location.pathname} />
+      )}
+    />
 
-      {pages.map(({ href, component }) => (
-        <Route key={href} exact path={href} component={component} />
-      ))}
-    </div>
-  </Router>
+    {pages.map(({ href, component }) => (
+      <Route key={href} exact path={href} component={component} />
+    ))}
+  </div>
 );
 
-ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById("root") as HTMLElement
+);
 registerServiceWorker();

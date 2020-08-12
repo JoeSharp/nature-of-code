@@ -42,7 +42,6 @@ const PrimeFactors: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Prime Factors</h1>
       <form>
         <div className="form-group">
           <label>Value</label>

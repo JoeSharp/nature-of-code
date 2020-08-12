@@ -1,10 +1,13 @@
+import React from "react";
+
 import TopDownCar from "./TopDownCar";
 import MovingWithKeyboard from "./MovingWithKeyboard";
 import UsingClasses from "./UsingClasses";
 import SafeCracker from "./SafeCracker";
 import { Page } from "src/types";
+import CardCollection from "../Bootstrap/CardCollection";
 
-const sessions: Page[] = [
+const gameSeries: Page[] = [
   {
     href: "/codeClub/movingWithKeyboard",
     title: "Session 1 - Moving With Keyboard",
@@ -26,6 +29,8 @@ const sessions: Page[] = [
     description:
       "Learn how to use Object Oriented Programming to encapsulate game objects.",
   },
+];
+const miscPages: Page[] = [
   {
     href: "/codeClub/safeCracker",
     title: "Session 99 - Safe Cracker",
@@ -34,4 +39,21 @@ const sessions: Page[] = [
   },
 ];
 
-export default sessions;
+const CodeClub: React.FunctionComponent = () => (
+  <div>
+    <h2>Game Series</h2>
+    <CardCollection cards={gameSeries} />
+
+    <h2>Miscellaneous</h2>
+    <CardCollection cards={miscPages} />
+  </div>
+);
+
+export const page: Page = {
+  href: "/codeClub",
+  title: "Code Club",
+  description: "Some projects to teach coding to KS3",
+  component: CodeClub,
+};
+
+export const pages: Page[] = [page, ...gameSeries, ...miscPages];

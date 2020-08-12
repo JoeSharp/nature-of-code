@@ -65,7 +65,6 @@ const MidiFun: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h2>MIDI Fun</h2>
       <p>{error}</p>
 
       <Select

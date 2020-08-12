@@ -1,22 +1,24 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
-import codeClubSessions from "../CodeClub";
-import experiments from "../Experiments";
+import { page as codeClubPage, pages as codeClubPages } from "../CodeClub";
+import {
+  page as experimentsPage,
+  pages as experimentPages,
+} from "../Experiments";
 import { Page } from "src/types";
 import SearchBox from "../SearchBox/SearchBox";
 import { page as csPage, pages as csPages } from "../ComputerScience";
 import { page as mathsPage, pages as mathsPages } from "../Maths";
-import Jumbotron from "../Bootstrap/Jumbotron";
 import CardCollection from "../Bootstrap/CardCollection";
 
 interface Props {
   location: string;
 }
 
-const cards = [csPage, mathsPage];
+const rootPages = [csPage, mathsPage, codeClubPage, experimentsPage];
 
 const HomePage: React.FunctionComponent = () => (
-  <CardCollection cards={cards} />
+  <CardCollection cards={rootPages} />
 );
 
 const homePage: Page = {
@@ -29,13 +31,13 @@ const homePage: Page = {
 
 export const pages: Page[] = [
   homePage,
-  ...codeClubSessions,
-  ...experiments,
+  ...codeClubPages,
+  ...experimentPages,
   ...csPages,
   ...mathsPages,
 ];
 
-const Navigation: React.FunctionComponent<Props> = ({ location }) => {
+const CommonPageHeader: React.FunctionComponent<Props> = ({ location }) => {
   const history = useHistory();
   const pageSelected = React.useCallback(
     ({ href }: Page) => history.push(href),
@@ -49,8 +51,8 @@ const Navigation: React.FunctionComponent<Props> = ({ location }) => {
   );
   const pageToString = React.useCallback((p: Page) => p.title, []);
 
-  const thisPage = React.useMemo(
-    () => pages.find(({ href }) => href === location),
+  const thisPage: Page = React.useMemo(
+    () => pages.find(({ href }) => href === location) || homePage,
     [location]
   );
   return (
@@ -60,21 +62,18 @@ const Navigation: React.FunctionComponent<Props> = ({ location }) => {
           <Link className="breadcrumb-item" to="/">
             Joe's Experiments
           </Link>
-          {location.includes(csPage.href + "/") && (
-            <Link className="breadcrumb-item" to={csPage.href}>
-              Computer Science
-            </Link>
+          {rootPages.map(
+            (rootPage) =>
+              location.includes(rootPage.href + "/") && (
+                <Link className="breadcrumb-item" to={rootPage.href}>
+                  {rootPage.title}
+                </Link>
+              )
           )}
-          {location.includes(mathsPage.href + "/") && (
-            <Link className="breadcrumb-item" to={mathsPage.href}>
-              Maths
-            </Link>
-          )}
-          {thisPage !== undefined && (
-            <li className="breadcrumb-item active" aria-current="page">
-              {thisPage.title}
-            </li>
-          )}
+
+          <li className="breadcrumb-item active" aria-current="page">
+            {thisPage.title}
+          </li>
         </ol>
         <SearchBox
           items={pages}
@@ -83,11 +82,10 @@ const Navigation: React.FunctionComponent<Props> = ({ location }) => {
           itemToString={pageToString}
         />
       </div>
-      {thisPage && (
-        <Jumbotron title={thisPage.title} lead={thisPage.description} />
-      )}
+      <h1>{thisPage.title}</h1>
+      <p>{thisPage.description}</p>
     </React.Fragment>
   );
 };
 
-export default Navigation;
+export default CommonPageHeader;

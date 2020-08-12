@@ -6,12 +6,7 @@ import useSketch from "../../p5/useSketch";
 const Graphs: React.FunctionComponent = () => {
   const { refContainer } = useSketch(Sketch);
 
-  return (
-    <div className="container">
-      <h1>FoodRoids</h1>
-      <div ref={refContainer} />
-    </div>
-  );
+  return <div ref={refContainer} />;
 };
 
 export default Graphs;

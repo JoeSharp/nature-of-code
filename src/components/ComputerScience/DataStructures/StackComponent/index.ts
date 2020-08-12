@@ -4,7 +4,8 @@ import { Page } from "src/types";
 export const page: Page = {
   href: "/computerScience/dataStructures/stack",
   title: "Stack",
-  description: "Build a Stack and learn how items are added and removed",
+  description: `Build a Stack and learn how items are added and removed. 
+    Items are pushed and popped, the ordering follows First In Last Out`,
   component: Component,
 };
 

@@ -24,8 +24,6 @@ const Divisibility: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Divisibility Rules</h1>
-
       <form>
         <div className="form-group">
           <label>Factor</label>

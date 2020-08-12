@@ -62,7 +62,6 @@ const LogicPadlock: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Logic Padlock</h1>
       <p>Can you open the lock using these clues?</p>
       {cluesWithValues.map((clueWithValue, i) => (
         <Clue key={i} guess={guess} clueWithValue={clueWithValue} />

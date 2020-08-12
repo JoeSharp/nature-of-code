@@ -18,8 +18,6 @@ const SieveOfEratosthenes: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Sieve Of Eratosthenes</h1>
-
       <h2>Prime Numbers at Iteration</h2>
       <div>{primeNumbers.join(", ")}</div>
 

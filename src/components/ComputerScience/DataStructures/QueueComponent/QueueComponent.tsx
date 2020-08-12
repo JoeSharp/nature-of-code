@@ -50,11 +50,6 @@ const StackComponent: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Queue</h1>
-      <p>
-        Items are enqueued and dequeued, the ordering follows First In First Out
-      </p>
-
       <form>
         <div className="form-group">
           <label>New Item</label>

@@ -50,8 +50,7 @@ const StackComponent: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Stack</h1>
-      <p>Items are pushed and popped, the ordering follows First In Last Out</p>
+      <p></p>
 
       <form>
         <div className="form-group">
