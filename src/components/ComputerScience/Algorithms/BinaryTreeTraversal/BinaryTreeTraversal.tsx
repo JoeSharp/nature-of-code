@@ -20,8 +20,6 @@ const BinaryTreeTraversal: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Binary Tree Traversal</h1>
-
       <form>
         <div className="form-group">
           <label>Algorithm</label>

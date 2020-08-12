@@ -12,8 +12,8 @@ import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphComponent";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
+import { page as analogueSignalPage } from "./DataRepresentation/AnalogueSignals";
 import CardCollection from "../Bootstrap/CardCollection";
-import Jumbotron from "../Bootstrap/Jumbotron";
 
 const algorithmPages = [
   binaryTreeTraversalPage,
@@ -27,19 +27,18 @@ const algorithmPages = [
 
 const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
 
+const dataRepresentationPages = [analogueSignalPage];
+
 const ComputerScience: React.FunctionComponent = () => (
   <div>
-    <Jumbotron
-      title="Computer Science"
-      lead="The algorithms and data structures are focussed on those required by the
-      OCR GCSE and A Level"
-    />
-
     <h2>Algorithms</h2>
     <CardCollection cards={algorithmPages} />
 
     <h2>Data Structures</h2>
     <CardCollection cards={dataStructurePages} />
+
+    <h2>Data Representation</h2>
+    <CardCollection cards={dataRepresentationPages} />
   </div>
 );
 
@@ -64,6 +63,7 @@ export const pages: Page[] = [
   graphPage,
   stackPage,
   queuePage,
+  analogueSignalPage,
 ];
 
 export default ComputerScience;

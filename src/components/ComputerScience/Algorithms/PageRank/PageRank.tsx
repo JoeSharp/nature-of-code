@@ -40,51 +40,48 @@ const PageRank: React.FunctionComponent = () => {
 
   return (
     <div className="container">
-      <h1>Page Rank</h1>
+      <h4>Page Ranks after {iterations} iterations</h4>
       <div>
-        <h4>Page Ranks after {iterations} iterations</h4>
-        <div>
-          <button className="btn btn-primary" onClick={onReset}>
-            Reset
-          </button>
-          <button className="btn btn-success" onClick={iterate}>
-            Iterate
-          </button>
-          <div className="form-group">
-            <label htmlFor="txtDampingFactor">Damping Factor</label>
-            <input
-              id="txtDampingFactor"
-              className="form-control"
-              type="number"
-              min="0.1"
-              max="2.0"
-              step="0.01"
-              value={dampingFactor}
-              onChange={onDampingFactorChange}
-            />
-          </div>
-          <Checkbox
-            id="chkAutoIterate"
-            label="Auto Iterate"
-            checked={isAutoIterating}
-            onChange={onAutoIteratingChange}
+        <button className="btn btn-primary" onClick={onReset}>
+          Reset
+        </button>
+        <button className="btn btn-success" onClick={iterate}>
+          Iterate
+        </button>
+        <div className="form-group">
+          <label htmlFor="txtDampingFactor">Damping Factor</label>
+          <input
+            id="txtDampingFactor"
+            className="form-control"
+            type="number"
+            min="0.1"
+            max="2.0"
+            step="0.01"
+            value={dampingFactor}
+            onChange={onDampingFactorChange}
           />
         </div>
-        <div className="row">
-          <div className="col-md-8">
-            <h2>Current Ranks</h2>
-            <CurrentRanksTable pages={graph.vertices} ranks={ranks} />
-          </div>
-          <div className="col-md-4">
-            <h2>In Order</h2>
-            <InOrderList {...{ ranks }} />
-          </div>
-        </div>
-        <h2>All Iterations</h2>
-        <RankHistoryTable pages={graph.vertices} rankHistory={rankHistory} />
-
-        <GraphBuilder graphBuilder={graphBuilder} />
+        <Checkbox
+          id="chkAutoIterate"
+          label="Auto Iterate"
+          checked={isAutoIterating}
+          onChange={onAutoIteratingChange}
+        />
       </div>
+      <div className="row">
+        <div className="col-md-8">
+          <h2>Current Ranks</h2>
+          <CurrentRanksTable pages={graph.vertices} ranks={ranks} />
+        </div>
+        <div className="col-md-4">
+          <h2>In Order</h2>
+          <InOrderList {...{ ranks }} />
+        </div>
+      </div>
+      <h2>All Iterations</h2>
+      <RankHistoryTable pages={graph.vertices} rankHistory={rankHistory} />
+
+      <GraphBuilder graphBuilder={graphBuilder} />
     </div>
   );
 };

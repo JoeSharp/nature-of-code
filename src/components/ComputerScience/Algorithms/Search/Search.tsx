@@ -65,8 +65,6 @@ const Search: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Searching Algorithms</h1>
-
       <form>
         <div className="form-group">
           <label>Choose Algorithm</label>

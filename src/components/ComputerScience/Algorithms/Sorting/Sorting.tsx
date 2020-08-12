@@ -40,8 +40,6 @@ const Sorting: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Sorting Algorithms</h1>
-
       <form>
         <div className="form-group">
           <label>Choose Algorithm</label>

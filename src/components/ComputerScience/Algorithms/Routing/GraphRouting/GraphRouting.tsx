@@ -97,8 +97,6 @@ const GraphRouting: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Routing Algorithms - Using Graph</h1>
-
       <h2>Choose Endpoints</h2>
       <form>
         <div className="form-group">

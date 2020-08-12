@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { AbstractSketch } from "../../p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 
 export const SIGNAL_MODE_SINE = "Sine Wave";
 export const SIGNAL_MODE_NOISE = "Perlin Noise";

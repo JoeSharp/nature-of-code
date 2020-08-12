@@ -40,8 +40,6 @@ const Traversal: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Graph Traversal</h1>
-
       <form>
         <div className="form-group">
           <label>Algorithm</label>

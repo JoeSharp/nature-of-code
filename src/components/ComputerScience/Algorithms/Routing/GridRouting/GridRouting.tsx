@@ -67,8 +67,6 @@ const GridRouting: React.FunctionComponent = () => {
 
   return (
     <div>
-      <h1>Routing Algorithms - Using Grids</h1>
-
       <div ref={refContainer} />
 
       <div className="mb-3">

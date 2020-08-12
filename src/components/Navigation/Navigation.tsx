@@ -6,17 +6,37 @@ import { Page } from "src/types";
 import SearchBox from "../SearchBox/SearchBox";
 import { page as csPage, pages as csPages } from "../ComputerScience";
 import { page as mathsPage, pages as mathsPages } from "../Maths";
+import Jumbotron from "../Bootstrap/Jumbotron";
+import CardCollection from "../Bootstrap/CardCollection";
+
+interface Props {
+  location: string;
+}
+
+const cards = [csPage, mathsPage];
+
+const HomePage: React.FunctionComponent = () => (
+  <CardCollection cards={cards} />
+);
+
+const homePage: Page = {
+  title: "Computer Science and Maths",
+  description: `This site contains interactive demonstrations of various algorithms 
+    and data structures used in Maths and Computer Science up to A Level.`,
+  href: "/.",
+  component: HomePage,
+};
 
 export const pages: Page[] = [
+  homePage,
   ...codeClubSessions,
   ...experiments,
   ...csPages,
   ...mathsPages,
 ];
 
-export default () => {
+const Navigation: React.FunctionComponent<Props> = ({ location }) => {
   const history = useHistory();
-
   const pageSelected = React.useCallback(
     ({ href }: Page) => history.push(href),
     [history]
@@ -29,12 +49,10 @@ export default () => {
   );
   const pageToString = React.useCallback((p: Page) => p.title, []);
 
-  console.log("Where are we", history.location.pathname);
   const thisPage = React.useMemo(
-    () => pages.find(({ href }) => href === history.location.pathname),
-    [history.location.pathname]
+    () => pages.find(({ href }) => href === location),
+    [location]
   );
-
   return (
     <React.Fragment>
       <div className="navbar justify-content-between">
@@ -42,12 +60,12 @@ export default () => {
           <Link className="breadcrumb-item" to="/">
             Joe's Experiments
           </Link>
-          {history.location.pathname.includes(csPage.href + "/") && (
+          {location.includes(csPage.href + "/") && (
             <Link className="breadcrumb-item" to={csPage.href}>
               Computer Science
             </Link>
           )}
-          {history.location.pathname.includes(mathsPage.href + "/") && (
+          {location.includes(mathsPage.href + "/") && (
             <Link className="breadcrumb-item" to={mathsPage.href}>
               Maths
             </Link>
@@ -65,31 +83,11 @@ export default () => {
           itemToString={pageToString}
         />
       </div>
+      {thisPage && (
+        <Jumbotron title={thisPage.title} lead={thisPage.description} />
+      )}
     </React.Fragment>
   );
-
-  // return (
-  //   <nav
-  //     className="nav nav-tabs navbar-expand-lg navbar-light bg-light"
-  //     aria-label="breadcrumb"
-  //   >
-  // <ol className="breadcrumb">
-  //   <Link className="breadcrumb-item" to="/">
-  //     Joe's Experiments
-  //   </Link>
-  //   <li className="breadcrumb-item">
-  //     <a href="#">Library</a>
-  //   </li>
-  //   <li className="breadcrumb-item active" aria-current="page">
-  //     Data
-  //   </li>
-  // </ol>
-  //     <SearchBox
-  //       items={pages}
-  //       itemChosen={pageSelected}
-  //       filter={pageFilter}
-  //       itemToString={pageToString}
-  //     />
-  //   </nav>
-  // );
 };
+
+export default Navigation;
