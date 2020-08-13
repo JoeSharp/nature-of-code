@@ -88,7 +88,10 @@ const Bitmapping: React.FunctionComponent = () => {
         Randomise
       </button>
 
-      <h4>Available Colours</h4>
+      <h4>
+        Available Colours 2<sup>{colourDepth}</sup> ={" "}
+        {Object.keys(availableColours).length}
+      </h4>
       <ColourPalette {...paletteProps} />
 
       <h4>Metadata</h4>

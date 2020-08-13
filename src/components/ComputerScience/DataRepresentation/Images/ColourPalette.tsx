@@ -67,7 +67,7 @@ export const useColourPallete = ({
     const spectrum: ColourMap = {};
     for (let x = 0; x < numberColours; x++) {
       const c = Math.floor((255 * x) / numberColours);
-      spectrum[x] = `rgb(${c},${c},${255 - c})`;
+      spectrum[x] = `rgb(${c},${c},${c})`;
     }
     return spectrum;
   }, [colourDepth]);
