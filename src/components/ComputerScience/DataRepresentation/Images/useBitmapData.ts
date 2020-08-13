@@ -1,16 +1,17 @@
 import React from "react";
+import { ColourMap } from "./types";
 
 interface Props {
   width: number;
   height: number;
-  defaultColour: string;
-  availableColours: string[];
+  colourDepth: number;
+  availableColours: ColourMap;
 }
 
 interface UseBitmapData {
-  pixels: string[][];
+  pixels: number[][];
   rawData: string;
-  setColour: (x: number, y: number, colour: string) => void;
+  setColour: (x: number, y: number, colour: number) => void;
   randomiseColours: () => void;
 }
 
@@ -18,7 +19,7 @@ interface SetColourAction {
   type: "setColour";
   x: number;
   y: number;
-  colour: string;
+  colour: number;
 }
 
 interface InitialiseAction extends Props {
@@ -32,42 +33,49 @@ interface RandomizeAction {
 type ReducerAction = SetColourAction | InitialiseAction | RandomizeAction;
 
 interface ReducerState {
-  availableColours: string[];
-  pixels: string[][];
+  availableColours: ColourMap;
+  pixels: number[][];
+  colourDepth: number;
   rawData: string;
   width: number;
   height: number;
 }
 
 const defaultReducerState: ReducerState = {
-  availableColours: [],
+  availableColours: { 0: "FF0000", 1: "0000FF" },
+  colourDepth: 1,
   pixels: [],
   rawData: "",
   width: 0,
   height: 0,
 };
 
-const getRawData = (pixels: string[][]): string => {
-  return pixels.map((row) => row.join("")).join("");
+const getRawData = (colourDepth: number, pixels: number[][]): string => {
+  return pixels
+    .map((row) =>
+      row.map((i) => i.toString(2).padStart(colourDepth, "0")).join("")
+    )
+    .join("");
 };
 
 const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
   switch (action.type) {
     case "initialise": {
-      const { width, height, defaultColour, availableColours } = action;
-      const pixels: string[][] = Array(height)
+      const { width, height, availableColours, colourDepth } = action;
+      const pixels: number[][] = Array(height)
         .fill(null)
         .map((i) =>
           Array(width)
             .fill(null)
-            .map((i) => defaultColour)
+            .map((i) => 0)
         );
       return {
         width,
         height,
         availableColours,
+        colourDepth,
         pixels: pixels,
-        rawData: getRawData(pixels),
+        rawData: getRawData(state.colourDepth, pixels),
       };
     }
     case "setColour": {
@@ -79,22 +87,21 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
       return {
         ...state,
         pixels: pixels,
-        rawData: getRawData(pixels),
+        rawData: getRawData(state.colourDepth, pixels),
       };
     }
     case "randomize": {
       const pixels = state.pixels.map((row) =>
-        row.map(
-          () =>
-            state.availableColours[
-              Math.floor(Math.random() * state.availableColours.length)
-            ]
+        row.map(() =>
+          Math.floor(
+            Math.random() * Object.values(state.availableColours).length
+          )
         )
       );
       return {
         ...state,
         pixels,
-        rawData: getRawData(pixels),
+        rawData: getRawData(state.colourDepth, pixels),
       };
     }
   }
@@ -103,7 +110,7 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
 export default ({
   height,
   width,
-  defaultColour,
+  colourDepth,
   availableColours,
 }: Props): UseBitmapData => {
   const [{ pixels, rawData }, dispatch] = React.useReducer(
@@ -117,14 +124,14 @@ export default ({
         type: "initialise",
         width,
         height,
-        defaultColour,
+        colourDepth,
         availableColours,
       }),
-    [width, height, defaultColour, availableColours]
+    [width, height, availableColours, colourDepth]
   );
 
   const setColour = React.useCallback(
-    (x: number, y: number, colour: string) =>
+    (x: number, y: number, colour: number) =>
       dispatch({ type: "setColour", x, y, colour }),
     []
   );

@@ -9,28 +9,18 @@ const DEFAULT_WIDTH: number = 10;
 const DEFAULT_HEIGHT: number = 10;
 const DEFAULT_COLOUR_DEPTH: number = 8;
 const AVAILABLE_COLOUR_DEPTHS: number[] = [1, 2, 4, 8];
-const AVAILABLE_COLOURS: string[] = [
-  "FF0000",
-  "FFA500",
-  "FFFF00",
-  "00FF00",
-  "0000FF",
-  "4B0082",
-  "EE82EE",
-  "000000",
-];
 
 const Bitmapping: React.FunctionComponent = () => {
-  const { componentProps: paletteProps } = useColourPallete({
-    availableColours: AVAILABLE_COLOURS,
-  });
-  const { value: currentColour = AVAILABLE_COLOURS[0] } = paletteProps;
-
   const [width, setWidth] = React.useState<number>(DEFAULT_WIDTH);
   const [height, setHeight] = React.useState<number>(DEFAULT_HEIGHT);
   const [colourDepth, setColourDepth] = React.useState<number>(
     DEFAULT_COLOUR_DEPTH
   );
+
+  const { componentProps: paletteProps } = useColourPallete({
+    colourDepth,
+  });
+  const { value: currentColour, availableColours } = paletteProps;
 
   const onWidthChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setWidth(parseInt(value)),
@@ -48,19 +38,19 @@ const Bitmapping: React.FunctionComponent = () => {
   const { pixels, rawData, setColour, randomiseColours } = useBitmapData({
     width,
     height,
-    defaultColour: AVAILABLE_COLOURS[0],
-    availableColours: AVAILABLE_COLOURS,
+    colourDepth,
+    availableColours,
   });
 
   const pixelsWithHandlers = React.useMemo(
     () =>
       pixels.map((row, x) =>
         row.map((colour, y) => ({
-          backgroundColor: `#${colour}`,
+          backgroundColor: availableColours[colour],
           onClick: () => setColour(x, y, currentColour),
         }))
       ),
-    [currentColour, pixels, setColour]
+    [currentColour, pixels, availableColours, setColour]
   );
 
   const { itemGroups: rawDataSplit } = useGroupUp({
