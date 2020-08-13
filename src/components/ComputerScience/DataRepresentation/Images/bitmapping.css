@@ -18,3 +18,17 @@
 .pallette-square__current-selection {
   border: solid thick black;
 }
+
+.image-data-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.binary-data {
+  font-family: "Courier New", Courier, monospace;
+  border-style: inset;
+  width: 50%;
+  height: 400px;
+  overflow: scroll;
+}

@@ -13,7 +13,7 @@ const ColourPalette: React.FunctionComponent<Props> = ({
   const availableColoursWithHandlers = React.useMemo(
     () =>
       availableColours.map((colour) => ({
-        backgroundColor: colour,
+        backgroundColor: `#${colour}`,
         onClick: () => onChange(colour),
         isCurrent: value === colour,
       })),
