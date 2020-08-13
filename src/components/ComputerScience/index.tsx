@@ -12,7 +12,7 @@ import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphComponent";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
-import { page as analogueSignalPage } from "./DataRepresentation/AnalogueSignals";
+import { page as soundPage } from "./DataRepresentation/Sound";
 import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import CardCollection from "../Bootstrap/CardCollection";
 
@@ -28,7 +28,7 @@ const algorithmPages = [
 
 const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
 
-const dataRepresentationPages = [analogueSignalPage, bitmapImagesPage];
+const dataRepresentationPages = [soundPage, bitmapImagesPage];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>

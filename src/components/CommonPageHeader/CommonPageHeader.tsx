@@ -37,6 +37,9 @@ export const pages: Page[] = [
   ...mathsPages,
 ];
 
+const matchString = (s1: string, s2: string): boolean =>
+  s1.toLocaleLowerCase().includes(s2.toLocaleLowerCase());
+
 const CommonPageHeader: React.FunctionComponent<Props> = ({ location }) => {
   const history = useHistory();
   const pageSelected = React.useCallback(
@@ -44,9 +47,10 @@ const CommonPageHeader: React.FunctionComponent<Props> = ({ location }) => {
     [history]
   );
   const pageFilter = React.useCallback(
-    ({ title, description }: Page, criteria: string) =>
-      title.toLocaleLowerCase().includes(criteria.toLocaleLowerCase()) ||
-      (description !== undefined && description.includes(criteria)),
+    ({ title, description, href }: Page, criteria: string) =>
+      matchString(title, criteria) ||
+      matchString(description, criteria) ||
+      matchString(href, criteria),
     []
   );
   const pageToString = React.useCallback((p: Page) => p.title, []);
