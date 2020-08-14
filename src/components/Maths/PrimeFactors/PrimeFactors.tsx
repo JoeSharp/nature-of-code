@@ -23,9 +23,14 @@ const PrimeFactors: React.FunctionComponent = () => {
 
   const { refContainer, updateConfig } = useSketch(PrimeFactorSketch);
 
-  React.useEffect(() => updateConfig({ getKey: (i: PrimeFactor) => i.key }), [
-    updateConfig,
-  ]);
+  React.useEffect(
+    () =>
+      updateConfig({
+        getKey: (i: PrimeFactor) => i.key,
+        getLabel: (i: PrimeFactor) => i.value,
+      }),
+    [updateConfig]
+  );
 
   const { primeFactorTree, primeFactors } = usePrimeFactorTree(value);
 
@@ -35,10 +40,9 @@ const PrimeFactors: React.FunctionComponent = () => {
     [setPhysicsEnabled]
   );
 
-  React.useEffect(
-    () => updateConfig({ physicsEnabled, graph: primeFactorTree }),
-    [primeFactorTree, updateConfig, physicsEnabled]
-  );
+  React.useEffect(() => {
+    updateConfig({ physicsEnabled, graph: primeFactorTree });
+  }, [primeFactorTree, updateConfig, physicsEnabled]);
 
   return (
     <div>
@@ -56,6 +60,7 @@ const PrimeFactors: React.FunctionComponent = () => {
 
       <h2>Prime Factors</h2>
       <div>{primeFactors.join(" x ")}</div>
+      <div>{primeFactorTree.toString()}</div>
 
       <h2>Prime Factor Tree</h2>
       <Checkbox

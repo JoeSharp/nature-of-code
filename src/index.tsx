@@ -16,7 +16,7 @@ import CommonPageHeader, { pages } from "./components/CommonPageHeader";
 import "./index.css";
 
 const App = () => (
-  <div className="container pb-5">
+  <div className="container pb-4 pr-4 pl-4">
     <Route
       component={({ history: { location } }: RouteComponentProps) => (
         <CommonPageHeader location={location.pathname} />

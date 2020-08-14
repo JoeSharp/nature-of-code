@@ -16,6 +16,7 @@ export interface GraphSketchConfig<T> {
   graph: Graph<T>;
   physicsEnabled: boolean;
   getKey: (item: T) => string;
+  getLabel: (item: T) => string;
 }
 
 export interface UseGraphBuilder<T> {

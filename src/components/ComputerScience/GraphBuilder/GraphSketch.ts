@@ -15,6 +15,7 @@ const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
   physicsEnabled: true,
   getKey: defaultToString,
+  getLabel: defaultToString,
 });
 
 class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
@@ -50,10 +51,11 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
 
   getOrCreateBoid(s: p5, vertex: T): DataItemBoid<T> {
     const vAsStr = this.config.getKey(vertex);
-    if (!this.boids[vAsStr]) {
-      this.boids[vAsStr] = new DataItemBoid<T>({
+    let boid = this.boids[vAsStr];
+    if (!boid) {
+      boid = new DataItemBoid<T>({
         entity: vertex,
-        label: vAsStr,
+        label: this.config.getLabel(vertex),
         radius: !!s ? s.width / 12 : 5,
         colour: this.colours[vAsStr] || "red",
         borderWeight: this.borderWeights[vAsStr] || 1,
@@ -61,12 +63,14 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
           ? s.createVector(s.random(0, s.width), s.random(0, s.height))
           : createVector(0, 0),
       });
+      this.boids[vAsStr] = boid;
     } else {
-      this.boids[vAsStr].colour = this.colours[vAsStr] || "red";
-      this.boids[vAsStr].borderWeight = this.borderWeights[vAsStr] || 1;
+      boid.label = this.config.getLabel(vertex);
+      boid.colour = this.colours[vAsStr] || "red";
+      boid.borderWeight = this.borderWeights[vAsStr] || 1;
     }
-    this.boids[vAsStr].entity = vertex;
-    return this.boids[vAsStr];
+    boid.entity = vertex;
+    return boid;
   }
 
   sketch = (s: p5) => {
