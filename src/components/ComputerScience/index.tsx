@@ -14,6 +14,7 @@ import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
 import { page as soundPage } from "./DataRepresentation/Sound";
 import { page as bitmapImagesPage } from "./DataRepresentation/Images";
+import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
 import CardCollection from "../Bootstrap/CardCollection";
 
 const algorithmPages = [
@@ -28,7 +29,7 @@ const algorithmPages = [
 
 const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
 
-const dataRepresentationPages = [soundPage, bitmapImagesPage];
+const dataRepresentationPages = [soundPage, bitmapImagesPage, asciiTextPage];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>
