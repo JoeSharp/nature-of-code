@@ -79,7 +79,7 @@ const GridRouting: React.FunctionComponent = () => {
         </button>
       </div>
 
-      <HeuristicCostTable heuristicCostsById={heuristicCosts} />
+      <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />
 
       <SteppingControls {...steppingControlProps} />
 

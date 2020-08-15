@@ -2,12 +2,15 @@ import React from "react";
 import { HeuristicCostById } from "./types";
 import Table from "src/components/Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props {
+  graph: Graph<any>;
   heuristicCostsById: HeuristicCostById;
 }
 
 const HeuristicCostTable: React.FunctionComponent<Props> = ({
+  graph,
   heuristicCostsById,
 }) => {
   const tableData = React.useMemo(
@@ -20,15 +23,15 @@ const HeuristicCostTable: React.FunctionComponent<Props> = ({
             distance,
           },
         ]) => ({
-          id,
+          name: graph.vertices.find((v) => v.key === id)?.label,
           position: `x: ${roundTo2Dp(x)}, y: ${roundTo2Dp(y)}`,
           distance: roundTo2Dp(distance),
         })
       ),
-    [heuristicCostsById]
+    [graph, heuristicCostsById]
   );
 
-  return <Table data={tableData} headings={["id", "position", "distance"]} />;
+  return <Table data={tableData} headings={["name", "position", "distance"]} />;
 };
 
 export default HeuristicCostTable;

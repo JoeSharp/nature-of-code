@@ -1,5 +1,4 @@
 import React from "react";
-import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
 import GraphTraversalAlgorithmPicker, {
   usePicker,
 } from "./GraphTraversalAlgorithmPicker";
@@ -8,16 +7,17 @@ import VertexPicker, {
   usePicker as useVertexPicker,
 } from "../../GraphBuilder/VertexPicker";
 import { largerStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
-
-const initialGraph = largerStringGraph();
+import useGraphSketch from "../../GraphBuilder/useGraphSketch";
 
 const Traversal: React.FunctionComponent = () => {
   const { algorithmName, componentProps: algorithmPickerProps } = usePicker(
     "form-control"
   );
 
-  const graphBuilder = useGraphBuilder(initialGraph);
-  const { graph } = graphBuilder;
+  const graph = React.useMemo(() => largerStringGraph(), []);
+
+  const { refContainer } = useGraphSketch(graph);
+
   const {
     vertex: startVertex,
     componentProps: vertexPickerProps,
@@ -44,7 +44,7 @@ const Traversal: React.FunctionComponent = () => {
 
       <h2>Item Visit Order: {visitedItems.map((v) => v.label).join(" -> ")}</h2>
 
-      <GraphBuilder graphBuilder={graphBuilder} />
+      <div ref={refContainer} />
     </div>
   );
 };

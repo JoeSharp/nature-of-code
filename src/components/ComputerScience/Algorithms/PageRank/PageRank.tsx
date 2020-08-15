@@ -5,21 +5,21 @@ import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
 import { useToggledInterval } from "src/components/lib/useInterval";
-import GraphBuilder, {
-  useGraphBuilder,
-} from "src/components/ComputerScience/GraphBuilder";
 import { simpleStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
 import Checkbox from "src/components/Bootstrap/Checkbox";
+import useGraphSketch from "../../GraphBuilder/useGraphSketch";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
-const initialGraph = simpleStringGraph();
 
 const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const graphBuilder = useGraphBuilder(initialGraph);
-  const { graph } = graphBuilder;
+
+  const graph = React.useMemo(() => simpleStringGraph(), []);
+
+  const { refContainer } = useGraphSketch(graph);
+
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
     graph,
@@ -40,7 +40,9 @@ const PageRank: React.FunctionComponent = () => {
   });
 
   return (
-    <div className="container">
+    <div>
+      <div ref={refContainer} />
+
       <h4>Page Ranks after {iterations} iterations</h4>
       <div>
         <button className="btn btn-primary" onClick={onReset}>
@@ -76,13 +78,11 @@ const PageRank: React.FunctionComponent = () => {
         </div>
         <div className="col-md-4">
           <h2>In Order</h2>
-          <InOrderList {...{ ranks }} />
+          <InOrderList pages={graph.vertices} ranks={ranks} />
         </div>
       </div>
       <h2>All Iterations</h2>
       <RankHistoryTable pages={graph.vertices} rankHistory={rankHistory} />
-
-      <GraphBuilder graphBuilder={graphBuilder} />
     </div>
   );
 };
