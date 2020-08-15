@@ -16,7 +16,6 @@ const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
 
   const {
-    version,
     graph,
     topLeft: sourceNode,
     bottomRight: destinationNode,
@@ -40,7 +39,6 @@ const GridRouting: React.FunctionComponent = () => {
     onResetDistances,
     heuristicCosts,
   } = useRoutingAlgorithm({
-    version,
     graph,
     sourceNode,
     destinationNode,

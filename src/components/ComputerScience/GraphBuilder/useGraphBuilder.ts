@@ -3,25 +3,7 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseGraphBuilder, GraphSketchConfig } from "./types";
 import useSketch from "src/components/p5/useSketch";
 import GraphSketch from "./GraphSketch";
-import {
-  BaseDataItem,
-  StringDataItem,
-  createSimpleStringDataItem,
-} from "src/components/p5/Boid/DataItemBoid";
-
-const VERTEX_A = createSimpleStringDataItem("A");
-const VERTEX_B = createSimpleStringDataItem("B");
-const VERTEX_C = createSimpleStringDataItem("C");
-const VERTEX_D = createSimpleStringDataItem("D");
-
-export const defaultStringGraph: Graph<StringDataItem> = new Graph<
-  StringDataItem
->({ vertexToString: (d) => d.key, equalityCheck: (a, b) => a.key === b.key })
-  .addUnidirectionalEdge(VERTEX_A, VERTEX_B)
-  .addUnidirectionalEdge(VERTEX_B, VERTEX_A)
-  .addUnidirectionalEdge(VERTEX_B, VERTEX_C)
-  .addUnidirectionalEdge(VERTEX_B, VERTEX_D)
-  .addUnidirectionalEdge(VERTEX_D, VERTEX_A);
+import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
   initialGraph: Graph<DATA_ITEM>
@@ -34,6 +16,14 @@ const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
   );
 
   const [newEdgeWeight, setNewEdgeWeight] = React.useState<number>(1);
+
+  const changeGraph = React.useCallback(
+    (newGraph: Graph<DATA_ITEM>) => {
+      graph.current = newGraph;
+      tickVersion();
+    },
+    [graph, tickVersion]
+  );
 
   const completeEdge = React.useCallback(
     (to: DATA_ITEM, weight: number) => {
@@ -64,6 +54,7 @@ const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
     tickVersion,
     newEdgeWeight,
     setNewEdgeWeight,
+    changeGraph,
     graph: graph.current,
     pendingFrom,
     prepareEdge,

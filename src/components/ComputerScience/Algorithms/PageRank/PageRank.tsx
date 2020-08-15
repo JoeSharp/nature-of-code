@@ -8,16 +8,17 @@ import { useToggledInterval } from "src/components/lib/useInterval";
 import GraphBuilder, {
   useGraphBuilder,
 } from "src/components/ComputerScience/GraphBuilder";
-import { defaultStringGraph } from "../../GraphBuilder/useGraphBuilder";
+import { simpleStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
 import Checkbox from "src/components/Bootstrap/Checkbox";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
+const initialGraph = simpleStringGraph();
 
 const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
-  const graphBuilder = useGraphBuilder(defaultStringGraph);
+  const graphBuilder = useGraphBuilder(initialGraph);
   const { graph } = graphBuilder;
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,

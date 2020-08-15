@@ -4,14 +4,12 @@ import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 export interface Props<DATA_ITEM extends BaseDataItem<any>> {
   className?: string;
-  version: number;
   graph: Graph<DATA_ITEM>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
 
 const VertexPicker = <DATA_ITEM extends BaseDataItem<any>>({
-  version,
   graph,
   value,
   onChange,
@@ -32,7 +30,6 @@ const VertexPicker = <DATA_ITEM extends BaseDataItem<any>>({
 
   return (
     <select className={className} onChange={onSelectChange} value={value}>
-      <option key={version} value={version} />
       {graph.vertices.map((vertex) => (
         <option key={vertex.key} value={vertex.key}>
           {vertex.label}
@@ -48,7 +45,6 @@ interface UsePicker<DATA_ITEM extends BaseDataItem<any>> {
 }
 
 export const usePicker = <DATA_ITEM extends BaseDataItem<any>>(
-  version: number,
   graph: Graph<DATA_ITEM>,
   className?: string
 ): UsePicker<DATA_ITEM> => {
@@ -63,13 +59,12 @@ export const usePicker = <DATA_ITEM extends BaseDataItem<any>>(
     vertex,
     componentProps: React.useMemo(
       () => ({
-        version,
         graph,
         className,
         value,
         onChange,
       }),
-      [version, graph, className, value, onChange]
+      [graph, className, value, onChange]
     ),
   };
 };

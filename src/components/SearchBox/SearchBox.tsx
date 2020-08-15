@@ -73,11 +73,12 @@ const SearchBox = <T,>({
             }
             /*and simulate a click on the "active" item:*/
             itemChosen(item);
+            setCriteria(itemToString(item));
           }
         }
       }
     },
-    [item, itemChosen, stepForward, stepBackward]
+    [item, setCriteria, itemToString, itemChosen, stepForward, stepBackward]
   );
 
   return (

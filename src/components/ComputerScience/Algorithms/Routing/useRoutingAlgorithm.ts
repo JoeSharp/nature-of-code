@@ -18,7 +18,6 @@ import { Optional } from "comp-sci-maths-lib/dist/types";
 import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 export interface Props<DATA_ITEM extends BaseDataItem<any>> {
-  version: number;
   sourceNode?: DATA_ITEM;
   destinationNode?: DATA_ITEM;
   getPositionOfNode: (vertex: DATA_ITEM) => Optional<p5.Vector>;
@@ -35,7 +34,6 @@ export interface UseRoutingAlgorithm<DATA_ITEM extends BaseDataItem<any>> {
 }
 
 export default <DATA_ITEM extends BaseDataItem<any>>({
-  version,
   sourceNode,
   destinationNode,
   graph,
@@ -56,7 +54,7 @@ export default <DATA_ITEM extends BaseDataItem<any>>({
   ]);
 
   const onHarvestDistances = React.useCallback(() => {
-    if (destinationNode !== undefined && version !== undefined) {
+    if (destinationNode !== undefined) {
       const destinationPosition = getPositionOfNode(destinationNode);
       if (!!destinationPosition) {
         const costs: HeuristicCostById = graph.vertices
@@ -80,13 +78,7 @@ export default <DATA_ITEM extends BaseDataItem<any>>({
         setHeuristicsCosts(costs);
       }
     }
-  }, [
-    version,
-    destinationNode,
-    getPositionOfNode,
-    graph.vertices,
-    setHeuristicsCosts,
-  ]);
+  }, [destinationNode, getPositionOfNode, graph.vertices, setHeuristicsCosts]);
 
   const { stages, shortestPathTree, path } = React.useMemo(() => {
     const stages: ObserverArgsWithPathFrom<DATA_ITEM>[] = [];
@@ -134,12 +126,11 @@ export default <DATA_ITEM extends BaseDataItem<any>>({
         : [];
 
     return {
-      version,
       shortestPathTree,
       path,
       stages,
     };
-  }, [getHeuristicCost, sourceNode, destinationNode, version, graph]);
+  }, [getHeuristicCost, sourceNode, destinationNode, graph]);
 
   return {
     stages,

@@ -13,6 +13,7 @@ export interface UseGraphBuilder<DATA_ITEM extends BaseDataItem<any>> {
   graph: Graph<DATA_ITEM>;
   pendingFrom: DATA_ITEM | undefined;
   newEdgeWeight: number;
+  changeGraph: (graph: Graph<DATA_ITEM>) => void;
   setNewEdgeWeight: (e: number) => void;
   prepareEdge: (from: DATA_ITEM) => void;
   cancelEdge: () => void;
