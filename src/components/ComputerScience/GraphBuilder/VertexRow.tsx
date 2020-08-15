@@ -3,14 +3,15 @@ import React from "react";
 import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseGraphBuilder } from "./types";
 import EdgesCell from "./EdgeCell";
+import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 interface Props {
-  vertex: string;
-  graphBuilder: UseGraphBuilder<string>;
+  vertex: StringDataItem;
+  graphBuilder: UseGraphBuilder<StringDataItem>;
 }
 
-const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
-const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
+const GET_EDGE_FROM = (edge: Edge<StringDataItem>) => edge.from;
+const GET_EDGE_TO = (edge: Edge<StringDataItem>) => edge.to;
 
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
@@ -40,17 +41,17 @@ const VertexRow: React.FunctionComponent<Props> = ({
   }, [vertex, graph, tickVersion]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<string>) => graph.equalityCheck(edge.from, vertex),
+    (edge: Edge<StringDataItem>) => graph.equalityCheck(edge.from, vertex),
     [vertex, graph]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<string>) => graph.equalityCheck(edge.to, vertex),
+    (edge: Edge<StringDataItem>) => graph.equalityCheck(edge.to, vertex),
     [vertex, graph]
   );
 
   return (
     <tr>
-      <td>{vertex}</td>
+      <td>{vertex.label}</td>
       <td>
         <EdgesCell
           version={version}

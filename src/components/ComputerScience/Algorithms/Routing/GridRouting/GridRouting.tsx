@@ -9,15 +9,11 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
-import p5 from "p5";
 import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
+import { PointDataItem } from "./types";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
-
-  const {
-    config: { getKey },
-  } = sketchContainer;
 
   const {
     version,
@@ -31,7 +27,7 @@ const GridRouting: React.FunctionComponent = () => {
   });
 
   const getPositionOfNode = React.useCallback(
-    (d: p5.Vector) => {
+    (d: PointDataItem) => {
       const boid = sketchContainer.getBoid(d);
       return !!boid ? boid.position : undefined;
     },
@@ -48,7 +44,6 @@ const GridRouting: React.FunctionComponent = () => {
     graph,
     sourceNode,
     destinationNode,
-    getKey,
     getPositionOfNode,
   });
 
@@ -90,12 +85,7 @@ const GridRouting: React.FunctionComponent = () => {
 
       <SteppingControls {...steppingControlProps} />
 
-      {currentStage && (
-        <RouteObserverStage
-          vertexToString={graph.vertexToString}
-          currentStage={currentStage}
-        />
-      )}
+      {currentStage && <RouteObserverStage currentStage={currentStage} />}
     </div>
   );
 };

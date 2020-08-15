@@ -4,9 +4,11 @@ import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
 import Checkbox from "src/components/Bootstrap/Checkbox";
+import { v4 as uuidv4 } from "uuid";
+import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 interface Props {
-  graphBuilder: UseGraphBuilder<string>;
+  graphBuilder: UseGraphBuilder<StringDataItem>;
 }
 
 const GraphBuilder: React.FunctionComponent<Props> = ({
@@ -24,7 +26,11 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
-      graph.addVertex(newVertexName);
+      graph.addVertex({
+        key: uuidv4(),
+        label: newVertexName,
+        value: newVertexName,
+      });
     }
   }, [newVertexName, graph]);
   const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(

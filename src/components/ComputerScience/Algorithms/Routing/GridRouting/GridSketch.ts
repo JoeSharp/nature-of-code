@@ -3,25 +3,23 @@ import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import p5 from "p5";
-import { createVector } from "./useGridGraph";
+import { createKeyedPoint } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { ToString } from "comp-sci-maths-lib/dist/types";
+import { PointDataItem } from "./types";
 
 interface Config {
-  sourceNode: p5.Vector;
-  destinationNode: p5.Vector;
-  graph: Graph<p5.Vector>;
-  path: p5.Vector[];
-  getKey: (item: p5.Vector) => string;
-  toggleConnection: (vertex: p5.Vector) => void;
+  sourceNode: PointDataItem;
+  destinationNode: PointDataItem;
+  graph: Graph<PointDataItem>;
+  path: PointDataItem[];
+  toggleConnection: (vertex: PointDataItem) => void;
 }
 
 const getDefaultConfig = (): Config => ({
   graph: new Graph(),
-  sourceNode: createVector(0, 0),
-  destinationNode: createVector(0, 0),
+  sourceNode: createKeyedPoint(0, 0),
+  destinationNode: createKeyedPoint(0, 0),
   path: [],
-  getKey: (v) => `${v.x}-${v.y}`,
   toggleConnection: () => {},
 });
 
@@ -31,7 +29,7 @@ const SPREAD = 50;
 
 class GridSketch extends AbstractSketch<Config> {
   boids: {
-    [id: string]: DataItemBoid<p5.Vector>;
+    [id: string]: DataItemBoid<PointDataItem>;
   };
 
   constructor() {
@@ -39,32 +37,23 @@ class GridSketch extends AbstractSketch<Config> {
     this.boids = {};
   }
 
-  getBoid(vertex: p5.Vector): DataItemBoid<p5.Vector> | undefined {
-    const key = this.config.getKey(vertex);
-    return this.boids[key];
+  getBoid(point: PointDataItem): DataItemBoid<PointDataItem> | undefined {
+    return this.boids[point.key];
   }
 
-  getOrCreateBoid(
-    sketch: p5,
-    vToString: ToString<p5.Vector>,
-    vertex: p5.Vector
-  ) {
-    const key = this.config.getKey(vertex);
-    const vAsStr = vToString(vertex);
-    if (!this.boids[key]) {
-      this.boids[key] = new DataItemBoid<p5.Vector>({
-        entity: vertex,
-        label: vAsStr,
+  getOrCreateBoid(sketch: p5, point: PointDataItem) {
+    if (!this.boids[point.key]) {
+      this.boids[point.key] = new DataItemBoid<PointDataItem>({
+        entity: point,
+        label: point.label,
         radius: 20,
         position: sketch.createVector(
-          (vertex.x + 1) * SPREAD,
-          (vertex.y + 1) * SPREAD
+          (point.value.x + 1) * SPREAD,
+          (point.value.y + 1) * SPREAD
         ),
       });
     }
-    this.boids[key].entity = vertex;
-    this.boids[key].label = vAsStr;
-    return this.boids[key];
+    return this.boids[point.key];
   }
 
   sketch = (s: p5) => {
@@ -92,14 +81,14 @@ class GridSketch extends AbstractSketch<Config> {
       s.push();
 
       const {
-        graph: { equalityCheck, vertexToString, vertices, edges },
+        graph: { equalityCheck, vertices, edges },
         sourceNode,
         destinationNode,
         path,
       } = that.config;
 
-      let boidsInSketch: DataItemBoid<p5.Vector>[] = vertices.map((v) => {
-        const boid = that.getOrCreateBoid(s, vertexToString, v);
+      let boidsInSketch: DataItemBoid<PointDataItem>[] = vertices.map((v) => {
+        const boid = that.getOrCreateBoid(s, v);
         if (equalityCheck(v, sourceNode)) {
           boid.colour = "lime";
         } else if (equalityCheck(v, destinationNode)) {
@@ -112,18 +101,18 @@ class GridSketch extends AbstractSketch<Config> {
         return boid;
       });
 
-      const boidIdsInSketch: string[] = vertices.map(vertexToString);
+      const boidIdsInSketch: string[] = vertices.map((v) => v.key);
 
       // Get the list of boid edges
-      const boidEdges: Edge<DataItemBoid<p5.Vector>>[] = edges
+      const boidEdges: Edge<DataItemBoid<PointDataItem>>[] = edges
         .filter(
           ({ from, to }) =>
-            boidIdsInSketch.includes(vertexToString(from)) &&
-            boidIdsInSketch.includes(vertexToString(to))
+            boidIdsInSketch.includes(from.key) &&
+            boidIdsInSketch.includes(to.key)
         )
         .map(({ from, to, weight }) => ({
-          from: that.getOrCreateBoid(s, vertexToString, from),
-          to: that.getOrCreateBoid(s, vertexToString, to),
+          from: that.getOrCreateBoid(s, from),
+          to: that.getOrCreateBoid(s, to),
           weight,
         }));
 
@@ -138,8 +127,8 @@ class GridSketch extends AbstractSketch<Config> {
       s.stroke("cyan");
       s.strokeWeight(4);
       for (let i = 0; i < path.length - 1; i++) {
-        const from = that.getOrCreateBoid(s, vertexToString, path[i]);
-        const to = that.getOrCreateBoid(s, vertexToString, path[i + 1]);
+        const from = that.getOrCreateBoid(s, path[i]);
+        const to = that.getOrCreateBoid(s, path[i + 1]);
         s.line(from.position.x, from.position.y, to.position.x, to.position.y);
       }
 

@@ -1,28 +1,30 @@
 import React from "react";
-import { Optional, ToString } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "comp-sci-maths-lib/dist/types";
 import Table from "src/components/Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
-interface Item<T> {
+interface Item<DATA_ITEM extends BaseDataItem<any>> {
   node: string;
   cost: number;
-  viaNode: Optional<T>;
+  viaNode: Optional<DATA_ITEM>;
 }
 
-interface Props<T> {
-  vertexToString: ToString<T>;
-  items: Item<T>[];
+interface Props<DATA_ITEM extends BaseDataItem<any>> {
+  items: Item<DATA_ITEM>[];
 }
 
-const ShortestPathWithNodeTable = <T,>({ vertexToString, items }: Props<T>) => {
+const ShortestPathWithNodeTable = <DATA_ITEM extends BaseDataItem<any>>({
+  items,
+}: Props<DATA_ITEM>) => {
   const tableData = React.useMemo(
     () =>
       items.map(({ node, cost, viaNode }) => ({
         node,
         cost: roundTo2Dp(cost),
-        viaNode: viaNode ? vertexToString(viaNode) : "NONE",
+        viaNode: viaNode ? viaNode.label : "NONE",
       })),
-    [items, vertexToString]
+    [items]
   );
 
   return <Table headings={["node", "cost", "viaNode"]} data={tableData} />;

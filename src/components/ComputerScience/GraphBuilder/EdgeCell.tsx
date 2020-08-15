@@ -3,12 +3,13 @@ import React from "react";
 import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 interface Props {
   version: number;
-  graph: Graph<string>;
-  filter: (edge: Edge<string>) => boolean;
-  getOtherEnd: (edge: Edge<string>) => void;
+  graph: Graph<StringDataItem>;
+  filter: (edge: Edge<StringDataItem>) => boolean;
+  getOtherEnd: (edge: Edge<StringDataItem>) => StringDataItem;
   tickVersion: () => void;
 }
 
@@ -23,7 +24,7 @@ const EdgesCell: React.FunctionComponent<Props> = ({
       {graph.edges.filter(filter).map((edge, i) => (
         <span key={i} className="input-group btn-group edge-buttons">
           <div className="input-group-prepend">
-            <div className="input-group-text">{getOtherEnd(edge)} </div>
+            <div className="input-group-text">{getOtherEnd(edge).label} </div>
           </div>
           <button
             className="btn btn-danger btn-sm"

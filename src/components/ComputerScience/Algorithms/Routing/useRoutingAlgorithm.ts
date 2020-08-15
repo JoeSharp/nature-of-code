@@ -15,43 +15,40 @@ import {
 import { HeuristicCostById } from "../../GraphBuilder/types";
 import p5 from "p5";
 import { Optional } from "comp-sci-maths-lib/dist/types";
+import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
-export interface Props<T> {
+export interface Props<DATA_ITEM extends BaseDataItem<any>> {
   version: number;
-  sourceNode?: T;
-  destinationNode?: T;
-  getPositionOfNode: (vertex: T) => Optional<p5.Vector>;
-  graph: Graph<T>;
-  getKey: (vertex: T) => string;
+  sourceNode?: DATA_ITEM;
+  destinationNode?: DATA_ITEM;
+  getPositionOfNode: (vertex: DATA_ITEM) => Optional<p5.Vector>;
+  graph: Graph<DATA_ITEM>;
 }
 
-export interface UseRoutingAlgorithm<T> {
-  shortestPathTree: ShortestPathTree<T>;
-  path: T[];
+export interface UseRoutingAlgorithm<DATA_ITEM extends BaseDataItem<any>> {
+  shortestPathTree: ShortestPathTree<DATA_ITEM>;
+  path: DATA_ITEM[];
   heuristicCosts: HeuristicCostById;
-  stages: ObserverArgsWithPathFrom<T>[];
+  stages: ObserverArgsWithPathFrom<DATA_ITEM>[];
   onHarvestDistances: () => void;
   onResetDistances: () => void;
 }
 
-export default <T>({
+export default <DATA_ITEM extends BaseDataItem<any>>({
   version,
   sourceNode,
   destinationNode,
   graph,
-  getKey,
   getPositionOfNode,
-}: Props<T>): UseRoutingAlgorithm<T> => {
+}: Props<DATA_ITEM>): UseRoutingAlgorithm<DATA_ITEM> => {
   const [heuristicCosts, setHeuristicsCosts] = React.useState<
     HeuristicCostById
   >({});
 
-  const getHeuristicCost: HeuristicCostFunction<T> = React.useCallback(
-    (vertex: T) =>
-      heuristicCosts[getKey(vertex)]
-        ? heuristicCosts[getKey(vertex)].distance
-        : 0,
-    [heuristicCosts, getKey]
+  const getHeuristicCost: HeuristicCostFunction<DATA_ITEM> = React.useCallback(
+    (vertex: DATA_ITEM) =>
+      heuristicCosts[vertex.key] ? heuristicCosts[vertex.key].distance : 0,
+    [heuristicCosts]
   );
 
   const onResetDistances = React.useCallback(() => setHeuristicsCosts({}), [
@@ -75,7 +72,7 @@ export default <T>({
           .reduce(
             (acc, { position, vertex, distance }) => ({
               ...acc,
-              [getKey(vertex)]: { position, distance },
+              [vertex.key]: { label: vertex.label, position, distance },
             }),
             {}
           );
@@ -87,26 +84,25 @@ export default <T>({
     version,
     destinationNode,
     getPositionOfNode,
-    getKey,
     graph.vertices,
     setHeuristicsCosts,
   ]);
 
   const { stages, shortestPathTree, path } = React.useMemo(() => {
-    const stages: ObserverArgsWithPathFrom<T>[] = [];
-    const observer: RoutingObserver<T> = ({
+    const stages: ObserverArgsWithPathFrom<DATA_ITEM>[] = [];
+    const observer: RoutingObserver<DATA_ITEM> = ({
       shortestPathTree,
       currentDistances,
       currentItem,
       outgoing,
     }) => {
-      const endNode: T =
+      const endNode: DATA_ITEM =
         currentItem !== undefined && currentItem.viaNode !== undefined
           ? currentItem.viaNode
           : destinationNode !== undefined
           ? destinationNode
-          : (sourceNode as T);
-      const observerArgs: ObserverArgsWithPathFrom<T> = {
+          : (sourceNode as DATA_ITEM);
+      const observerArgs: ObserverArgsWithPathFrom<DATA_ITEM> = {
         currentItem,
         currentDistances,
         shortestPathTree,
@@ -122,7 +118,7 @@ export default <T>({
       };
       stages.push(cloneDeep(observerArgs));
     };
-    const shortestPathTree: ShortestPathTree<T> =
+    const shortestPathTree: ShortestPathTree<DATA_ITEM> =
       sourceNode !== undefined
         ? dijstraks({
             graph,

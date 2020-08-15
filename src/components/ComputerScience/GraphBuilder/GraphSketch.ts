@@ -3,10 +3,9 @@ import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import DataItemBoid from "../../p5/Boid/DataItemBoid";
-import { defaultToString } from "comp-sci-maths-lib/dist/common";
+import DataItemBoid, { BaseDataItem } from "../../p5/Boid/DataItemBoid";
 import { GraphSketchConfig } from "./types";
-import { createVector } from "../Algorithms/Routing/GridRouting/useGridGraph";
+import { createP5Vector } from "../Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -14,13 +13,13 @@ const HEIGHT = 500;
 const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
   physicsEnabled: true,
-  getKey: defaultToString,
-  getLabel: defaultToString,
 });
 
-class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
+class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
+  GraphSketchConfig<DATA_ITEM>
+> {
   boids: {
-    [id: string]: DataItemBoid<T>;
+    [id: string]: DataItemBoid<DATA_ITEM>;
   };
 
   colours: {
@@ -37,39 +36,35 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
     this.borderWeights = {};
   }
 
-  setColour(vertex: T, colour: string) {
-    this.colours[this.config.getKey(vertex)] = colour;
+  setColour(vertex: DATA_ITEM, colour: string) {
+    this.colours[vertex.key] = colour;
   }
 
-  setBorderWeight(vertex: T, borderWeight: number) {
-    this.borderWeights[this.config.getKey(vertex)] = borderWeight;
+  setBorderWeight(vertex: DATA_ITEM, borderWeight: number) {
+    this.borderWeights[vertex.key] = borderWeight;
   }
 
-  getBoid(vertex: T): DataItemBoid<T> | undefined {
-    return this.boids[this.config.getKey(vertex)];
+  getBoid(vertex: DATA_ITEM): DataItemBoid<DATA_ITEM> | undefined {
+    return this.boids[vertex.key];
   }
 
-  getOrCreateBoid(s: p5, vertex: T): DataItemBoid<T> {
-    const vAsStr = this.config.getKey(vertex);
-    let boid = this.boids[vAsStr];
+  getOrCreateBoid(s: p5, vertex: DATA_ITEM): DataItemBoid<DATA_ITEM> {
+    let boid = this.boids[vertex.key];
     if (!boid) {
-      boid = new DataItemBoid<T>({
+      boid = new DataItemBoid<DATA_ITEM>({
         entity: vertex,
-        label: this.config.getLabel(vertex),
+        label: vertex.label,
         radius: !!s ? s.width / 12 : 5,
-        colour: this.colours[vAsStr] || "red",
-        borderWeight: this.borderWeights[vAsStr] || 1,
         position: !!s
           ? s.createVector(s.random(0, s.width), s.random(0, s.height))
-          : createVector(0, 0),
+          : createP5Vector(0, 0),
       });
-      this.boids[vAsStr] = boid;
-    } else {
-      boid.label = this.config.getLabel(vertex);
-      boid.colour = this.colours[vAsStr] || "red";
-      boid.borderWeight = this.borderWeights[vAsStr] || 1;
+      this.boids[vertex.key] = boid;
     }
-    boid.entity = vertex;
+
+    boid.colour = this.colours[vertex.key] || "red";
+    boid.borderWeight = this.borderWeights[vertex.key] || 1;
+
     return boid;
   }
 
@@ -109,23 +104,22 @@ class GraphSketch<T> extends AbstractSketch<GraphSketchConfig<T>> {
       s.fill("blue");
 
       const {
-        getKey,
         graph: { vertices, edges },
         physicsEnabled,
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
-      const boidsInSketch: DataItemBoid<T>[] = vertices.map((v) =>
+      const boidsInSketch: DataItemBoid<DATA_ITEM>[] = vertices.map((v) =>
         that.getOrCreateBoid(s, v)
       );
-      const boidIdsInSketch: string[] = vertices.map(getKey);
+      const boidIdsInSketch: string[] = vertices.map((v) => v.key);
 
       // Get the list of boid edges
-      const boidEdges: Edge<DataItemBoid<T>>[] = edges
+      const boidEdges: Edge<DataItemBoid<DATA_ITEM>>[] = edges
         .filter(
           ({ from, to }) =>
-            boidIdsInSketch.includes(getKey(from)) &&
-            boidIdsInSketch.includes(getKey(to))
+            boidIdsInSketch.includes(from.key) &&
+            boidIdsInSketch.includes(to.key)
         )
         .map(({ from, to, weight }) => ({
           from: that.getOrCreateBoid(s, from),

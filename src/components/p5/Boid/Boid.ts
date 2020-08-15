@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { AbstractBoid } from "./types";
-import { createVector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
+import { createP5Vector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
 const DEFAULT_COLOUR = "red";
 const DEFAULT_BORDER_WEIGHT = 1;
@@ -38,8 +38,8 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.entity = entity;
     this.position = position;
     this.label = label;
-    this.velocity = createVector(0, 0);
-    this.acceleration = createVector(0, 0);
+    this.velocity = createP5Vector(0, 0);
+    this.acceleration = createP5Vector(0, 0);
     this.radius = radius;
     this.colour = colour;
     this.borderWeight = borderWeight;

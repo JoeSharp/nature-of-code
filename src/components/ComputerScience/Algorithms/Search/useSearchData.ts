@@ -13,6 +13,7 @@ import {
   SearchObservation,
 } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
+import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 interface Props {
   algorithm?: NamedSearch;
@@ -22,19 +23,24 @@ interface Props {
 const useSearchedData = ({
   algorithm,
   searchItem,
-}: Props): SearchingData<string> => {
-  let data: string[] = React.useMemo(
-    () => generateRandomLetters(20, { unique: true, sorted: true }),
+}: Props): SearchingData<StringDataItem> => {
+  const data: StringDataItem[] = React.useMemo(
+    () =>
+      generateRandomLetters(20, { unique: true, sorted: true }).map((d, i) => ({
+        key: i.toString(),
+        label: d,
+        value: d,
+      })),
     []
   );
 
   const { matchIndex, stages } = React.useMemo(() => {
-    let stages: SearchStage<string>[] = [];
-    let lastObservation: SearchObservation<string>;
+    let stages: SearchStage<StringDataItem>[] = [];
+    let lastObservation: SearchObservation<StringDataItem>;
 
-    const searchUtilities: SearchUtilities<string> = {
+    const searchUtilities: SearchUtilities<StringDataItem> = {
       match: (a, index) => {
-        const result = stringComparator(searchItem, a);
+        const result = stringComparator(searchItem, a.value);
         stages.push({
           type: SearchStageType.match,
           index,

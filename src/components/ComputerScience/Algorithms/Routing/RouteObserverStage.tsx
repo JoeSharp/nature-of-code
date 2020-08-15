@@ -1,18 +1,16 @@
 import React from "react";
 import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import { ObserverArgsWithPathFrom } from "comp-sci-maths-lib/dist/algorithms/routing/types";
-import { ToString } from "comp-sci-maths-lib/dist/types";
 import Table from "src/components/Bootstrap/Table";
+import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
-interface Props<T> {
-  vertexToString: ToString<T>;
-  currentStage: ObserverArgsWithPathFrom<T>;
+interface Props<DATA_ITEM extends BaseDataItem<any>> {
+  currentStage: ObserverArgsWithPathFrom<DATA_ITEM>;
 }
 
-const RouteObserverStage = <T,>({
-  vertexToString,
+const RouteObserverStage = <DATA_ITEM extends BaseDataItem<any>>({
   currentStage: { shortestPathTree, currentItem, currentDistances, outgoing },
-}: Props<T>) => {
+}: Props<DATA_ITEM>) => {
   const shortestPathTreeItems = React.useMemo(
     () =>
       Object.entries(shortestPathTree).map(([node, { cost, viaNode }]) => ({
@@ -25,35 +23,32 @@ const RouteObserverStage = <T,>({
   const queueItems = React.useMemo(
     () =>
       currentDistances.toArray().map(({ node, cost, viaNode }) => ({
-        node: vertexToString(node),
+        node: node.label,
         cost,
         viaNode,
       })),
-    [vertexToString, currentDistances]
+    [currentDistances]
   );
   const currentItemForTable = React.useMemo(() => {
     if (currentItem !== undefined) {
-      return [{ ...currentItem, node: vertexToString(currentItem.node) }];
+      return [{ ...currentItem, node: currentItem.node.label }];
     }
     return [];
-  }, [currentItem, vertexToString]);
+  }, [currentItem]);
 
   const outgoingData = React.useMemo(
     () =>
       outgoing.map(({ to, weight }) => ({
-        to: vertexToString(to),
+        to: to.label,
         weight,
       })),
-    [outgoing, vertexToString]
+    [outgoing]
   );
 
   return (
     <React.Fragment>
       <h4>Current Item</h4>
-      <ShortestPathWithNodeTable
-        vertexToString={vertexToString}
-        items={currentItemForTable}
-      />
+      <ShortestPathWithNodeTable items={currentItemForTable} />
       <div className="routing-visual">
         <div className="mr-5">
           <h4>Unvisited Outgoing Links</h4>
@@ -61,17 +56,11 @@ const RouteObserverStage = <T,>({
         </div>
         <div className="mr-5">
           <h4>Routing Queue</h4>
-          <ShortestPathWithNodeTable
-            vertexToString={vertexToString}
-            items={queueItems}
-          />
+          <ShortestPathWithNodeTable items={queueItems} />
         </div>
         <div>
           <h4>Shortest Path Tree</h4>
-          <ShortestPathWithNodeTable
-            vertexToString={vertexToString}
-            items={shortestPathTreeItems}
-          />
+          <ShortestPathWithNodeTable items={shortestPathTreeItems} />
         </div>
       </div>
     </React.Fragment>

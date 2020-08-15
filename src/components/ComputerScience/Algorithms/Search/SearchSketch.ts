@@ -8,19 +8,20 @@ import {
   DEFAULT_SEARCH_STAGE,
   SearchStageType,
 } from "./types";
+import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
 
-interface Config<T> {
-  searchItem?: T;
-  data: T[];
-  searchStage: SearchStage<T>;
+interface Config {
+  searchItem?: string;
+  data: StringDataItem[];
+  searchStage: SearchStage<StringDataItem>;
   matchIndex: number;
   isFinalStage: boolean;
 }
 
-const getDefaultConfig = <T>(): Config<T> => ({
+const getDefaultConfig = <T>(): Config => ({
   searchItem: undefined,
   data: [],
   searchStage: DEFAULT_SEARCH_STAGE,
@@ -28,7 +29,7 @@ const getDefaultConfig = <T>(): Config<T> => ({
   isFinalStage: false,
 });
 
-class SearchingSketch<T> extends AbstractSketch<Config<T>> {
+class SearchingSketch<T> extends AbstractSketch<Config> {
   knownPositionVars: string[];
 
   constructor() {
@@ -118,7 +119,7 @@ class SearchingSketch<T> extends AbstractSketch<Config<T>> {
 
         s.ellipse(x, datyaY, dataWidth, dataWidth);
         s.fill("black");
-        s.text(`${item}`, x, datyaY);
+        s.text(item.value, x, datyaY);
       });
 
       s.fill("black");
@@ -136,7 +137,7 @@ class SearchingSketch<T> extends AbstractSketch<Config<T>> {
             comparisonSymbol = ">";
           }
 
-          subTitle = `Comparing ${searchItem} ${comparisonSymbol} data[${compareIndex}]=${data[compareIndex]}`;
+          subTitle = `Comparing ${searchItem} ${comparisonSymbol} data[${compareIndex}]=${data[compareIndex].value}`;
           break;
       }
       s.text(stageName, 20, 20);

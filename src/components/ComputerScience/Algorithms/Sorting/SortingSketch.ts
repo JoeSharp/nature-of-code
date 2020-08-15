@@ -8,27 +8,26 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { ToString } from "comp-sci-maths-lib/dist/types";
+import DataItemBoid, {
+  StringDataItem,
+} from "src/components/p5/Boid/DataItemBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
 
 const DATA_Y = 100;
 
-interface Config<T> {
-  sortStage: SortStage<T>;
-  dataToString: ToString<T>;
+interface Config {
+  sortStage: SortStage<StringDataItem>;
 }
 
-const getDefaultConfig = <T>(): Config<T> => ({
+const getDefaultConfig = (): Config => ({
   sortStage: DEFAULT_SORT_STAGE,
-  dataToString: (d) => `${d}`,
 });
 
-class SortingSketch<T> extends AbstractSketch<Config<T>> {
+class SortingSketch extends AbstractSketch<Config> {
   boids: {
-    [id: string]: DataItemBoid<T>;
+    [id: string]: DataItemBoid<StringDataItem>;
   };
   knownPositionVars: string[];
 
@@ -50,17 +49,11 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     return this.knownPositionVars.indexOf(positionVar);
   }
 
-  getBoid(
-    sketch: p5,
-    vertexToString: ToString<T>,
-    vertex: T,
-    dataLength: number
-  ) {
-    const vAsStr = vertexToString(vertex);
-    if (!this.boids[vAsStr]) {
-      this.boids[vAsStr] = new DataItemBoid<T>({
+  getBoid(sketch: p5, vertex: StringDataItem, dataLength: number) {
+    if (!this.boids[vertex.key]) {
+      this.boids[vertex.key] = new DataItemBoid<StringDataItem>({
         entity: vertex,
-        label: vAsStr,
+        label: vertex.label,
         radius: sketch.width / (dataLength + 2),
         minForce: 0,
         maxSpeed: 3,
@@ -70,9 +63,7 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
         ),
       });
     }
-    this.boids[vAsStr].entity = vertex;
-    this.boids[vAsStr].label = vAsStr;
-    return this.boids[vAsStr];
+    return this.boids[vertex.key];
   }
 
   sketch = (s: p5) => {
@@ -85,9 +76,9 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
     };
 
     s.draw = function () {
-      const { sortStage = DEFAULT_SORT_STAGE, dataToString } = that.config;
+      const { sortStage = DEFAULT_SORT_STAGE } = that.config;
 
-      const { data, stageName, positionVars }: SortObservation<T> =
+      const { data, stageName, positionVars }: SortObservation<StringDataItem> =
         sortStage.type === SortStageType.observation
           ? sortStage
           : sortStage.lastObservation;
@@ -129,8 +120,8 @@ class SortingSketch<T> extends AbstractSketch<Config<T>> {
       let dataWidth = s.width / (data.length + 2);
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
 
-      const boids: DataItemBoid<T>[] = data.map((item, i) => {
-        const boid = that.getBoid(s, dataToString, item, data.length);
+      const boids: DataItemBoid<StringDataItem>[] = data.map((item, i) => {
+        const boid = that.getBoid(s, item, data.length);
 
         let x = getDataX(i);
         switch (i) {

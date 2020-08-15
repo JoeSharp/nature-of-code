@@ -1,5 +1,31 @@
 import p5 from "p5";
 import Boid from "./Boid";
+import { v4 as uuidv4 } from "uuid";
+
+export interface BaseDataItem<T> {
+  key: string;
+  label: string;
+  value: T;
+}
+
+export type NumberDataItem = BaseDataItem<number>;
+export type StringDataItem = BaseDataItem<string>;
+
+export const createSimpleStringDataItem = (
+  content: string
+): StringDataItem => ({
+  key: uuidv4(),
+  label: content,
+  value: content,
+});
+
+export const createSimpleNumberDataItem = (
+  content: number
+): NumberDataItem => ({
+  key: uuidv4(),
+  label: content.toString(10),
+  value: content,
+});
 
 export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {

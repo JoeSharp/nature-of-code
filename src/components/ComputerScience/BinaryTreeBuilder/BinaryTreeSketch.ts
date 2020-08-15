@@ -2,7 +2,7 @@ import { AbstractSketch } from "src/components/p5/useSketch";
 import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import p5 from "p5";
-import { createVector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
+import { createP5Vector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 800;
 const HEIGHT = 500;
@@ -30,8 +30,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
-    this.headLeft = createVector(-50, 50);
-    this.headRight = createVector(50, 50);
+    this.headLeft = createP5Vector(-50, 50);
+    this.headRight = createP5Vector(50, 50);
   }
 
   visitBoids(

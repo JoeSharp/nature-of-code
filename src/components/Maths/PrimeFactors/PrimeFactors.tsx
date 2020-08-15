@@ -2,16 +2,10 @@ import React from "react";
 
 import GraphSketch from "src/components/ComputerScience/GraphBuilder/GraphSketch";
 import useSketch from "src/components/p5/useSketch";
-import usePrimeFactorTree from "./usePrimeFactorTree";
+import usePrimeFactorTree, { PrimeFactorDataItem } from "./usePrimeFactorTree";
 import Checkbox from "src/components/Bootstrap/Checkbox";
 
-// Delete
-interface PrimeFactor {
-  key: number;
-  value: number;
-}
-
-class PrimeFactorSketch extends GraphSketch<PrimeFactor> {}
+class PrimeFactorSketch extends GraphSketch<PrimeFactorDataItem> {}
 
 const PrimeFactors: React.FunctionComponent = () => {
   const [value, setValue] = React.useState<number>(1001);
@@ -22,15 +16,6 @@ const PrimeFactors: React.FunctionComponent = () => {
   );
 
   const { refContainer, updateConfig } = useSketch(PrimeFactorSketch);
-
-  React.useEffect(
-    () =>
-      updateConfig({
-        getKey: (i: PrimeFactor) => i.key,
-        getLabel: (i: PrimeFactor) => i.value,
-      }),
-    [updateConfig]
-  );
 
   const { primeFactorTree, primeFactors } = usePrimeFactorTree(value);
 

@@ -29,6 +29,6 @@ export const DEFAULT_SEARCH_STAGE: SearchStage<any> = {
 export interface SearchingData<T> {
   stages: SearchStage<T>[];
   matchIndex: number;
-  searchItem: T;
+  searchItem: string;
   data: T[];
 }

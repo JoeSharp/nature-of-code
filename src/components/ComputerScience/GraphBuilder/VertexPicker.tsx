@@ -1,64 +1,66 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
 
-export interface Props {
+export interface Props<DATA_ITEM extends BaseDataItem<any>> {
   className?: string;
   version: number;
-  graph: Graph<string>;
+  graph: Graph<DATA_ITEM>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
 
-const VertexPicker: React.FunctionComponent<Props> = ({
+const VertexPicker = <DATA_ITEM extends BaseDataItem<any>>({
   version,
   graph,
   value,
   onChange,
   className,
-}) => {
-  const findVertex = React.useCallback(
-    (value) =>
-      graph.vertices.find((vertex) => graph.vertexToString(vertex) === value),
-    [graph]
-  );
-
+}: Props<DATA_ITEM>) => {
   const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
-    ({ target: { value } }) => onChange(findVertex(value)),
-    [onChange, findVertex]
+    ({ target: { value } }) => {
+      onChange(value);
+    },
+    [onChange]
   );
 
   React.useEffect(() => {
-    if (findVertex(value) === undefined) {
-      onChange(graph.vertices[0]);
+    if (graph.vertices.length > 0) {
+      onChange(graph.vertices[0].key);
     }
-  }, [value, graph, onChange, findVertex]);
+  }, [graph, onChange]);
 
   return (
     <select className={className} onChange={onSelectChange} value={value}>
       <option key={version} value={version} />
       {graph.vertices.map((vertex) => (
-        <option key={vertex} value={vertex}>
-          {vertex}
+        <option key={vertex.key} value={vertex.key}>
+          {vertex.label}
         </option>
       ))}
     </select>
   );
 };
 
-interface UsePicker {
-  vertex: string | undefined;
-  componentProps: Props;
+interface UsePicker<DATA_ITEM extends BaseDataItem<any>> {
+  vertex: DATA_ITEM | undefined;
+  componentProps: Props<DATA_ITEM>;
 }
 
-export const usePicker = (
+export const usePicker = <DATA_ITEM extends BaseDataItem<any>>(
   version: number,
-  graph: Graph<string>,
+  graph: Graph<DATA_ITEM>,
   className?: string
-): UsePicker => {
+): UsePicker<DATA_ITEM> => {
   const [value, onChange] = React.useState<string | undefined>(undefined);
 
+  const vertex = React.useMemo(
+    () => graph.vertices.find((v) => v.key === value),
+    [value, graph]
+  );
+
   return {
-    vertex: value,
+    vertex,
     componentProps: React.useMemo(
       () => ({
         version,

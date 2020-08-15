@@ -1,18 +1,11 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
 import p5 from "p5";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import DataItemBoid, {
+  BaseDataItem,
+} from "src/components/p5/Boid/DataItemBoid";
 
 const WIDTH = 600;
 const HEIGHT = 600;
-
-export interface BaseDataItem<T> {
-  key: string;
-  label: string;
-  value: T;
-}
-
-export type NumberDataItem = BaseDataItem<number>;
-export type StringDataItem = BaseDataItem<string>;
 
 export enum Orientation {
   horizontal,
