@@ -9,7 +9,7 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
-import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
+import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { PointDataItem } from "./types";
 
 const GridRouting: React.FunctionComponent = () => {
@@ -85,7 +85,9 @@ const GridRouting: React.FunctionComponent = () => {
 
       <SteppingControls {...steppingControlProps} />
 
-      {currentStage && <RouteObserverStage currentStage={currentStage} />}
+      {currentStage && (
+        <RouteObserverStage graph={graph} currentStage={currentStage} />
+      )}
     </div>
   );
 };

@@ -12,7 +12,7 @@ import {
   HeuristicCostFunction,
   RoutingObserver,
 } from "comp-sci-maths-lib/dist/algorithms/routing/types";
-import { HeuristicCostById } from "../../GraphBuilder/types";
+import { HeuristicCostById } from "./types";
 import p5 from "p5";
 import { Optional } from "comp-sci-maths-lib/dist/types";
 import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";

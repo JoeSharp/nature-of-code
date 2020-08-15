@@ -3,22 +3,25 @@ import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import { ObserverArgsWithPathFrom } from "comp-sci-maths-lib/dist/algorithms/routing/types";
 import Table from "src/components/Bootstrap/Table";
 import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props<DATA_ITEM extends BaseDataItem<any>> {
+  graph: Graph<DATA_ITEM>;
   currentStage: ObserverArgsWithPathFrom<DATA_ITEM>;
 }
 
 const RouteObserverStage = <DATA_ITEM extends BaseDataItem<any>>({
+  graph,
   currentStage: { shortestPathTree, currentItem, currentDistances, outgoing },
 }: Props<DATA_ITEM>) => {
   const shortestPathTreeItems = React.useMemo(
     () =>
       Object.entries(shortestPathTree).map(([node, { cost, viaNode }]) => ({
-        node,
+        node: graph.getVertex(node)?.label || "NONE", // Ideally we would fetch back the original node...
         cost,
         viaNode,
       })),
-    [shortestPathTree]
+    [shortestPathTree, graph]
   );
   const queueItems = React.useMemo(
     () =>

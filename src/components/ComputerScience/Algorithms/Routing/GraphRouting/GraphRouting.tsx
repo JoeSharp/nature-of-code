@@ -11,7 +11,7 @@ import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
-import HeuristicCostTable from "src/components/ComputerScience/GraphBuilder/HeuristicCostTable";
+import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import {
   StringDataItem,
   createSimpleStringDataItem,
@@ -151,7 +151,7 @@ const GraphRouting: React.FunctionComponent = () => {
 
       {currentStage && (
         <div className="mt-3">
-          <RouteObserverStage currentStage={currentStage} />
+          <RouteObserverStage graph={graph} currentStage={currentStage} />
         </div>
       )}
 
