@@ -24,7 +24,7 @@ const Traversal: React.FunctionComponent = () => {
   const {
     graph,
     componentProps: graphPickerProps,
-    refContainer,
+    sketchUse: { refContainer },
   } = useGraphPicker({ initialGraph, className: "form-control" });
 
   const {

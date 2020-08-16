@@ -31,7 +31,9 @@ const GraphComponent: React.FunctionComponent = () => {
   const graphBuilder = useGraphBuilder(graph);
   const { changeGraph } = graphBuilder;
 
-  const { updateConfig, sketchContainer, refContainer } = useGraphSketch(graph);
+  const { updateConfig, sketchContainer, refContainer } = useGraphSketch({
+    graph,
+  });
 
   const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
   const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(

@@ -4,29 +4,14 @@ import useLocalStorage, {
 } from "src/components/lib/useLocalStorage";
 
 import cannedGraphs from "./cannedGraphs";
-import Graph, {
-  Edge,
-} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem, Point } from "src/components/p5/Boid/types";
-
-interface SavedGraphState {
-  [name: string]: {
-    vertices: StringDataItem[];
-    edges: Edge<StringDataItem>[];
-  };
-}
-
-interface GraphsById {
-  [name: string]: Graph<StringDataItem>;
-}
-
-interface PositionByVertex {
-  [key: string]: Point;
-}
-
-interface PositionsForGraphName {
-  [name: string]: PositionByVertex;
-}
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { StringDataItem } from "src/components/p5/Boid/types";
+import {
+  GraphsById,
+  PositionsForGraphName,
+  PositionByVertex,
+  SavedGraphState,
+} from "./types";
 
 interface UseSavedGraph {
   names: string[];

@@ -4,10 +4,17 @@ import useSketch from "src/components/p5/useSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import GraphSketch from "./GraphSketch";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { PositionByVertex } from "./types";
 
-export default <DATA_ITEM extends BaseDataItem<any>>(
-  graph: Graph<DATA_ITEM>
-) => {
+interface Props<DATA_ITEM extends BaseDataItem<any>> {
+  graph: Graph<DATA_ITEM>;
+  vertexPositions?: PositionByVertex;
+}
+
+export default <DATA_ITEM extends BaseDataItem<any>>({
+  graph,
+  vertexPositions,
+}: Props<DATA_ITEM>) => {
   const sketchUse = useSketch<
     GraphSketchConfig<DATA_ITEM>,
     GraphSketch<DATA_ITEM>
@@ -15,7 +22,11 @@ export default <DATA_ITEM extends BaseDataItem<any>>(
 
   const { updateConfig } = sketchUse;
 
-  React.useEffect(() => updateConfig({ graph }), [graph, updateConfig]);
+  React.useEffect(() => updateConfig({ graph, vertexPositions }), [
+    graph,
+    vertexPositions,
+    updateConfig,
+  ]);
 
   return sketchUse;
 };

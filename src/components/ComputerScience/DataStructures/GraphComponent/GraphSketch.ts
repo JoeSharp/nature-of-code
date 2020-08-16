@@ -14,6 +14,7 @@ const HEIGHT = 500;
 
 const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
+  vertexPositions: {},
   physicsEnabled: false,
 });
 

@@ -12,12 +12,18 @@ import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routin
 import { StringDataItem } from "src/components/p5/Boid/types";
 
 import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphComponent/cannedGraphs";
-import useGraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/useGraphSketch";
+import GraphPicker, {
+  usePicker as useGraphPicker,
+} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphPicker";
+
+const initialGraph = complexStringGraph();
 
 const GraphRouting: React.FunctionComponent = () => {
-  const graph = React.useMemo(() => complexStringGraph(), []);
-
-  const { refContainer, sketchContainer } = useGraphSketch(graph);
+  const {
+    graph,
+    componentProps: graphPickerProps,
+    sketchUse: { sketchContainer, refContainer },
+  } = useGraphPicker({ initialGraph });
 
   const {
     vertex: sourceNode,
@@ -76,6 +82,10 @@ const GraphRouting: React.FunctionComponent = () => {
     <div>
       <h2>Choose Endpoints</h2>
       <form>
+        <div className="form-group">
+          <label>Graph</label>
+          <GraphPicker {...graphPickerProps} />
+        </div>
         <div className="form-group">
           <label>Source</label>
           <VertexPicker {...sourcePickerProps} />

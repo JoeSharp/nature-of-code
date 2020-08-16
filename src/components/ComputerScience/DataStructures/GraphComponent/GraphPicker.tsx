@@ -2,8 +2,10 @@ import React from "react";
 import useSavedGraph from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
-import useSketch from "src/components/p5/useSketch";
+import { UseSketch } from "src/components/p5/useSketch";
 import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
+import useGraphSketch from "./useGraphSketch";
+import { GraphSketchConfig } from "./GraphBuilder/types";
 
 interface Props {
   className?: string;
@@ -50,7 +52,10 @@ interface UseProps {
 interface UsePicker {
   graph: Graph<StringDataItem>;
   componentProps: Props;
-  refContainer: any;
+  sketchUse: UseSketch<
+    GraphSketchConfig<StringDataItem>,
+    GraphSketch<StringDataItem>
+  >;
 }
 
 export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
@@ -63,14 +68,16 @@ export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
     [setGraph]
   );
 
-  const { updateConfig, refContainer } = useSketch(GraphSketch);
+  const sketchUse = useGraphSketch({ graph });
+
+  const { updateConfig } = sketchUse;
 
   React.useEffect(() => updateConfig({ graph }), [graph, updateConfig]);
 
   return {
     graph,
     componentProps: { className, onChange },
-    refContainer,
+    sketchUse,
   };
 };
 
