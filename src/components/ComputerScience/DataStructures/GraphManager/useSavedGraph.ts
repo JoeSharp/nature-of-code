@@ -12,8 +12,9 @@ import {
   PositionByVertex,
   SavedGraphState,
 } from "./types";
+import useErrorReporting from "src/components/lib/useErrorReporting";
 
-interface UseSavedGraph {
+export interface UseSavedGraph {
   names: string[];
   graphs: GraphsById;
   vertexPositionsByGraph: PositionsForGraphName;
@@ -22,13 +23,17 @@ interface UseSavedGraph {
   reset: () => void;
 }
 
+export const DEFAULT_GRAPH_OPTION = "default";
+
 const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
   .map(([name, generator]) => ({ name, graph: generator() }))
   .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {});
 
 const defaultSavedVertexState: PositionsForGraphName = {};
 
-export default (): UseSavedGraph => {
+export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
+  const { reportError } = useErrorReporting();
+
   const {
     value: graphsData,
     reduceValue: reduceGraphs,
@@ -49,9 +54,10 @@ export default (): UseSavedGraph => {
     useStoreObjectFactory()
   );
 
-  const names: string[] = React.useMemo(() => Object.keys(graphsData), [
-    graphsData,
-  ]);
+  const names: string[] = React.useMemo(
+    () => [DEFAULT_GRAPH_OPTION, ...Object.keys(graphsData)],
+    [graphsData]
+  );
   const graphs: GraphsById = React.useMemo(
     () =>
       Object.entries(graphsData)
@@ -65,32 +71,44 @@ export default (): UseSavedGraph => {
           graph.edges = graphData.edges;
           return { name, graph };
         })
-        .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {}),
-    [graphsData]
+        .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {
+          [DEFAULT_GRAPH_OPTION]: defaultGraph,
+        }),
+    [graphsData, defaultGraph]
   );
 
   const createNew = React.useCallback(
     (name: string) => {
-      reduceGraphs((existing: SavedGraphState) => ({
-        ...existing,
-        [name]: new Graph(),
-      }));
+      if (name.length < 3) {
+        reportError("Could not save graph with short name (length < 3)");
+      } else if (names.includes(name)) {
+        reportError("This name already exists");
+      } else {
+        reduceGraphs((existing: SavedGraphState) => ({
+          ...existing,
+          [name]: new Graph(),
+        }));
+      }
     },
-    [reduceGraphs]
+    [reduceGraphs, reportError, names]
   );
 
   const save = React.useCallback(
     (name: string, graph: Graph<any>, positions: PositionByVertex) => {
-      reduceGraphs((existing: SavedGraphState) => ({
-        ...existing,
-        [name]: graph,
-      }));
-      reduceVertexPositions((existing: PositionsForGraphName) => ({
-        ...existing,
-        [name]: positions,
-      }));
+      if (name === DEFAULT_GRAPH_OPTION) {
+        reportError("Cannot save over the default option");
+      } else {
+        reduceGraphs((existing: SavedGraphState) => ({
+          ...existing,
+          [name]: graph,
+        }));
+        reduceVertexPositions((existing: PositionsForGraphName) => ({
+          ...existing,
+          [name]: positions,
+        }));
+      }
     },
-    [reduceGraphs, reduceVertexPositions]
+    [reduceGraphs, reduceVertexPositions, reportError]
   );
 
   const reset = React.useCallback(() => {

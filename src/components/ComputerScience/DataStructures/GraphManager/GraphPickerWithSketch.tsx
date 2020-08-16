@@ -1,5 +1,8 @@
 import React from "react";
-import useSavedGraph from "./useSavedGraph";
+import useSavedGraph, {
+  UseSavedGraph,
+  DEFAULT_GRAPH_OPTION,
+} from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import { UseSketch } from "src/components/p5/useSketch";
@@ -42,23 +45,28 @@ interface UsePicker {
   graph: Graph<StringDataItem>;
   vertexPositions: PositionByVertex;
   componentProps: Props;
+  savedGraphUse: UseSavedGraph;
   sketchUse: UseSketch<
     GraphSketchConfig<StringDataItem>,
     GraphSketch<StringDataItem>
   >;
 }
 
-export const usePicker = (initialGraph: Graph<StringDataItem>): UsePicker => {
-  const { names, graphs, vertexPositionsByGraph } = useSavedGraph();
+export const usePicker = (defaultGraph: Graph<StringDataItem>): UsePicker => {
+  const savedGraphUse = useSavedGraph(defaultGraph);
+  const { names, graphs, vertexPositionsByGraph } = savedGraphUse;
 
-  const [graphName, setGraphName] = React.useState<string>("default");
-  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
+  const [graphName, setGraphName] = React.useState<string>(
+    DEFAULT_GRAPH_OPTION
+  );
+  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(defaultGraph);
   const [vertexPositions, setVertexPositions] = React.useState<
     PositionByVertex
   >({});
 
   const onChange = React.useCallback(
     (name: string, graph: Graph<StringDataItem>) => {
+      console.log("Fuck off wankbadger", { name, graph });
       setGraph(graph);
       setGraphName(name);
       setVertexPositions(vertexPositionsByGraph[name]);
@@ -67,11 +75,6 @@ export const usePicker = (initialGraph: Graph<StringDataItem>): UsePicker => {
   );
 
   const [value, setValue] = React.useState<string>();
-
-  React.useEffect(() => setValue(names.length > 0 ? names[0] : undefined), [
-    names,
-    setValue,
-  ]);
 
   const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
     ({ target: { value } }) => {
@@ -95,6 +98,7 @@ export const usePicker = (initialGraph: Graph<StringDataItem>): UsePicker => {
     graphName,
     graph,
     vertexPositions,
+    savedGraphUse,
     componentProps: { onSelectChange, value, names, refContainer },
     sketchUse,
   };

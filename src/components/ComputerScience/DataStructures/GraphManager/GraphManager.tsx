@@ -4,7 +4,6 @@ import simpleGraph from "./cannedGraphs/simpleStringGraph";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "./GraphPickerWithSketch";
-import useSavedGraph from "./useSavedGraph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import Checkbox from "src/components/Bootstrap/Checkbox";
@@ -15,19 +14,18 @@ import NewGraphDialog, {
 const initialGraph = simpleGraph();
 
 const GraphManager: React.FunctionComponent = () => {
-  const { save, createNew, reset } = useSavedGraph();
+  const {
+    graphName,
+    graph,
+    savedGraphUse: { createNew, save, reset },
+    componentProps: graphPickerProps,
+    sketchUse: { updateConfig, sketchContainer },
+  } = useGraphPicker(initialGraph);
 
   const {
     showDialog: showNewGraphDialog,
     componentProps: newGraphProps,
   } = useNewGraphDialog(createNew);
-
-  const {
-    graphName,
-    graph,
-    componentProps: graphPickerProps,
-    sketchUse: { updateConfig, sketchContainer },
-  } = useGraphPicker(initialGraph);
 
   const graphBuilder = useGraphBuilder(graph);
   const { changeGraph } = graphBuilder;
