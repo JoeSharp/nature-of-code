@@ -11,6 +11,9 @@ import SteppingControls, {
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { PointDataItem } from "src/components/p5/Boid/types";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
@@ -58,6 +61,24 @@ const GridRouting: React.FunctionComponent = () => {
     });
   }, [currentStage, graph, updateConfig, toggleConnection]);
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          styleType: "primary",
+          onClick: onHarvestDistances,
+          text: "Harvest Distances",
+        },
+        {
+          styleType: "danger",
+          onClick: onResetDistances,
+          text: "Clear Distances",
+        },
+      ],
+    }),
+    [onHarvestDistances, onResetDistances]
+  );
+
   return (
     <div>
       <div ref={refContainer} />
@@ -71,12 +92,7 @@ const GridRouting: React.FunctionComponent = () => {
           from each node to the destination will be calculated and used as part
           of the routing algorithm.
         </p>
-        <button className="btn btn-primary mr-2" onClick={onHarvestDistances}>
-          Harvest Distances
-        </button>
-        <button className="btn btn-danger" onClick={onResetDistances}>
-          Reset Distances
-        </button>
+        <ButtonBar {...buttonBarProps} />
       </div>
 
       <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />

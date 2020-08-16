@@ -1,11 +1,12 @@
 import React from "react";
 import GraphBuilder, { useGraphBuilder } from "./GraphBuilder";
 import simpleGraph from "./cannedGraphs/simpleStringGraph";
-import GraphPicker, { usePicker as useGraphPicker } from "./GraphPicker";
+import GraphPickerWithSketch, {
+  usePicker as useGraphPicker,
+} from "./GraphPickerWithSketch";
 import useSavedGraph from "./useSavedGraph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import useGraphSketch from "./useGraphSketch";
 import Checkbox from "src/components/Bootstrap/Checkbox";
 import NewGraphDialog, {
   useDialog as useNewGraphDialog,
@@ -13,7 +14,7 @@ import NewGraphDialog, {
 
 const initialGraph = simpleGraph();
 
-const GraphComponent: React.FunctionComponent = () => {
+const GraphManager: React.FunctionComponent = () => {
   const { save, createNew, reset } = useSavedGraph();
 
   const {
@@ -21,19 +22,15 @@ const GraphComponent: React.FunctionComponent = () => {
     componentProps: newGraphProps,
   } = useNewGraphDialog(createNew);
 
-  const { graphName, graph, componentProps: graphPickerProps } = useGraphPicker(
-    {
-      className: "form-control",
-      initialGraph,
-    }
-  );
+  const {
+    graphName,
+    graph,
+    componentProps: graphPickerProps,
+    sketchUse: { updateConfig, sketchContainer },
+  } = useGraphPicker(initialGraph);
 
   const graphBuilder = useGraphBuilder(graph);
   const { changeGraph } = graphBuilder;
-
-  const { updateConfig, sketchContainer, refContainer } = useGraphSketch({
-    graph,
-  });
 
   const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
   const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
@@ -65,21 +62,16 @@ const GraphComponent: React.FunctionComponent = () => {
 
   return (
     <div>
-      <form>
-        <div className="form-group">
-          <label htmlFor="selectGraph">Graph</label>
-          <GraphPicker {...graphPickerProps} />
-        </div>
+      <GraphPickerWithSketch {...graphPickerProps} />
 
-        <div className="form-group">
-          <Checkbox
-            id="chkPhysics"
-            checked={physicsEnabled}
-            onChange={onPhysicsEnabledChange}
-            label="Physics Enabled"
-          />
-        </div>
-      </form>
+      <div className="form-group">
+        <Checkbox
+          id="chkPhysics"
+          checked={physicsEnabled}
+          onChange={onPhysicsEnabledChange}
+          label="Physics Enabled"
+        />
+      </div>
       <button className="btn btn-primary" onClick={showNewGraphDialog}>
         Create New
       </button>
@@ -90,12 +82,10 @@ const GraphComponent: React.FunctionComponent = () => {
         Reset
       </button>
 
-      <div className="sketch mt-3" ref={refContainer} />
-
       <GraphBuilder graphBuilder={graphBuilder} />
       <NewGraphDialog {...newGraphProps} />
     </div>
   );
 };
 
-export default GraphComponent;
+export default GraphManager;

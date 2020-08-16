@@ -9,7 +9,7 @@ import { page as routingGraphPage } from "./Algorithms/Routing/GraphRouting";
 import { page as searchPage } from "./Algorithms/Search";
 import { page as sortingPage } from "./Algorithms/Sorting";
 import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
-import { page as graphPage } from "./DataStructures/GraphComponent";
+import { page as graphPage } from "./DataStructures/GraphManager";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { page as queuePage } from "./DataStructures/QueueComponent";
 import { page as soundPage } from "./DataRepresentation/Sound";

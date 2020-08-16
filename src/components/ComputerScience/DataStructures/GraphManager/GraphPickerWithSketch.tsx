@@ -3,37 +3,39 @@ import useSavedGraph from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import { UseSketch } from "src/components/p5/useSketch";
-import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
+import GraphSketch from "src/components/ComputerScience/DataStructures/GraphManager/GraphSketch";
 import useGraphSketch from "./useGraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import { PositionByVertex } from "./types";
 
 interface Props {
-  className?: string;
   names: string[];
   value?: string;
   onSelectChange: React.ChangeEventHandler<HTMLSelectElement>;
+  refContainer: any;
 }
 
-const GraphPicker: React.FunctionComponent<Props> = ({
+const GraphPickerWithSketch: React.FunctionComponent<Props> = ({
   names,
-  className,
   value,
   onSelectChange,
+  refContainer,
 }) => (
-  <select className={className} value={value} onChange={onSelectChange}>
-    {names.map((name) => (
-      <option key={name} value={name}>
-        {name}
-      </option>
-    ))}
-  </select>
-);
+  <React.Fragment>
+    <div className="form-group">
+      <label>Graph</label>
+      <select className="form-control" value={value} onChange={onSelectChange}>
+        {names.map((name) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </div>
 
-interface UseProps {
-  className?: string;
-  initialGraph: Graph<StringDataItem>;
-}
+    <div className="sketch mt-3" ref={refContainer} />
+  </React.Fragment>
+);
 
 interface UsePicker {
   graphName: string;
@@ -46,7 +48,7 @@ interface UsePicker {
   >;
 }
 
-export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
+export const usePicker = (initialGraph: Graph<StringDataItem>): UsePicker => {
   const { names, graphs, vertexPositionsByGraph } = useSavedGraph();
 
   const [graphName, setGraphName] = React.useState<string>("default");
@@ -81,7 +83,7 @@ export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
 
   const sketchUse = useGraphSketch({ graph });
 
-  const { updateConfig } = sketchUse;
+  const { updateConfig, refContainer } = sketchUse;
 
   React.useEffect(() => updateConfig({ graph, vertexPositions }), [
     graph,
@@ -93,9 +95,9 @@ export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
     graphName,
     graph,
     vertexPositions,
-    componentProps: { className, onSelectChange, value, names },
+    componentProps: { onSelectChange, value, names, refContainer },
     sketchUse,
   };
 };
 
-export default GraphPicker;
+export default GraphPickerWithSketch;

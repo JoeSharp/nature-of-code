@@ -44,6 +44,17 @@ const SearchBox = <T,>({
     stepBackward,
   } = useItemInArray({ items: matchedItems });
 
+  const matchedItemsWithHandlers = React.useMemo(
+    () =>
+      matchedItems.map((item, i) => ({
+        key: i.toString(10),
+        itemStr: itemToString(item),
+        onClick: () => itemChosen(item),
+        className: i === selectedIndex ? "autocomplete-active" : "",
+      })),
+    [matchedItems, selectedIndex, itemChosen, itemToString]
+  );
+
   const onCriteriaChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setCriteria(value),
     [setCriteria]
@@ -98,17 +109,14 @@ const SearchBox = <T,>({
         />
         {hasFocus && matchedItems.length > 0 && (
           <div className="autocomplete-items">
-            {matchedItems
-              .map((item) => itemToString(item))
-              .map((itemStr, i) => (
-                <div
-                  key={i}
-                  className={i === selectedIndex ? "autocomplete-active" : ""}
-                >
+            {matchedItemsWithHandlers.map(
+              ({ itemStr, onClick, key, className }) => (
+                <div key={key} className={className} onMouseDown={onClick}>
                   {itemStr}
                   <input type="hidden" value={itemStr}></input>
                 </div>
-              ))}
+              )
+            )}
           </div>
         )}
       </div>

@@ -5,11 +5,11 @@ import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
 import { useToggledInterval } from "src/components/lib/useInterval";
-import { simpleStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
+import { simpleStringGraph } from "../../DataStructures/GraphManager/cannedGraphs";
 import Checkbox from "src/components/Bootstrap/Checkbox";
-import GraphPicker, {
+import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
-} from "../../DataStructures/GraphComponent/GraphPicker";
+} from "../../DataStructures/GraphManager/GraphPickerWithSketch";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -20,11 +20,9 @@ const PageRank: React.FunctionComponent = () => {
     DEFAULT_DAMPING_FACTOR
   );
 
-  const {
-    graph,
-    componentProps: graphPickerProps,
-    sketchUse: { refContainer },
-  } = useGraphPicker({ initialGraph, className: "form-control" });
+  const { graph, componentProps: graphPickerProps } = useGraphPicker(
+    initialGraph
+  );
 
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
@@ -47,13 +45,7 @@ const PageRank: React.FunctionComponent = () => {
 
   return (
     <div>
-      <form>
-        <div className="form-group">
-          <label>Graph</label>
-          <GraphPicker {...graphPickerProps} />
-        </div>
-      </form>
-      <div ref={refContainer} />
+      <GraphPickerWithSketch {...graphPickerProps} />
 
       <h4>Page Ranks after {iterations} iterations</h4>
       <div>

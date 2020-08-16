@@ -1,6 +1,6 @@
 import React from "react";
 
-import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
+import GraphSketch from "src/components/ComputerScience/DataStructures/GraphManager/GraphSketch";
 import useSketch from "src/components/p5/useSketch";
 import usePrimeFactorTree, { PrimeFactorDataItem } from "./usePrimeFactorTree";
 import Checkbox from "src/components/Bootstrap/Checkbox";

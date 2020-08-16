@@ -5,13 +5,13 @@ import GraphTraversalAlgorithmPicker, {
 import useGraphTraversal from "./useGraphTraversal";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphBuilder/VertexPicker";
-import { largerStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
+} from "src/components/ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
+import { largerStringGraph } from "../../DataStructures/GraphManager/cannedGraphs";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
-import GraphPicker, {
+import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
-} from "../../DataStructures/GraphComponent/GraphPicker";
+} from "../../DataStructures/GraphManager/GraphPickerWithSketch";
 
 const initialGraph: Graph<StringDataItem> = largerStringGraph();
 
@@ -21,11 +21,9 @@ const Traversal: React.FunctionComponent = () => {
     componentProps: algorithmPickerProps,
   } = useAlgorithmPicker("form-control");
 
-  const {
-    graph,
-    componentProps: graphPickerProps,
-    sketchUse: { refContainer },
-  } = useGraphPicker({ initialGraph, className: "form-control" });
+  const { graph, componentProps: graphPickerProps } = useGraphPicker(
+    initialGraph
+  );
 
   const {
     vertex: startVertex,
@@ -40,11 +38,8 @@ const Traversal: React.FunctionComponent = () => {
 
   return (
     <div>
+      <GraphPickerWithSketch {...graphPickerProps} />
       <form>
-        <div className="form-group">
-          <label>Graph</label>
-          <GraphPicker {...graphPickerProps} />
-        </div>
         <div className="form-group">
           <label>Algorithm</label>
           <GraphTraversalAlgorithmPicker {...algorithmPickerProps} />
@@ -56,8 +51,6 @@ const Traversal: React.FunctionComponent = () => {
       </form>
 
       <h2>Item Visit Order: {visitedItems.map((v) => v.label).join(" -> ")}</h2>
-
-      <div ref={refContainer} />
     </div>
   );
 };

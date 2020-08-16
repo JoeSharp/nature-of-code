@@ -3,7 +3,7 @@ import React from "react";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphBuilder/VertexPicker";
+} from "src/components/ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
 import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
@@ -11,10 +11,13 @@ import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
-import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphComponent/cannedGraphs";
-import GraphPicker, {
+import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphManager/cannedGraphs";
+import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
-} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphPicker";
+} from "src/components/ComputerScience/DataStructures/GraphManager/GraphPickerWithSketch";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const initialGraph = complexStringGraph();
 
@@ -22,8 +25,8 @@ const GraphRouting: React.FunctionComponent = () => {
   const {
     graph,
     componentProps: graphPickerProps,
-    sketchUse: { sketchContainer, refContainer },
-  } = useGraphPicker({ initialGraph });
+    sketchUse: { sketchContainer },
+  } = useGraphPicker(initialGraph);
 
   const {
     vertex: sourceNode,
@@ -78,14 +81,29 @@ const GraphRouting: React.FunctionComponent = () => {
     });
   }, [sourceNode, destinationNode, graph, path, sketchContainer]);
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          styleType: "primary",
+          onClick: onHarvestDistances,
+          text: "Harvest Distances",
+        },
+        {
+          styleType: "danger",
+          onClick: onResetDistances,
+          text: "Clear Distances",
+        },
+      ],
+    }),
+    [onHarvestDistances, onResetDistances]
+  );
+
   return (
     <div>
+      <GraphPickerWithSketch {...graphPickerProps} />
       <h2>Choose Endpoints</h2>
       <form>
-        <div className="form-group">
-          <label>Graph</label>
-          <GraphPicker {...graphPickerProps} />
-        </div>
         <div className="form-group">
           <label>Source</label>
           <VertexPicker {...sourcePickerProps} />
@@ -104,12 +122,7 @@ const GraphRouting: React.FunctionComponent = () => {
           from each node to the destination will be calculated and used as part
           of the routing algorithm.
         </p>
-        <button className="btn btn-primary mr-2" onClick={onHarvestDistances}>
-          Harvest Distances
-        </button>
-        <button className="btn btn-danger" onClick={onResetDistances}>
-          Reset Distances
-        </button>
+        <ButtonBar {...buttonBarProps} />
       </div>
 
       <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />
@@ -121,8 +134,6 @@ const GraphRouting: React.FunctionComponent = () => {
           <RouteObserverStage graph={graph} currentStage={currentStage} />
         </div>
       )}
-
-      <div ref={refContainer} />
     </div>
   );
 };

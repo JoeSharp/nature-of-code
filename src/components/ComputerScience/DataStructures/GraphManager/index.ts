@@ -1,4 +1,4 @@
-import Component from "./GraphComponent";
+import Component from "./GraphManager";
 import { Page } from "src/types";
 
 export const page: Page = {
