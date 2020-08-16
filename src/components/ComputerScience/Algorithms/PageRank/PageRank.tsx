@@ -24,7 +24,7 @@ const PageRank: React.FunctionComponent = () => {
     graph,
     componentProps: graphPickerProps,
     sketchUse: { refContainer },
-  } = useGraphPicker({ initialGraph });
+  } = useGraphPicker({ initialGraph, className: "form-control" });
 
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({
     dampingFactor,
