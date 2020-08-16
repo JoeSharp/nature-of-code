@@ -1,8 +1,7 @@
 import React from "react";
 import GraphBuilder, { useGraphBuilder } from "./GraphBuilder";
 import simpleGraph from "./cannedGraphs/simpleStringGraph";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import GraphPicker from "./GraphPicker";
+import GraphPicker, { usePicker as useGraphPicker } from "./GraphPicker";
 import useSavedGraph from "./useSavedGraph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
@@ -20,14 +19,11 @@ const GraphComponent: React.FunctionComponent = () => {
     [setGraphName]
   );
 
-  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
-  const onGraphChange = React.useCallback(
-    (name: string, graph: Graph<StringDataItem>) => {
-      setGraph(graph);
-      setGraphName(name);
-    },
-    [setGraph, setGraphName]
-  );
+  const { graph, componentProps: graphPickerProps } = useGraphPicker({
+    className: "form-control",
+    initialGraph,
+  });
+
   const graphBuilder = useGraphBuilder(graph);
   const { changeGraph } = graphBuilder;
 
@@ -77,7 +73,7 @@ const GraphComponent: React.FunctionComponent = () => {
         </div>
         <div className="form-group">
           <label htmlFor="selectGraph">Graph</label>
-          <GraphPicker className="form-control" onChange={onGraphChange} />
+          <GraphPicker {...graphPickerProps} />
         </div>
 
         <div className="form-group">

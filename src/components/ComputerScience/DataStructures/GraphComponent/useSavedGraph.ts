@@ -16,7 +16,7 @@ import {
 interface UseSavedGraph {
   names: string[];
   graphs: GraphsById;
-  vertexPositions: PositionsForGraphName;
+  vertexPositionsByGraph: PositionsForGraphName;
   addOrUpdate(
     name: string,
     graph: Graph<any>,
@@ -43,7 +43,7 @@ export default (): UseSavedGraph => {
   );
 
   const {
-    value: vertexPositions,
+    value: vertexPositionsByGraph,
     reduceValue: reduceVertexPositions,
     setValue: setVertexPositions,
   } = useLocalStorage<PositionsForGraphName>(
@@ -94,7 +94,7 @@ export default (): UseSavedGraph => {
   return {
     names,
     graphs,
-    vertexPositions,
+    vertexPositionsByGraph,
     addOrUpdate,
     reset,
   };

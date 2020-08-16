@@ -6,17 +6,60 @@ import { UseSketch } from "src/components/p5/useSketch";
 import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
 import useGraphSketch from "./useGraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
+import { PositionByVertex } from "./types";
 
 interface Props {
   className?: string;
-  onChange: (name: string, graph: Graph<StringDataItem>) => void;
+  names: string[];
+  value?: string;
+  onSelectChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const GraphPicker: React.FunctionComponent<Props> = ({
+  names,
   className,
-  onChange,
-}) => {
-  const { names, graphs } = useSavedGraph();
+  value,
+  onSelectChange,
+}) => (
+  <select className={className} value={value} onChange={onSelectChange}>
+    {names.map((name) => (
+      <option key={name} value={name}>
+        {name}
+      </option>
+    ))}
+  </select>
+);
+
+interface UseProps {
+  className?: string;
+  initialGraph: Graph<StringDataItem>;
+}
+
+interface UsePicker {
+  graph: Graph<StringDataItem>;
+  vertexPositions: PositionByVertex;
+  componentProps: Props;
+  sketchUse: UseSketch<
+    GraphSketchConfig<StringDataItem>,
+    GraphSketch<StringDataItem>
+  >;
+}
+
+export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
+  const { names, graphs, vertexPositionsByGraph } = useSavedGraph();
+
+  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
+  const [vertexPositions, setVertexPositions] = React.useState<
+    PositionByVertex
+  >({});
+
+  const onChange = React.useCallback(
+    (name: string, graph: Graph<StringDataItem>) => {
+      setGraph(graph);
+      setVertexPositions(vertexPositionsByGraph[name]);
+    },
+    [setGraph, vertexPositionsByGraph, setVertexPositions]
+  );
 
   const [value, setValue] = React.useState<string>();
 
@@ -33,50 +76,20 @@ const GraphPicker: React.FunctionComponent<Props> = ({
     [onChange, graphs]
   );
 
-  return (
-    <select className={className} value={value} onChange={onSelectChange}>
-      {names.map((name) => (
-        <option key={name} value={name}>
-          {name}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-interface UseProps {
-  className?: string;
-  initialGraph: Graph<StringDataItem>;
-}
-
-interface UsePicker {
-  graph: Graph<StringDataItem>;
-  componentProps: Props;
-  sketchUse: UseSketch<
-    GraphSketchConfig<StringDataItem>,
-    GraphSketch<StringDataItem>
-  >;
-}
-
-export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
-  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
-
-  const onChange = React.useCallback(
-    (name: string, graph: Graph<StringDataItem>) => {
-      setGraph(graph);
-    },
-    [setGraph]
-  );
-
   const sketchUse = useGraphSketch({ graph });
 
   const { updateConfig } = sketchUse;
 
-  React.useEffect(() => updateConfig({ graph }), [graph, updateConfig]);
+  React.useEffect(() => updateConfig({ graph, vertexPositions }), [
+    graph,
+    vertexPositions,
+    updateConfig,
+  ]);
 
   return {
     graph,
-    componentProps: { className, onChange },
+    vertexPositions,
+    componentProps: { className, onSelectChange, value, names },
     sketchUse,
   };
 };

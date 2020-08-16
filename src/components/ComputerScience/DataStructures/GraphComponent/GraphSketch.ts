@@ -54,12 +54,17 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
   getOrCreateBoid(s: p5, vertex: DATA_ITEM): DataItemBoid<DATA_ITEM> {
     let boid = this.boids[vertex.key];
     if (!boid) {
+      let storedPosition = (this.config.vertexPositions || {})[vertex.key] || {
+        x: s.random(0, s.width),
+        y: s.random(0, s.height),
+      };
+
       boid = new DataItemBoid<DATA_ITEM>({
         entity: vertex,
         label: vertex.label,
         radius: !!s ? s.width / 12 : 5,
         position: !!s
-          ? s.createVector(s.random(0, s.width), s.random(0, s.height))
+          ? s.createVector(storedPosition.x, storedPosition.y)
           : createP5Vector(0, 0),
       });
       this.boids[vertex.key] = boid;
