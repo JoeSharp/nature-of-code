@@ -2,7 +2,7 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import React from "react";
 import p5 from "p5";
 import { EqualityCheck, ToString } from "comp-sci-maths-lib/dist/types";
-import { PointDataItem } from "./types";
+import { PointDataItem } from "src/components/p5/Boid//types";
 
 interface Props {
   rows: number;

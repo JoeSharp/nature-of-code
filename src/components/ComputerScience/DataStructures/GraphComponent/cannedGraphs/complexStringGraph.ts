@@ -1,8 +1,6 @@
-import {
-  createSimpleStringDataItem,
-  StringDataItem,
-} from "src/components/p5/Boid/DataItemBoid";
+import { createSimpleStringDataItem } from "src/components/p5/Boid/DataItemBoid";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 const VERTEX_A = createSimpleStringDataItem("A");
 const VERTEX_B = createSimpleStringDataItem("B");

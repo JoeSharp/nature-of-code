@@ -4,7 +4,8 @@ import simpleGraph from "./cannedGraphs/simpleStringGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import GraphPicker from "./GraphPicker";
 import useSavedGraph from "./useSavedGraph";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 
 const initialGraph = simpleGraph();
 
@@ -26,17 +27,28 @@ const GraphComponent: React.FunctionComponent = () => {
     [setGraph, setGraphName]
   );
   const graphBuilder = useGraphBuilder(graph);
-  const { changeGraph } = graphBuilder;
+  const {
+    changeGraph,
+    sketchUse: { sketchContainer },
+  } = graphBuilder;
 
   React.useEffect(() => {
     changeGraph(graph);
   }, [graph, changeGraph]);
 
-  const onSave = React.useCallback(() => addOrUpdate(graphName, graph), [
-    addOrUpdate,
-    graphName,
-    graph,
-  ]);
+  const onSave = React.useCallback(() => {
+    const vertexPositions = graph.vertices
+      .map((v) => sketchContainer.getBoid(v))
+      .filter((b) => b !== undefined)
+      .map((b) => b as DataItemBoid<StringDataItem>)
+      .map((b: DataItemBoid<StringDataItem>) => ({
+        key: b.entity.key,
+        position: { x: b.position.x, y: b.position.y },
+      }))
+      .reduce((acc, { key, position }) => ({ ...acc, [key]: position }), {});
+
+    addOrUpdate(graphName, graph, vertexPositions);
+  }, [addOrUpdate, graphName, graph, sketchContainer]);
 
   return (
     <div>

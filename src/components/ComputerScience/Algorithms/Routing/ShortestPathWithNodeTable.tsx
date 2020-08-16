@@ -2,7 +2,7 @@ import React from "react";
 import { Optional } from "comp-sci-maths-lib/dist/types";
 import Table from "src/components/Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 interface Item<DATA_ITEM extends BaseDataItem<any>> {
   node: string;

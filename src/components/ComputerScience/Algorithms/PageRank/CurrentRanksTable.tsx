@@ -2,7 +2,7 @@ import React from "react";
 import { PageRanks } from "./types";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 import Table from "src/components/Bootstrap/Table";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 interface Props {
   pages: StringDataItem[];

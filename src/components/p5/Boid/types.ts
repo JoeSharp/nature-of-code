@@ -12,3 +12,19 @@ export interface AbstractBoid<T> {
   minForce?: number;
   environmentalFriction?: number;
 }
+
+export interface BaseDataItem<T> {
+  key: string;
+  label: string;
+  value: T;
+}
+
+export type NumberDataItem = BaseDataItem<number>;
+export type StringDataItem = BaseDataItem<string>;
+
+export interface Point {
+  x: number;
+  y: number;
+}
+
+export type PointDataItem = BaseDataItem<Point>;

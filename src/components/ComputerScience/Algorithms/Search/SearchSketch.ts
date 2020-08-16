@@ -8,7 +8,7 @@ import {
   DEFAULT_SEARCH_STAGE,
   SearchStageType,
 } from "./types";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;

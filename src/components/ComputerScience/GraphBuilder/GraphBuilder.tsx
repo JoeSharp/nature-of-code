@@ -5,7 +5,7 @@ import { UseGraphBuilder } from "./types";
 import "./graphBuilder.css";
 import Checkbox from "src/components/Bootstrap/Checkbox";
 import { v4 as uuidv4 } from "uuid";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 interface Props {
   graphBuilder: UseGraphBuilder<StringDataItem>;
@@ -43,7 +43,7 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     [setNewEdgeWeight]
   );
 
-  const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(true);
+  const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
   const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { checked } }) => setPhysicsEnabled(checked),
     [setPhysicsEnabled]

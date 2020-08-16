@@ -7,7 +7,7 @@ import useListReducer from "src/components/lib/useListReducer";
 import "./stack.css";
 import useSketch from "src/components/p5/useSketch";
 import { ArraySketchNumber, Orientation } from "../QueueComponent/ArraySketch";
-import { NumberDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { NumberDataItem } from "src/components/p5/Boid/types";
 
 const StackComponent: React.FunctionComponent = () => {
   const stack = React.useRef<Stack<NumberDataItem>>(new Stack());

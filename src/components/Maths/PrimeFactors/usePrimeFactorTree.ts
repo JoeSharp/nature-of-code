@@ -5,7 +5,7 @@ import {
   PrimeFactor,
 } from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 export type PrimeFactorDataItem = BaseDataItem<PrimeFactor>;
 

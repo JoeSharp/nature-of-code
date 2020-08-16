@@ -2,7 +2,7 @@ import React from "react";
 import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import { ObserverArgsWithPathFrom } from "comp-sci-maths-lib/dist/algorithms/routing/types";
 import Table from "src/components/Bootstrap/Table";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props<DATA_ITEM extends BaseDataItem<any>> {

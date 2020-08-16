@@ -1,6 +1,6 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 export interface Props<DATA_ITEM extends BaseDataItem<any>> {
   className?: string;

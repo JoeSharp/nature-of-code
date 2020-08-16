@@ -3,16 +3,17 @@ import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import DataItemBoid, { BaseDataItem } from "../../p5/Boid/DataItemBoid";
+import DataItemBoid from "../../p5/Boid/DataItemBoid";
 import { GraphSketchConfig } from "./types";
 import { createP5Vector } from "../Algorithms/Routing/GridRouting/useGridGraph";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 800;
 const HEIGHT = 500;
 
 const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
-  physicsEnabled: true,
+  physicsEnabled: false,
 });
 
 class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<

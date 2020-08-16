@@ -1,4 +1,4 @@
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 import React from "react";
 import useSketch from "src/components/p5/useSketch";
 import { GraphSketchConfig } from "./types";

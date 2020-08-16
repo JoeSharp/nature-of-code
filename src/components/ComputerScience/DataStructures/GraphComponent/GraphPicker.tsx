@@ -1,7 +1,7 @@
 import React from "react";
 import useSavedGraph from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 interface Props {
   onChange: (name: string, graph: Graph<StringDataItem>) => void;

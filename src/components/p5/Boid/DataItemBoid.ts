@@ -1,15 +1,7 @@
 import p5 from "p5";
 import Boid from "./Boid";
 import { v4 as uuidv4 } from "uuid";
-
-export interface BaseDataItem<T> {
-  key: string;
-  label: string;
-  value: T;
-}
-
-export type NumberDataItem = BaseDataItem<number>;
-export type StringDataItem = BaseDataItem<string>;
+import { NumberDataItem, StringDataItem } from "./types";
 
 export const createSimpleStringDataItem = (
   content: string

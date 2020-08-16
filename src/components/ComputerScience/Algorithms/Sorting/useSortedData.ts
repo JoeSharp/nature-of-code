@@ -14,7 +14,7 @@ import {
   SortObservation,
 } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 interface Props {
   algorithm?: NamedSort;

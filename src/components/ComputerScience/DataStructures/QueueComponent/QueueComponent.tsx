@@ -8,7 +8,7 @@ import useListReducer from "src/components/lib/useListReducer";
 import "./queue.css";
 import useSketch from "src/components/p5/useSketch";
 import { ArraySketchNumber } from "./ArraySketch";
-import { NumberDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { NumberDataItem } from "src/components/p5/Boid/types";
 
 const StackComponent: React.FunctionComponent = () => {
   const queue = React.useRef<Queue<NumberDataItem>>(new Queue());

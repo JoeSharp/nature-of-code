@@ -15,7 +15,7 @@ import {
 import { HeuristicCostById } from "./types";
 import p5 from "p5";
 import { Optional } from "comp-sci-maths-lib/dist/types";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 export interface Props<DATA_ITEM extends BaseDataItem<any>> {
   sourceNode?: DATA_ITEM;

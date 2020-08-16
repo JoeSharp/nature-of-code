@@ -7,7 +7,7 @@ import cannedGraphs from "./cannedGraphs";
 import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem, Point } from "src/components/p5/Boid/types";
 
 interface SavedGraphState {
   [name: string]: {
@@ -20,10 +20,23 @@ interface GraphsById {
   [name: string]: Graph<StringDataItem>;
 }
 
+interface PositionByVertex {
+  [key: string]: Point;
+}
+
+interface PositionsForGraphName {
+  [name: string]: PositionByVertex;
+}
+
 interface UseSavedGraph {
   names: string[];
   graphs: GraphsById;
-  addOrUpdate(name: string, graph: Graph<any>): void;
+  vertexPositions: PositionsForGraphName;
+  addOrUpdate(
+    name: string,
+    graph: Graph<any>,
+    positions: PositionByVertex
+  ): void;
   reset: () => void;
 }
 
@@ -32,9 +45,25 @@ const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
   .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {});
 
 export default (): UseSavedGraph => {
-  const { value: graphsData, reduceValue, setValue } = useLocalStorage<
-    SavedGraphState
-  >("saved-graphs", defaultSavedGraphState, useStoreObjectFactory());
+  const {
+    value: graphsData,
+    reduceValue: reduceGraphs,
+    setValue: setGraphs,
+  } = useLocalStorage<SavedGraphState>(
+    "saved-graphs",
+    defaultSavedGraphState,
+    useStoreObjectFactory()
+  );
+
+  const {
+    value: vertexPositions,
+    reduceValue: reduceVertexPositions,
+    setValue: setVertexPositions,
+  } = useLocalStorage<PositionsForGraphName>(
+    "saved-graph-positions",
+    {},
+    useStoreObjectFactory()
+  );
 
   const names: string[] = React.useMemo(() => Object.keys(graphsData), [
     graphsData,
@@ -57,22 +86,28 @@ export default (): UseSavedGraph => {
   );
 
   const addOrUpdate = React.useCallback(
-    (name: string, graph: Graph<any>) => {
-      reduceValue((existing: SavedGraphState) => ({
+    (name: string, graph: Graph<any>, positions: PositionByVertex) => {
+      reduceGraphs((existing: SavedGraphState) => ({
         ...existing,
         [name]: graph,
       }));
+      reduceVertexPositions((existing: PositionsForGraphName) => ({
+        ...existing,
+        [name]: positions,
+      }));
     },
-    [reduceValue]
+    [reduceGraphs, reduceVertexPositions]
   );
 
-  const reset = React.useCallback(() => setValue(defaultSavedGraphState), [
-    setValue,
-  ]);
+  const reset = React.useCallback(() => {
+    setGraphs(defaultSavedGraphState);
+    setVertexPositions({});
+  }, [setGraphs, setVertexPositions]);
 
   return {
     names,
     graphs,
+    vertexPositions,
     addOrUpdate,
     reset,
   };

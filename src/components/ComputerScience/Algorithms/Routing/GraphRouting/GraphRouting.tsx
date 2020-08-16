@@ -9,7 +9,7 @@ import SteppingControls, {
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphComponent/cannedGraphs";
 import useGraphSketch from "src/components/ComputerScience/GraphBuilder/useGraphSketch";

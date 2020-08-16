@@ -3,7 +3,7 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseGraphBuilder, GraphSketchConfig } from "./types";
 import useSketch from "src/components/p5/useSketch";
 import GraphSketch from "./GraphSketch";
-import { BaseDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
   initialGraph: Graph<DATA_ITEM>

@@ -3,7 +3,7 @@ import React from "react";
 import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseGraphBuilder } from "./types";
 import EdgesCell from "./EdgeCell";
-import { StringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { StringDataItem } from "src/components/p5/Boid/types";
 
 interface Props {
   vertex: StringDataItem;

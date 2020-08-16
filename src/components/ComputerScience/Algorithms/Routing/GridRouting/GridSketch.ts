@@ -5,7 +5,7 @@ import Graph, {
 import p5 from "p5";
 import { createKeyedPoint } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { PointDataItem } from "./types";
+import { PointDataItem } from "src/components/p5/Boid/types";
 
 interface Config {
   sourceNode: PointDataItem;

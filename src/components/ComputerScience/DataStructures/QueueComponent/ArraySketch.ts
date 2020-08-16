@@ -1,8 +1,7 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
 import p5 from "p5";
-import DataItemBoid, {
-  BaseDataItem,
-} from "src/components/p5/Boid/DataItemBoid";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { BaseDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;

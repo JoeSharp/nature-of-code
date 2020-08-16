@@ -10,7 +10,7 @@ import SteppingControls, {
 } from "src/components/lib/SteppingControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { PointDataItem } from "./types";
+import { PointDataItem } from "src/components/p5/Boid/types";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
