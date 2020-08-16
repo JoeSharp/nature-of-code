@@ -10,6 +10,9 @@ import Checkbox from "src/components/Bootstrap/Checkbox";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "../../DataStructures/GraphManager/GraphPickerWithSketch";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -43,18 +46,32 @@ const PageRank: React.FunctionComponent = () => {
     iterate,
   });
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          onClick: onReset,
+          styleType: "danger",
+          text: "Reset",
+        },
+        {
+          onClick: iterate,
+          styleType: "success",
+          text: "Iterate",
+        },
+      ],
+    }),
+    [iterate, onReset]
+  );
+
   return (
     <div>
       <GraphPickerWithSketch {...graphPickerProps} />
 
       <h4>Page Ranks after {iterations} iterations</h4>
       <div>
-        <button className="btn btn-primary" onClick={onReset}>
-          Reset
-        </button>
-        <button className="btn btn-success" onClick={iterate}>
-          Iterate
-        </button>
+        <ButtonBar {...buttonBarProps} />
+
         <div className="form-group">
           <label htmlFor="txtDampingFactor">Damping Factor</label>
           <input

@@ -2,6 +2,9 @@ import React from "react";
 import useSieveOfEratosthenes from "./useSieveOfEratosthenes";
 import useItemInArray from "../../lib/useLoopCounter/useItemInArray";
 import PrimesListing from "./PrimesListing";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const LIMIT: number = 20;
 
@@ -16,6 +19,24 @@ const SieveOfEratosthenes: React.FunctionComponent = () => {
 
   const { p, tickedOff } = item || { p: 0, tickedOff: [] };
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          text: "Decrement",
+          onClick: stepBackward,
+          styleType: "danger",
+        },
+        {
+          text: "Increment",
+          onClick: stepForward,
+          styleType: "success",
+        },
+      ],
+    }),
+    [stepBackward, stepForward]
+  );
+
   return (
     <div>
       <h2>Prime Numbers at Iteration</h2>
@@ -28,14 +49,7 @@ const SieveOfEratosthenes: React.FunctionComponent = () => {
         Divisible by {p}:{tickedOff.join(", ")}
       </div>
 
-      <div className="btn-group">
-        <button className="btn btn-danger" onClick={stepBackward}>
-          Decrement
-        </button>
-        <button className="btn btn-primary" onClick={stepForward}>
-          Increment
-        </button>
-      </div>
+      <ButtonBar {...buttonBarProps} />
 
       <PrimesListing limit={LIMIT} primeNumbers={tickedOff} />
     </div>

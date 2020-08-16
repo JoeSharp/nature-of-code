@@ -8,6 +8,9 @@ import "./stack.css";
 import useSketch from "src/components/p5/useSketch";
 import { ArraySketchNumber, Orientation } from "../QueueComponent/ArraySketch";
 import { NumberDataItem } from "src/components/p5/Boid/types";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const StackComponent: React.FunctionComponent = () => {
   const stack = React.useRef<Stack<NumberDataItem>>(new Stack());
@@ -71,6 +74,29 @@ const StackComponent: React.FunctionComponent = () => {
     [items, poppedItems, updateConfig]
   );
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          text: "Push",
+          onClick: onPush,
+          styleType: "primary",
+        },
+        {
+          text: "Pop",
+          onClick: onPop,
+          styleType: "primary",
+        },
+        {
+          text: "Reset",
+          onClick: onReset,
+          styleType: "danger",
+        },
+      ],
+    }),
+    [onPush, onPop, onReset]
+  );
+
   return (
     <div>
       <p></p>
@@ -87,17 +113,8 @@ const StackComponent: React.FunctionComponent = () => {
         </div>
       </form>
 
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={onPush}>
-          Push
-        </button>
-        <button className="btn btn-primary" onClick={onPop}>
-          Pop
-        </button>
-        <button className="btn btn-danger" onClick={onReset}>
-          Reset
-        </button>
-      </div>
+      <ButtonBar {...buttonBarProps} />
+
       <div ref={refContainer} />
     </div>
   );

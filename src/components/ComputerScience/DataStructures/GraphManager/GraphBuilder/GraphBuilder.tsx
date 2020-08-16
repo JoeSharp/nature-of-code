@@ -5,6 +5,9 @@ import { UseGraphBuilder } from "./types";
 import "./graphBuilder.css";
 import { v4 as uuidv4 } from "uuid";
 import { StringDataItem } from "src/components/p5/Boid/types";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 interface Props {
   graphBuilder: UseGraphBuilder<StringDataItem>;
@@ -41,6 +44,24 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     [setNewEdgeWeight]
   );
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          onClick: onAddVertex,
+          text: "Add Vertex",
+          styleType: "primary",
+        },
+        {
+          onClick: clearAll,
+          text: "Clear All",
+          styleType: "danger",
+        },
+      ],
+    }),
+    [clearAll, onAddVertex]
+  );
+
   return (
     <div>
       <h2>Edit Graph (v{version})</h2>
@@ -65,14 +86,8 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
           />
         </div>
       </form>
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={onAddVertex}>
-          Add Vertex
-        </button>
-        <button className="btn btn-danger" onClick={clearAll}>
-          Clear All
-        </button>
-      </div>
+      <ButtonBar {...buttonBarProps} />
+
       <table className="table table-striped table-bordered table-sm">
         <thead>
           <tr>

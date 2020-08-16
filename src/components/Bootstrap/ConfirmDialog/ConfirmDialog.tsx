@@ -16,6 +16,7 @@
 
 import React from "react";
 import ModalDialog from "../ModalDialog";
+import ButtonBar, { Props as ButtonBarProps } from "../Buttons/ButtonBar";
 
 interface NewProps<T> {
   getQuestion: () => string;
@@ -37,27 +38,32 @@ const ConfirmDialog: React.FunctionComponent<Props> = ({
   onConfirm,
   ...rest
 }) => {
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          text: "Cancel",
+          styleType: "primary",
+          onClick: onCloseDialog,
+        },
+        {
+          text: "Confirm",
+          styleType: "danger",
+          onClick: () => {
+            onConfirm();
+            onCloseDialog();
+          },
+        },
+      ],
+    }),
+    [onConfirm, onCloseDialog]
+  );
   return (
     <ModalDialog
       {...rest}
       header={<h3>{question}</h3>}
       content={<div>{details}</div>}
-      actions={
-        <React.Fragment>
-          <button className="btn btn-primary" onClick={onCloseDialog}>
-            Cancel
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              onConfirm();
-              onCloseDialog();
-            }}
-          >
-            Confirm
-          </button>
-        </React.Fragment>
-      }
+      actions={<ButtonBar {...buttonBarProps} />}
     />
   );
 };

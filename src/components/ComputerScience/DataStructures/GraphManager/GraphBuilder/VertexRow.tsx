@@ -4,6 +4,10 @@ import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { UseGraphBuilder } from "./types";
 import EdgesCell from "./EdgeCell";
 import { StringDataItem } from "src/components/p5/Boid/types";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 
 interface Props {
   vertex: StringDataItem;
@@ -48,6 +52,51 @@ const VertexRow: React.FunctionComponent<Props> = ({
     (edge: Edge<StringDataItem>) => graph.equalityCheck(edge.to, vertex),
     [vertex, graph]
   );
+  const buttonBarProps: ButtonBarProps = React.useMemo(() => {
+    const buttons: ButtonProps[] = [];
+
+    if (pendingFrom === undefined) {
+      buttons.push({
+        onClick: onPrepareEdge,
+        className: "btn-sm",
+        text: "Edge From",
+        styleType: "primary",
+      });
+    }
+
+    if (pendingFrom !== undefined && pendingFrom !== vertex) {
+      buttons.push({
+        onClick: onCompleteEdge,
+        className: "btn-sm",
+        text: "Edge To",
+        styleType: "success",
+      });
+    }
+
+    if (pendingFrom === vertex) {
+      buttons.push({
+        onClick: onCancelEdge,
+        className: "btn-sm",
+        styleType: "warning",
+        text: "Cancel",
+      });
+    }
+    buttons.push({
+      onClick: onRemoveVertex,
+      className: "btn-sm",
+      styleType: "danger",
+      text: "Remove Vertex",
+    });
+
+    return { buttons };
+  }, [
+    pendingFrom,
+    vertex,
+    onPrepareEdge,
+    onCompleteEdge,
+    onRemoveVertex,
+    onCancelEdge,
+  ]);
 
   return (
     <tr>
@@ -71,26 +120,7 @@ const VertexRow: React.FunctionComponent<Props> = ({
         />
       </td>
       <td>
-        <div className="btn-group">
-          {pendingFrom === undefined && (
-            <button className="btn btn-sm btn-primary" onClick={onPrepareEdge}>
-              Edge From
-            </button>
-          )}
-          {pendingFrom !== undefined && pendingFrom !== vertex && (
-            <button className="btn btn-sm btn-success" onClick={onCompleteEdge}>
-              Edge To
-            </button>
-          )}
-          {pendingFrom === vertex && (
-            <button className="btn btn-sm btn-warning" onClick={onCancelEdge}>
-              Cancel
-            </button>
-          )}
-          <button className="btn btn-sm btn-danger" onClick={onRemoveVertex}>
-            Remove Vertex
-          </button>
-        </div>
+        <ButtonBar {...buttonBarProps} />
       </td>
     </tr>
   );

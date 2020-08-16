@@ -10,6 +10,9 @@ import Checkbox from "src/components/Bootstrap/Checkbox";
 import NewGraphDialog, {
   useDialog as useNewGraphDialog,
 } from "./NewGraphDialog";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const initialGraph = simpleGraph();
 
@@ -58,6 +61,29 @@ const GraphManager: React.FunctionComponent = () => {
     save(graphName, graph, vertexPositions);
   }, [save, graphName, graph, sketchContainer]);
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          onClick: showNewGraphDialog,
+          text: "Create New",
+          styleType: "primary",
+        },
+        {
+          onClick: onSave,
+          text: "Sae",
+          styleType: "primary",
+        },
+        {
+          onClick: reset,
+          text: "Reset",
+          styleType: "danger",
+        },
+      ],
+    }),
+    [showNewGraphDialog, onSave, reset]
+  );
+
   return (
     <div>
       <GraphPickerWithSketch {...graphPickerProps} />
@@ -70,15 +96,7 @@ const GraphManager: React.FunctionComponent = () => {
           label="Physics Enabled"
         />
       </div>
-      <button className="btn btn-primary" onClick={showNewGraphDialog}>
-        Create New
-      </button>
-      <button className="btn btn-primary" onClick={onSave}>
-        Save
-      </button>
-      <button className="ml-3 btn btn-danger" onClick={reset}>
-        Reset
-      </button>
+      <ButtonBar {...buttonBarProps} />
 
       <GraphBuilder graphBuilder={graphBuilder} />
       <NewGraphDialog {...newGraphProps} />

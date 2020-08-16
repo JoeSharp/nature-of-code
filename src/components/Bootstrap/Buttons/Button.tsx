@@ -12,7 +12,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "light"
     | "dark"
     | "link";
-  onClick: () => void;
+  onClick: React.MouseEventHandler;
 }
 
 const Button: React.FunctionComponent<Props> = ({

@@ -2,6 +2,9 @@ import React from "react";
 import { UseBinaryTreeBuilder } from "./useBinaryTreeBuilder";
 import useSketch from "src/components/p5/useSketch";
 import BinaryTreeSketch from "./BinaryTreeSketch";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 interface Props {
   binaryTreeBuilder: UseBinaryTreeBuilder;
@@ -28,6 +31,24 @@ const BinaryTreeBuilder: React.FunctionComponent<Props> = ({
     updateConfig,
   ]);
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          text: "Add",
+          onClick: onAddNewItem,
+          styleType: "primary",
+        },
+        {
+          text: "Clear",
+          styleType: "danger",
+          onClick: clearAll,
+        },
+      ],
+    }),
+    [onAddNewItem, clearAll]
+  );
+
   return (
     <div>
       <h4>Binary Tree Builder</h4>
@@ -42,14 +63,7 @@ const BinaryTreeBuilder: React.FunctionComponent<Props> = ({
         </div>
       </form>
 
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={onAddNewItem}>
-          Add
-        </button>
-        <button className="btn btn-danger" onClick={clearAll}>
-          Clear
-        </button>
-      </div>
+      <ButtonBar {...buttonBarProps} />
 
       <div ref={refContainer} />
     </div>

@@ -9,6 +9,9 @@ import "./queue.css";
 import useSketch from "src/components/p5/useSketch";
 import { ArraySketchNumber } from "./ArraySketch";
 import { NumberDataItem } from "src/components/p5/Boid/types";
+import ButtonBar, {
+  Props as ButtonBarProps,
+} from "src/components/Bootstrap/Buttons/ButtonBar";
 
 const StackComponent: React.FunctionComponent = () => {
   const queue = React.useRef<Queue<NumberDataItem>>(new Queue());
@@ -71,6 +74,29 @@ const StackComponent: React.FunctionComponent = () => {
     [poppedItems, items, updateConfig]
   );
 
+  const buttonBarProps: ButtonBarProps = React.useMemo(
+    () => ({
+      buttons: [
+        {
+          text: "Enqueue",
+          onClick: onEnqueue,
+          styleType: "primary",
+        },
+        {
+          text: "Dequeue",
+          onClick: onDequeue,
+          styleType: "primary",
+        },
+        {
+          text: "Reset",
+          onClick: onReset,
+          styleType: "danger",
+        },
+      ],
+    }),
+    [onEnqueue, onDequeue, onReset]
+  );
+
   return (
     <div>
       <form>
@@ -85,17 +111,7 @@ const StackComponent: React.FunctionComponent = () => {
         </div>
       </form>
 
-      <div className="btn-group">
-        <button className="btn btn-primary" onClick={onEnqueue}>
-          Enqueue
-        </button>
-        <button className="btn btn-primary" onClick={onDequeue}>
-          Dequeue
-        </button>
-        <button className="btn btn-danger" onClick={onReset}>
-          Reset
-        </button>
-      </div>
+      <ButtonBar {...buttonBarProps} />
 
       <div ref={refContainer} />
     </div>
