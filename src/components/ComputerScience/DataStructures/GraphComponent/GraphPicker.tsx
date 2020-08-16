@@ -36,6 +36,7 @@ interface UseProps {
 }
 
 interface UsePicker {
+  graphName: string;
   graph: Graph<StringDataItem>;
   vertexPositions: PositionByVertex;
   componentProps: Props;
@@ -48,6 +49,7 @@ interface UsePicker {
 export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
   const { names, graphs, vertexPositionsByGraph } = useSavedGraph();
 
+  const [graphName, setGraphName] = React.useState<string>("default");
   const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
   const [vertexPositions, setVertexPositions] = React.useState<
     PositionByVertex
@@ -56,6 +58,7 @@ export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
   const onChange = React.useCallback(
     (name: string, graph: Graph<StringDataItem>) => {
       setGraph(graph);
+      setGraphName(name);
       setVertexPositions(vertexPositionsByGraph[name]);
     },
     [setGraph, vertexPositionsByGraph, setVertexPositions]
@@ -87,6 +90,7 @@ export const usePicker = ({ className, initialGraph }: UseProps): UsePicker => {
   ]);
 
   return {
+    graphName,
     graph,
     vertexPositions,
     componentProps: { className, onSelectChange, value, names },

@@ -17,11 +17,8 @@ interface UseSavedGraph {
   names: string[];
   graphs: GraphsById;
   vertexPositionsByGraph: PositionsForGraphName;
-  addOrUpdate(
-    name: string,
-    graph: Graph<any>,
-    positions: PositionByVertex
-  ): void;
+  createNew(name: string): void;
+  save(name: string, graph: Graph<any>, positions: PositionByVertex): void;
   reset: () => void;
 }
 
@@ -72,7 +69,17 @@ export default (): UseSavedGraph => {
     [graphsData]
   );
 
-  const addOrUpdate = React.useCallback(
+  const createNew = React.useCallback(
+    (name: string) => {
+      reduceGraphs((existing: SavedGraphState) => ({
+        ...existing,
+        [name]: new Graph(),
+      }));
+    },
+    [reduceGraphs]
+  );
+
+  const save = React.useCallback(
     (name: string, graph: Graph<any>, positions: PositionByVertex) => {
       reduceGraphs((existing: SavedGraphState) => ({
         ...existing,
@@ -95,7 +102,8 @@ export default (): UseSavedGraph => {
     names,
     graphs,
     vertexPositionsByGraph,
-    addOrUpdate,
+    createNew,
+    save,
     reset,
   };
 };

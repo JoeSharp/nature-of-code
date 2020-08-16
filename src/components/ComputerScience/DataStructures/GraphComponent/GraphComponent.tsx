@@ -7,22 +7,26 @@ import { StringDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import useGraphSketch from "./useGraphSketch";
 import Checkbox from "src/components/Bootstrap/Checkbox";
+import NewGraphDialog, {
+  useDialog as useNewGraphDialog,
+} from "./NewGraphDialog";
 
 const initialGraph = simpleGraph();
 
 const GraphComponent: React.FunctionComponent = () => {
-  const { addOrUpdate, reset } = useSavedGraph();
-  const [graphName, setGraphName] = React.useState<string>("");
+  const { save, createNew, reset } = useSavedGraph();
 
-  const onGraphNameChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setGraphName(value),
-    [setGraphName]
+  const {
+    showDialog: showNewGraphDialog,
+    componentProps: newGraphProps,
+  } = useNewGraphDialog(createNew);
+
+  const { graphName, graph, componentProps: graphPickerProps } = useGraphPicker(
+    {
+      className: "form-control",
+      initialGraph,
+    }
   );
-
-  const { graph, componentProps: graphPickerProps } = useGraphPicker({
-    className: "form-control",
-    initialGraph,
-  });
 
   const graphBuilder = useGraphBuilder(graph);
   const { changeGraph } = graphBuilder;
@@ -56,21 +60,12 @@ const GraphComponent: React.FunctionComponent = () => {
       }))
       .reduce((acc, { key, position }) => ({ ...acc, [key]: position }), {});
 
-    addOrUpdate(graphName, graph, vertexPositions);
-  }, [addOrUpdate, graphName, graph, sketchContainer]);
+    save(graphName, graph, vertexPositions);
+  }, [save, graphName, graph, sketchContainer]);
 
   return (
     <div>
       <form>
-        <div className="form-group">
-          <label htmlFor="txtNewGraph">Graph Name</label>
-          <input
-            id="txtNewGraph"
-            className="form-control"
-            value={graphName}
-            onChange={onGraphNameChange}
-          />
-        </div>
         <div className="form-group">
           <label htmlFor="selectGraph">Graph</label>
           <GraphPicker {...graphPickerProps} />
@@ -85,6 +80,9 @@ const GraphComponent: React.FunctionComponent = () => {
           />
         </div>
       </form>
+      <button className="btn btn-primary" onClick={showNewGraphDialog}>
+        Create New
+      </button>
       <button className="btn btn-primary" onClick={onSave}>
         Save
       </button>
@@ -95,6 +93,7 @@ const GraphComponent: React.FunctionComponent = () => {
       <div className="sketch mt-3" ref={refContainer} />
 
       <GraphBuilder graphBuilder={graphBuilder} />
+      <NewGraphDialog {...newGraphProps} />
     </div>
   );
 };
