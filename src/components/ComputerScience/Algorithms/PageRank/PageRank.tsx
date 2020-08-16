@@ -7,7 +7,7 @@ import InOrderList from "./InOrderList";
 import { useToggledInterval } from "src/components/lib/useInterval";
 import { simpleStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
 import Checkbox from "src/components/Bootstrap/Checkbox";
-import useGraphSketch from "../../GraphBuilder/useGraphSketch";
+import useGraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/useGraphSketch";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 

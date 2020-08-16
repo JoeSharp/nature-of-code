@@ -3,10 +3,11 @@ import { AbstractSketch } from "src/components/p5/useSketch";
 import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import DataItemBoid from "../../p5/Boid/DataItemBoid";
-import { GraphSketchConfig } from "./types";
-import { createP5Vector } from "../Algorithms/Routing/GridRouting/useGridGraph";
+
+import { GraphSketchConfig } from "./GraphBuilder/types";
 import { BaseDataItem } from "src/components/p5/Boid/types";
+import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { createP5Vector } from "../../Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 800;
 const HEIGHT = 500;

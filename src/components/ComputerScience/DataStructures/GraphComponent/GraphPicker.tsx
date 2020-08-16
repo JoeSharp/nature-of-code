@@ -3,7 +3,7 @@ import useSavedGraph from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import useSketch from "src/components/p5/useSketch";
-import GraphSketch from "../../GraphBuilder/GraphSketch";
+import GraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/GraphSketch";
 
 interface Props {
   className?: string;

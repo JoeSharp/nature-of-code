@@ -1,7 +1,7 @@
 import { BaseDataItem } from "src/components/p5/Boid/types";
 import React from "react";
 import useSketch from "src/components/p5/useSketch";
-import { GraphSketchConfig } from "./types";
+import { GraphSketchConfig } from "./GraphBuilder/types";
 import GraphSketch from "./GraphSketch";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 

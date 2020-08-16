@@ -5,7 +5,7 @@ import GraphTraversalAlgorithmPicker, {
 import useGraphTraversal from "./useGraphTraversal";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "../../GraphBuilder/VertexPicker";
+} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphBuilder/VertexPicker";
 import { largerStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";

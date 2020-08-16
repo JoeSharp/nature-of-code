@@ -3,7 +3,7 @@ import React from "react";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "../../../GraphBuilder/VertexPicker";
+} from "src/components/ComputerScience/DataStructures/GraphComponent/GraphBuilder/VertexPicker";
 import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
@@ -12,7 +12,7 @@ import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routin
 import { StringDataItem } from "src/components/p5/Boid/types";
 
 import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphComponent/cannedGraphs";
-import useGraphSketch from "src/components/ComputerScience/GraphBuilder/useGraphSketch";
+import useGraphSketch from "src/components/ComputerScience/DataStructures/GraphComponent/useGraphSketch";
 
 const GraphRouting: React.FunctionComponent = () => {
   const graph = React.useMemo(() => complexStringGraph(), []);

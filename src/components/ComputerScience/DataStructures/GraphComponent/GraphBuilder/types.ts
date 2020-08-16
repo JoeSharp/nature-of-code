@@ -1,5 +1,5 @@
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import GraphSketch from "./GraphSketch";
+import GraphSketch from "../GraphSketch";
 import { UseSketch } from "src/components/p5/useSketch";
 import { BaseDataItem } from "src/components/p5/Boid/types";
 

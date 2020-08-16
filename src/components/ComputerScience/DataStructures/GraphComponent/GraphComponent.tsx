@@ -1,5 +1,5 @@
 import React from "react";
-import GraphBuilder, { useGraphBuilder } from "../../GraphBuilder";
+import GraphBuilder, { useGraphBuilder } from "./GraphBuilder";
 import simpleGraph from "./cannedGraphs/simpleStringGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import GraphPicker from "./GraphPicker";
