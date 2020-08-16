@@ -44,6 +44,8 @@ const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
   .map(([name, generator]) => ({ name, graph: generator() }))
   .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {});
 
+const defaultSavedVertexState: PositionsForGraphName = {};
+
 export default (): UseSavedGraph => {
   const {
     value: graphsData,
@@ -61,7 +63,7 @@ export default (): UseSavedGraph => {
     setValue: setVertexPositions,
   } = useLocalStorage<PositionsForGraphName>(
     "saved-graph-positions",
-    {},
+    defaultSavedVertexState,
     useStoreObjectFactory()
   );
 

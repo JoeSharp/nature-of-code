@@ -13,12 +13,12 @@ const GraphComponent: React.FunctionComponent = () => {
   const { addOrUpdate, reset } = useSavedGraph();
   const [graphName, setGraphName] = React.useState<string>("");
 
-  const [graph, setGraph] = React.useState<Graph<any>>(initialGraph);
   const onGraphNameChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setGraphName(value),
     [setGraphName]
   );
 
+  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(initialGraph);
   const onGraphChange = React.useCallback(
     (name: string, graph: Graph<StringDataItem>) => {
       setGraph(graph);

@@ -1,22 +1,31 @@
 import React from "react";
 import GraphTraversalAlgorithmPicker, {
-  usePicker,
+  usePicker as useAlgorithmPicker,
 } from "./GraphTraversalAlgorithmPicker";
 import useGraphTraversal from "./useGraphTraversal";
 import VertexPicker, {
   usePicker as useVertexPicker,
 } from "../../GraphBuilder/VertexPicker";
 import { largerStringGraph } from "../../DataStructures/GraphComponent/cannedGraphs";
-import useGraphSketch from "../../GraphBuilder/useGraphSketch";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { StringDataItem } from "src/components/p5/Boid/types";
+import GraphPicker, {
+  usePicker as useGraphPicker,
+} from "../../DataStructures/GraphComponent/GraphPicker";
+
+const initialGraph: Graph<StringDataItem> = largerStringGraph();
 
 const Traversal: React.FunctionComponent = () => {
-  const { algorithmName, componentProps: algorithmPickerProps } = usePicker(
-    "form-control"
-  );
+  const {
+    algorithmName,
+    componentProps: algorithmPickerProps,
+  } = useAlgorithmPicker("form-control");
 
-  const graph = React.useMemo(() => largerStringGraph(), []);
-
-  const { refContainer } = useGraphSketch(graph);
+  const {
+    graph,
+    componentProps: graphPickerProps,
+    refContainer,
+  } = useGraphPicker({ initialGraph, className: "form-control" });
 
   const {
     vertex: startVertex,
@@ -32,6 +41,10 @@ const Traversal: React.FunctionComponent = () => {
   return (
     <div>
       <form>
+        <div className="form-group">
+          <label>Graph</label>
+          <GraphPicker {...graphPickerProps} />
+        </div>
         <div className="form-group">
           <label>Algorithm</label>
           <GraphTraversalAlgorithmPicker {...algorithmPickerProps} />
