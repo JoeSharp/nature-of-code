@@ -1,8 +1,6 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { UseGraphBuilder, GraphSketchConfig } from "./types";
-import useSketch from "src/components/p5/useSketch";
-import GraphSketch from "../GraphSketch";
+import { UseGraphBuilder } from "./types";
 import { BaseDataItem } from "src/components/p5/Boid/types";
 
 const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
@@ -44,11 +42,6 @@ const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
     tickVersion();
   }, [tickVersion]);
 
-  const sketchUse = useSketch<
-    GraphSketchConfig<DATA_ITEM>,
-    GraphSketch<DATA_ITEM>
-  >(GraphSketch);
-
   return {
     version,
     tickVersion,
@@ -61,7 +54,6 @@ const useGraphBuilder = <DATA_ITEM extends BaseDataItem<any>>(
     cancelEdge,
     completeEdge,
     clearAll,
-    sketchUse,
   };
 };
 

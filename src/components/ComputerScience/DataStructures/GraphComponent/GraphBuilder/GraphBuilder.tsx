@@ -3,7 +3,6 @@ import VertexRow from "./VertexRow";
 import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
-import Checkbox from "src/components/Bootstrap/Checkbox";
 import { v4 as uuidv4 } from "uuid";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
@@ -20,7 +19,6 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     setNewEdgeWeight,
     newEdgeWeight,
     clearAll,
-    sketchUse,
   } = graphBuilder;
 
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
@@ -43,31 +41,9 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     [setNewEdgeWeight]
   );
 
-  const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
-  const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { checked } }) => setPhysicsEnabled(checked),
-    [setPhysicsEnabled]
-  );
-
-  const { updateConfig, refContainer } = sketchUse;
-
-  React.useEffect(() => updateConfig({ graph, physicsEnabled }), [
-    physicsEnabled,
-    graph,
-    updateConfig,
-  ]);
-
   return (
     <div>
-      <h2>Build Graph (v{version})</h2>
-      <Checkbox
-        id="chkPhysics"
-        checked={physicsEnabled}
-        onChange={onPhysicsEnabledChange}
-        label="Physics Enabled"
-      />
-
-      <div className="sketch" ref={refContainer} />
+      <h2>Edit Graph (v{version})</h2>
       <form>
         <div className="form-group">
           <label htmlFor="newVertexName">New Vertex Name</label>

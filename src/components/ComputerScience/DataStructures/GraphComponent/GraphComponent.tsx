@@ -6,6 +6,8 @@ import GraphPicker from "./GraphPicker";
 import useSavedGraph from "./useSavedGraph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import useGraphSketch from "./useGraphSketch";
+import Checkbox from "src/components/Bootstrap/Checkbox";
 
 const initialGraph = simpleGraph();
 
@@ -27,10 +29,19 @@ const GraphComponent: React.FunctionComponent = () => {
     [setGraph, setGraphName]
   );
   const graphBuilder = useGraphBuilder(graph);
-  const {
-    changeGraph,
-    sketchUse: { sketchContainer },
-  } = graphBuilder;
+  const { changeGraph } = graphBuilder;
+
+  const { updateConfig, sketchContainer, refContainer } = useGraphSketch(graph);
+
+  const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
+  const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { checked } }) => setPhysicsEnabled(checked),
+    [setPhysicsEnabled]
+  );
+
+  React.useEffect(() => {
+    updateConfig({ physicsEnabled });
+  }, [physicsEnabled, updateConfig]);
 
   React.useEffect(() => {
     changeGraph(graph);
@@ -64,7 +75,16 @@ const GraphComponent: React.FunctionComponent = () => {
         </div>
         <div className="form-group">
           <label htmlFor="selectGraph">Graph</label>
-          <GraphPicker onChange={onGraphChange} />
+          <GraphPicker className="form-control" onChange={onGraphChange} />
+        </div>
+
+        <div className="form-group">
+          <Checkbox
+            id="chkPhysics"
+            checked={physicsEnabled}
+            onChange={onPhysicsEnabledChange}
+            label="Physics Enabled"
+          />
         </div>
       </form>
       <button className="btn btn-primary" onClick={onSave}>
@@ -73,6 +93,8 @@ const GraphComponent: React.FunctionComponent = () => {
       <button className="ml-3 btn btn-danger" onClick={reset}>
         Reset
       </button>
+
+      <div className="sketch mt-3" ref={refContainer} />
 
       <GraphBuilder graphBuilder={graphBuilder} />
     </div>

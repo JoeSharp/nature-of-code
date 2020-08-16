@@ -1,6 +1,4 @@
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import GraphSketch from "../GraphSketch";
-import { UseSketch } from "src/components/p5/useSketch";
 import { BaseDataItem } from "src/components/p5/Boid/types";
 
 export interface GraphSketchConfig<DATA_ITEM extends BaseDataItem<any>> {
@@ -20,5 +18,4 @@ export interface UseGraphBuilder<DATA_ITEM extends BaseDataItem<any>> {
   completeEdge: (to: DATA_ITEM, weight: number) => void;
   clearAll: () => void;
   tickVersion: () => void;
-  sketchUse: UseSketch<GraphSketchConfig<DATA_ITEM>, GraphSketch<DATA_ITEM>>;
 }
