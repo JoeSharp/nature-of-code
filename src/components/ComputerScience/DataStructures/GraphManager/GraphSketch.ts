@@ -116,7 +116,7 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
     };
 
     s.draw = function () {
-      s.background(230);
+      s.background("skyblue");
       s.fill("blue");
 
       const {
