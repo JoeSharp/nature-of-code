@@ -23,15 +23,13 @@ export interface UseSavedGraph {
   reset: () => void;
 }
 
-export const DEFAULT_GRAPH_OPTION = "default";
-
 const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
   .map(([name, generator]) => ({ name, graph: generator() }))
   .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {});
 
 const defaultSavedVertexState: PositionsForGraphName = {};
 
-export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
+export default (): UseSavedGraph => {
   const {
     value: graphsData,
     reduceValue: reduceGraphs,
@@ -52,10 +50,9 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
     useStoreObjectFactory()
   );
 
-  const names: string[] = React.useMemo(
-    () => [DEFAULT_GRAPH_OPTION, ...Object.keys(graphsData)],
-    [graphsData]
-  );
+  const names: string[] = React.useMemo(() => Object.keys(graphsData), [
+    graphsData,
+  ]);
   const graphs: GraphsById = React.useMemo(
     () =>
       Object.entries(graphsData)
@@ -69,10 +66,8 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
           graph.edges = graphData.edges;
           return { name, graph };
         })
-        .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {
-          [DEFAULT_GRAPH_OPTION]: defaultGraph,
-        }),
-    [graphsData, defaultGraph]
+        .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {}),
+    [graphsData]
   );
 
   const createNew = React.useCallback(
@@ -93,18 +88,14 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
 
   const save = React.useCallback(
     (name: string, graph: Graph<any>, positions: PositionByVertex) => {
-      if (name === DEFAULT_GRAPH_OPTION) {
-        cogoToast.error("Cannot save over the default option");
-      } else {
-        reduceGraphs((existing: SavedGraphState) => ({
-          ...existing,
-          [name]: graph,
-        }));
-        reduceVertexPositions((existing: PositionsForGraphName) => ({
-          ...existing,
-          [name]: positions,
-        }));
-      }
+      reduceGraphs((existing: SavedGraphState) => ({
+        ...existing,
+        [name]: graph,
+      }));
+      reduceVertexPositions((existing: PositionsForGraphName) => ({
+        ...existing,
+        [name]: positions,
+      }));
     },
     [reduceGraphs, reduceVertexPositions]
   );

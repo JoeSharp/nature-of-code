@@ -5,7 +5,6 @@ import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
 import { useToggledInterval } from "src/components/lib/useInterval";
-import { simpleStringGraph } from "../../DataStructures/GraphManager/cannedGraphs";
 import Checkbox from "src/components/Bootstrap/Checkbox";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
@@ -16,15 +15,13 @@ import ButtonBar, {
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
-const initialGraph = simpleStringGraph();
-
 const PageRank: React.FunctionComponent = () => {
   const [dampingFactor, setDampingFactor] = React.useState<number>(
     DEFAULT_DAMPING_FACTOR
   );
 
   const { graph, componentProps: graphPickerProps } = useGraphPicker(
-    initialGraph
+    "simpleStringGraph"
   );
 
   const { iterations, ranks, rankHistory, begin, iterate } = usePageRank({

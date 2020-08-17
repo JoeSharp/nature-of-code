@@ -11,7 +11,6 @@ import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
-import { complexStringGraph } from "src/components/ComputerScience/DataStructures/GraphManager/cannedGraphs";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "src/components/ComputerScience/DataStructures/GraphManager/GraphPickerWithSketch";
@@ -19,14 +18,12 @@ import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
 
-const initialGraph = complexStringGraph();
-
 const GraphRouting: React.FunctionComponent = () => {
   const {
     graph,
     componentProps: graphPickerProps,
     sketchUse: { sketchContainer },
-  } = useGraphPicker(initialGraph);
+  } = useGraphPicker("complexStringGraph");
 
   const {
     vertex: sourceNode,

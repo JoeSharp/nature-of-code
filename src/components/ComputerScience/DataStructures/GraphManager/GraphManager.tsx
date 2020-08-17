@@ -1,6 +1,5 @@
 import React from "react";
 import GraphBuilder from "./GraphBuilder";
-import simpleGraph from "./cannedGraphs/simpleStringGraph";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "./GraphPickerWithSketch";
@@ -14,8 +13,6 @@ import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
 
-const initialGraph = simpleGraph();
-
 const GraphManager: React.FunctionComponent = () => {
   const {
     graphName,
@@ -23,7 +20,7 @@ const GraphManager: React.FunctionComponent = () => {
     savedGraphUse: { createNew, save, reset },
     componentProps: graphPickerProps,
     sketchUse: { updateConfig, sketchContainer },
-  } = useGraphPicker(initialGraph);
+  } = useGraphPicker("simpleStringGraph");
 
   const {
     showDialog: showNewGraphDialog,

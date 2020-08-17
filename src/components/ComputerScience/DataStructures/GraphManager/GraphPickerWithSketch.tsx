@@ -1,8 +1,5 @@
 import React from "react";
-import useSavedGraph, {
-  UseSavedGraph,
-  DEFAULT_GRAPH_OPTION,
-} from "./useSavedGraph";
+import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import { UseSketch } from "src/components/p5/useSketch";
@@ -10,6 +7,7 @@ import GraphSketch from "src/components/ComputerScience/DataStructures/GraphMana
 import useGraphSketch from "./useGraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import { PositionByVertex } from "./types";
+import cannedGraphs from "./cannedGraphs";
 
 interface Props {
   names: string[];
@@ -52,21 +50,22 @@ interface UsePicker {
   >;
 }
 
-export const usePicker = (defaultGraph: Graph<StringDataItem>): UsePicker => {
-  const savedGraphUse = useSavedGraph(defaultGraph);
+export const usePicker = (
+  defaultGraphName: keyof typeof cannedGraphs
+): UsePicker => {
+  const savedGraphUse = useSavedGraph();
   const { names, graphs, vertexPositionsByGraph } = savedGraphUse;
 
-  const [graphName, setGraphName] = React.useState<string>(
-    DEFAULT_GRAPH_OPTION
+  const [graphName, setGraphName] = React.useState<string>(defaultGraphName);
+  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(
+    cannedGraphs[defaultGraphName]
   );
-  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(defaultGraph);
   const [vertexPositions, setVertexPositions] = React.useState<
     PositionByVertex
   >({});
 
   const onChange = React.useCallback(
     (name: string, graph: Graph<StringDataItem>) => {
-      console.log("Fuck off wankbadger", { name, graph });
       setGraph(graph);
       setGraphName(name);
       setVertexPositions(vertexPositionsByGraph[name]);
