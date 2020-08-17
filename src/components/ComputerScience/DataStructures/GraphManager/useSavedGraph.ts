@@ -12,7 +12,7 @@ import {
   PositionByVertex,
   SavedGraphState,
 } from "./types";
-import useErrorReporting from "src/components/lib/useErrorReporting";
+import cogoToast from "cogo-toast";
 
 export interface UseSavedGraph {
   names: string[];
@@ -32,8 +32,6 @@ const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
 const defaultSavedVertexState: PositionsForGraphName = {};
 
 export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
-  const { reportError } = useErrorReporting();
-
   const {
     value: graphsData,
     reduceValue: reduceGraphs,
@@ -80,9 +78,9 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
   const createNew = React.useCallback(
     (name: string) => {
       if (name.length < 3) {
-        reportError("Could not save graph with short name (length < 3)");
+        cogoToast.error("Could not save graph with short name (length < 3)");
       } else if (names.includes(name)) {
-        reportError("This name already exists");
+        cogoToast.error("This name already exists");
       } else {
         reduceGraphs((existing: SavedGraphState) => ({
           ...existing,
@@ -90,13 +88,13 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
         }));
       }
     },
-    [reduceGraphs, reportError, names]
+    [reduceGraphs, names]
   );
 
   const save = React.useCallback(
     (name: string, graph: Graph<any>, positions: PositionByVertex) => {
       if (name === DEFAULT_GRAPH_OPTION) {
-        reportError("Cannot save over the default option");
+        cogoToast.error("Cannot save over the default option");
       } else {
         reduceGraphs((existing: SavedGraphState) => ({
           ...existing,
@@ -108,7 +106,7 @@ export default (defaultGraph: Graph<StringDataItem>): UseSavedGraph => {
         }));
       }
     },
-    [reduceGraphs, reduceVertexPositions, reportError]
+    [reduceGraphs, reduceVertexPositions]
   );
 
   const reset = React.useCallback(() => {

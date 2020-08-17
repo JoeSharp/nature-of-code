@@ -14,7 +14,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CommonPageHeader, { pages } from "./components/CommonPageHeader";
 
 import "./index.css";
-import { ErrorReportingContextProvider } from "./components/lib/useErrorReporting";
 
 const App = () => (
   <div className="container pb-4 pr-4 pl-4">
@@ -32,9 +31,7 @@ const App = () => (
 
 ReactDOM.render(
   <Router>
-    <ErrorReportingContextProvider>
-      <App />
-    </ErrorReportingContextProvider>
+    <App />
   </Router>,
   document.getElementById("root") as HTMLElement
 );

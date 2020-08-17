@@ -11,7 +11,7 @@ declare module "cogo-toast" {
     heading?: string;
     icon?: React.ReactNode;
     bar?: object;
-    onClick: (...args: any) => any;
+    onClick?: (...args: any) => any;
   }
 
   interface CogoToast {

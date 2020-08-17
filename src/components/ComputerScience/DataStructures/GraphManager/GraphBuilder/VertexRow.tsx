@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Edge } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { UseGraphBuilder } from "./types";
+import Graph, {
+  Edge,
+} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import EdgesCell from "./EdgeCell";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import ButtonBar, {
@@ -11,7 +12,15 @@ import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 
 interface Props {
   vertex: StringDataItem;
-  graphBuilder: UseGraphBuilder<StringDataItem>;
+  version: number;
+  graph: Graph<StringDataItem>;
+  pendingFrom: StringDataItem | undefined;
+  newEdgeWeight: number;
+  prepareEdge: (from: StringDataItem) => void;
+  cancelEdge: () => void;
+  completeEdge: (to: StringDataItem, weight: number) => void;
+  clearAll: () => void;
+  tickVersion: () => void;
 }
 
 const GET_EDGE_FROM = (edge: Edge<StringDataItem>) => edge.from;
@@ -19,16 +28,14 @@ const GET_EDGE_TO = (edge: Edge<StringDataItem>) => edge.to;
 
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
-  graphBuilder: {
-    version,
-    tickVersion,
-    newEdgeWeight,
-    graph,
-    pendingFrom,
-    prepareEdge,
-    completeEdge,
-    cancelEdge,
-  },
+  version,
+  tickVersion,
+  newEdgeWeight,
+  graph,
+  pendingFrom,
+  prepareEdge,
+  completeEdge,
+  cancelEdge,
 }) => {
   const onPrepareEdge = React.useCallback(() => prepareEdge(vertex), [
     vertex,

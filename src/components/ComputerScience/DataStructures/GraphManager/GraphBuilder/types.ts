@@ -7,17 +7,3 @@ export interface GraphSketchConfig<DATA_ITEM extends BaseDataItem<any>> {
   vertexPositions: PositionByVertex;
   physicsEnabled: boolean;
 }
-
-export interface UseGraphBuilder<DATA_ITEM extends BaseDataItem<any>> {
-  version: number;
-  graph: Graph<DATA_ITEM>;
-  pendingFrom: DATA_ITEM | undefined;
-  newEdgeWeight: number;
-  changeGraph: (graph: Graph<DATA_ITEM>) => void;
-  setNewEdgeWeight: (e: number) => void;
-  prepareEdge: (from: DATA_ITEM) => void;
-  cancelEdge: () => void;
-  completeEdge: (to: DATA_ITEM, weight: number) => void;
-  clearAll: () => void;
-  tickVersion: () => void;
-}

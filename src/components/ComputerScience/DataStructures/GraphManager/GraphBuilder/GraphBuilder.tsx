@@ -1,6 +1,5 @@
 import React from "react";
 import VertexRow from "./VertexRow";
-import { UseGraphBuilder } from "./types";
 
 import "./graphBuilder.css";
 import { v4 as uuidv4 } from "uuid";
@@ -8,23 +7,46 @@ import { StringDataItem } from "src/components/p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props {
-  graphBuilder: UseGraphBuilder<StringDataItem>;
+  graph: Graph<StringDataItem>;
 }
 
-const GraphBuilder: React.FunctionComponent<Props> = ({
-  graphBuilder,
-}: Props) => {
-  const {
-    version,
-    graph,
-    setNewEdgeWeight,
-    newEdgeWeight,
-    clearAll,
-  } = graphBuilder;
+const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
+  const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
+
+  const [pendingFrom, prepareEdge] = React.useState<StringDataItem | undefined>(
+    undefined
+  );
+
+  const [newEdgeWeight, setNewEdgeWeight] = React.useState<number>(1);
+
+  const completeEdge = React.useCallback(
+    (to: StringDataItem, weight: number) => {
+      if (pendingFrom !== undefined) {
+        graph.addUnidirectionalEdge(pendingFrom, to, weight);
+      }
+      prepareEdge(undefined);
+      tickVersion();
+    },
+    [pendingFrom, graph]
+  );
+  const cancelEdge = React.useCallback(() => prepareEdge(undefined), [
+    prepareEdge,
+  ]);
+
+  const clearAll = React.useCallback(() => {
+    graph.vertices.forEach((v) => graph.removeVertex(v));
+    tickVersion();
+  }, [tickVersion, graph]);
 
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
+  const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { value } }) => setNewVertexName(value),
+    [setNewVertexName]
+  );
+
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
       graph.addVertex({
@@ -32,12 +54,9 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
         label: newVertexName,
         value: newVertexName,
       });
+      tickVersion();
     }
   }, [newVertexName, graph]);
-  const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setNewVertexName(value),
-    [setNewVertexName]
-  );
 
   const onNewEdgeWeightChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setNewEdgeWeight(parseInt(value)),
@@ -61,6 +80,10 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
     }),
     [clearAll, onAddVertex]
   );
+
+  // Ewww...it doesn't like keeping an eye on the version, when version is not then used...
+  // eslint-disable-next-line
+  const vertices = React.useMemo(() => graph.vertices, [graph, version]);
 
   return (
     <div>
@@ -98,8 +121,22 @@ const GraphBuilder: React.FunctionComponent<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {graph.vertices.map((vertex, i) => (
-            <VertexRow key={i} vertex={vertex} graphBuilder={graphBuilder} />
+          {vertices.map((vertex, i) => (
+            <VertexRow
+              key={i}
+              {...{
+                vertex,
+                version,
+                clearAll,
+                tickVersion,
+                graph,
+                newEdgeWeight,
+                cancelEdge,
+                completeEdge,
+                prepareEdge,
+                pendingFrom,
+              }}
+            />
           ))}
         </tbody>
       </table>

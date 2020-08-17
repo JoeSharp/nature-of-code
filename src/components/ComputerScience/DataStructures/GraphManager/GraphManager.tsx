@@ -1,5 +1,5 @@
 import React from "react";
-import GraphBuilder, { useGraphBuilder } from "./GraphBuilder";
+import GraphBuilder from "./GraphBuilder";
 import simpleGraph from "./cannedGraphs/simpleStringGraph";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
@@ -30,9 +30,6 @@ const GraphManager: React.FunctionComponent = () => {
     componentProps: newGraphProps,
   } = useNewGraphDialog(createNew);
 
-  const graphBuilder = useGraphBuilder(graph);
-  const { changeGraph } = graphBuilder;
-
   const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
   const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { checked } }) => setPhysicsEnabled(checked),
@@ -42,10 +39,6 @@ const GraphManager: React.FunctionComponent = () => {
   React.useEffect(() => {
     updateConfig({ physicsEnabled });
   }, [physicsEnabled, updateConfig]);
-
-  React.useEffect(() => {
-    changeGraph(graph);
-  }, [graph, changeGraph]);
 
   const onSave = React.useCallback(() => {
     const vertexPositions = graph.vertices
@@ -71,7 +64,7 @@ const GraphManager: React.FunctionComponent = () => {
         },
         {
           onClick: onSave,
-          text: "Sae",
+          text: "Save",
           styleType: "primary",
         },
         {
@@ -98,7 +91,7 @@ const GraphManager: React.FunctionComponent = () => {
       </div>
       <ButtonBar {...buttonBarProps} />
 
-      <GraphBuilder graphBuilder={graphBuilder} />
+      <GraphBuilder graph={graph} />
       <NewGraphDialog {...newGraphProps} />
     </div>
   );

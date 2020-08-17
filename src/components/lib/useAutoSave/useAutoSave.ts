@@ -1,6 +1,6 @@
 import React from "react";
 import useInterval from "../useInterval";
-import useErrorReporting from "../useErrorReporting";
+import cogoToast from "cogo-toast";
 import useObjectReducer from "../useObjectReducer";
 
 interface Props<T> {
@@ -26,7 +26,6 @@ const useAutoSave = <T extends {}>({
   delay = 3000,
   enabled = true,
 }: Props<T>): UseAutoSave<T> => {
-  const { reportError } = useErrorReporting();
   const [savedData, setSavedData] = React.useState<T>();
   const { value: localData, onChange } = useObjectReducer(defaultValue);
   const [isDirty, setIsDirty] = React.useState<boolean>(false);
@@ -56,12 +55,12 @@ const useAutoSave = <T extends {}>({
         const w: T = await getInitialValue();
         replaceSavedData(w);
       } catch (err) {
-        reportError(err);
+        cogoToast.error(err);
       }
     }
 
     f();
-  }, [getInitialValue, replaceSavedData, reportError]);
+  }, [getInitialValue, replaceSavedData]);
 
   React.useEffect(_getInitialValue, [_getInitialValue]);
 
@@ -74,9 +73,9 @@ const useAutoSave = <T extends {}>({
         setIsDirty(false);
         setIsSaving(false);
       } catch (err) {
-        reportError(err);
+        cogoToast.error(err);
       }
-    }, [localData, setSavedData, reportError, saveData]),
+    }, [localData, setSavedData, saveData]),
     enabled && isDirty ? delay : null
   );
 
