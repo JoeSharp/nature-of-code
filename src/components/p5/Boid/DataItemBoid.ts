@@ -45,7 +45,7 @@ export default class DataItemBoid<T> extends Boid<T> {
   }
 
   draw(s: p5) {
-    s.stroke("black");
+    s.stroke(this.borderColour);
     if (this.grabbed) {
       s.strokeWeight(4);
     } else {
@@ -57,6 +57,7 @@ export default class DataItemBoid<T> extends Boid<T> {
 
     if (this.label !== undefined) {
       s.fill("white");
+      s.stroke("black");
       s.textAlign(s.CENTER, s.CENTER);
       s.text(this.label, this.position.x, this.position.y);
     }

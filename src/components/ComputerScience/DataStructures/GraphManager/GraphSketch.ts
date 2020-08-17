@@ -9,8 +9,8 @@ import { BaseDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import { createP5Vector } from "../../Algorithms/Routing/GridRouting/useGridGraph";
 
-const WIDTH = 800;
-const HEIGHT = 500;
+const WIDTH = 500;
+const HEIGHT = 300;
 
 const getDefaultConfig = (): GraphSketchConfig<any> => ({
   graph: new Graph(),
@@ -31,16 +31,24 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
   borderWeights: {
     [id: string]: number;
   };
+  borderColours: {
+    [id: string]: string;
+  };
 
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
     this.colours = {};
     this.borderWeights = {};
+    this.borderColours = {};
   }
 
   setColour(vertex: DATA_ITEM, colour: string) {
     this.colours[vertex.key] = colour;
+  }
+
+  setBorderColour(vertex: DATA_ITEM, borderColour: string) {
+    this.borderColours[vertex.key] = borderColour;
   }
 
   setBorderWeight(vertex: DATA_ITEM, borderWeight: number) {
@@ -72,6 +80,7 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
 
     boid.colour = this.colours[vertex.key] || "red";
     boid.borderWeight = this.borderWeights[vertex.key] || 1;
+    boid.borderColour = this.borderColours[vertex.key] || "black";
 
     return boid;
   }
@@ -83,7 +92,6 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
     s.setup = function () {
       s.createCanvas(WIDTH, HEIGHT);
       s.colorMode(s.HSB, 255);
-      s.textFont("Helvetica", 24);
       s.textAlign(s.CENTER, s.CENTER);
       screenCentre = s.createVector(s.width / 2, s.height / 2);
     };
@@ -175,15 +183,17 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
           0.5
         ) as unknown) as p5.Vector; // error in p5 type definition
 
-        s.fill("white");
-        s.circle(midpoint.x, midpoint.y, 30);
-        s.fill("black");
         s.strokeWeight(1);
+        s.fill("white");
+        s.circle(midpoint.x, midpoint.y, from.radius / 2);
+        s.fill("black");
+        s.textFont("Helvetica", 14);
         s.textAlign(s.CENTER, s.CENTER);
         s.text(`${weight}`, midpoint.x, midpoint.y);
       });
 
       /// Call upon all boids to draw themselves
+      s.textFont("Helvetica", 20);
       boidsInSketch.forEach((b) => b.draw(s));
     };
   };

@@ -3,6 +3,7 @@ import { AbstractBoid } from "./types";
 import { createP5Vector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
 const DEFAULT_COLOUR = "red";
+const DEFAULT_BORDER_COLOUR = "black";
 const DEFAULT_BORDER_WEIGHT = 1;
 const DEFAULT_MAX_SPEED = 1.5;
 const DEFAULT_MAX_FORCE = 0.5;
@@ -17,6 +18,7 @@ export default class Boid<T> implements AbstractBoid<T> {
   radius: number;
   colour: string;
   borderWeight: number;
+  borderColour: string;
   maxSpeed: number;
   maxForce: number;
   minForce: number;
@@ -30,6 +32,7 @@ export default class Boid<T> implements AbstractBoid<T> {
     label,
     colour = DEFAULT_COLOUR,
     borderWeight = DEFAULT_BORDER_WEIGHT,
+    borderColour = DEFAULT_BORDER_COLOUR,
     maxSpeed = DEFAULT_MAX_SPEED,
     maxForce = DEFAULT_MAX_FORCE,
     minForce = DEFAULT_MIN_FORCE,
@@ -43,6 +46,7 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.radius = radius;
     this.colour = colour;
     this.borderWeight = borderWeight;
+    this.borderColour = borderColour;
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.minForce = minForce;
@@ -82,6 +86,7 @@ export default class Boid<T> implements AbstractBoid<T> {
 
   draw(s: p5) {
     // Expect to be overridden
+    s.stroke(this.borderColour);
     s.strokeWeight(this.borderWeight);
     s.fill(this.colour);
     s.circle(this.position.x, this.position.y, this.radius);

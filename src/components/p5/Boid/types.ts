@@ -6,6 +6,7 @@ export interface AbstractBoid<T> {
   radius: number;
   label?: string;
   borderWeight?: number;
+  borderColour?: string;
   colour?: string;
   maxSpeed?: number;
   maxForce?: number;

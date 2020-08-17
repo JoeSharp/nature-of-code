@@ -70,16 +70,21 @@ const GraphRouting: React.FunctionComponent = () => {
         (destinationNode && graph.equalityCheck(destinationNode, v))
       ) {
         sketchContainer.setBorderWeight(v, 3);
+        sketchContainer.setBorderColour(v, "black");
         sketchContainer.setColour(v, "green");
-      } else if (path.map((p) => p.key).includes(v.key)) {
+      } else if (
+        currentStage !== undefined &&
+        currentStage.pathFrom.map((p) => p.key).includes(v.key)
+      ) {
         sketchContainer.setBorderWeight(v, 3);
-        sketchContainer.setColour(v, "red");
+        sketchContainer.setBorderColour(v, "red");
       } else {
         sketchContainer.setBorderWeight(v, 1);
+        sketchContainer.setBorderColour(v, "black");
         sketchContainer.setColour(v, "blue");
       }
     });
-  }, [sourceNode, destinationNode, graph, path, sketchContainer]);
+  }, [sourceNode, destinationNode, currentStage, graph, path, sketchContainer]);
 
   const buttonBarProps: ButtonBarProps = React.useMemo(
     () => ({
