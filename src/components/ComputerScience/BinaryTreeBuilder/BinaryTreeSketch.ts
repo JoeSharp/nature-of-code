@@ -54,6 +54,7 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
         position,
       });
     } else {
+      position = this.boids[id].position;
       this.boids[id].entity = treeNode;
       this.boids[id].label = toString(treeNode.value);
     }
