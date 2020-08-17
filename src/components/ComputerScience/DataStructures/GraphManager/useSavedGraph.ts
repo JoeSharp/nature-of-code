@@ -3,7 +3,10 @@ import useLocalStorage, {
   useStoreObjectFactory,
 } from "src/components/lib/useLocalStorage";
 
-import cannedGraphs from "./cannedGraphs";
+import {
+  graphs as cannedGraphs,
+  vertexPositionsByGraphName,
+} from "./cannedGraphs";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
 import {
@@ -27,7 +30,7 @@ const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
   .map(([name, generator]) => ({ name, graph: generator() }))
   .reduce((acc, { name, graph }) => ({ ...acc, [name]: graph }), {});
 
-const defaultSavedVertexState: PositionsForGraphName = {};
+const defaultSavedVertexState: PositionsForGraphName = vertexPositionsByGraphName;
 
 export default (): UseSavedGraph => {
   const {

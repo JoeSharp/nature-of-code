@@ -2,9 +2,8 @@ import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "src/components/p5/Boid/types";
-import { UseSketch } from "src/components/p5/useSketch";
+import useSketch, { UseSketch } from "src/components/p5/useSketch";
 import GraphSketch from "src/components/ComputerScience/DataStructures/GraphManager/GraphSketch";
-import useGraphSketch from "./useGraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import { PositionByVertex } from "./types";
 import cannedGraphs from "./cannedGraphs";
@@ -83,7 +82,18 @@ export const usePicker = (
     [onChange, graphs]
   );
 
-  const sketchUse = useGraphSketch({ graph });
+  // This needs to re-initialise the positions, graph name etc on startup
+  React.useEffect(() => {
+    if (defaultGraphName === graphName) {
+      onChange(defaultGraphName, graphs[defaultGraphName]);
+      setValue(defaultGraphName);
+    }
+  }, [defaultGraphName, graphName, graphs, onChange, setValue]);
+
+  const sketchUse = useSketch<
+    GraphSketchConfig<StringDataItem>,
+    GraphSketch<StringDataItem>
+  >(GraphSketch);
 
   const { updateConfig, refContainer } = sketchUse;
 

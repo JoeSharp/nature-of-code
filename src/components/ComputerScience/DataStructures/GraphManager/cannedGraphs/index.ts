@@ -1,7 +1,22 @@
-import simpleStringGraph from "./simpleStringGraph";
-import largerStringGraph from "./largerStringGraph";
-import complexStringGraph from "./complexStringGraph";
+import simpleStringGraph, {
+  vertexPositions as simpleStringGraphVertexPositions,
+} from "./simpleStringGraph";
+import largerStringGraph, {
+  vertexPositions as largerStringGraphVertexPositions,
+} from "./largerStringGraph";
+import complexStringGraph, {
+  vertexPositions as complexStringGraphVertexPositions,
+} from "./complexStringGraph";
 
-export { simpleStringGraph, largerStringGraph, complexStringGraph };
+export const graphs = {
+  simpleStringGraph,
+  largerStringGraph,
+  complexStringGraph,
+};
+export const vertexPositionsByGraphName = {
+  simpleStringGraph: simpleStringGraphVertexPositions,
+  largerStringGraph: largerStringGraphVertexPositions,
+  complexStringGraph: complexStringGraphVertexPositions,
+};
 
 export default { simpleStringGraph, largerStringGraph, complexStringGraph };
