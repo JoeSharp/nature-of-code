@@ -1,7 +1,5 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
-import Graph, {
-  Edge,
-} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import p5 from "p5";
 import { createKeyedPoint } from "./useGridGraph";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
@@ -103,8 +101,10 @@ class GridSketch extends AbstractSketch<Config> {
 
       const boidIdsInSketch: string[] = vertices.map((v) => v.key);
 
-      // Get the list of boid edges
-      const boidEdges: Edge<DataItemBoid<PointDataItem>>[] = edges
+      // Draw the lines for all connections
+      s.stroke("black");
+      s.strokeWeight(4);
+      edges
         .filter(
           ({ from, to }) =>
             boidIdsInSketch.includes(from.key) &&
@@ -114,14 +114,19 @@ class GridSketch extends AbstractSketch<Config> {
           from: that.getOrCreateBoid(s, from),
           to: that.getOrCreateBoid(s, to),
           weight,
-        }));
-
-      // Draw the lines for all connections
-      s.stroke("black");
-      s.strokeWeight(4);
-      boidEdges.forEach(({ from, to }) => {
-        s.line(from.position.x, from.position.y, to.position.x, to.position.y);
-      });
+        }))
+        .forEach(
+          ({
+            from: {
+              position: { x: xFrom, y: yFrom },
+            },
+            to: {
+              position: { x: xTo, y: yTo },
+            },
+          }) => {
+            s.line(xFrom, yFrom, xTo, yTo);
+          }
+        );
 
       // Draw the lines on our route
       s.stroke("cyan");

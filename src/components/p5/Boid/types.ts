@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { BaseGraphVertex } from "comp-sci-maths-lib/dist/types";
 
 export interface AbstractBoid<T> {
   entity: T;
@@ -14,18 +15,16 @@ export interface AbstractBoid<T> {
   environmentalFriction?: number;
 }
 
-export interface BaseDataItem<T> {
-  key: string;
+export interface DisplayDataItem<T> extends BaseGraphVertex<T> {
   label: string;
-  value: T;
 }
 
-export type NumberDataItem = BaseDataItem<number>;
-export type StringDataItem = BaseDataItem<string>;
+export type NumberDataItem = DisplayDataItem<number>;
+export type StringDataItem = DisplayDataItem<string>;
 
 export interface Point {
   x: number;
   y: number;
 }
 
-export type PointDataItem = BaseDataItem<Point>;
+export type PointDataItem = DisplayDataItem<Point>;

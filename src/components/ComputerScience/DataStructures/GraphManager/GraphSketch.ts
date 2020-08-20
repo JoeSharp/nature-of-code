@@ -1,11 +1,9 @@
 import p5 from "p5";
 import { AbstractSketch } from "src/components/p5/useSketch";
-import Graph, {
-  Edge,
-} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import { GraphSketchConfig } from "./GraphBuilder/types";
-import { BaseDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "src/components/p5/Boid/types";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import { createP5Vector } from "../../Algorithms/Routing/GridRouting/useGridGraph";
 
@@ -18,9 +16,9 @@ const getDefaultConfig = (): GraphSketchConfig<any> => ({
   physicsEnabled: false,
 });
 
-class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
-  GraphSketchConfig<DATA_ITEM>
-> {
+class GraphSketch<
+  DATA_ITEM extends DisplayDataItem<any>
+> extends AbstractSketch<GraphSketchConfig<DATA_ITEM>> {
   boids: {
     [id: string]: DataItemBoid<DATA_ITEM>;
   };
@@ -131,7 +129,7 @@ class GraphSketch<DATA_ITEM extends BaseDataItem<any>> extends AbstractSketch<
       const boidIdsInSketch: string[] = vertices.map((v) => v.key);
 
       // Get the list of boid edges
-      const boidEdges: Edge<DataItemBoid<DATA_ITEM>>[] = edges
+      const boidEdges = edges
         .filter(
           ({ from, to }) =>
             boidIdsInSketch.includes(from.key) &&

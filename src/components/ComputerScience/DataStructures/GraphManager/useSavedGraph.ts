@@ -61,10 +61,7 @@ export default (): UseSavedGraph => {
       Object.entries(graphsData)
         .map(([name, graphData]) => {
           // Build full graphs from the base data
-          const graph = new Graph<StringDataItem>({
-            getVertexKey: (d) => d.key,
-            areVerticesEqual: (a, b) => a.key === b.key,
-          });
+          const graph = new Graph<StringDataItem>();
           graph.vertices = graphData.vertices;
           graph.edges = graphData.edges;
           return { name, graph };

@@ -4,21 +4,36 @@ import {
   stringComparator,
   generateRandomLetters,
   simpleSwap,
+  ROOT_RECURSION_KEY,
 } from "comp-sci-maths-lib/dist/common";
-import { NamedSort, SortUtility } from "comp-sci-maths-lib/dist/types";
+import {
+  NamedSort,
+  SortUtility,
+  SplitList,
+} from "comp-sci-maths-lib/dist/types";
 
 import {
   SortStage,
   SortingData,
   SortStageType,
   SortObservation,
+  SplitListVertex,
 } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { StringDataItem } from "src/components/p5/Boid/types";
+import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 interface Props {
   algorithm?: NamedSort;
 }
+
+const getSplitListVertex = <T>({
+  key,
+  data,
+}: SplitList<T>): SplitListVertex<T> => ({
+  key,
+  value: data,
+});
 
 const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
   const inputList: StringDataItem[] = React.useMemo(
@@ -37,6 +52,12 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
     let sortedData = inputList;
     let stages: SortStage<StringDataItem>[] = [];
     let lastObservation: SortObservation<StringDataItem>;
+    let splitNodes: Graph<SplitListVertex<StringDataItem>> = new Graph();
+    let inputSplitList: SplitListVertex<StringDataItem> = {
+      key: ROOT_RECURSION_KEY,
+      value: inputList,
+    };
+    splitNodes.addVertex(inputSplitList);
 
     const sortUtilities: SortUtility<StringDataItem> = {
       swap: (data, from, to) => {
@@ -70,6 +91,29 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
         };
         stages.push(lastObservation);
       },
+      split: (
+        thisKey: string,
+        listA: SplitList<StringDataItem>,
+        listB: SplitList<StringDataItem>
+      ) => {
+        let thisVertex = splitNodes.getVertex(thisKey);
+        if (thisVertex !== undefined) {
+          splitNodes.addUnidirectionalEdge(
+            thisVertex,
+            getSplitListVertex(listA)
+          );
+          splitNodes.addUnidirectionalEdge(
+            thisVertex,
+            getSplitListVertex(listB)
+          );
+        }
+      },
+      join: (
+        thisKey: string,
+        listAKey: string,
+        listBKey: string,
+        joinedList: StringDataItem[]
+      ) => {},
     };
 
     // Add explicit Start Observation

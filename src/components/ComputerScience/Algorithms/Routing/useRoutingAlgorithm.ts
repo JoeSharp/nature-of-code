@@ -15,16 +15,16 @@ import {
 import { HeuristicCostById } from "./types";
 import p5 from "p5";
 import { Optional } from "comp-sci-maths-lib/dist/types";
-import { BaseDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "src/components/p5/Boid/types";
 
-export interface Props<DATA_ITEM extends BaseDataItem<any>> {
+export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   sourceNode?: DATA_ITEM;
   destinationNode?: DATA_ITEM;
   getPositionOfNode: (vertex: DATA_ITEM) => Optional<p5.Vector>;
   graph: Graph<DATA_ITEM>;
 }
 
-export interface UseRoutingAlgorithm<DATA_ITEM extends BaseDataItem<any>> {
+export interface UseRoutingAlgorithm<DATA_ITEM extends DisplayDataItem<any>> {
   shortestPathTree: ShortestPathTree<DATA_ITEM>;
   path: DATA_ITEM[];
   heuristicCosts: HeuristicCostById;
@@ -33,7 +33,7 @@ export interface UseRoutingAlgorithm<DATA_ITEM extends BaseDataItem<any>> {
   onResetDistances: () => void;
 }
 
-export default <DATA_ITEM extends BaseDataItem<any>>({
+export default <DATA_ITEM extends DisplayDataItem<any>>({
   sourceNode,
   destinationNode,
   graph,

@@ -1,12 +1,12 @@
 import React from "react";
 import depthFirstSearch from "comp-sci-maths-lib/dist/algorithms/graphTraversal/depthFirstSearch";
 import breadthFirstSearch from "comp-sci-maths-lib/dist/algorithms/graphTraversal/breadthFirstSearch";
-import { VisitFunction } from "comp-sci-maths-lib/dist/types";
+import { VisitFunction, AnyGraphVertex } from "comp-sci-maths-lib/dist/types";
 
 import { BREADTH_FIRST_SEARCH, DEPTH_FIRST_SEARCH } from "./common";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
-interface Props<T> {
+interface Props<T extends AnyGraphVertex> {
   algorithmName: string;
   graph: Graph<T>;
   startVertex?: T;
@@ -16,7 +16,7 @@ export interface UseGraphTraversal<T> {
   visitedItems: T[];
 }
 
-const useGraphTraversal = <T>({
+const useGraphTraversal = <T extends AnyGraphVertex>({
   algorithmName,
   graph,
   startVertex,

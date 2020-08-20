@@ -1,7 +1,7 @@
 import { AbstractSketch } from "src/components/p5/useSketch";
 import p5 from "p5";
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { BaseDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -13,8 +13,8 @@ export enum Orientation {
 
 export interface Config<T> {
   orientation: Orientation;
-  dataItems: BaseDataItem<T>[];
-  lastRetrievedItem: BaseDataItem<T> | null;
+  dataItems: DisplayDataItem<T>[];
+  lastRetrievedItem: DisplayDataItem<T> | null;
 }
 
 const getDefaultConfig = <T>(): Config<T> => ({
@@ -24,7 +24,7 @@ const getDefaultConfig = <T>(): Config<T> => ({
 });
 
 export class ArraySketch<T> extends AbstractSketch<Config<T>> {
-  boids: DataItemBoid<BaseDataItem<T>>[];
+  boids: DataItemBoid<DisplayDataItem<T>>[];
 
   constructor() {
     super(getDefaultConfig());
@@ -32,11 +32,11 @@ export class ArraySketch<T> extends AbstractSketch<Config<T>> {
     this.boids = [];
   }
 
-  getOrCreateBoid = (s: p5, dataItem: BaseDataItem<T>): DataItemBoid<T> => {
+  getOrCreateBoid = (s: p5, dataItem: DisplayDataItem<T>): DataItemBoid<T> => {
     let boid = this.boids[dataItem.key];
 
     if (!boid) {
-      boid = new DataItemBoid<BaseDataItem<T>>({
+      boid = new DataItemBoid<DisplayDataItem<T>>({
         entity: dataItem,
         position: s.createVector(0, 0),
         radius: 40,

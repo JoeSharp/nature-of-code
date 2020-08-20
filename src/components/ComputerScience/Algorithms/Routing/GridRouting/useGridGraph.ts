@@ -1,18 +1,12 @@
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import React from "react";
 import p5 from "p5";
-import { EqualityCheck, ToString } from "comp-sci-maths-lib/dist/types";
 import { PointDataItem } from "src/components/p5/Boid//types";
 
 interface Props {
   rows: number;
   columns: number;
 }
-
-const vectorEqCheck: EqualityCheck<PointDataItem> = (a, b) =>
-  a.value.x === b.value.x && a.value.y === b.value.y;
-const vectorToStr: ToString<PointDataItem> = (a) =>
-  `${a.value.x}, ${a.value.y}`;
 
 export interface UseGridGraph {
   version: number;
@@ -39,12 +33,7 @@ export function createKeyedPoint(x: number, y: number): PointDataItem {
 export default ({ rows, columns }: Props): UseGridGraph => {
   const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
 
-  const graph = React.useRef<Graph<PointDataItem>>(
-    new Graph({
-      areVerticesEqual: vectorEqCheck,
-      getVertexKey: vectorToStr,
-    })
-  );
+  const graph = React.useRef<Graph<PointDataItem>>(new Graph());
 
   const connect = React.useCallback(
     (point: PointDataItem) => {

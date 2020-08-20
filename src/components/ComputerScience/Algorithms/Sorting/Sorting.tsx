@@ -3,28 +3,18 @@ import React from "react";
 import SortingAlgorithmPicker, {
   usePicker as useSortingAlgorithmPicker,
 } from "./SortingAlgorithmPicker";
-import SortingSketchPicker, {
-  usePicker as useSortingSketchPicker,
-} from "./SortingSketchPicker";
 import useSketch from "src/components/p5/useSketch";
-import SortingInPlaceSketch from "./SortingInPlaceSketch";
-import SortingRecursionSketch from "./SortingRecursionSketch";
+import SortingSketch from "./SortingSketch";
 import useSortedData from "./useSortedData";
 import SteppingControls, {
   useSteppingControls,
 } from "src/components/lib/SteppingControls";
-import { SortSketchType } from "./types";
 
 const Sorting: React.FunctionComponent = () => {
   const {
     algorithm,
     componentProps: algorithmPickerProps,
   } = useSortingAlgorithmPicker("form-control");
-
-  const {
-    sketchType,
-    componentProps: sketchTypeProps,
-  } = useSortingSketchPicker("form-control");
 
   const { stages } = useSortedData({ algorithm });
 
@@ -34,21 +24,8 @@ const Sorting: React.FunctionComponent = () => {
   } = useSteppingControls(stages);
   const { goToFirst } = steppingControlProps;
 
-  let whichSketch;
-  switch (sketchType) {
-    case SortSketchType.inPlace:
-      whichSketch = SortingInPlaceSketch;
-      break;
-    case SortSketchType.recursive:
-      whichSketch = SortingRecursionSketch;
-      break;
-    default:
-      whichSketch = SortingInPlaceSketch;
-      break;
-  }
-
   const { updateConfig, sketchContainer, refContainer } = useSketch(
-    whichSketch
+    SortingSketch
   );
 
   // Whenever the sort is redone, tell the sketch
@@ -67,10 +44,6 @@ const Sorting: React.FunctionComponent = () => {
         <div className="form-group">
           <label>Choose Algorithm</label>
           <SortingAlgorithmPicker {...algorithmPickerProps} />
-        </div>
-        <div className="form-group">
-          <label>Choose Sketch Type</label>
-          <SortingSketchPicker {...sketchTypeProps} />
         </div>
       </form>
 

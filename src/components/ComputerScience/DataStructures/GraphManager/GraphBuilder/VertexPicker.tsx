@@ -1,15 +1,15 @@
 import React from "react";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { BaseDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "src/components/p5/Boid/types";
 
-export interface Props<DATA_ITEM extends BaseDataItem<any>> {
+export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   className?: string;
   graph: Graph<DATA_ITEM>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
 
-const VertexPicker = <DATA_ITEM extends BaseDataItem<any>>({
+const VertexPicker = <DATA_ITEM extends DisplayDataItem<any>>({
   graph,
   value,
   onChange,
@@ -39,12 +39,12 @@ const VertexPicker = <DATA_ITEM extends BaseDataItem<any>>({
   );
 };
 
-interface UsePicker<DATA_ITEM extends BaseDataItem<any>> {
+interface UsePicker<DATA_ITEM extends DisplayDataItem<any>> {
   vertex: DATA_ITEM | undefined;
   componentProps: Props<DATA_ITEM>;
 }
 
-export const usePicker = <DATA_ITEM extends BaseDataItem<any>>(
+export const usePicker = <DATA_ITEM extends DisplayDataItem<any>>(
   graph: Graph<DATA_ITEM>,
   className?: string
 ): UsePicker<DATA_ITEM> => {

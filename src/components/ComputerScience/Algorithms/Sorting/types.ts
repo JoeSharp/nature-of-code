@@ -1,10 +1,7 @@
+import { BaseGraphVertex } from "comp-sci-maths-lib/dist/types";
+
 export interface PositionVars {
   [k: string]: number;
-}
-
-export enum SortSketchType {
-  inPlace,
-  recursive,
 }
 
 export enum SortStageType {
@@ -50,3 +47,5 @@ export interface SortingData<T> {
   stages: SortStage<T>[];
   sortedData: T[];
 }
+
+export type SplitListVertex<T> = BaseGraphVertex<T[]>;
