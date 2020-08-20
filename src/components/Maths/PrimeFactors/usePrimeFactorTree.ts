@@ -26,7 +26,7 @@ export default (value: number): UsePrimeFactorTree =>
     const rawPrimeFactorTree = getPrimeFactorTree(value);
 
     const primeFactorTree = new Graph<PrimeFactorDataItem>({
-      vertexToString: (d) => d.value.value.toString(10),
+      getVertexKey: (d) => d.value.value.toString(10),
     });
 
     // Convert to data items

@@ -63,8 +63,8 @@ const GraphRouting: React.FunctionComponent = () => {
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
       if (
-        (sourceNode && graph.equalityCheck(sourceNode, v)) ||
-        (destinationNode && graph.equalityCheck(destinationNode, v))
+        (sourceNode && graph.areVerticesEqual(sourceNode, v)) ||
+        (destinationNode && graph.areVerticesEqual(destinationNode, v))
       ) {
         sketchContainer.setBorderWeight(v, 3);
         sketchContainer.setBorderColour(v, "black");

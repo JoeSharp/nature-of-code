@@ -13,8 +13,8 @@ const VERTEX_D = createDataItem("D");
 
 export default () => {
   return new Graph<StringDataItem>({
-    vertexToString: (v) => v.key,
-    equalityCheck: (a, b) => a.key === b.key,
+    getVertexKey: (v) => v.key,
+    areVerticesEqual: (a, b) => a.key === b.key,
   })
     .addUnidirectionalEdge(VERTEX_A, VERTEX_B)
     .addUnidirectionalEdge(VERTEX_B, VERTEX_A)

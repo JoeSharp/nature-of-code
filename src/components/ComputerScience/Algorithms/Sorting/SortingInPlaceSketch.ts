@@ -24,7 +24,7 @@ const getDefaultConfig = (): Config => ({
   sortStage: DEFAULT_SORT_STAGE,
 });
 
-class SortingSketch extends AbstractSketch<Config> {
+class SortingInPlaceSketch extends AbstractSketch<Config> {
   boids: {
     [id: string]: DataItemBoid<StringDataItem>;
   };
@@ -189,4 +189,4 @@ class SortingSketch extends AbstractSketch<Config> {
   };
 }
 
-export default SortingSketch;
+export default SortingInPlaceSketch;

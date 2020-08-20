@@ -81,7 +81,7 @@ class GridSketch extends AbstractSketch<Config> {
       s.push();
 
       const {
-        graph: { equalityCheck, vertices, edges },
+        graph: { areVerticesEqual, vertices, edges },
         sourceNode,
         destinationNode,
         path,
@@ -89,11 +89,11 @@ class GridSketch extends AbstractSketch<Config> {
 
       let boidsInSketch: DataItemBoid<PointDataItem>[] = vertices.map((v) => {
         const boid = that.getOrCreateBoid(s, v);
-        if (equalityCheck(v, sourceNode)) {
+        if (areVerticesEqual(v, sourceNode)) {
           boid.colour = "lime";
-        } else if (equalityCheck(v, destinationNode)) {
+        } else if (areVerticesEqual(v, destinationNode)) {
           boid.colour = "red";
-        } else if (path.find((p) => equalityCheck(p, v)) !== undefined) {
+        } else if (path.find((p) => areVerticesEqual(p, v)) !== undefined) {
           boid.colour = "cyan";
         } else {
           boid.colour = "black";

@@ -42,7 +42,7 @@ interface UsePicker {
   componentProps: Props;
 }
 
-export const useSortingAlgorithmPicker = (className?: string): UsePicker => {
+export const usePicker = (className?: string): UsePicker => {
   const [value, onChange] = React.useState<NamedSort | undefined>(undefined);
 
   return {

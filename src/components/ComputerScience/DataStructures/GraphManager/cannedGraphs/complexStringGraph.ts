@@ -22,8 +22,8 @@ const VERTEX_S = createDataItem("S");
 
 export default () => {
   return new Graph<StringDataItem>({
-    vertexToString: (v) => v.key,
-    equalityCheck: (a, b) => a.key === b.key,
+    getVertexKey: (v) => v.key,
+    areVerticesEqual: (a, b) => a.key === b.key,
   })
     .addBiDirectionalEdge(VERTEX_S, VERTEX_A, 7)
     .addBiDirectionalEdge(VERTEX_S, VERTEX_B, 2)

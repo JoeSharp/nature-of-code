@@ -41,8 +41,8 @@ export default ({ rows, columns }: Props): UseGridGraph => {
 
   const graph = React.useRef<Graph<PointDataItem>>(
     new Graph({
-      equalityCheck: vectorEqCheck,
-      vertexToString: vectorToStr,
+      areVerticesEqual: vectorEqCheck,
+      getVertexKey: vectorToStr,
     })
   );
 

@@ -2,6 +2,11 @@ export interface PositionVars {
   [k: string]: number;
 }
 
+export enum SortSketchType {
+  inPlace,
+  recursive,
+}
+
 export enum SortStageType {
   observation,
   swap,

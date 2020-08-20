@@ -52,11 +52,11 @@ const VertexRow: React.FunctionComponent<Props> = ({
   }, [vertex, graph, tickVersion]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<StringDataItem>) => graph.equalityCheck(edge.from, vertex),
+    (edge: Edge<StringDataItem>) => graph.areVerticesEqual(edge.from, vertex),
     [vertex, graph]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<StringDataItem>) => graph.equalityCheck(edge.to, vertex),
+    (edge: Edge<StringDataItem>) => graph.areVerticesEqual(edge.to, vertex),
     [vertex, graph]
   );
   const buttonBarProps: ButtonBarProps = React.useMemo(() => {
