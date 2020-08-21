@@ -1,12 +1,21 @@
-import Component from "./QueueComponent";
+import QueueComponent from "./QueueComponent";
+import PriorityQueueComponent from "./PriorityQueueComponent";
 import { Page } from "src/types";
 
-export const page: Page = {
+export const queuePage: Page = {
   href: "/computerScience/dataStructures/queue",
   title: "Queue",
   description: `Build a Queue and learn how items are added and removed.
   Items are enqueued and dequeued, the ordering follows First In First Out`,
-  component: Component,
+  component: QueueComponent,
 };
 
-export default Component;
+export const priorityQueuePage: Page = {
+  href: "/computerScience/dataStructures/priorityQueue",
+  title: "Priority Queue",
+  description: `Build a Priority Queue and learn how items are added and removed with respect to priority.
+  Items are enqueued and dequeued, the ordering follows First In First Out, but higher priority items will jump the queue`,
+  component: PriorityQueueComponent,
+};
+
+export default QueueComponent;

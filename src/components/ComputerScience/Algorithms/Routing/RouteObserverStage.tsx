@@ -41,9 +41,10 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
 
   const outgoingData = React.useMemo(
     () =>
-      outgoing.map(({ to, weight }) => ({
+      outgoing.map(({ totalCost, edge: { to, weight } }) => ({
         to: to.label,
         weight,
+        totalCost,
       })),
     [outgoing]
   );
@@ -55,7 +56,7 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
       <div className="routing-visual">
         <div className="mr-5">
           <h4>Unvisited Outgoing Links</h4>
-          <Table headings={["to", "weight"]} data={outgoingData} />
+          <Table headings={["to", "weight", "totalCost"]} data={outgoingData} />
         </div>
         <div className="mr-5">
           <h4>Routing Queue</h4>

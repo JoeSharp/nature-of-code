@@ -11,7 +11,7 @@ import { page as sortingPage } from "./Algorithms/Sorting";
 import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphManager";
 import { page as stackPage } from "./DataStructures/StackComponent";
-import { page as queuePage } from "./DataStructures/QueueComponent";
+import { queuePage, priorityQueuePage } from "./DataStructures/QueueComponent";
 import { page as soundPage } from "./DataRepresentation/Sound";
 import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
@@ -27,7 +27,13 @@ const algorithmPages = [
   sortingPage,
 ];
 
-const dataStructurePages = [binaryTreePage, graphPage, stackPage, queuePage];
+const dataStructurePages = [
+  binaryTreePage,
+  graphPage,
+  stackPage,
+  queuePage,
+  priorityQueuePage,
+];
 
 const dataRepresentationPages = [soundPage, bitmapImagesPage, asciiTextPage];
 
