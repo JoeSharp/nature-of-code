@@ -71,6 +71,13 @@ const GraphRouting: React.FunctionComponent = () => {
         sketchContainer.setColour(v, "green");
       } else if (
         currentStage !== undefined &&
+        currentStage.currentItem !== undefined &&
+        currentStage.currentItem.node.key === v.key
+      ) {
+        sketchContainer.setBorderWeight(v, 3);
+        sketchContainer.setBorderColour(v, "red");
+      } else if (
+        currentStage !== undefined &&
         currentStage.pathFrom.map((p) => p.key).includes(v.key)
       ) {
         sketchContainer.setBorderWeight(v, 3);

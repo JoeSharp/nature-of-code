@@ -1,6 +1,9 @@
 import React from "react";
 import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
-import { ObserverArgsWithPathFrom } from "comp-sci-maths-lib/dist/algorithms/routing/types";
+import {
+  ObserverArgsWithPathFrom,
+  getCurrentWeightCalcTypeStr,
+} from "comp-sci-maths-lib/dist/algorithms/routing/types";
 import Table from "src/components/Bootstrap/Table";
 import { DisplayDataItem } from "src/components/p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
@@ -41,10 +44,11 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
 
   const outgoingData = React.useMemo(
     () =>
-      outgoing.map(({ totalCost, edge: { to, weight } }) => ({
+      outgoing.map(({ totalCost, calcResult, edge: { to, weight } }) => ({
         to: to.label,
         weight,
         totalCost,
+        calcResult: getCurrentWeightCalcTypeStr(calcResult),
       })),
     [outgoing]
   );
@@ -56,14 +60,17 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
       <div className="routing-visual">
         <div className="mr-5">
           <h4>Unvisited Outgoing Links</h4>
-          <Table headings={["to", "weight", "totalCost"]} data={outgoingData} />
+          <Table
+            headings={["to", "weight", "totalCost", "calcResult"]}
+            data={outgoingData}
+          />
         </div>
         <div className="mr-5">
-          <h4>Routing Queue</h4>
+          <h4>Routing Queue (After)</h4>
           <ShortestPathWithNodeTable items={queueItems} />
         </div>
         <div>
-          <h4>Shortest Path Tree</h4>
+          <h4>Visited Nodes</h4>
           <ShortestPathWithNodeTable items={shortestPathTreeItems} />
         </div>
       </div>
