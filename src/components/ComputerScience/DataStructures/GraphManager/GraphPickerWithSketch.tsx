@@ -42,6 +42,7 @@ interface UsePicker {
   graph: Graph<StringDataItem>;
   vertexPositions: PositionByVertex;
   componentProps: Props;
+  onValueChange: (name: string) => void;
   savedGraphUse: UseSavedGraph;
   sketchUse: UseSketch<
     GraphSketchConfig<StringDataItem>,
@@ -74,12 +75,19 @@ export const usePicker = (
 
   const [value, setValue] = React.useState<string>();
 
-  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
-    ({ target: { value } }) => {
-      onChange(value, graphs[value]);
-      setValue(value);
+  const onValueChange = React.useCallback(
+    (name: string) => {
+      onChange(name, graphs[name]);
+      setValue(name);
     },
     [onChange, graphs]
+  );
+
+  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
+    ({ target: { value } }) => {
+      onValueChange(value);
+    },
+    [onValueChange]
   );
 
   // This needs to re-initialise the positions, graph name etc on startup
@@ -108,6 +116,7 @@ export const usePicker = (
     graph,
     vertexPositions,
     savedGraphUse,
+    onValueChange,
     componentProps: { onSelectChange, value, names, refContainer },
     sketchUse,
   };

@@ -21,8 +21,8 @@ export default () => {
 };
 
 export const vertexPositions: PositionByVertex = {
-  "sg-1-A": { x: 60, y: 52 },
-  "sg-1-B": { x: 177, y: 48 },
-  "sg-1-C": { x: 266, y: 94 },
-  "sg-1-D": { x: 127, y: 122 },
+  "sg-1-A": { x: 166, y: 38 },
+  "sg-1-B": { x: 211, y: 102 },
+  "sg-1-C": { x: 93, y: 141 },
+  "sg-1-D": { x: 279, y: 63 },
 };

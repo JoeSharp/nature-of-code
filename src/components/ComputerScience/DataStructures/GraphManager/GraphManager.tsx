@@ -18,14 +18,23 @@ const GraphManager: React.FunctionComponent = () => {
     graphName,
     graph,
     savedGraphUse: { createNew, save, reset },
+    onValueChange,
     componentProps: graphPickerProps,
     sketchUse: { updateConfig, sketchContainer },
   } = useGraphPicker("simpleStringGraph");
 
+  const onCreateNew = React.useCallback(
+    (name: string) => {
+      onValueChange(name);
+      createNew(name);
+    },
+    [createNew, onValueChange]
+  );
+
   const {
     showDialog: showNewGraphDialog,
     componentProps: newGraphProps,
-  } = useNewGraphDialog(createNew);
+  } = useNewGraphDialog(onCreateNew);
 
   const [physicsEnabled, setPhysicsEnabled] = React.useState<boolean>(false);
   const onPhysicsEnabledChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
