@@ -12,7 +12,7 @@ import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 600;
-const HEIGHT = 600;
+const HEIGHT = 300;
 
 const DATA_Y = 100;
 
@@ -113,7 +113,7 @@ class SortingSketch extends AbstractSketch<Config> {
               swapTo: NO_MATCH,
             };
 
-      s.background("white");
+      s.background("skyblue");
 
       // Draw the data
       let dataWidth = s.width / (data.length + 2);

@@ -3,22 +3,19 @@ import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/Binary
 import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
 import p5 from "p5";
 import { createP5Vector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
+import { Config, TreeDirection } from "./types";
 
-const WIDTH = 800;
+const WIDTH = 1024;
 const HEIGHT = 500;
 
 const RADIUS = 50;
 const SPRING_LENGTH = 120;
 
-interface Config<T> {
-  binaryTree: BinaryTree<T>;
-}
-
 const getDefaultConfig = (): Config<any> => ({
   binaryTree: new BinaryTree<any>((a, b) => a - b),
+  treeDirection: TreeDirection.down,
+  toString: (v) => `${v}`,
 });
-
-const toString = (d: any) => `${d}`;
 
 class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
   boids: {
@@ -30,8 +27,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
-    this.headLeft = createP5Vector(-50, 50);
-    this.headRight = createP5Vector(50, 50);
+    this.headLeft = createP5Vector(-50, 70);
+    this.headRight = createP5Vector(50, 70);
   }
 
   visitBoids(
@@ -50,13 +47,14 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
       this.boids[id] = new DataItemBoid({
         radius: RADIUS,
         entity: treeNode,
-        label: toString(treeNode.value),
+        label: this.config.toString(treeNode.value),
         position,
+        lockY: true,
       });
     } else {
-      position = this.boids[id].position;
+      // position = this.boids[id].position;
       this.boids[id].entity = treeNode;
-      this.boids[id].label = toString(treeNode.value);
+      this.boids[id].label = this.config.toString(treeNode.value);
     }
     const thisBoid = this.boids[id];
     boidReceiver(thisBoid);
@@ -117,6 +115,7 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
       s.colorMode(s.HSB, 255);
       s.textFont("Helvetica", 24);
       s.textAlign(s.CENTER, s.CENTER);
+      s.angleMode(s.DEGREES);
     };
 
     s.mousePressed = function () {
@@ -142,6 +141,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
       s.background(230);
 
       const { binaryTree } = that.config;
+      s.push();
+
       const boids: DataItemBoid<BinaryTree<T>>[] = [];
       that.visitBoids(
         s,
@@ -161,6 +162,8 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
         .filter((_, i) => i > 0)
         .forEach((b) => b.update(s));
       Object.values(boids).forEach((b) => b.draw(s));
+
+      s.pop();
     };
   };
 }

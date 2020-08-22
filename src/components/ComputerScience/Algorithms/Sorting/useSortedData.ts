@@ -1,4 +1,5 @@
 import React from "react";
+import { cloneDeep } from "lodash";
 
 import {
   stringComparator,
@@ -20,19 +21,23 @@ import {
   SplitListVertex,
 } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem, DisplayDataItem } from "src/components/p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
 
 interface Props {
   algorithm?: NamedSort;
 }
 
-const getSplitListVertex = <T>({
+type StringListVertex = SplitListVertex<StringDataItem>;
+
+const getSplitListVertex = <T extends DisplayDataItem<any>>({
   key,
   data,
 }: SplitList<T>): SplitListVertex<T> => ({
   key,
   value: data,
+  label: data.map((v) => v.label).join(","),
 });
 
 const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
@@ -52,12 +57,17 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
     let sortedData = inputList;
     let stages: SortStage<StringDataItem>[] = [];
     let lastObservation: SortObservation<StringDataItem>;
-    let splitNodes: Graph<SplitListVertex<StringDataItem>> = new Graph();
+    let splitNodes: BinaryTree<StringListVertex> = new BinaryTree(
+      (a: StringListVertex, b: StringListVertex) =>
+        parseInt(a.key) - parseInt(b.key)
+    );
+    let joinNodes: Graph<SplitListVertex<StringDataItem>> = new Graph();
     let inputSplitList: SplitListVertex<StringDataItem> = {
-      key: ROOT_RECURSION_KEY,
+      key: ROOT_RECURSION_KEY.toString(),
       value: inputList,
+      label: "ROOT",
     };
-    splitNodes.addVertex(inputSplitList);
+    splitNodes.add(inputSplitList);
 
     const sortUtilities: SortUtility<StringDataItem> = {
       swap: (data, from, to) => {
@@ -88,6 +98,8 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
           stageName,
           data: [...data],
           positionVars: { ...positionVars },
+          splitNodes: cloneDeep(splitNodes),
+          joinNodes: cloneDeep(joinNodes),
         };
         stages.push(lastObservation);
       },
@@ -96,24 +108,26 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
         listA: SplitList<StringDataItem>,
         listB: SplitList<StringDataItem>
       ) => {
-        let thisVertex = splitNodes.getVertex(thisKey);
-        if (thisVertex !== undefined) {
-          splitNodes.addUnidirectionalEdge(
-            thisVertex,
-            getSplitListVertex(listA)
-          );
-          splitNodes.addUnidirectionalEdge(
-            thisVertex,
-            getSplitListVertex(listB)
-          );
-        }
+        [listA, listB]
+          .map((l) => getSplitListVertex(l))
+          .forEach((l) => splitNodes.add(l));
       },
       join: (
-        thisKey: string,
-        listAKey: string,
-        listBKey: string,
+        listA: SplitList<StringDataItem>,
+        listB: SplitList<StringDataItem>,
         joinedList: StringDataItem[]
-      ) => {},
+      ) => {
+        // const thisVertex = getSplitListVertex({
+        //   key: thisKey,
+        //   data: joinedList,
+        // });
+        [listA, listB].forEach((lKey) => {
+          // const lVertex = splitNodes.getVertex(lKey);
+          // if (lVertex !== undefined) {
+          //   joinNodes.addUnidirectionalEdge(thisVertex, lVertex);
+          // }
+        });
+      },
     };
 
     // Add explicit Start Observation
@@ -122,6 +136,8 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
       stageName: "Starting",
       data: [...inputList],
       positionVars: {},
+      splitNodes: cloneDeep(splitNodes),
+      joinNodes: cloneDeep(joinNodes),
     });
 
     // Run the algorithm
@@ -129,12 +145,14 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
       sortedData = algorithm.sort(inputList, sortUtilities);
     }
 
-    // Add explicit Start Observation
+    // Add explicit End Observation
     stages.push({
       type: SortStageType.observation,
       stageName: "Finished",
       data: [...sortedData],
       positionVars: {},
+      splitNodes: cloneDeep(splitNodes),
+      joinNodes: cloneDeep(joinNodes),
     });
 
     return { sortedData, stages };

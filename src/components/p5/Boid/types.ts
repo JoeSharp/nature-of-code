@@ -13,6 +13,8 @@ export interface AbstractBoid<T> {
   maxForce?: number;
   minForce?: number;
   environmentalFriction?: number;
+  lockX?: boolean;
+  lockY?: boolean;
 }
 
 export interface DisplayDataItem<T> extends BaseGraphVertex<T> {

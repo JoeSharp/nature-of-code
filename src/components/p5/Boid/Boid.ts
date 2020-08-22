@@ -24,6 +24,9 @@ export default class Boid<T> implements AbstractBoid<T> {
   minForce: number;
   environmentalFriction: number;
   grabbed: boolean;
+  lockX: boolean;
+  lockY: boolean;
+  initialPosition: p5.Vector;
 
   constructor({
     entity,
@@ -37,6 +40,8 @@ export default class Boid<T> implements AbstractBoid<T> {
     maxForce = DEFAULT_MAX_FORCE,
     minForce = DEFAULT_MIN_FORCE,
     environmentalFriction = 0.9,
+    lockX = false,
+    lockY = false,
   }: AbstractBoid<T>) {
     this.entity = entity;
     this.position = position;
@@ -52,6 +57,9 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.minForce = minForce;
     this.environmentalFriction = environmentalFriction;
     this.grabbed = false;
+    this.lockX = lockX;
+    this.lockY = lockY;
+    this.initialPosition = position.copy();
   }
 
   grab() {
@@ -63,6 +71,7 @@ export default class Boid<T> implements AbstractBoid<T> {
   dragged(mousePosition: p5.Vector) {
     if (this.grabbed) {
       this.position = mousePosition;
+      this.lockAxis();
     }
   }
 
@@ -75,6 +84,16 @@ export default class Boid<T> implements AbstractBoid<T> {
     this.acceleration.add(force);
   }
 
+  lockAxis() {
+    // Implement axis locking
+    if (this.lockX) {
+      this.position.x = this.initialPosition.x;
+    }
+    if (this.lockY) {
+      this.position.y = this.initialPosition.y;
+    }
+  }
+
   update(s: p5) {
     if (!this.grabbed && this.acceleration.mag() > this.minForce) {
       this.velocity.add(this.acceleration);
@@ -82,6 +101,7 @@ export default class Boid<T> implements AbstractBoid<T> {
       this.position.add(this.velocity);
     }
     this.acceleration.mult(0);
+    this.lockAxis();
   }
 
   draw(s: p5) {
