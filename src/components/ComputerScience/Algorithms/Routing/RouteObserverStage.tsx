@@ -7,6 +7,7 @@ import {
 import Table from "src/components/Bootstrap/Table";
 import { DisplayDataItem } from "src/components/p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 
 interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   graph: Graph<DATA_ITEM>;
@@ -47,7 +48,7 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
       outgoing.map(({ totalCost, calcResult, edge: { to, weight } }) => ({
         to: to.label,
         weight,
-        totalCost,
+        totalCost: roundTo2Dp(totalCost),
         calcResult: getCurrentWeightCalcTypeStr(calcResult),
       })),
     [outgoing]
