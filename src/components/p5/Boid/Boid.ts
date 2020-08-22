@@ -122,7 +122,9 @@ export default class Boid<T> implements AbstractBoid<T> {
 
   flee(target: p5.Vector, radius: number = 20): void {
     let desired = p5.Vector.sub(target, this.position);
-    if (desired.mag() < radius) {
+    if (desired.mag() === 0) {
+      this.applyForce(p5.Vector.random2D().mult(0.01));
+    } else if (desired.mag() < radius) {
       desired.normalize();
       desired.mult(-this.maxSpeed);
       desired.sub(this.velocity);
