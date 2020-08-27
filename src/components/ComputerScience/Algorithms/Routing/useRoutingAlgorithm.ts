@@ -22,6 +22,7 @@ export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   destinationNode?: DATA_ITEM;
   getPositionOfNode: (vertex: DATA_ITEM) => Optional<p5.Vector>;
   graph: Graph<DATA_ITEM>;
+  version: number;
 }
 
 export interface UseRoutingAlgorithm<DATA_ITEM extends DisplayDataItem<any>> {
@@ -35,10 +36,12 @@ export interface UseRoutingAlgorithm<DATA_ITEM extends DisplayDataItem<any>> {
 
 export default <DATA_ITEM extends DisplayDataItem<any>>({
   sourceNode,
+  version,
   destinationNode,
   graph,
   getPositionOfNode,
 }: Props<DATA_ITEM>): UseRoutingAlgorithm<DATA_ITEM> => {
+
   const [heuristicCosts, setHeuristicsCosts] = React.useState<
     HeuristicCostById
   >({});
@@ -78,7 +81,8 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
         setHeuristicsCosts(costs);
       }
     }
-  }, [destinationNode, getPositionOfNode, graph.vertices, setHeuristicsCosts]);
+    // eslint-disable-next-line
+  }, [destinationNode, getPositionOfNode, version, graph.vertices, setHeuristicsCosts]);
 
   const { stages, shortestPathTree, path } = React.useMemo(() => {
     const stages: ObserverArgsWithPathFrom<DATA_ITEM>[] = [];
@@ -92,8 +96,8 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
         currentItem !== undefined && currentItem.viaNode !== undefined
           ? currentItem.viaNode
           : destinationNode !== undefined
-          ? destinationNode
-          : (sourceNode as DATA_ITEM);
+            ? destinationNode
+            : (sourceNode as DATA_ITEM);
       const observerArgs: ObserverArgsWithPathFrom<DATA_ITEM> = {
         currentItem,
         currentDistances,
@@ -113,12 +117,12 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
     const shortestPathTree: ShortestPathTree<DATA_ITEM> =
       sourceNode !== undefined
         ? dijstraks({
-            graph,
-            sourceNode,
-            destinationNode,
-            getHeuristicCost,
-            observer,
-          })
+          graph,
+          sourceNode,
+          destinationNode,
+          getHeuristicCost,
+          observer,
+        })
         : {};
     const path =
       destinationNode !== undefined
@@ -130,7 +134,8 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
       path,
       stages,
     };
-  }, [getHeuristicCost, sourceNode, destinationNode, graph]);
+    // eslint-disable-next-line
+  }, [getHeuristicCost, sourceNode, destinationNode, graph, version]);
 
   return {
     stages,

@@ -20,6 +20,7 @@ const GridRouting: React.FunctionComponent = () => {
 
   const {
     graph,
+    version,
     topLeft: sourceNode,
     bottomRight: destinationNode,
     toggleConnection,
@@ -43,6 +44,7 @@ const GridRouting: React.FunctionComponent = () => {
     heuristicCosts,
   } = useRoutingAlgorithm({
     graph,
+    version,
     sourceNode,
     destinationNode,
     getPositionOfNode,

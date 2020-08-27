@@ -49,7 +49,7 @@ const GraphRouting: React.FunctionComponent = () => {
     onResetDistances,
     heuristicCosts,
   } = useRoutingAlgorithm({
-    graph,
+    graph, version: 0,
     sourceNode,
     destinationNode,
     getPositionOfNode,
