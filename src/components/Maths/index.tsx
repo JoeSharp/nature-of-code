@@ -3,12 +3,13 @@ import { Page } from "src/types";
 
 import { page as divisibilityPage } from "./Divisibility";
 import { page as primeFactorsPage } from "./PrimeFactors";
+import { page as negativeNumbersPage } from "./NegativeNumbers";
 import { page as sievePage } from "./SieveOfEratosthenes";
 import { page as solveEqPage } from "./SolveEquation";
 import CardCollection from "../Bootstrap/CardCollection";
 
 const primeNumberPages = [divisibilityPage, primeFactorsPage, sievePage];
-const miscPages = [solveEqPage];
+const miscPages = [solveEqPage, negativeNumbersPage];
 
 const Maths: React.FunctionComponent = () => (
   <div>
@@ -33,6 +34,7 @@ export const pages: Page[] = [
   primeFactorsPage,
   sievePage,
   solveEqPage,
+  negativeNumbersPage,
 ];
 
 export default Maths;

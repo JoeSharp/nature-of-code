@@ -1,0 +1,16 @@
+.quizzes {
+  display: flex;
+  flex-direction: row;
+  font-size: xx-large;
+  text-align: right;
+  justify-content: space-between;
+}
+
+.quizzes > div {
+  padding: 2rem;
+}
+
+.questionIndex {
+  padding-right: 2rem;
+  color: grey;
+}
