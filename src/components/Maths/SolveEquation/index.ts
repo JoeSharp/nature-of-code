@@ -2,7 +2,7 @@ import Component from "./SolveEquation";
 import { Page } from "src/types";
 
 export const page: Page = {
-  href: "/maths/solvEquation",
+  href: "/maths/solveEquation",
   title: "Solving Quadratics",
   description: "Use trial and error to solve quadratic equations.",
   component: Component,
