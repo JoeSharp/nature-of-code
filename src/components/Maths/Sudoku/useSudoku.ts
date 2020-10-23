@@ -1,68 +1,106 @@
 import React from 'react';
 
+export const EMPTY_CELL = -1;
+export const SUB_DIMENSION = 3;
+export const DIMENSION = Math.pow(SUB_DIMENSION, 2);
+
 interface Cell {
+    fixed: boolean;
     value: number,
     error: boolean
 }
 
 type BoardState = Cell[][];
 
-interface BoardAction {
+interface Coordinate {
     x: number;
     y: number;
-    value: number;
 }
 
+interface BoardAction extends Coordinate {
+    value: number;
+    fix?: boolean;
+}
+
+type GetOtherCellsFunction = (x: number, y: number) => Coordinate[];
+
+const getRowCells: GetOtherCellsFunction = 
+    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({x: i, y}))
+const getColCells: GetOtherCellsFunction = 
+    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({x, y: i}))
+const getSquareCells: GetOtherCellsFunction =
+    (x: number, y: number): Coordinate[] => {
+        let coords: Coordinate[] = [];
+        let xFloor = Math.floor(x / SUB_DIMENSION) * SUB_DIMENSION;
+        let yFloor = Math.floor(y / SUB_DIMENSION) * SUB_DIMENSION;
+        for (let xi=0; xi<SUB_DIMENSION; xi++) {
+            for (let yi=0; yi<SUB_DIMENSION; yi++) {
+                coords.push({
+                    x: xFloor + xi,
+                    y: yFloor + yi
+                })
+            }  
+        }
+        return coords;
+    }
+const getOtherCellFunctions: GetOtherCellsFunction[] = [
+    getRowCells,
+    getColCells,
+    getSquareCells
+]
+
 const reducer = (state: BoardState, action: BoardAction): BoardState => {
-    const newState = state.map((col, x) => x === action.x ? col.map((c, y) => y === action.y ? { value: (c.value === action.value) ? EMPTY_CELL : action.value, error: false } : c) : col);
+    const newState = state.map((col) => col.map(c => ({...c})));
 
     for (let x = 0; x < DIMENSION; x++) {
         for (let y = 0; y < DIMENSION; y++) {
+            if ((x === action.x) && (y === action.y)) {
+                if (action.fix || !newState[x][y].fixed) {
+                    if (newState[x][y].value === action.value) {
+                        newState[x][y].value = EMPTY_CELL;
+                    } else {
+                        newState[x][y].value = action.value;
+                        newState[x][y].fixed = action.fix || false;
+                    }
+                }
+            }
+
             newState[x][y].error = false;
         }
     }
 
-    // Check each row
+    // Check each cell
     for (let x = 0; x < DIMENSION; x++) {
-        let found: Set<number> = new Set();
         for (let y = 0; y < DIMENSION; y++) {
-            if (newState[x][y].value !== EMPTY_CELL && found.has(newState[x][y].value)) {
-                for (let yi = 0; yi < DIMENSION; yi++) {
-                    if (newState[x][yi].value === newState[x][y].value) {
-                        newState[x][yi].error = true;
-                    }
-                }
-            }
-            found.add(newState[x][y].value)
-        }
-    }
+            if (newState[x][y].value !== EMPTY_CELL) {
+                getOtherCellFunctions.forEach(f => {
+                    let found: Set<number> = new Set();
+                    let otherCells = f(x, y);
+                    otherCells.forEach(({x:xi, y:yi}) => {
+                        if (found.has(newState[xi][yi].value)) {
+                            otherCells.forEach(({x: xj, y: yj}) => {
+                               if (newState[xj][yj].value === newState[xi][yi].value) {
+                                    newState[xj][yj].error = true;
+                                }
+                            })
+                        }
+                        found.add(newState[xi][yi].value)
+                    })
 
-    // Check each column
-    for (let y = 0; y < DIMENSION; y++) {
-        let found: Set<number> = new Set();
-        for (let x = 0; x < DIMENSION; x++) {
-            if (newState[x][y].value !== EMPTY_CELL && found.has(newState[x][y].value)) {
-                for (let xi = 0; xi < DIMENSION; xi++) {
-                    if (newState[xi][y].value === newState[x][y].value) {
-                        newState[xi][y].error = true;
-                    }
-                }
+                })
             }
-            found.add(newState[x][y].value)
         }
     }
 
     return newState;
 }
-export const EMPTY_CELL = -1;
-export const DIMENSION = 9;
 
 const defaultState: BoardState = Array(DIMENSION)
     .fill(null)
     .map(i =>
         Array(DIMENSION)
             .fill(null)
-            .map(j => ({ value: EMPTY_CELL, error: false })));
+            .map(j => ({ value: EMPTY_CELL, error: false, fixed: false })));
 
 const initialActions: BoardAction[] = [
     { x: 0, y: 0, value: 6 },
@@ -111,7 +149,7 @@ const useSudoku = (): UseSudoku => {
     const [board, setBoard] = React.useReducer(reducer, defaultState);
 
     React.useEffect(() => {
-        initialActions.forEach(setBoard)
+        initialActions.map(i=>({...i, fix: true})).forEach(setBoard)
     }, [])
 
     return { board, setBoard }
