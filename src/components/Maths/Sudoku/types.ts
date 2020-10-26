@@ -5,7 +5,10 @@ export interface Cell {
   error: boolean;
 }
 
-export type BoardState = Cell[][];
+export type BoardState = {
+  cells: Cell[][];
+  hints: BoardAction[];
+};
 
 export interface Coordinate {
   x: number;

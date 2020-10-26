@@ -56,7 +56,7 @@ const RowComponent: React.FunctionComponent<RowProps> = ({
 
 const Sudoku: React.FunctionComponent = () => {
   const [value, setValue] = React.useState<number>(5);
-  const { board, setBoard: _setBoard } = useSudoku();
+  const { board, setBoard: _setBoard, autoSolveStep } = useSudoku();
 
   const onValueChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setValue(parseInt(value)),
@@ -82,10 +82,13 @@ const Sudoku: React.FunctionComponent = () => {
           />
         </div>
       </form>
+      <button className="btn btn-primary" onClick={autoSolveStep}>
+        Auto Solve Step
+      </button>
       <table className="sudoku-table">
         <thead></thead>
         <tbody>
-          {board.map((row, x) => (
+          {board.cells.map((row, x) => (
             <RowComponent key={x} {...{ x, setBoard, row, value }} />
           ))}
         </tbody>

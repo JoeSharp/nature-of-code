@@ -6,6 +6,7 @@ import {
   BoardActionConsumer,
   BoardAction,
   BoardState,
+  Cell,
 } from "./types";
 
 export const EMPTY_CELL = -1;
@@ -54,23 +55,24 @@ const getOtherCellFunctions: GetOtherCellsFunction[] = [
 
 const reducer = (state: BoardState, action: BoardAction): BoardState => {
   // Make a complete deep copy of the board
-  const newState = state.map((col) => col.map((c) => ({ ...c })));
+  const cells: Cell[][] = state.cells.map((col) => col.map((c) => ({ ...c })));
+  const hints: BoardAction[] = [];
 
   // Use this action to change the appropriate cell
   for (let x = 0; x < DIMENSION; x++) {
     for (let y = 0; y < DIMENSION; y++) {
       if (x === action.x && y === action.y) {
-        if (action.fix || !newState[x][y].fixed) {
-          if (newState[x][y].value === action.value) {
-            newState[x][y].value = EMPTY_CELL;
+        if (action.fix || !cells[x][y].fixed) {
+          if (cells[x][y].value === action.value) {
+            cells[x][y].value = EMPTY_CELL;
           } else {
-            newState[x][y].value = action.value;
-            newState[x][y].fixed = action.fix || false;
+            cells[x][y].value = action.value;
+            cells[x][y].fixed = action.fix || false;
           }
         }
       }
 
-      newState[x][y].error = false;
+      cells[x][y].error = false;
     }
   }
 
@@ -82,44 +84,57 @@ const reducer = (state: BoardState, action: BoardAction): BoardState => {
         let found: Set<number> = new Set();
         let otherCells = f(x, y);
         otherCells.forEach(({ x: xi, y: yi }) => {
-          if (newState[x][y].value !== EMPTY_CELL) {
+          if (cells[x][y].value !== EMPTY_CELL) {
             if (
-              found.has(newState[xi][yi].value) &&
-              newState[xi][yi].value !== EMPTY_CELL
+              found.has(cells[xi][yi].value) &&
+              cells[xi][yi].value !== EMPTY_CELL
             ) {
               otherCells.forEach(({ x: xj, y: yj }) => {
-                if (newState[xj][yj].value === newState[xi][yi].value) {
-                  newState[xj][yj].error = true;
+                if (cells[xj][yj].value === cells[xi][yi].value) {
+                  cells[xj][yj].error = true;
                 }
               });
             }
-            found.add(newState[xi][yi].value);
+            found.add(cells[xi][yi].value);
           } else {
-            allowed.delete(newState[xi][yi].value);
+            allowed.delete(cells[xi][yi].value);
           }
         });
       });
 
       //   console.log("Allowed...", { x, y, allowed });
-      newState[x][y].allowed = new Set(allowed);
+      cells[x][y].allowed = new Set(allowed);
+      if (allowed.size === 1) {
+        hints.push({
+          x,
+          y,
+          value: allowed.values().next().value,
+        });
+      }
     }
   }
 
-  return newState;
+  return {
+    cells,
+    hints,
+  };
 };
 
-const defaultState: BoardState = Array(DIMENSION)
-  .fill(null)
-  .map((i) =>
-    Array(DIMENSION)
-      .fill(null)
-      .map((j) => ({
-        value: EMPTY_CELL,
-        error: false,
-        fixed: false,
-        allowed: new Set(DIGITS),
-      }))
-  );
+const defaultState: BoardState = {
+  hints: [],
+  cells: Array(DIMENSION)
+    .fill(null)
+    .map((i) =>
+      Array(DIMENSION)
+        .fill(null)
+        .map((j) => ({
+          value: EMPTY_CELL,
+          error: false,
+          fixed: false,
+          allowed: new Set(DIGITS),
+        }))
+    ),
+};
 
 const initialActions: BoardAction[] = [
   { x: 0, y: 0, value: 6 },
@@ -162,6 +177,7 @@ const initialActions: BoardAction[] = [
 interface UseSudoku {
   board: BoardState;
   setBoard: BoardActionConsumer;
+  autoSolveStep: () => void;
 }
 
 const useSudoku = (): UseSudoku => {
@@ -171,7 +187,13 @@ const useSudoku = (): UseSudoku => {
     initialActions.map((i) => ({ ...i, fix: true })).forEach(setBoard);
   }, []);
 
-  return { board, setBoard };
+  const autoSolveStep = React.useCallback(() => {
+    if (board.hints.length > 0) {
+      setBoard(board.hints[0]);
+    }
+  }, [board]);
+
+  return { board, setBoard, autoSolveStep };
 };
 
 export default useSudoku;
