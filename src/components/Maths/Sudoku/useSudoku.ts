@@ -4,6 +4,8 @@ export const EMPTY_CELL = -1;
 export const SUB_DIMENSION = 3;
 export const DIMENSION = Math.pow(SUB_DIMENSION, 2);
 
+export const DIGITS = Array(DIMENSION).fill(null).map((_, i) => i + 1);
+
 interface Cell {
     fixed: boolean;
     value: number,
@@ -24,22 +26,22 @@ interface BoardAction extends Coordinate {
 
 type GetOtherCellsFunction = (x: number, y: number) => Coordinate[];
 
-const getRowCells: GetOtherCellsFunction = 
-    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({x: i, y}))
-const getColCells: GetOtherCellsFunction = 
-    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({x, y: i}))
+const getRowCells: GetOtherCellsFunction =
+    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({ x: i, y }))
+const getColCells: GetOtherCellsFunction =
+    (x: number, y: number): Coordinate[] => Array(DIMENSION).fill(null).map((_, i) => ({ x, y: i }))
 const getSquareCells: GetOtherCellsFunction =
     (x: number, y: number): Coordinate[] => {
         let coords: Coordinate[] = [];
         let xFloor = Math.floor(x / SUB_DIMENSION) * SUB_DIMENSION;
         let yFloor = Math.floor(y / SUB_DIMENSION) * SUB_DIMENSION;
-        for (let xi=0; xi<SUB_DIMENSION; xi++) {
-            for (let yi=0; yi<SUB_DIMENSION; yi++) {
+        for (let xi = 0; xi < SUB_DIMENSION; xi++) {
+            for (let yi = 0; yi < SUB_DIMENSION; yi++) {
                 coords.push({
                     x: xFloor + xi,
                     y: yFloor + yi
                 })
-            }  
+            }
         }
         return coords;
     }
@@ -50,7 +52,7 @@ const getOtherCellFunctions: GetOtherCellsFunction[] = [
 ]
 
 const reducer = (state: BoardState, action: BoardAction): BoardState => {
-    const newState = state.map((col) => col.map(c => ({...c})));
+    const newState = state.map((col) => col.map(c => ({ ...c })));
 
     for (let x = 0; x < DIMENSION; x++) {
         for (let y = 0; y < DIMENSION; y++) {
@@ -76,10 +78,10 @@ const reducer = (state: BoardState, action: BoardAction): BoardState => {
                 getOtherCellFunctions.forEach(f => {
                     let found: Set<number> = new Set();
                     let otherCells = f(x, y);
-                    otherCells.forEach(({x:xi, y:yi}) => {
+                    otherCells.forEach(({ x: xi, y: yi }) => {
                         if (found.has(newState[xi][yi].value)) {
-                            otherCells.forEach(({x: xj, y: yj}) => {
-                               if (newState[xj][yj].value === newState[xi][yi].value) {
+                            otherCells.forEach(({ x: xj, y: yj }) => {
+                                if (newState[xj][yj].value === newState[xi][yi].value) {
                                     newState[xj][yj].error = true;
                                 }
                             })
@@ -149,7 +151,7 @@ const useSudoku = (): UseSudoku => {
     const [board, setBoard] = React.useReducer(reducer, defaultState);
 
     React.useEffect(() => {
-        initialActions.map(i=>({...i, fix: true})).forEach(setBoard)
+        initialActions.map(i => ({ ...i, fix: true })).forEach(setBoard)
     }, [])
 
     return { board, setBoard }
