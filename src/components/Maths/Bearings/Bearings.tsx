@@ -1,13 +1,59 @@
 import React from 'react';
+import cogoToast from "cogo-toast";
+
 import Button from 'src/components/Bootstrap/Buttons/Button';
 import useListReducer from 'src/components/lib/useListReducer';
 import useSketch from 'src/components/p5/useSketch';
 import BearingSketch, { Bearing } from './BearingSketch';
+import ConfirmDialog, { useDialog as useConfirmDialog } from 'src/components/Bootstrap/ConfirmDialog';
 
 const DEGREES = <span>&#176;</span>;
 
+const bearingsToString = (bearings: Bearing[]): string => bearings.map(b => `${b.bearing}-${b.distance}`).join(',');
+const bearingsFromString = (asStr: string): Bearing[] => asStr
+    .split(',')
+    .map(b => b.split('-'))
+    .map(b => ({
+        bearing: parseInt(b[0]),
+        distance: parseInt(b[1])
+    }));
+
+const initialBearings: Bearing[] = [
+    {
+        bearing: 90,
+        distance: 130,
+    }, {
+        bearing: 180,
+        distance: 30,
+    }, {
+        bearing: 270,
+        distance: 50,
+    }, {
+        bearing: 180,
+        distance: 80,
+    }, {
+        bearing: 270,
+        distance: 80,
+    }, {
+        bearing: 0,
+        distance: 30,
+    }, {
+        bearing: 90,
+        distance: 50,
+    }, {
+        bearing: 0,
+        distance: 50,
+    }, {
+        bearing: 270,
+        distance: 50,
+    }, {
+        bearing: 0,
+        distance: 30
+    }
+]
+
 const Bearings: React.FunctionComponent = () => {
-    const { addItem, items: bearings, removeItemAtIndex } = useListReducer<Bearing>();
+    const { addItem, receiveItems, clearItems, items: bearings, removeItemAtIndex } = useListReducer<Bearing>(initialBearings);
     const [bearing, setBearing] = React.useState<number>(90);
     const [distance, setDistance] = React.useState<number>(50);
 
@@ -22,15 +68,44 @@ const Bearings: React.FunctionComponent = () => {
 
     React.useEffect(() => updateConfig({ bearings }), [bearings, updateConfig])
 
+    const [exportString, setExportString] = React.useState('');
 
+    React.useEffect(
+        () => setExportString(bearingsToString(bearings)),
+        [bearings, setExportString]);
 
-    const exportString = React.useMemo(() => btoa(JSON.stringify({ bearings })), [bearings]);
+    const onClickImport = React.useCallback(() => receiveItems(bearingsFromString(exportString)),
+        [exportString, receiveItems])
+
+    const exportStringRef = React.useRef<HTMLInputElement>(null);
+    const onExportStringChange: React.ChangeEventHandler<HTMLInputElement> =
+        React.useCallback(({ target: { value } }) => setExportString(value), [setExportString]);
+
+    const { componentProps: confirmDialogProps, showDialog } = useConfirmDialog({ getQuestion: () => 'Are you sure you want to clear any existing values?', onConfirm: clearItems });
+
+    const onClickExport = React.useCallback(() => {
+        /* Select the text field */
+        if (exportStringRef.current) {
+            exportStringRef.current.select();
+            exportStringRef.current.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            cogoToast.info("Copied the text: " + exportStringRef.current.value);
+        }
+    }, [exportStringRef]);
 
     return (<div>
+        <ConfirmDialog {...confirmDialogProps} />
         <div ref={refContainer} />
 
         <div className='form-group'>
-            <input className='form-control' value={exportString} />
+            <label>Export/Import</label>
+            <input ref={exportStringRef} className='form-control' value={exportString} onChange={onExportStringChange} />
+            <Button onClick={onClickExport} text='Export' styleType='primary' />
+            <Button className='ml-1' onClick={onClickImport} text='Import' styleType='danger' />
         </div>
 
         <div>
@@ -44,6 +119,7 @@ const Bearings: React.FunctionComponent = () => {
                 <input id='txtDistance' className='form-control' type='number' value={distance} onChange={onDistanceChange} />
             </div>
             <Button styleType='primary' onClick={onAddBearing} text='Add' />
+            <Button className='ml-1' styleType='danger' onClick={showDialog} text='Clear All' />
         </div>
 
         <table className='table table-striped table-compact'>
