@@ -27,7 +27,7 @@ const MAX_FORCE = 0.5;
 const RADIUS = 3;
 
 export default class GravitySketch extends AbstractSketch<{}> {
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     let boids: Array<ArrowBoid> = [];
     let centreScreen: p5.Vector;
 

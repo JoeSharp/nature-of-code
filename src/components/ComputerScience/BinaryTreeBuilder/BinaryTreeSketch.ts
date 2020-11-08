@@ -151,7 +151,7 @@ class BinaryTreeSketch<T> extends AbstractSketch<Config<T>> {
     }
   }
 
-  sketch = (s: import("p5")) => {
+  sketch(s: import("p5")) {
     const that = this;
 
     s.setup = function () {

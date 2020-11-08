@@ -18,7 +18,7 @@ const getDefaultConfig = (): GraphSketchConfig<any> => ({
 
 class GraphSketch<
   DATA_ITEM extends DisplayDataItem<any>
-> extends AbstractSketch<GraphSketchConfig<DATA_ITEM>> {
+  > extends AbstractSketch<GraphSketchConfig<DATA_ITEM>> {
   boids: {
     [id: string]: DataItemBoid<DATA_ITEM>;
   };
@@ -83,7 +83,7 @@ class GraphSketch<
     return boid;
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
     let screenCentre: p5.Vector;
 

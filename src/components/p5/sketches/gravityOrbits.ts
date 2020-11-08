@@ -7,7 +7,7 @@ const FIRST_MOONS = 3;
 const SECOND_MOONS = 3;
 
 export default class GravityOrbits extends AbstractSketch<{}> {
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     s.setup = function () {
       s.createCanvas(WIDTH, HEIGHT);
       s.colorMode(s.HSB, 255);

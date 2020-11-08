@@ -49,7 +49,7 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
     return this.knownPositionVars.indexOf(positionVar);
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
 
     s.setup = function () {
@@ -75,13 +75,13 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
       const { compareIndex, compareResult } =
         searchStage.type === SearchStageType.match
           ? {
-              compareIndex: searchStage.index,
-              compareResult: searchStage.result,
-            }
+            compareIndex: searchStage.index,
+            compareResult: searchStage.result,
+          }
           : {
-              compareIndex: NO_MATCH,
-              compareResult: 0,
-            };
+            compareIndex: NO_MATCH,
+            compareResult: 0,
+          };
 
       s.background("white");
 

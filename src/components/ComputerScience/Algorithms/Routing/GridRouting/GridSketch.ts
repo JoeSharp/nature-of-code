@@ -18,7 +18,7 @@ const getDefaultConfig = (): Config => ({
   sourceNode: createKeyedPoint(0, 0),
   destinationNode: createKeyedPoint(0, 0),
   path: [],
-  toggleConnection: () => {},
+  toggleConnection: () => { },
 });
 
 const WIDTH = 800;
@@ -54,7 +54,7 @@ class GridSketch extends AbstractSketch<Config> {
     return this.boids[point.key];
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
 
     s.setup = function () {
