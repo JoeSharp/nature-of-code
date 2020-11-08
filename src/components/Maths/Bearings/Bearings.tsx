@@ -22,13 +22,15 @@ const Bearings: React.FunctionComponent = () => {
 
     React.useEffect(() => updateConfig({ bearings }), [bearings, updateConfig])
 
+
+
     const exportString = React.useMemo(() => btoa(JSON.stringify({ bearings })), [bearings]);
 
     return (<div>
         <div ref={refContainer} />
 
         <div className='form-group'>
-            <input className='form-control' readOnly value={exportString} />
+            <input className='form-control' value={exportString} />
         </div>
 
         <div>
