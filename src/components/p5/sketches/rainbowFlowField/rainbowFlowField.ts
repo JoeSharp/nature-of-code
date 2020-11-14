@@ -22,7 +22,7 @@ function randomInt(s: p5, from: number, to: number) {
 }
 
 export default class RainbowFlowField extends AbstractSketch<{}> {
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     let boids: Array<Boid> = [];
     let flowField: FlowField;
 

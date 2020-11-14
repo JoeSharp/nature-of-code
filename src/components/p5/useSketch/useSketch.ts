@@ -20,7 +20,7 @@ export abstract class AbstractSketch<T> {
     this.config = config;
   }
 
-  abstract sketch: (s: p5) => void;
+  abstract sketch(s: p5): void;
 }
 
 export interface UseSketch<T, SKETCH extends AbstractSketch<T>> {
@@ -39,7 +39,7 @@ interface BaseConfig {
 }
 
 function useSketch<T extends BaseConfig, SKETCH extends AbstractSketch<T>>(s: {
-  new (): SKETCH;
+  new(): SKETCH;
 }): UseSketch<T, SKETCH> {
   const sketchInUse = React.useRef<p5>();
   const refContainer = React.useRef(null);

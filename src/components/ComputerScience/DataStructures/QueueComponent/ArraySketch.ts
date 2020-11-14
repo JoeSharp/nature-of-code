@@ -49,7 +49,7 @@ export class ArraySketch<T> extends AbstractSketch<Config<T>> {
     return boid;
   };
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
 
     s.setup = function () {
@@ -100,7 +100,7 @@ export class ArraySketch<T> extends AbstractSketch<Config<T>> {
   };
 }
 
-export class ArraySketchNumber extends ArraySketch<number> {}
-export class ArraySketchString extends ArraySketch<string> {}
+export class ArraySketchNumber extends ArraySketch<number> { }
+export class ArraySketchString extends ArraySketch<string> { }
 
 export default ArraySketch;

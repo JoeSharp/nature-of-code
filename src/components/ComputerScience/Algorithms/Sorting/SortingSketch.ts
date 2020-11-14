@@ -65,7 +65,7 @@ class SortingSketch extends AbstractSketch<Config> {
     return this.boids[vertex.key];
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
 
     s.setup = function () {
@@ -91,27 +91,27 @@ class SortingSketch extends AbstractSketch<Config> {
       } =
         sortStage.type === SortStageType.compare
           ? {
-              compareValueA: sortStage.a,
-              compareValueB: sortStage.b,
-              compareIndexA: sortStage.aIndex,
-              compareIndexB: sortStage.bIndex,
-              compareResult: sortStage.result,
-            }
+            compareValueA: sortStage.a,
+            compareValueB: sortStage.b,
+            compareIndexA: sortStage.aIndex,
+            compareIndexB: sortStage.bIndex,
+            compareResult: sortStage.result,
+          }
           : {
-              compareValueA: NO_MATCH,
-              compareValueB: NO_MATCH,
-              compareIndexA: NO_MATCH,
-              compareIndexB: NO_MATCH,
-              compareResult: 0,
-            };
+            compareValueA: NO_MATCH,
+            compareValueB: NO_MATCH,
+            compareIndexA: NO_MATCH,
+            compareIndexB: NO_MATCH,
+            compareResult: 0,
+          };
 
       const { swapFrom, swapTo } =
         sortStage.type === SortStageType.swap
           ? { swapFrom: sortStage.from, swapTo: sortStage.to }
           : {
-              swapFrom: NO_MATCH,
-              swapTo: NO_MATCH,
-            };
+            swapFrom: NO_MATCH,
+            swapTo: NO_MATCH,
+          };
 
       s.background("skyblue");
 

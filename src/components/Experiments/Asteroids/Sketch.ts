@@ -7,7 +7,7 @@ import Bullet from "./Bullet";
 
 import { GameObject } from "./types";
 
-interface Config {}
+interface Config { }
 
 const defaultConfig: Config = {};
 
@@ -25,7 +25,7 @@ class Sketch extends AbstractSketch<Config> {
     super(defaultConfig);
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     // const that = this;
     let ship: Ship;
     let asteroids: Asteroid[] = [];

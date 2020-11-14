@@ -42,7 +42,7 @@ class Sketch extends AbstractSketch<Config> {
     super(defaultConfig);
   }
 
-  sketch = (s: p5) => {
+  sketch(s: p5) {
     const that = this;
     let analogueSignal: number[] = [];
     const CROSS_LENGTH = 5;
