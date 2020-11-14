@@ -18,17 +18,15 @@ const GraphManager: React.FunctionComponent = () => {
     graphName,
     graph,
     savedGraphUse: { createNew, save, reset },
-    onValueChange,
     componentProps: graphPickerProps,
     sketchUse: { updateConfig, sketchContainer },
   } = useGraphPicker("simpleStringGraph");
 
   const onCreateNew = React.useCallback(
     (name: string) => {
-      onValueChange(name);
       createNew(name);
     },
-    [createNew, onValueChange]
+    [createNew]
   );
 
   const {

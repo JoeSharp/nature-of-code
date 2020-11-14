@@ -21,21 +21,21 @@ const GraphPickerWithSketch: React.FunctionComponent<Props> = ({
   onSelectChange,
   refContainer,
 }) => (
-  <React.Fragment>
-    <div className="form-group">
-      <label>Graph</label>
-      <select className="form-control" value={value} onChange={onSelectChange}>
-        {names.map((name) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
-    </div>
+    <React.Fragment>
+      <div className="form-group">
+        <label>Graph</label>
+        <select className="form-control" value={value} onChange={onSelectChange}>
+          {names.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-    <div className="sketch mt-3" ref={refContainer} />
-  </React.Fragment>
-);
+      <div className="sketch mt-3" ref={refContainer} />
+    </React.Fragment>
+  );
 
 interface UsePicker {
   graphName: string;
@@ -58,7 +58,7 @@ export const usePicker = (
 
   const [graphName, setGraphName] = React.useState<string>(defaultGraphName);
   const [graph, setGraph] = React.useState<Graph<StringDataItem>>(
-    cannedGraphs[defaultGraphName]
+    graphs[defaultGraphName]
   );
   const [vertexPositions, setVertexPositions] = React.useState<
     PositionByVertex
