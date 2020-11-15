@@ -1,10 +1,10 @@
 import React from "react";
 
 import algorithms from "comp-sci-maths-lib/dist/algorithms/sort/monitored";
-import { NamedSort } from "comp-sci-maths-lib/dist/types";
 import { ControlledInput } from "src/types";
+import { NamedCustomisableSort } from 'comp-sci-maths-lib/dist/algorithms/sort/types';
 
-interface Props extends ControlledInput<NamedSort | undefined> {
+interface Props extends ControlledInput<NamedCustomisableSort | undefined> {
   className?: string;
 }
 
@@ -38,12 +38,12 @@ const SortingAlgorithmPicker: React.FunctionComponent<Props> = ({
 };
 
 interface UsePicker {
-  algorithm: NamedSort | undefined;
+  algorithm: NamedCustomisableSort | undefined;
   componentProps: Props;
 }
 
 export const usePicker = (className?: string): UsePicker => {
-  const [value, onChange] = React.useState<NamedSort | undefined>(undefined);
+  const [value, onChange] = React.useState<NamedCustomisableSort | undefined>(undefined);
 
   return {
     algorithm: value,
