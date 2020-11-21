@@ -7,11 +7,7 @@ import {
   simpleSwap,
   ROOT_RECURSION_KEY,
 } from "comp-sci-maths-lib/dist/common";
-import {
-  NamedSort,
-  SortUtility,
-  SplitList,
-} from "comp-sci-maths-lib/dist/types";
+import { SplitList } from "comp-sci-maths-lib/dist/types";
 
 import {
   SortStage,
@@ -24,9 +20,13 @@ import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { StringDataItem, DisplayDataItem } from "src/components/p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
+import {
+  NamedCustomisableSort,
+  SortUtility,
+} from "comp-sci-maths-lib/dist/algorithms/sort/types";
 
 interface Props {
-  algorithm?: NamedSort;
+  algorithm?: NamedCustomisableSort;
 }
 
 type StringListVertex = SplitListVertex<StringDataItem>;

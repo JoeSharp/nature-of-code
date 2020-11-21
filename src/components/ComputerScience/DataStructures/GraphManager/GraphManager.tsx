@@ -12,23 +12,23 @@ import NewGraphDialog, {
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
+import cogoToast from "cogo-toast";
 
 const GraphManager: React.FunctionComponent = () => {
   const {
     graphName,
     graph,
     savedGraphUse: { createNew, save, reset },
-    onValueChange,
     componentProps: graphPickerProps,
     sketchUse: { updateConfig, sketchContainer },
   } = useGraphPicker("simpleStringGraph");
 
   const onCreateNew = React.useCallback(
     (name: string) => {
-      onValueChange(name);
       createNew(name);
+      cogoToast.info(`Graph Created with name ${name}`);
     },
-    [createNew, onValueChange]
+    [createNew]
   );
 
   const {
@@ -58,6 +58,7 @@ const GraphManager: React.FunctionComponent = () => {
       .reduce((acc, { key, position }) => ({ ...acc, [key]: position }), {});
 
     save(graphName, graph, vertexPositions);
+    cogoToast.info(`Graph Saved with name ${graphName}`);
   }, [save, graphName, graph, sketchContainer]);
 
   const buttonBarProps: ButtonBarProps = React.useMemo(

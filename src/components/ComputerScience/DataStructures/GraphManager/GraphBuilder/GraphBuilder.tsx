@@ -8,6 +8,7 @@ import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Checkbox from 'src/components/Bootstrap/Checkbox';
 
 interface Props {
   graph: Graph<StringDataItem>;
@@ -21,16 +22,32 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
   );
 
   const [newEdgeWeight, setNewEdgeWeight] = React.useState<number>(1);
+  const onNewEdgeWeightChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { value } }) => setNewEdgeWeight(parseInt(value)),
+    [setNewEdgeWeight]
+  );
+
+  const [newEdgeBidirectional, setNewEdgeBidirectional] = React.useState<boolean>(true);
+  const onNewEdgeBidirectionalChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    ({ target: { checked } }) => setNewEdgeBidirectional(checked),
+    [setNewEdgeBidirectional]
+  );
+
 
   const completeEdge = React.useCallback(
     (to: StringDataItem, weight: number) => {
       if (pendingFrom !== undefined) {
-        graph.addUnidirectionalEdge(pendingFrom, to, weight);
+        if (newEdgeBidirectional) {
+          graph.addBiDirectionalEdge(pendingFrom, to, weight);
+
+        } else {
+          graph.addUnidirectionalEdge(pendingFrom, to, weight);
+        }
       }
       prepareEdge(undefined);
       tickVersion();
     },
-    [pendingFrom, graph]
+    [pendingFrom, graph, newEdgeBidirectional]
   );
   const cancelEdge = React.useCallback(() => prepareEdge(undefined), [
     prepareEdge,
@@ -57,11 +74,6 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
       tickVersion();
     }
   }, [newVertexName, graph]);
-
-  const onNewEdgeWeightChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setNewEdgeWeight(parseInt(value)),
-    [setNewEdgeWeight]
-  );
 
   const buttonBarProps: ButtonBarProps = React.useMemo(
     () => ({
@@ -107,6 +119,13 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
             value={newEdgeWeight}
             onChange={onNewEdgeWeightChange}
           />
+        </div>
+        <div className='form-group'>
+          <Checkbox
+            label='New Edges Bidirectional'
+            id='chkNewEdgeBidirectional'
+            checked={newEdgeBidirectional}
+            onChange={onNewEdgeBidirectionalChange} />
         </div>
       </form>
       <ButtonBar {...buttonBarProps} />
