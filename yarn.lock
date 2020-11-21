@@ -3765,10 +3765,10 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
-comp-sci-maths-lib@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/comp-sci-maths-lib/-/comp-sci-maths-lib-6.0.0.tgz#4c118e7e20539bd4c42735c4de9577d90ade8cda"
-  integrity sha512-g7mpk8FLXI0W4G8TAEqUmEHzYIgRNKzIYzOIYUq0QhKA/9lmchVYDuyS+aoy/C/EqHL6Ptx/sNPY6+gEx+1hig==
+comp-sci-maths-lib@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/comp-sci-maths-lib/-/comp-sci-maths-lib-7.0.1.tgz#c4efc4cbd4c8a61d78e00f5c3d65090fdda8d911"
+  integrity sha512-pj6ObMVt6XgDPUeCrJ2iPg5s9YXRmJ/+CfAg9T5Kx1s2R/7m9e/My4tEZXIcM2Ik8wHkOtKwkkPWRFlVNMejyQ==
   dependencies:
     "@types/jest" "^26.0.5"
     "@types/lodash" "^4.14.149"
