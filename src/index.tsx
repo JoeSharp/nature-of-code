@@ -6,6 +6,7 @@ import {
   Route,
   RouteComponentProps,
 } from "react-router-dom";
+import Modal from 'react-modal';
 
 import "jquery";
 import "popper.js";
@@ -15,19 +16,23 @@ import CommonPageHeader, { pages } from "./components/CommonPageHeader";
 
 import "./index.css";
 
-const App = () => (
-  <div className="container pb-4 pr-4 pl-4">
-    <Route
-      component={({ history: { location } }: RouteComponentProps) => (
-        <CommonPageHeader location={location.pathname} />
-      )}
-    />
+const App = () => {
+  React.useEffect(() => Modal.setAppElement('body'), []);
 
-    {pages.map(({ href, component }) => (
-      <Route key={href} exact path={href} component={component} />
-    ))}
-  </div>
-);
+  return (
+    <div className="container pb-4 pr-4 pl-4">
+      <Route
+        component={({ history: { location } }: RouteComponentProps) => (
+          <CommonPageHeader location={location.pathname} />
+        )}
+      />
+
+      {pages.map(({ href, component }) => (
+        <Route key={href} exact path={href} component={component} />
+      ))}
+    </div>
+  )
+};
 
 ReactDOM.render(
   <Router>
