@@ -28,10 +28,10 @@ const useGraphTraversal = <T extends AnyGraphVertex>({
     if (startVertex !== undefined) {
       switch (algorithmName) {
         case BREADTH_FIRST_SEARCH:
-          breadthFirstSearch(graph, startVertex, visit);
+          breadthFirstSearch(graph, startVertex.key, visit);
           break;
         case DEPTH_FIRST_SEARCH:
-          depthFirstSearch(graph, startVertex, visit);
+          depthFirstSearch(graph, startVertex.key, visit);
           break;
       }
     }

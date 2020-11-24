@@ -122,6 +122,8 @@ const GraphRouting: React.FunctionComponent = () => {
           <VertexPicker {...destinationPickerProps} />
         </div>
       </form>
+      <h2>Path Found - {path.map(p => p.value).join('->')}</h2>
+      <h2>A* Algorithm</h2>
       <div className="mb-3">
         <p>
           The A* algorithm is an enchancement on Dijkstras. It takes into

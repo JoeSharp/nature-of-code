@@ -13,11 +13,11 @@ const VERTEX_D = createDataItem("D");
 
 export default () => {
   return new Graph<StringDataItem>()
-    .addUnidirectionalEdge(VERTEX_A, VERTEX_B)
-    .addUnidirectionalEdge(VERTEX_B, VERTEX_A)
-    .addUnidirectionalEdge(VERTEX_B, VERTEX_C)
-    .addUnidirectionalEdge(VERTEX_B, VERTEX_D)
-    .addUnidirectionalEdge(VERTEX_D, VERTEX_A);
+    .addBiDirectionalEdge(VERTEX_A, VERTEX_B)
+    .addBiDirectionalEdge(VERTEX_B, VERTEX_A)
+    .addBiDirectionalEdge(VERTEX_B, VERTEX_C)
+    .addBiDirectionalEdge(VERTEX_B, VERTEX_D)
+    .addBiDirectionalEdge(VERTEX_D, VERTEX_A);
 };
 
 export const vertexPositions: PositionByVertex = {

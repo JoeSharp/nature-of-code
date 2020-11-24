@@ -115,11 +115,11 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
       stages.push(cloneDeep(observerArgs));
     };
     const shortestPathTree: ShortestPathTree<DATA_ITEM> =
-      sourceNode !== undefined
+      (sourceNode !== undefined && destinationNode !== undefined)
         ? dijstraks({
           graph,
-          sourceNode,
-          destinationNode,
+          sourceNodeKey: sourceNode.key,
+          destinationNodeKey: destinationNode.key,
           getHeuristicCost,
           observer,
         })
