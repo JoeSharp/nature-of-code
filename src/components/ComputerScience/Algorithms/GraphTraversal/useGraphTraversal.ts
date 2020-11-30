@@ -1,6 +1,5 @@
 import React from "react";
-import depthFirstSearch from "comp-sci-maths-lib/dist/algorithms/graphTraversal/depthFirstSearch";
-import breadthFirstSearch from "comp-sci-maths-lib/dist/algorithms/graphTraversal/breadthFirstSearch";
+import { depthFirstSearch, breadthFirstSearch } from "comp-sci-maths-lib/dist/";
 import { VisitFunction, AnyGraphVertex } from "comp-sci-maths-lib/dist/types";
 
 import { BREADTH_FIRST_SEARCH, DEPTH_FIRST_SEARCH } from "./common";

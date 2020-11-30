@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props {
   id: string;
-  label: string;
+  label: string | React.ReactElement;
   checked: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
