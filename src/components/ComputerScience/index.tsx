@@ -8,6 +8,7 @@ import { page as routingGridPage } from "./Algorithms/Routing/GridRouting";
 import { page as routingGraphPage } from "./Algorithms/Routing/GraphRouting";
 import { page as searchPage } from "./Algorithms/Search";
 import { page as sortingPage } from "./Algorithms/Sorting";
+import { page as bigONotationPage } from "./Algorithms/BigONotation";
 import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphManager";
 import { page as stackPage } from "./DataStructures/StackComponent";
@@ -25,6 +26,7 @@ const algorithmPages = [
   routingGridPage,
   searchPage,
   sortingPage,
+  bigONotationPage,
 ];
 
 const dataStructurePages = [

@@ -1,7 +1,7 @@
 import React from "react";
 
 import SearchAlgorithmPicker, {
-  useSearchAlgorithmPicker,
+  usePicker as useSearchAlgorithmPicker,
 } from "./SearchAlgorithmPicker";
 
 import SearchSketch from "./SearchSketch";

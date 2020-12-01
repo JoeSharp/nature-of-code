@@ -1,33 +1,17 @@
 import { PositionVars } from "comp-sci-maths-lib/dist/types";
 
-export enum SearchStageType {
-  observation,
-  match,
-}
-
-export interface SearchObservation<T> {
-  type: SearchStageType.observation;
+export interface SearchObservation {
   stageName: string;
   positionVars: PositionVars;
 }
 
-export interface SearchMatch<T> {
-  type: SearchStageType.match;
-  index: number;
-  result: number;
-  lastObservation: SearchObservation<T>;
-}
-
-export type SearchStage<T> = SearchObservation<T> | SearchMatch<T>;
-
-export const DEFAULT_SEARCH_STAGE: SearchStage<any> = {
-  type: SearchStageType.observation,
+export const DEFAULT_SEARCH_OBS: SearchObservation = {
   stageName: "DEFAULT",
   positionVars: {},
 };
 
 export interface SearchingData<T> {
-  stages: SearchStage<T>[];
+  stages: SearchObservation[];
   matchIndex: number;
   searchItem: string;
   data: T[];

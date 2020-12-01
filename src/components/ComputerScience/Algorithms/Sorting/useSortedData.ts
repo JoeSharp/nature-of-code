@@ -1,25 +1,19 @@
 import React from "react";
-import { cloneDeep } from "lodash";
 
 import {
   stringComparator,
   generateRandomLetters,
   simpleSwap,
-  ROOT_RECURSION_KEY,
 } from "comp-sci-maths-lib/dist/common";
-import { SplitList } from "comp-sci-maths-lib/dist/types";
 
 import {
   SortStage,
   SortingData,
   SortStageType,
   SortObservation,
-  SplitListVertex,
 } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { StringDataItem, DisplayDataItem } from "src/components/p5/Boid/types";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
+import { StringDataItem } from "src/components/p5/Boid/types";
 import {
   NamedCustomisableSort,
   SortUtility,
@@ -28,17 +22,6 @@ import {
 interface Props {
   algorithm?: NamedCustomisableSort;
 }
-
-type StringListVertex = SplitListVertex<StringDataItem>;
-
-const getSplitListVertex = <T extends DisplayDataItem<any>>({
-  key,
-  data,
-}: SplitList<T>): SplitListVertex<T> => ({
-  key,
-  value: data,
-  label: data.map((v) => v.label).join(","),
-});
 
 const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
   const inputList: StringDataItem[] = React.useMemo(
@@ -57,17 +40,6 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
     let sortedData = inputList;
     let stages: SortStage<StringDataItem>[] = [];
     let lastObservation: SortObservation<StringDataItem>;
-    let splitNodes: BinaryTree<StringListVertex> = new BinaryTree(
-      (a: StringListVertex, b: StringListVertex) =>
-        parseInt(a.key) - parseInt(b.key)
-    );
-    let joinNodes: Graph<SplitListVertex<StringDataItem>> = new Graph();
-    let inputSplitList: SplitListVertex<StringDataItem> = {
-      key: ROOT_RECURSION_KEY.toString(),
-      value: inputList,
-      label: "ROOT",
-    };
-    splitNodes.add(inputSplitList);
 
     const sortUtilities: SortUtility<StringDataItem> = {
       swap: (data, from, to) => {
@@ -98,35 +70,8 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
           stageName,
           data: [...data],
           positionVars: { ...positionVars },
-          splitNodes: cloneDeep(splitNodes),
-          joinNodes: cloneDeep(joinNodes),
         };
         stages.push(lastObservation);
-      },
-      split: (
-        thisKey: string,
-        listA: SplitList<StringDataItem>,
-        listB: SplitList<StringDataItem>
-      ) => {
-        [listA, listB]
-          .map((l) => getSplitListVertex(l))
-          .forEach((l) => splitNodes.add(l));
-      },
-      join: (
-        listA: SplitList<StringDataItem>,
-        listB: SplitList<StringDataItem>,
-        joinedList: StringDataItem[]
-      ) => {
-        // const thisVertex = getSplitListVertex({
-        //   key: thisKey,
-        //   data: joinedList,
-        // });
-        [listA, listB].forEach((lKey) => {
-          // const lVertex = splitNodes.getVertex(lKey);
-          // if (lVertex !== undefined) {
-          //   joinNodes.addUnidirectionalEdge(thisVertex, lVertex);
-          // }
-        });
       },
     };
 
@@ -136,8 +81,6 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
       stageName: "Starting",
       data: [...inputList],
       positionVars: {},
-      splitNodes: cloneDeep(splitNodes),
-      joinNodes: cloneDeep(joinNodes),
     });
 
     // Run the algorithm
@@ -151,8 +94,6 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
       stageName: "Finished",
       data: [...sortedData],
       positionVars: {},
-      splitNodes: cloneDeep(splitNodes),
-      joinNodes: cloneDeep(joinNodes),
     });
 
     return { sortedData, stages };

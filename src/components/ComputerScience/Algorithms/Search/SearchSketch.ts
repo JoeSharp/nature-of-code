@@ -2,12 +2,7 @@ import p5 from "p5";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { AbstractSketch } from "src/components/p5/useSketch";
 
-import {
-  SearchStage,
-  SearchObservation,
-  DEFAULT_SEARCH_STAGE,
-  SearchStageType,
-} from "./types";
+import { DEFAULT_SEARCH_OBS, SearchObservation } from "./types";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
 const WIDTH = 600;
@@ -16,7 +11,7 @@ const HEIGHT = 600;
 interface Config {
   searchItem?: string;
   data: StringDataItem[];
-  searchStage: SearchStage<StringDataItem>;
+  searchStage: SearchObservation;
   matchIndex: number;
   isFinalStage: boolean;
 }
@@ -24,7 +19,7 @@ interface Config {
 const getDefaultConfig = <T>(): Config => ({
   searchItem: undefined,
   data: [],
-  searchStage: DEFAULT_SEARCH_STAGE,
+  searchStage: DEFAULT_SEARCH_OBS,
   matchIndex: NO_MATCH,
   isFinalStage: false,
 });
@@ -60,28 +55,13 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
 
     s.draw = function () {
       const {
-        searchStage = DEFAULT_SEARCH_STAGE,
-        searchItem,
+        searchStage = DEFAULT_SEARCH_OBS,
         data,
         matchIndex,
         isFinalStage,
       } = that.config;
 
-      const { stageName, positionVars }: SearchObservation<string> =
-        searchStage.type === SearchStageType.observation
-          ? searchStage
-          : searchStage.lastObservation;
-
-      const { compareIndex, compareResult } =
-        searchStage.type === SearchStageType.match
-          ? {
-            compareIndex: searchStage.index,
-            compareResult: searchStage.result,
-          }
-          : {
-            compareIndex: NO_MATCH,
-            compareResult: 0,
-          };
+      const { stageName, positionVars } = searchStage;
 
       s.background("white");
 
@@ -95,9 +75,6 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
 
         // Work out the fill colour
         switch (i) {
-          case compareIndex:
-            s.fill("green");
-            break;
           case matchIndex:
             if (isFinalStage) {
               s.fill("lime");
@@ -125,23 +102,7 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
       s.fill("black");
 
       s.textAlign(s.LEFT, s.CENTER);
-
-      // Generate the title based on stage information
-      let subTitle = "";
-      switch (searchStage.type) {
-        case SearchStageType.match:
-          let comparisonSymbol = "=";
-          if (compareResult < 0) {
-            comparisonSymbol = "<";
-          } else if (compareResult > 0) {
-            comparisonSymbol = ">";
-          }
-
-          subTitle = `Comparing ${searchItem} ${comparisonSymbol} data[${compareIndex}]=${data[compareIndex].value}`;
-          break;
-      }
       s.text(stageName, 20, 20);
-      s.text(subTitle, 20, 50);
 
       // Ensure position vars are in consistent order
 
@@ -156,7 +117,7 @@ class SearchingSketch<T> extends AbstractSketch<Config> {
           s.text(`${key}`, getDataX(index), 150 + position * 30);
         });
     };
-  };
+  }
 }
 
 export default SearchingSketch;

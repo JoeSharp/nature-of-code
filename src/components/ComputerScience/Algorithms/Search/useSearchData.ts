@@ -6,12 +6,7 @@ import {
 } from "comp-sci-maths-lib/dist/common";
 import { NamedSearch, SearchUtilities } from "comp-sci-maths-lib/dist/types";
 
-import {
-  SearchStage,
-  SearchingData,
-  SearchStageType,
-  SearchObservation,
-} from "./types";
+import { SearchingData, SearchObservation } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
 import { StringDataItem } from "src/components/p5/Boid/types";
 
@@ -35,23 +30,13 @@ const useSearchedData = ({
   );
 
   const { matchIndex, stages } = React.useMemo(() => {
-    let stages: SearchStage<StringDataItem>[] = [];
-    let lastObservation: SearchObservation<StringDataItem>;
+    let stages: SearchObservation[] = [];
+    let lastObservation: SearchObservation;
 
     const searchUtilities: SearchUtilities<StringDataItem> = {
-      match: (a, index) => {
-        const result = stringComparator(searchItem, a.value);
-        stages.push({
-          type: SearchStageType.match,
-          index,
-          result,
-          lastObservation,
-        });
-        return result;
-      },
+      compare: (a, b) => stringComparator(a.value, b.value),
       observe: (stageName, positionVars) => {
         lastObservation = {
-          type: SearchStageType.observation,
           stageName,
           positionVars: { ...positionVars },
         };
@@ -61,7 +46,6 @@ const useSearchedData = ({
 
     // Add explicit Start Observation
     stages.push({
-      type: SearchStageType.observation,
       stageName: "Starting",
       positionVars: {},
     });
@@ -69,12 +53,15 @@ const useSearchedData = ({
     // Run the algorithm
     let matchIndex: number = NO_MATCH;
     if (!!algorithm) {
-      matchIndex = algorithm.search(data, searchUtilities);
+      matchIndex = algorithm.search(
+        data,
+        { key: "NONE", label: searchItem, value: searchItem },
+        searchUtilities
+      );
     }
 
     // Add explicit End Observation
     stages.push({
-      type: SearchStageType.observation,
       stageName: "Finished",
       positionVars: {
         matchIndex,

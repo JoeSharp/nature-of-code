@@ -1,6 +1,6 @@
 import React from "react";
 
-import algorithms from "comp-sci-maths-lib/dist/algorithms/search/monitored";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/search/monitoredSearch";
 import { NamedSearch } from "comp-sci-maths-lib/dist/types";
 import { ControlledInput } from "src/types";
 
@@ -42,7 +42,7 @@ interface UsePicker {
   componentProps: Props;
 }
 
-export const useSearchAlgorithmPicker = (className?: string): UsePicker => {
+export const usePicker = (className?: string): UsePicker => {
   const [value, onChange] = React.useState<NamedSearch | undefined>(undefined);
 
   return {

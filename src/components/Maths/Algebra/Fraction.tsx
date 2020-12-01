@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Fraction: React.FunctionComponent<Props> = ({ numerator, denominator }) =>
-  denominator == 1 ? (
+  denominator === 1 ? (
     <span>{numerator}</span>
   ) : (
     <span>
