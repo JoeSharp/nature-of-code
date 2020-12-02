@@ -1,5 +1,6 @@
 import { arithmeticComparator } from "comp-sci-maths-lib/dist/common";
 import React from "react";
+import useSketch from "src/components/p5/useSketch";
 import SearchAlgorithmPicker, {
   usePicker as useSearchAlgorithmPicker,
 } from "../Search/SearchAlgorithmPicker";
@@ -10,6 +11,7 @@ import SortAlgorithmPicker, {
 import AlgorithmTypePicker, {
   usePicker as useAlgorithmTypePicker,
 } from "./AlgorithmTypePicker";
+import BigOSketch from "./BigOSketch";
 
 import useAlgorithmMeasure from "./useAlgorithmMeasure";
 
@@ -40,7 +42,6 @@ const BigONotation: React.FunctionComponent = () => {
   const algorithmWrapper = React.useCallback(
     (inputList: number[]) => {
       let numberOfComparisons: number = 0;
-
       if (algorithmTypePickerProps.value === "search" && !!searchAlgorithm) {
         const indexToFind = Math.floor(Math.random() * inputList.length);
         searchAlgorithm.search(inputList, inputList[indexToFind], {
@@ -64,7 +65,6 @@ const BigONotation: React.FunctionComponent = () => {
   );
 
   const measurements = useAlgorithmMeasure({
-    enabled: algorithmTypePickerProps.value === "search",
     startSize,
     endSize,
     step,
@@ -89,6 +89,15 @@ const BigONotation: React.FunctionComponent = () => {
     [setEndSize]
   );
 
+  const { refContainer, updateConfig } = useSketch(BigOSketch);
+
+  React.useEffect(() => updateConfig({ startSize, endSize, measurements }), [
+    startSize,
+    endSize,
+    measurements,
+    updateConfig,
+  ]);
+
   return (
     <div>
       <div className="form-group">
@@ -105,7 +114,7 @@ const BigONotation: React.FunctionComponent = () => {
         <input
           className="form-control"
           type="number"
-          value={step}
+          value={samples}
           onChange={onSamplesChange}
         />
       </div>
@@ -147,24 +156,7 @@ const BigONotation: React.FunctionComponent = () => {
         </div>
       )}
 
-      <table>
-        <thead>
-          <tr>
-            <th>Length</th>
-            <th>Samples</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(measurements)
-            .map((k) => ({ length: k[0], samples: k[1] }))
-            .map(({ length, samples }) => (
-              <tr>
-                <td>{length}</td>
-                <td>{samples.join(",")}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div ref={refContainer} />
     </div>
   );
 };

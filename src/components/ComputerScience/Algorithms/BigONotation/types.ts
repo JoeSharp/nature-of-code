@@ -3,7 +3,6 @@ export interface BigOMeasurements {
 }
 
 export interface MeasureProps {
-  enabled: boolean;
   samples: number;
   startSize: number;
   endSize: number;

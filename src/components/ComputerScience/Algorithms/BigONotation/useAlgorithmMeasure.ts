@@ -72,7 +72,6 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
 };
 
 const useAlgorithmMeasure = ({
-  enabled,
   startSize,
   endSize,
   samples,
@@ -83,7 +82,6 @@ const useAlgorithmMeasure = ({
     algorithmWrapper,
     currentLength: startSize,
     measurements: {},
-    enabled,
     startSize,
     endSize,
     samples,
@@ -96,17 +94,16 @@ const useAlgorithmMeasure = ({
     () =>
       dispatch({
         type: "reset",
-        enabled,
         startSize,
         endSize,
         samples,
         step,
         algorithmWrapper,
       }),
-    [algorithmWrapper, samples, enabled, startSize, endSize, step]
+    [algorithmWrapper, samples, startSize, endSize, step]
   );
 
-  useInterval(tick, enabled ? 1 : null);
+  useInterval(tick, 1);
 
   return measurements;
 };
