@@ -16,9 +16,9 @@ import BigOSketch from "./BigOSketch";
 
 import useAlgorithmMeasure from "./useAlgorithmMeasure";
 
-const DEFAULT_STEP: number = 1000;
-const DEFAULT_START_SIZE: number = 1000;
-const DEFAULT_END_SIZE: number = 10000;
+const DEFAULT_STEP: number = 40;
+const DEFAULT_START_SIZE: number = 10;
+const DEFAULT_END_SIZE: number = 1000;
 
 const BigONotation: React.FunctionComponent = () => {
   const { componentProps: algorithmTypePickerProps } = useAlgorithmTypePicker(

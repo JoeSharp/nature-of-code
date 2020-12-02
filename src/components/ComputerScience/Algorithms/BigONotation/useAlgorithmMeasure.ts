@@ -94,7 +94,7 @@ const useAlgorithmMeasure = ({
     [algorithmWrapper, startSize, endSize, step]
   );
 
-  useInterval(tick, playing ? 500 : null);
+  useInterval(tick, playing ? 1000 : null);
 
   return measurements;
 };
