@@ -40,23 +40,18 @@ class BigOSketch<T> extends AbstractSketch<Config> {
 
       // Find the largest measurement
       let highest = 0;
-      Object.values(measurements).forEach((c: number[]) =>
-        c.forEach((i) => {
-          if (i > highest) {
-            highest = i;
-          }
-        })
-      );
+      Object.values(measurements).forEach((i: number) => {
+        if (i > highest) {
+          highest = i;
+        }
+      });
 
       Object.entries(measurements)
-        .map((k) => ({ index: parseInt(k[0]), counts: k[1] }))
-        .forEach(({ index, counts }) => {
+        .map((k) => ({ index: parseInt(k[0]), value: k[1] }))
+        .forEach(({ index, value }) => {
           const x = s.map(index, startSize, endSize, 0, WIDTH);
-
-          counts.forEach((c: number) => {
-            const y = s.map(c, 0, highest, 0, HEIGHT);
-            s.point(x, HEIGHT - y);
-          });
+          const y = s.map(value, 0, highest, 0, HEIGHT);
+          s.point(x, HEIGHT - y);
         });
     };
   }

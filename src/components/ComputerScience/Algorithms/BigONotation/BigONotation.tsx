@@ -1,5 +1,6 @@
 import { arithmeticComparator } from "comp-sci-maths-lib/dist/common";
 import React from "react";
+import Checkbox from "src/components/Bootstrap/Checkbox";
 import useSketch from "src/components/p5/useSketch";
 import SearchAlgorithmPicker, {
   usePicker as useSearchAlgorithmPicker,
@@ -16,8 +17,7 @@ import BigOSketch from "./BigOSketch";
 import useAlgorithmMeasure from "./useAlgorithmMeasure";
 
 const DEFAULT_STEP: number = 1000;
-const DEFAULT_SAMPLES: number = 20;
-const DEFAULT_START_SIZE: number = 100;
+const DEFAULT_START_SIZE: number = 1000;
 const DEFAULT_END_SIZE: number = 10000;
 
 const BigONotation: React.FunctionComponent = () => {
@@ -35,9 +35,9 @@ const BigONotation: React.FunctionComponent = () => {
   } = useSortAlgorithmPicker("form-control");
 
   const [step, setStep] = React.useState<number>(DEFAULT_STEP);
-  const [samples, setSamples] = React.useState<number>(DEFAULT_SAMPLES);
   const [startSize, setStartSize] = React.useState<number>(DEFAULT_START_SIZE);
   const [endSize, setEndSize] = React.useState<number>(DEFAULT_END_SIZE);
+  const [playing, togglePlaying] = React.useReducer((p) => !p, false);
 
   const algorithmWrapper = React.useCallback(
     (inputList: number[]) => {
@@ -65,20 +65,16 @@ const BigONotation: React.FunctionComponent = () => {
   );
 
   const measurements = useAlgorithmMeasure({
+    playing,
     startSize,
     endSize,
     step,
-    samples,
     algorithmWrapper,
   });
 
   const onStepChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setStep(parseInt(value)),
     [setStep]
-  );
-  const onSamplesChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setSamples(parseInt(value)),
-    [setSamples]
   );
   const onStartSizeChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setStartSize(parseInt(value)),
@@ -107,15 +103,6 @@ const BigONotation: React.FunctionComponent = () => {
           type="number"
           value={step}
           onChange={onStepChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Samples</label>
-        <input
-          className="form-control"
-          type="number"
-          value={samples}
-          onChange={onSamplesChange}
         />
       </div>
       <div className="form-group">
@@ -156,7 +143,31 @@ const BigONotation: React.FunctionComponent = () => {
         </div>
       )}
 
+      <Checkbox
+        id="chkPlaying"
+        label="playing"
+        checked={playing}
+        onChange={togglePlaying}
+      />
+
       <div ref={refContainer} />
+
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Input Size</th>
+            <th>Average Comparisons</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(measurements).map((k) => (
+            <tr key={k[0]}>
+              <td>{k[0]}</td>
+              <td>{k[1]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

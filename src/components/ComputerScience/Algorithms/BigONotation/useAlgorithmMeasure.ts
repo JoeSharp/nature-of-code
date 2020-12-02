@@ -7,12 +7,13 @@ import useInterval from "src/components/lib/useInterval";
 import { BigOMeasurements, MeasureProps } from "./types";
 
 interface Props extends MeasureProps {
+  playing: boolean;
   algorithmWrapper: (inputList: number[]) => number;
 }
 
 interface ReducerState extends MeasureProps {
   algorithmWrapper: (inputList: number[]) => number;
-  currentLength: number;
+  iterations: number;
   measurements: BigOMeasurements;
 }
 
@@ -29,62 +30,53 @@ type ReducerAction = TickAction | ResetAction;
 const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
   switch (action.type) {
     case "tick":
-      if (state.currentLength <= state.endSize) {
-        const inputList: number[] = generateRandomNumbers(
-          0,
-          1000,
-          state.currentLength
-        );
+      let measurements: BigOMeasurements = {};
+
+      for (let n = state.startSize; n < state.endSize; n += state.step) {
+        const inputList: number[] = generateRandomNumbers(0, 1000, n);
         inputList.sort(arithmeticComparator);
 
         // Search for some specific indices
         let numberOfComparisons: number = state.algorithmWrapper(inputList);
 
-        let currentLength = state.currentLength;
-        if (
-          (state.measurements[state.currentLength] || []).length > state.samples
-        ) {
-          currentLength += state.step;
-        }
-
-        return {
-          ...state,
-          currentLength,
-          measurements: {
-            ...state.measurements,
-            [state.currentLength]: [
-              numberOfComparisons,
-              ...(state.measurements[state.currentLength] || []),
-            ],
-          },
-        };
-      } else {
-        return state;
+        measurements[n] =
+          state.iterations > 0
+            ? Math.floor(
+                numberOfComparisons / (state.iterations + 1) +
+                  ((state.measurements[n] || 0) * state.iterations) /
+                    (state.iterations + 1)
+              )
+            : numberOfComparisons;
       }
+      return {
+        ...state,
+        iterations: state.iterations + 1,
+        measurements,
+      };
     case "reset":
       const resetAction = action as ResetAction;
+      console.log("Reset");
       return {
         ...resetAction,
-        currentLength: resetAction.startSize,
+        iterations: 1,
         measurements: {},
       };
   }
 };
 
 const useAlgorithmMeasure = ({
+  playing,
   startSize,
   endSize,
-  samples,
   step,
   algorithmWrapper,
 }: Props): BigOMeasurements => {
   const [{ measurements }, dispatch] = React.useReducer(reducer, {
     algorithmWrapper,
-    currentLength: startSize,
+    iterations: 1,
     measurements: {},
     startSize,
     endSize,
-    samples,
     step,
   });
 
@@ -96,14 +88,13 @@ const useAlgorithmMeasure = ({
         type: "reset",
         startSize,
         endSize,
-        samples,
         step,
         algorithmWrapper,
       }),
-    [algorithmWrapper, samples, startSize, endSize, step]
+    [algorithmWrapper, startSize, endSize, step]
   );
 
-  useInterval(tick, 1);
+  useInterval(tick, playing ? 500 : null);
 
   return measurements;
 };
