@@ -1,6 +1,6 @@
 import { shuffle } from "lodash";
 import React from "react";
-import { pickRandomFromList } from "src/components/lib/utilities";
+import { choose } from "src/components/lib/utilities";
 import Fraction from "./Fraction";
 import NumberToPower from "./NumberToPower";
 import { Answer, Question } from "./types";
@@ -18,19 +18,19 @@ const goodIndices: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 const goodCoefficients: number[] = [1, 2, 3, 4, 5, 6];
 
 const generateQuestion = (): Question => {
-  const base = pickRandomFromList(bases);
-  const coeffA: number = pickRandomFromList(goodCoefficients);
-  const coeffB: number = pickRandomFromList(goodCoefficients, [coeffA]);
-  const a: number = pickRandomFromList(goodIndices);
-  const b: number = pickRandomFromList(goodIndices, [a]);
+  const base = choose(bases);
+  const coeffA: number = choose(goodCoefficients);
+  const coeffB: number = choose(goodCoefficients, [coeffA]);
+  const a: number = choose(goodIndices);
+  const b: number = choose(goodIndices, [a]);
 
   const isMultiplication = Math.random() > 0.5;
 
   const correctCoefficient: number | React.ReactElement = isMultiplication ? (
     coeffA * coeffB
   ) : (
-    <Fraction numerator={coeffA} denominator={coeffB} />
-  );
+      <Fraction numerator={coeffA} denominator={coeffB} />
+    );
   const correctIndex = isMultiplication ? a + b : a - b;
 
   const possibleAnswers: Answer[] = [
