@@ -37,9 +37,15 @@ const NumberBases: React.FunctionComponent = () => {
         setAnswer(value)
         , [setAnswer]);
 
-    const onSubmit: React.MouseEventHandler = React.useCallback(() => {
+    React.useEffect(() => {
+        if (streak === TARGET_STREAK) {
+            cogoToast.info(`Well done on converting ${TARGET_STREAK} in a row. You have earnt some window staring time!`)
+        }
+    }, [streak])
+
+    const onSubmit: React.MouseEventHandler = React.useCallback((e) => {
         const expected = to.toString(value);
-        if (expected === answer) {
+        if (expected.toLowerCase() === answer.toLowerCase()) {
             cogoToast.info('Correct!');
             onHit();
         } else {
@@ -47,30 +53,28 @@ const NumberBases: React.FunctionComponent = () => {
             onMiss();
         }
         regenerateQuestion();
+        e.preventDefault();
     }, [regenerateQuestion, onHit, onMiss, value, to, from, answer])
 
-    return (<div>
-        <h4>Convert {from.toString(value)}<sub>{from.symbols.length}</sub> into {to.name}</h4>
-        <form>
-            <div className='form-group'>
-                <label>Your Answer</label>
-                <input className='form-control' value={answer} onChange={onAnswerChange} />
-            </div>
-            <button onClick={onSubmit}>Submit</button>
-        </form>
+    return (<div className='row align-items-start'>
+        <div className='col'>
+            <h4>Convert {from.toString(value)}<sub>{from.symbols.length}</sub> into {to.name}</h4>
+            <form>
+                <div className='form-group'>
+                    <label>Your Answer</label>
+                    <input className='form-control' value={answer} onChange={onAnswerChange} />
+                </div>
+                <button onClick={onSubmit}>Submit</button>
+            </form>
 
-        <div>Try and get to a streak of {TARGET_STREAK} correct answers</div>
-        <ProgressBar value={streak} max={TARGET_STREAK} />
+            <div>Try and get to a streak of {TARGET_STREAK} correct answers</div>
+            <ProgressBar value={streak} max={TARGET_STREAK} />
 
-        {(streak >= TARGET_STREAK) && (<div className="jumbotron jumbotron-fluid">
-            <div className="container">
-                <h1 className="display-4">You Win!</h1>
-                <p className="lead">Well done on converting {TARGET_STREAK} in a row. You have earnt some window staring time!</p>
-            </div>
-        </div>)}
-
-        <h4>Table of Helpful Lookups</h4>
-        <NumberBaseConversionTable from={from} to={to} />
+        </div>
+        <div className='col'>
+            <h4>Table of Helpful Lookups</h4>
+            <NumberBaseConversionTable from={from} to={to} />
+        </div>
     </div>)
 }
 
