@@ -1,4 +1,6 @@
 import React from 'react';
+import cogoToast from "cogo-toast";
+
 import { generateRandomInteger, choose } from 'src/components/lib/utilities';
 import { binary, hexadecimal, denary, NumberBase } from 'comp-sci-maths-lib'
 import useStreakCounter from 'src/components/lib/useStreakCounter';
@@ -23,7 +25,6 @@ const generateQuestion = (): Question => {
 }
 
 const NumberBases: React.FunctionComponent = () => {
-    const [feedback, setFeedback] = React.useState<string>('awaiting first answer');
     const [{ from, to, value }, regenerateQuestion] = React.useReducer(generateQuestion, generateQuestion());
     const { streak, onHit, onMiss } = useStreakCounter();
 
@@ -35,17 +36,22 @@ const NumberBases: React.FunctionComponent = () => {
     const onSubmit: React.MouseEventHandler = React.useCallback(() => {
         const expected = to.toString(value);
         if (expected === answer) {
-            setFeedback('Correct!');
+            cogoToast.info('Correct!');
             onHit();
         } else {
-            setFeedback(`Incorrect :( ${from.toString(value)} in ${to.name} is actually ${expected}`);
+            cogoToast.error(`Incorrect ${from.toString(value)} in ${to.name} is actually ${expected}`);
             onMiss();
         }
         regenerateQuestion();
-    }, [regenerateQuestion, setFeedback, onHit, onMiss, value, to, from, answer])
+    }, [regenerateQuestion, onHit, onMiss, value, to, from, answer])
 
-    return (<div>
-        <div>Try and get to a streak of {TARGET_STREAK} correct answers</div>
+    return (streak >= TARGET_STREAK) ? (<div className="jumbotron jumbotron-fluid">
+        <div className="container">
+            <h1 className="display-4">You Win!</h1>
+            <p className="lead">Well done on converting {TARGET_STREAK} in a row. You have earnt some window staring time!</p>
+        </div>
+    </div>
+    ) : (<div>
         <h4>Convert {from.toString(value)}<sub>{from.symbols.length}</sub> into {to.name}</h4>
         <form>
             <div className='form-group'>
@@ -53,10 +59,13 @@ const NumberBases: React.FunctionComponent = () => {
                 <input className='form-control' value={answer} onChange={onAnswerChange} />
             </div>
             <button onClick={onSubmit}>Submit</button>
+            <button onClick={onHit}>boom</button>
         </form>
-        <div>{feedback}</div>
+
+        <div>Try and get to a streak of {TARGET_STREAK} correct answers</div>
         <ProgressBar value={streak} max={TARGET_STREAK} />
     </div>)
+
 }
 
 export default NumberBases;
