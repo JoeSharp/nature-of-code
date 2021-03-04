@@ -2,9 +2,13 @@ import React from 'react';
 import cogoToast from "cogo-toast";
 
 import { generateRandomInteger, choose } from 'src/components/lib/utilities';
-import { binary, hexadecimal, denary, NumberBase } from 'comp-sci-maths-lib'
+import { binary, hexadecimal, denary as denaryRaw, NumberBase } from 'comp-sci-maths-lib'
 import useStreakCounter from 'src/components/lib/useStreakCounter';
 import ProgressBar from 'src/components/Bootstrap/ProgressBar';
+import NumberBaseConversionTable from './NumberBaseConversionTable';
+
+// Correction to default value
+const denary = denaryRaw.withPadding(1);
 
 const MAX_VALUE = 255;
 const TARGET_STREAK = 10;
@@ -45,13 +49,7 @@ const NumberBases: React.FunctionComponent = () => {
         regenerateQuestion();
     }, [regenerateQuestion, onHit, onMiss, value, to, from, answer])
 
-    return (streak >= TARGET_STREAK) ? (<div className="jumbotron jumbotron-fluid">
-        <div className="container">
-            <h1 className="display-4">You Win!</h1>
-            <p className="lead">Well done on converting {TARGET_STREAK} in a row. You have earnt some window staring time!</p>
-        </div>
-    </div>
-    ) : (<div>
+    return (<div>
         <h4>Convert {from.toString(value)}<sub>{from.symbols.length}</sub> into {to.name}</h4>
         <form>
             <div className='form-group'>
@@ -59,13 +57,21 @@ const NumberBases: React.FunctionComponent = () => {
                 <input className='form-control' value={answer} onChange={onAnswerChange} />
             </div>
             <button onClick={onSubmit}>Submit</button>
-            <button onClick={onHit}>boom</button>
         </form>
 
         <div>Try and get to a streak of {TARGET_STREAK} correct answers</div>
         <ProgressBar value={streak} max={TARGET_STREAK} />
-    </div>)
 
+        {(streak >= TARGET_STREAK) && (<div className="jumbotron jumbotron-fluid">
+            <div className="container">
+                <h1 className="display-4">You Win!</h1>
+                <p className="lead">Well done on converting {TARGET_STREAK} in a row. You have earnt some window staring time!</p>
+            </div>
+        </div>)}
+
+        <h4>Table of Helpful Lookups</h4>
+        <NumberBaseConversionTable from={from} to={to} />
+    </div>)
 }
 
 export default NumberBases;
