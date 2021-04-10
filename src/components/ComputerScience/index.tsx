@@ -12,14 +12,19 @@ import {
   page1 as bigONotationMeasurePage,
   page2 as bigONotationComparePage,
 } from "./Algorithms/BigONotation";
+
 import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphManager";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { queuePage, priorityQueuePage } from "./DataStructures/QueueComponent";
+
 import { page as soundPage } from "./DataRepresentation/Sound";
 import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
 import { page as numberBases } from "./DataRepresentation/Numbers";
+
+import { page as hackCpuSimulator } from './Computation/HackCpu'
+
 import CardCollection from "../Bootstrap/CardCollection";
 
 const algorithmPages = [
@@ -44,6 +49,8 @@ const dataStructurePages = [
 
 const dataRepresentationPages = [numberBases, soundPage, bitmapImagesPage, asciiTextPage];
 
+const computationPages = [hackCpuSimulator]
+
 const ComputerScience: React.FunctionComponent = () => (
   <div>
     <h2>Algorithms</h2>
@@ -54,6 +61,9 @@ const ComputerScience: React.FunctionComponent = () => (
 
     <h2>Data Representation</h2>
     <CardCollection cards={dataRepresentationPages} />
+
+    <h2>Theory of Computation</h2>
+    <CardCollection cards={computationPages} />
   </div>
 );
 
@@ -70,6 +80,7 @@ export const pages: Page[] = [
   ...algorithmPages,
   ...dataStructurePages,
   ...dataRepresentationPages,
+  ...computationPages
 ];
 
 export default ComputerScience;
