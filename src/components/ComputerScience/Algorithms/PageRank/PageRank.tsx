@@ -4,14 +4,10 @@ import usePageRank from "./usePageRank";
 import CurrentRanksTable from "./CurrentRanksTable";
 import RankHistoryTable from "./RankHistoryTable";
 import InOrderList from "./InOrderList";
-import { useToggledInterval } from "src/components/lib/useInterval";
-import Checkbox from "src/components/Bootstrap/Checkbox";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "../../DataStructures/GraphManager/GraphPickerWithSketch";
-import ButtonBar, {
-  Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+import StepForwardControls, { useStepForwardControls } from "src/components/lib/StepForwardControls";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 
@@ -29,7 +25,7 @@ const PageRank: React.FunctionComponent = () => {
     graph,
   });
 
-  const onReset = React.useCallback(() => {
+  const reset = React.useCallback(() => {
     begin();
     setDampingFactor(DEFAULT_DAMPING_FACTOR);
   }, [begin, setDampingFactor]);
@@ -39,27 +35,7 @@ const PageRank: React.FunctionComponent = () => {
     [setDampingFactor]
   );
 
-  const { isAutoIterating, onAutoIteratingChange } = useToggledInterval({
-    iterate,
-  });
-
-  const buttonBarProps: ButtonBarProps = React.useMemo(
-    () => ({
-      buttons: [
-        {
-          onClick: onReset,
-          styleType: "danger",
-          text: "Reset",
-        },
-        {
-          onClick: iterate,
-          styleType: "success",
-          text: "Iterate",
-        },
-      ],
-    }),
-    [iterate, onReset]
-  );
+  const { componentProps: stepForwardProps } = useStepForwardControls({ reset, iterate });
 
   return (
     <div>
@@ -67,8 +43,7 @@ const PageRank: React.FunctionComponent = () => {
 
       <h4>Page Ranks after {iterations} iterations</h4>
       <div>
-        <ButtonBar {...buttonBarProps} />
-
+        <StepForwardControls {...stepForwardProps} />
         <div className="form-group">
           <label htmlFor="txtDampingFactor">Damping Factor</label>
           <input
@@ -82,12 +57,6 @@ const PageRank: React.FunctionComponent = () => {
             onChange={onDampingFactorChange}
           />
         </div>
-        <Checkbox
-          id="chkAutoIterate"
-          label="Auto Iterate"
-          checked={isAutoIterating}
-          onChange={onAutoIteratingChange}
-        />
       </div>
       <div className="row">
         <div className="col-md-8">

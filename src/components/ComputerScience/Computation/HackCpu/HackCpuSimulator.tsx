@@ -6,12 +6,13 @@ import RAMTable from './RAMTable';
 import RegisterTable from './RegisterTable';
 import useHackCpuSimulator from './useHackCpuSimulator';
 import NumberBasePicker, { usePicker as useNumberBasePicker } from './NumberBasePicker';
+import SetRamValueModal, { useSetRamValueModal } from './SetRamValueModal';
 
 import './cpuSimulator.css'
-import SetRamValueModal, { useSetRamValueModal } from './SetRamValueModal';
 
 import maxCalculator from './cannedPrograms/Max';
 import CPUTable from './CPUTable';
+import StepForwardControls, { useStepForwardControls } from 'src/components/lib/StepForwardControls';
 
 const HackCpuSimulator: React.FunctionComponent = () => {
     const [program, setProgram] = React.useState<string>('');
@@ -23,13 +24,13 @@ const HackCpuSimulator: React.FunctionComponent = () => {
 
     const onLoadProgram = React.useCallback(() => loadProgram(program), [program, loadProgram]);
 
+    const { numberBase, componentProps } = useNumberBasePicker('form-control');
+
     const { componentProps: setRamValueProps, showDialog: showSetRamValueDialog } = useSetRamValueModal({
         onConfirm: React.useCallback((address: number, values: number[]) => {
             setRamValue(address, values);
         }, [setRamValue])
     });
-
-    const { numberBase, componentProps } = useNumberBasePicker('form-control');
 
     React.useEffect(() => setRamValue(0, [56, 7]), [setRamValue]);
     React.useEffect(() => {
@@ -37,20 +38,25 @@ const HackCpuSimulator: React.FunctionComponent = () => {
         loadProgram(maxCalculator)
     }, [loadProgram]);
 
-    return <div>
-        <div>
-            <Button onClick={showSetRamValueDialog} styleType='primary' text='Set RAM Value' />
-            <Button onClick={onLoadProgram} styleType='warning' text='Load Program' />
-            <Button onClick={tick} styleType='success' text='Tick' />
-            <Button onClick={reset} styleType='danger' text='Reset' />
-            <div className='form-group'>
-                <label>Number Base</label>
-                <NumberBasePicker {...componentProps} />
-            </div>
+    const { componentProps: stepForwardProps } = useStepForwardControls({ reset, iterate: tick });
+
+    return <div><SetRamValueModal {...setRamValueProps} />
+
+        <StepForwardControls {...stepForwardProps} />
+        <div className='form-group'>
+            <label>Number Base</label>
+            <NumberBasePicker {...componentProps} />
         </div>
+
         <div className='cpu-contents'>
             <div>
-                <h4>Program</h4>
+                <h4>Program
+                    <Button
+                        className='title-button'
+                        onClick={onLoadProgram}
+                        styleType='warning'
+                        text='Load' />
+                </h4>
                 <textarea className='txt-code code-text' value={program} onChange={onProgramChange} />
             </div>
 
@@ -59,7 +65,13 @@ const HackCpuSimulator: React.FunctionComponent = () => {
                 <ProgramMemoryTable program={cpu.program} registers={cpu.namedRegisters} numberBase={numberBase} />
             </div>
             <div>
-                <h4>RAM</h4>
+                <h4>RAM
+                    <Button
+                        className='title-button'
+                        onClick={showSetRamValueDialog}
+                        styleType='primary'
+                        text='Set Value(s)' />
+                </h4>
                 <RAMTable memory={cpu.memory} numberBase={numberBase} />
             </div>
             <div>
@@ -70,7 +82,6 @@ const HackCpuSimulator: React.FunctionComponent = () => {
             </div>
         </div>
         {version}
-        <SetRamValueModal {...setRamValueProps} />
     </div>
 }
 

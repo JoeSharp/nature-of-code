@@ -4,9 +4,9 @@ import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, {
   usePicker as useVertexPicker,
 } from "src/components/ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
-import SteppingControls, {
-  useSteppingControls,
-} from "src/components/lib/SteppingControls";
+import StepThruListControls, {
+  useStepThruListControls,
+} from "src/components/lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { StringDataItem } from "src/components/p5/Boid/types";
@@ -58,7 +58,7 @@ const GraphRouting: React.FunctionComponent = () => {
   const {
     item: currentStage,
     componentProps: steppingControlProps,
-  } = useSteppingControls(stages);
+  } = useStepThruListControls(stages);
 
   React.useEffect(() => {
     graph.vertices.forEach((v) => {
@@ -138,7 +138,7 @@ const GraphRouting: React.FunctionComponent = () => {
 
       <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />
 
-      <SteppingControls {...steppingControlProps} />
+      <StepThruListControls {...steppingControlProps} />
 
       {currentStage && (
         <div className="mt-3">

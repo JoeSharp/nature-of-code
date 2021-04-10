@@ -8,7 +8,7 @@ interface Props<T> extends UseToggledInterval, UseItemInArray<T> {
   items: T[];
 }
 
-const SteppingControls = <T,>({
+const StepThruListControls = <T,>({
   index,
   items,
   isAutoIterating,
@@ -24,13 +24,13 @@ const SteppingControls = <T,>({
       Step {index + 1} of {items.length}
     </p>
     <div>
-      <button
-        disabled={isAutoIterating}
-        className="btn btn-danger mr-2"
-        onClick={goToFirst}
-      >
-        <span className="oi oi-media-skip-backward"></span>
-      </button>
+        <button
+          disabled={isAutoIterating}
+          className="btn btn-danger mr-2"
+          onClick={goToFirst}
+        >
+          <span className="oi oi-media-skip-backward"></span>
+        </button>
       <button
         disabled={isAutoIterating}
         className="btn btn-primary mr-2"
@@ -73,13 +73,13 @@ const SteppingControls = <T,>({
   </div>
 );
 
-interface UseSteppingControls<T> {
+interface UseStepThruListControls<T> {
   index: number;
   item?: T;
   componentProps: Props<T>;
 }
 
-export const useSteppingControls = <T,>(items: T[]): UseSteppingControls<T> => {
+export const useStepThruListControls = <T,>(items: T[]): UseStepThruListControls<T> => {
   const itemsInArray = useItemInArray({
     items,
   });
@@ -112,4 +112,4 @@ export const useSteppingControls = <T,>(items: T[]): UseSteppingControls<T> => {
   };
 };
 
-export default SteppingControls;
+export default StepThruListControls;

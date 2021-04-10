@@ -6,9 +6,9 @@ import SortingAlgorithmPicker, {
 import useSketch from "src/components/p5/useSketch";
 import SortingSketch from "./SortingSketch";
 import useSortedData from "./useSortedData";
-import SteppingControls, {
-  useSteppingControls,
-} from "src/components/lib/SteppingControls";
+import StepThruListControls, {
+  useStepThruListControls,
+} from "src/components/lib/StepThruListControls";
 
 const Sorting: React.FunctionComponent = () => {
   const {
@@ -21,7 +21,7 @@ const Sorting: React.FunctionComponent = () => {
   const {
     item: sortStage,
     componentProps: steppingControlProps,
-  } = useSteppingControls(stages);
+  } = useStepThruListControls(stages);
   const { goToFirst } = steppingControlProps;
 
   const { updateConfig, sketchContainer, refContainer } = useSketch(
@@ -48,7 +48,7 @@ const Sorting: React.FunctionComponent = () => {
       </form>
 
       <h2>{!!algorithm ? algorithm.name : "please select algorithm"}</h2>
-      <SteppingControls {...steppingControlProps} />
+      <StepThruListControls {...steppingControlProps} />
       <div ref={refContainer} />
     </div>
   );

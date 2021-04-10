@@ -7,9 +7,9 @@ import SearchAlgorithmPicker, {
 import SearchSketch from "./SearchSketch";
 import useSearchedData from "./useSearchData";
 import useSketch from "src/components/p5/useSketch";
-import SteppingControls, {
-  useSteppingControls,
-} from "src/components/lib/SteppingControls";
+import StepThruListControls, {
+  useStepThruListControls,
+} from "src/components/lib/StepThruListControls";
 
 const Search: React.FunctionComponent = () => {
   const {
@@ -32,7 +32,7 @@ const Search: React.FunctionComponent = () => {
     index,
     item: searchStage,
     componentProps: steppingControlProps,
-  } = useSteppingControls(stages);
+  } = useStepThruListControls(stages);
 
   const { updateConfig, sketchContainer, refContainer } = useSketch(
     SearchSketch
@@ -82,7 +82,7 @@ const Search: React.FunctionComponent = () => {
             onChange={onSearchItemChange}
           />
         </div>
-        <SteppingControls {...steppingControlProps} />
+        <StepThruListControls {...steppingControlProps} />
       </div>
 
       <div ref={refContainer} />

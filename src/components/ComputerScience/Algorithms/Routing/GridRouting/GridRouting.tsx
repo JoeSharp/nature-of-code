@@ -5,9 +5,9 @@ import useGridGraph from "./useGridGraph";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 
 import "./routing.css";
-import SteppingControls, {
-  useSteppingControls,
-} from "src/components/lib/SteppingControls";
+import StepThruListControls, {
+  useStepThruListControls,
+} from "src/components/lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
 import { PointDataItem } from "src/components/p5/Boid/types";
@@ -53,7 +53,7 @@ const GridRouting: React.FunctionComponent = () => {
   const {
     item: currentStage,
     componentProps: steppingControlProps,
-  } = useSteppingControls(stages);
+  } = useStepThruListControls(stages);
 
   React.useEffect(() => {
     updateConfig({
@@ -99,7 +99,7 @@ const GridRouting: React.FunctionComponent = () => {
 
       <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />
 
-      <SteppingControls {...steppingControlProps} />
+      <StepThruListControls {...steppingControlProps} />
 
       {currentStage && (
         <RouteObserverStage graph={graph} currentStage={currentStage} />

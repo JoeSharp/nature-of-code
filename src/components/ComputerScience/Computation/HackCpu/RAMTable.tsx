@@ -7,6 +7,7 @@ interface Props {
 }
 
 const RAMTable: React.FunctionComponent<Props> = ({ memory, numberBase }) => {
+
     return <table className='cpu-table code-text'>
         <thead>
             <tr>

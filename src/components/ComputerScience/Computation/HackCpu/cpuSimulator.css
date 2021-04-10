@@ -29,3 +29,7 @@ table.cpu-table td, th {
     border: solid thin black;
     padding: 0.5rem;
 }
+
+.title-button {
+    float: right;
+}
