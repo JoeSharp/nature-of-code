@@ -6,7 +6,7 @@ interface Props {
     numberBase: NumberBase
 }
 
-const CPUTable: React.FunctionComponent<Props> = ({ cpu: {
+const CPUTable: React.FunctionComponent<Props> = ({ numberBase, cpu: {
     programCounter,
     addressRegister, 
     dataRegister } }) => {
@@ -20,15 +20,15 @@ const CPUTable: React.FunctionComponent<Props> = ({ cpu: {
         <tbody>
             <tr>
                 <td>Program Counter (PC)</td>
-                <td>{programCounter}</td>
+                <td>{numberBase.toString(programCounter)}</td>
             </tr>
             <tr>
                 <td>Address (A)</td>
-                <td>{addressRegister}</td>
+                <td>{numberBase.toString(addressRegister)}</td>
             </tr>
             <tr>
                 <td>Data (D)</td>
-                <td>{dataRegister}</td>
+                <td>{numberBase.toString(dataRegister)}</td>
             </tr>
         </tbody>
     </table>

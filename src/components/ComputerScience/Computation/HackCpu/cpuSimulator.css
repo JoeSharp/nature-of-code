@@ -4,6 +4,11 @@
     justify-content: space-between;
 }
 
+.hack-cpu-controls {
+    display: flex;
+    flex-direction: row;
+}
+
 .cpu-contents div {
     width: 100%;
     padding: 1rem;

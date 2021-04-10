@@ -24,4 +24,4 @@ export const vertexPositionsByGraphName = {
   motorwayCrossingGraph: motorwayCrossingGraphVertexPositions,
 };
 
-export default { simpleStringGraph, largerStringGraph, complexStringGraph };
+export default { motorwayCrossingGraph, simpleStringGraph, largerStringGraph, complexStringGraph };

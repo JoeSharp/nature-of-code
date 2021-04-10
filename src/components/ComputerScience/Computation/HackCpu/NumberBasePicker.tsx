@@ -3,7 +3,7 @@ import React from "react";
 import { ControlledInput } from "src/types";
 import { binary, denary, hexadecimal, NumberBase } from "comp-sci-maths-lib";
 
-const NUMBER_BASES: NumberBase[] = [denary, binary , hexadecimal]
+const NUMBER_BASES: NumberBase[] = [denary, binary.withPadding(16), hexadecimal.withPadding(4)]
 
 interface Props extends ControlledInput<NumberBase> {
   className?: string;

@@ -7,22 +7,31 @@ import RegisterTable from './RegisterTable';
 import useHackCpuSimulator from './useHackCpuSimulator';
 import NumberBasePicker, { usePicker as useNumberBasePicker } from './NumberBasePicker';
 import SetRamValueModal, { useSetRamValueModal } from './SetRamValueModal';
+import HackAsmProgramPicker, { usePicker as useHackAsmProgramPicker } from './HackAsmProgramPicker';
+import NewHackAsmProgramDialog, { useDialog as useNewProgramDialog } from './NewHackAsmProgramDialog';
 
 import './cpuSimulator.css'
 
-import maxCalculator from './cannedPrograms/Max';
 import CPUTable from './CPUTable';
 import StepForwardControls, { useStepForwardControls } from 'src/components/lib/StepForwardControls';
+import useDirtyState from 'src/components/lib/useDirtyState';
+
+const DEFAULT_PROGRAM: string = '// New Program'
 
 const HackCpuSimulator: React.FunctionComponent = () => {
-    const [program, setProgram] = React.useState<string>('');
+    const {
+        value: editedProgram,
+        setValue: setEditedProgram,
+        isDirty: isEditedProgramDirty,
+        setClean: setEditedProgramClean
+    } = useDirtyState(DEFAULT_PROGRAM);
 
     const { version, cpu, setRamValue, loadProgram, reset, tick } = useHackCpuSimulator();
 
-    const onProgramChange: React.ChangeEventHandler<HTMLTextAreaElement> =
-        React.useCallback(({ target: { value } }) => setProgram(value), [setProgram]);
+    const onEditedProgramChange: React.ChangeEventHandler<HTMLTextAreaElement> =
+        React.useCallback(({ target: { value } }) => setEditedProgram(value), [setEditedProgram]);
 
-    const onLoadProgram = React.useCallback(() => loadProgram(program), [program, loadProgram]);
+    const onLoadProgram = React.useCallback(() => loadProgram(editedProgram), [editedProgram, loadProgram]);
 
     const { numberBase, componentProps } = useNumberBasePicker('form-control');
 
@@ -33,31 +42,57 @@ const HackCpuSimulator: React.FunctionComponent = () => {
     });
 
     React.useEffect(() => setRamValue(0, [56, 7]), [setRamValue]);
-    React.useEffect(() => {
-        setProgram(maxCalculator);
-        loadProgram(maxCalculator)
-    }, [loadProgram]);
 
     const { componentProps: stepForwardProps } = useStepForwardControls({ reset, iterate: tick });
 
-    return <div><SetRamValueModal {...setRamValueProps} />
+    const { program, programName, savedPrograms: { createNew: createNewProgram, save: saveProgram, deleteProgram }, componentProps: programPickerProps } = useHackAsmProgramPicker();
+    React.useEffect(() => {
+        setEditedProgram(program);
+        setEditedProgramClean();
+    }, [program, setEditedProgramClean, setEditedProgram]);
 
-        <StepForwardControls {...stepForwardProps} />
-        <div className='form-group'>
-            <label>Number Base</label>
-            <NumberBasePicker {...componentProps} />
+    const onSaveProgram = React.useCallback(() => {
+        saveProgram(programName, editedProgram);
+        setEditedProgramClean();
+    }, [editedProgram, programName, saveProgram, setEditedProgramClean]);
+
+    const onDeleteProgram = React.useCallback(() => {
+        deleteProgram(programName);
+    }, [programName, deleteProgram])
+
+    const { showDialog: showNewProgramDialog, componentProps: newProgramProps } = useNewProgramDialog(createNewProgram);
+
+    return <div>
+        <SetRamValueModal {...setRamValueProps} />
+        <NewHackAsmProgramDialog {...newProgramProps} />
+
+        <div className='hack-cpu-controls'>
+            <StepForwardControls {...stepForwardProps} />
+
+            <div>
+                <HackAsmProgramPicker {...programPickerProps} />
+                <Button onClick={showNewProgramDialog} text='Create New' styleType='primary' />
+                <Button onClick={onSaveProgram} text='Save' styleType='success' />
+                <Button onClick={onDeleteProgram} text='Delete' styleType='danger' />
+            </div>
+
+            <div className='form-group'>
+                <label>Number Base</label>
+                <NumberBasePicker {...componentProps} />
+            </div>
+
         </div>
 
         <div className='cpu-contents'>
             <div>
-                <h4>Program
+                <h4>Program {isEditedProgramDirty ? '*' : ''}
                     <Button
                         className='title-button'
                         onClick={onLoadProgram}
                         styleType='warning'
                         text='Load' />
                 </h4>
-                <textarea className='txt-code code-text' value={program} onChange={onProgramChange} />
+                <textarea className='txt-code code-text' value={editedProgram} onChange={onEditedProgramChange} />
             </div>
 
             <div>

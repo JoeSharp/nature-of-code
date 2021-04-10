@@ -17,7 +17,7 @@ const RAMTable: React.FunctionComponent<Props> = ({ memory, numberBase }) => {
         </thead>
         <tbody>
             {memory.filter((p, i) => i < 30).map((p, i) => (<tr key={i}>
-                <td>{i}</td>
+                <td>{numberBase.toString(i)}</td>
                 <td>{numberBase.toString(p)}</td>
             </tr>))}
         </tbody>
