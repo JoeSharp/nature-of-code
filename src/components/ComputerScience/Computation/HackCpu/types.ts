@@ -1,3 +1,5 @@
 export interface ProgramsById {
-    [s: string]: string;
+  [s: string]: string;
 }
+
+export const MAX_TABLE_ROWS = 16;

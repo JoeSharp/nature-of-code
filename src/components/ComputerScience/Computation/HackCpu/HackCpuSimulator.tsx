@@ -1,123 +1,90 @@
-import React from 'react';
+import React from "react";
 
-import Button from 'src/components/Bootstrap/Buttons/Button';
-import ProgramMemoryTable from './ProgramMemoryTable';
-import RAMTable from './RAMTable';
-import RegisterTable from './RegisterTable';
-import useHackCpuSimulator from './useHackCpuSimulator';
-import NumberBasePicker, { usePicker as useNumberBasePicker } from './NumberBasePicker';
-import SetRamValueModal, { useSetRamValueModal } from './SetRamValueModal';
-import HackAsmProgramPicker, { usePicker as useHackAsmProgramPicker } from './HackAsmProgramPicker';
-import NewHackAsmProgramDialog, { useDialog as useNewProgramDialog } from './NewHackAsmProgramDialog';
+import ROMTable from "./ROMTable";
+import RAMTable from "./RAMTable";
+import useHackCpuSimulator from "./useHackCpuSimulator";
+import HackAsmProgramManager from "./HackAsmProgramManager";
+import NumberBasePicker, {
+  usePicker as useNumberBasePicker,
+} from "./NumberBasePicker";
 
-import './cpuSimulator.css'
+import StepForwardControls, {
+  useStepForwardControls,
+} from "src/components/lib/StepForwardControls";
 
-import CPUTable from './CPUTable';
-import StepForwardControls, { useStepForwardControls } from 'src/components/lib/StepForwardControls';
-import useDirtyState from 'src/components/lib/useDirtyState';
-
-const DEFAULT_PROGRAM: string = '// New Program'
+import "./cpuSimulator.css";
+import Button from "src/components/Bootstrap/Buttons/Button";
+import ALUDisplay from "./ALUDisplay";
 
 const HackCpuSimulator: React.FunctionComponent = () => {
-    const {
-        value: editedProgram,
-        setValue: setEditedProgram,
-        isDirty: isEditedProgramDirty,
-        setClean: setEditedProgramClean
-    } = useDirtyState(DEFAULT_PROGRAM);
+  const [showProgramManager, toggleProgramManager] = React.useReducer(
+    (b) => !b,
+    false
+  );
 
-    const { version, cpu, setRamValue, loadProgram, reset, tick } = useHackCpuSimulator();
+  const { numberBase, componentProps } = useNumberBasePicker("form-control");
 
-    const onEditedProgramChange: React.ChangeEventHandler<HTMLTextAreaElement> =
-        React.useCallback(({ target: { value } }) => setEditedProgram(value), [setEditedProgram]);
+  const {
+    version,
+    cpu,
+    setRamValue,
+    loadProgram,
+    reset,
+    tick,
+  } = useHackCpuSimulator(numberBase);
 
-    const onLoadProgram = React.useCallback(() => loadProgram(editedProgram), [editedProgram, loadProgram]);
+  const { componentProps: stepForwardProps } = useStepForwardControls({
+    reset,
+    iterate: tick,
+  });
 
-    const { numberBase, componentProps } = useNumberBasePicker('form-control');
-
-    const { componentProps: setRamValueProps, showDialog: showSetRamValueDialog } = useSetRamValueModal({
-        onConfirm: React.useCallback((address: number, values: number[]) => {
-            setRamValue(address, values);
-        }, [setRamValue])
-    });
-
-    React.useEffect(() => setRamValue(0, [56, 7]), [setRamValue]);
-
-    const { componentProps: stepForwardProps } = useStepForwardControls({ reset, iterate: tick });
-
-    const { program, programName, savedPrograms: { createNew: createNewProgram, save: saveProgram, deleteProgram }, componentProps: programPickerProps } = useHackAsmProgramPicker();
-    React.useEffect(() => {
-        setEditedProgram(program);
-        setEditedProgramClean();
-    }, [program, setEditedProgramClean, setEditedProgram]);
-
-    const onSaveProgram = React.useCallback(() => {
-        saveProgram(programName, editedProgram);
-        setEditedProgramClean();
-    }, [editedProgram, programName, saveProgram, setEditedProgramClean]);
-
-    const onDeleteProgram = React.useCallback(() => {
-        deleteProgram(programName);
-    }, [programName, deleteProgram])
-
-    const { showDialog: showNewProgramDialog, componentProps: newProgramProps } = useNewProgramDialog(createNewProgram);
-
-    return <div>
-        <SetRamValueModal {...setRamValueProps} />
-        <NewHackAsmProgramDialog {...newProgramProps} />
-
-        <div className='hack-cpu-controls'>
+  return (
+    <div>
+      <div className="row">
+        <div className="col-md-3">
+          <Button
+            onClick={toggleProgramManager}
+            text={`${showProgramManager ? "Hide" : "Show"} Program Editor`}
+            styleType="success"
+          />
+        </div>
+        <div className="col-md-2">
+          <div className="form-group">
+            <label>Play Controls</label>
             <StepForwardControls {...stepForwardProps} />
-
-            <div>
-                <HackAsmProgramPicker {...programPickerProps} />
-                <Button onClick={showNewProgramDialog} text='Create New' styleType='primary' />
-                <Button onClick={onSaveProgram} text='Save' styleType='success' />
-                <Button onClick={onDeleteProgram} text='Delete' styleType='danger' />
-            </div>
-
-            <div className='form-group'>
-                <label>Number Base</label>
-                <NumberBasePicker {...componentProps} />
-            </div>
-
+          </div>
         </div>
 
-        <div className='cpu-contents'>
-            <div>
-                <h4>Program {isEditedProgramDirty ? '*' : ''}
-                    <Button
-                        className='title-button'
-                        onClick={onLoadProgram}
-                        styleType='warning'
-                        text='Load' />
-                </h4>
-                <textarea className='txt-code code-text' value={editedProgram} onChange={onEditedProgramChange} />
-            </div>
-
-            <div>
-                <h4>Loaded Program</h4>
-                <ProgramMemoryTable program={cpu.program} registers={cpu.namedRegisters} numberBase={numberBase} />
-            </div>
-            <div>
-                <h4>RAM
-                    <Button
-                        className='title-button'
-                        onClick={showSetRamValueDialog}
-                        styleType='primary'
-                        text='Set Value(s)' />
-                </h4>
-                <RAMTable memory={cpu.memory} numberBase={numberBase} />
-            </div>
-            <div>
-                <h4>CPU</h4>
-                <CPUTable cpu={cpu} numberBase={numberBase} />
-                <h4>Registers</h4>
-                <RegisterTable cpu={cpu} numberBase={numberBase} />
-            </div>
+        <div className="col-md-2">
+          <div className="form-group">
+            <label>Number Base</label>
+            <NumberBasePicker {...componentProps} />
+          </div>
         </div>
-        {version}
+      </div>
+
+      {showProgramManager && (
+        <HackAsmProgramManager loadProgram={loadProgram} />
+      )}
+
+      <div className="row">
+        <div className="col-md-3">
+          <ROMTable cpu={cpu} numberBase={numberBase} />
+        </div>
+        <div className="col-md-3">
+          <RAMTable
+            cpu={cpu}
+            numberBase={numberBase}
+            setRamValue={setRamValue}
+          />
+        </div>
+        <div className="col-md-6">
+          <ALUDisplay cpu={cpu} numberBase={numberBase} />
+        </div>
+      </div>
+      <div className="hidden-version">{version}</div>
     </div>
-}
+  );
+};
 
 export default HackCpuSimulator;
