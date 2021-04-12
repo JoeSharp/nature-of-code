@@ -1,11 +1,20 @@
 import React from "react";
 
 import { ControlledInput } from "src/types";
-import { binary, denary, hexadecimal, NumberBase } from "comp-sci-maths-lib";
+import {
+  signed16bitBinary,
+  denaryInteger,
+  signed16bitHex,
+} from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 
-const NUMBER_BASES: NumberBase[] = [denary, binary.withPadding(16), hexadecimal.withPadding(4)]
+const NUMBER_BASES: INumberBase[] = [
+  denaryInteger,
+  signed16bitBinary,
+  signed16bitHex,
+];
 
-interface Props extends ControlledInput<NumberBase> {
+interface Props extends ControlledInput<INumberBase> {
   className?: string;
 }
 
@@ -18,7 +27,7 @@ const NumberBasePicker: React.FunctionComponent<Props> = ({
     ({ target: { value } }) => {
       const found = NUMBER_BASES.find(({ name }) => name === value);
       if (found !== undefined) {
-        onChange(found)
+        onChange(found);
       }
     },
     [onChange]
@@ -43,14 +52,12 @@ const NumberBasePicker: React.FunctionComponent<Props> = ({
 };
 
 interface UsePicker {
-  numberBase: NumberBase;
+  numberBase: INumberBase;
   componentProps: Props;
 }
 
 export const usePicker = (className?: string): UsePicker => {
-  const [value, onChange] = React.useState<NumberBase>(
-    denary
-  );
+  const [value, onChange] = React.useState<INumberBase>(NUMBER_BASES[0]);
 
   return {
     numberBase: value,

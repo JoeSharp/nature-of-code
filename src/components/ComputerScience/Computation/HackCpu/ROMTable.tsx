@@ -1,6 +1,7 @@
 import { toSymbolicAsm } from "comp-sci-maths-lib/dist/computation/assemblyLanguage/hackAssembler";
 import React from "react";
-import { NumberBase, HackCpu } from "comp-sci-maths-lib";
+import { HackCpu } from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 import { MAX_TABLE_ROWS } from "./types";
 import StartAddressDialog, {
   useDialog as useStartAddressDialog,
@@ -9,7 +10,7 @@ import Button from "src/components/Bootstrap/Buttons/Button";
 
 interface Props {
   cpu: HackCpu;
-  numberBase: NumberBase;
+  numberBase: INumberBase;
 }
 
 const ProgramMemoryTable: React.FunctionComponent<Props> = ({

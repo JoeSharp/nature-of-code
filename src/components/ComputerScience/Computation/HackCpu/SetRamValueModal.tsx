@@ -3,15 +3,12 @@ import ModalDialog from "src/components/Bootstrap/ModalDialog";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "src/components/Bootstrap/Buttons/ButtonBar";
-import { NumberBase } from "comp-sci-maths-lib";
 
 interface NewProps {
-  numberBase: NumberBase;
   onConfirm: (address: number, values: number[]) => void;
 }
 
 interface Props extends ReactModal.Props {
-  numberBase: NumberBase;
   startAddress: number;
   onStartAddressChange: React.ChangeEventHandler<HTMLInputElement>;
   memoryValue: string;
@@ -21,7 +18,6 @@ interface Props extends ReactModal.Props {
 }
 
 const SetRamValueModal: React.FunctionComponent<Props> = ({
-  numberBase,
   startAddress,
   onStartAddressChange,
   memoryValue,
@@ -58,7 +54,7 @@ const SetRamValueModal: React.FunctionComponent<Props> = ({
       content={
         <form>
           <div className="form-group">
-            <label>Start Address ({numberBase.name})</label>
+            <label>Start Address</label>
             <input
               className="form-control"
               value={startAddress}
@@ -66,7 +62,7 @@ const SetRamValueModal: React.FunctionComponent<Props> = ({
             />
           </div>
           <div className="form-group">
-            <label>Memory Value(s) ({numberBase.name})</label>
+            <label>Memory Value(s) CSV</label>
             <input
               className="form-control"
               value={memoryValue}
@@ -85,17 +81,14 @@ interface UseSetRamValueModal {
   showDialog: () => void;
 }
 
-const useSetRamValueModal = ({
-  onConfirm,
-  numberBase,
-}: NewProps): UseSetRamValueModal => {
+const useSetRamValueModal = ({ onConfirm }: NewProps): UseSetRamValueModal => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [startAddress, setStartAddress] = React.useState<number>(0);
   const [memoryValue, setMemoryValue] = React.useState<string>("0");
 
   const onStartAddressChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setStartAddress(numberBase.fromString(value)),
-    [setStartAddress, numberBase]
+    ({ target: { value } }) => setStartAddress(parseInt(value, 10)),
+    [setStartAddress]
   );
   const onMemoryValueChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     ({ target: { value } }) => setMemoryValue(value),
@@ -103,11 +96,10 @@ const useSetRamValueModal = ({
   );
 
   const _onConfirm = React.useCallback(() => {
-    onConfirm(
-      startAddress,
-      memoryValue.split(" ").map((s) => numberBase.fromString(s))
-    );
-  }, [onConfirm, numberBase, startAddress, memoryValue]);
+    const memoryValues = memoryValue.split(",").map((s) => parseInt(s, 10));
+    console.log("FOO ", memoryValues);
+    onConfirm(startAddress, memoryValues);
+  }, [onConfirm, startAddress, memoryValue]);
 
   const _onCloseDialog = React.useCallback(() => {
     setIsOpen(false);
@@ -119,7 +111,6 @@ const useSetRamValueModal = ({
 
   return {
     componentProps: {
-      numberBase,
       isOpen,
       startAddress,
       onStartAddressChange,

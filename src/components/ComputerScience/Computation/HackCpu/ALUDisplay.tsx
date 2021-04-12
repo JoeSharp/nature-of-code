@@ -1,9 +1,10 @@
-import { HackCpu, NumberBase } from "comp-sci-maths-lib";
+import { HackCpu } from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 import React from "react";
 
 interface Props {
   cpu: HackCpu;
-  numberBase: NumberBase;
+  numberBase: INumberBase;
 }
 
 const ALUDisplay: React.FunctionComponent<Props> = ({

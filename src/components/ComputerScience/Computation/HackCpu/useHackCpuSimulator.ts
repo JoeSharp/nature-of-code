@@ -1,7 +1,8 @@
 import React from "react";
 import cogoToast from "cogo-toast";
 
-import { HackCpu, NumberBase } from "comp-sci-maths-lib";
+import { HackCpu } from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 
 interface UseHackCpuSimulator {
   version: number;
@@ -12,7 +13,7 @@ interface UseHackCpuSimulator {
   loadProgram: (input: string) => void;
 }
 
-const useHackCpuSimulator = (numberBase: NumberBase): UseHackCpuSimulator => {
+const useHackCpuSimulator = (numberBase: INumberBase): UseHackCpuSimulator => {
   const [version, incrementVersion] = React.useReducer((a) => a + 1, 0);
   const cpuRef = React.useRef<HackCpu>(new HackCpu());
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { NumberBase } from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 
 import ModalDialog from "src/components/Bootstrap/ModalDialog";
 import cogoToast from "cogo-toast";
@@ -7,7 +7,7 @@ import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 
 interface BaseProps {
-  numberBase: NumberBase;
+  numberBase: INumberBase;
   maxAddress: number;
 }
 

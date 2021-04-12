@@ -1,6 +1,7 @@
 import React from "react";
 
-import { HackCpu, NumberBase } from "comp-sci-maths-lib";
+import { HackCpu } from "comp-sci-maths-lib";
+import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import SetRamValueModal, { useSetRamValueModal } from "./SetRamValueModal";
 import StartAddressDialog, {
@@ -11,7 +12,7 @@ import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 
 interface Props {
   cpu: HackCpu;
-  numberBase: NumberBase;
+  numberBase: INumberBase;
   setRamValue: (address: number, values: number[]) => void;
 }
 
@@ -24,7 +25,6 @@ const RAMTable: React.FunctionComponent<Props> = ({
     componentProps: setRamValueProps,
     showDialog: showSetRamValueDialog,
   } = useSetRamValueModal({
-    numberBase,
     onConfirm: React.useCallback(
       (address: number, values: number[]) => {
         setRamValue(address, values);
@@ -93,7 +93,7 @@ const RAMTable: React.FunctionComponent<Props> = ({
                 }
               >
                 <td>{numberBase.toString(startAddress + i)}</td>
-                <td>{numberBase.toString(p)}</td>
+                <td>{numberBase.base === 10 ? p : numberBase.toString(p)}</td>
               </tr>
             ))}
         </tbody>
