@@ -3,7 +3,7 @@ import React from "react";
 import ROMTable from "./ROMTable";
 import RAMTable from "./RAMTable";
 import useHackCpuSimulator from "./useHackCpuSimulator";
-import HackAsmProgramManager from "./HackAsmProgramManager";
+import HackAsmProgramManager from "./ProgramManager/ProgramManager";
 import NumberBasePicker, {
   usePicker as useNumberBasePicker,
 } from "./NumberBasePicker";
@@ -63,13 +63,15 @@ const HackCpuSimulator: React.FunctionComponent = () => {
         </div>
       </div>
 
-      {showProgramManager && (
-        <HackAsmProgramManager loadProgram={loadProgram} />
-      )}
+      {showProgramManager && <HackAsmProgramManager />}
 
       <div className="row">
         <div className="col-md-3">
-          <ROMTable cpu={cpu} numberBase={numberBase} />
+          <ROMTable
+            cpu={cpu}
+            numberBase={numberBase}
+            loadProgram={loadProgram}
+          />
         </div>
         <div className="col-md-3">
           <RAMTable

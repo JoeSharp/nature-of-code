@@ -44,9 +44,9 @@ const NewProgramDialog: React.FunctionComponent<Props> = (props) => {
       content={
         <form className="form">
           <div className="form-group">
-            <label htmlFor="newHackAsmProgramName">Name</label>
+            <label htmlFor="newProgramName">Name</label>
             <input
-              id="newHackAsmProgramName"
+              id="newProgramName"
               className="form-control"
               value={programName}
               onChange={onProgramNameChange}
@@ -81,7 +81,6 @@ export const useDialog = <T extends {}>(
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const _onCloseDialog = React.useCallback(() => setIsOpen(false), [setIsOpen]);
-
   const _showDialog = React.useCallback(() => setIsOpen(true), [setIsOpen]);
 
   return {
