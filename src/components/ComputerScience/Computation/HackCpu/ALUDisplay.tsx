@@ -9,6 +9,8 @@ interface Props {
 
 const ALUDisplay: React.FunctionComponent<Props> = ({
   cpu: {
+    addressRegister,
+    dataRegister,
     alu: { aRegister, dRegister, mContents, lastComputation, lastResult },
   },
   numberBase,
@@ -16,6 +18,26 @@ const ALUDisplay: React.FunctionComponent<Props> = ({
   return (
     <div>
       <h4>ALU</h4>
+      <div className="row">
+        <div className="col-md-4">
+          <div className="form-group">
+            <label>D</label>
+            <input
+              readOnly
+              className="form-control"
+              value={numberBase.toString(dataRegister)}
+            />
+          </div>
+          <div className="form-group">
+            <label>A</label>
+            <input
+              readOnly
+              className="form-control"
+              value={numberBase.toString(addressRegister)}
+            />
+          </div>
+        </div>
+      </div>
       <div className="row">
         <div className="col-md-4">
           <div className="form-group">

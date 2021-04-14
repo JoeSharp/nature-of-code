@@ -5,8 +5,8 @@ import useLocalStorage, {
   useStoreObjectFactory,
 } from "src/components/lib/useLocalStorage";
 
-import { programs as defaultPrograms } from "../cannedPrograms";
-import { ProgramsById } from "../types";
+import { programs as defaultPrograms } from "./cannedPrograms";
+import { ProgramsById } from "./types";
 
 export interface UseSavedProgram {
   names: string[];

@@ -7,13 +7,13 @@ import SetRamValueModal, { useSetRamValueModal } from "./SetRamValueModal";
 import StartAddressDialog, {
   useDialog as useStartAddressDialog,
 } from "./StartAddressDialog";
-import { MAX_TABLE_ROWS } from "./types";
+import { MAX_TABLE_ROWS, SetRamValues } from "./types";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 
 interface Props {
   cpu: HackCpu;
   numberBase: INumberBase;
-  setRamValue: (address: number, values: number[]) => void;
+  setRamValue: SetRamValues;
 }
 
 const RAMTable: React.FunctionComponent<Props> = ({

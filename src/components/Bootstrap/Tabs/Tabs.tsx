@@ -21,6 +21,19 @@ const Tabs: React.FunctionComponent<Props> = ({ tabs }) => {
     [tabs, setSelectedTitle]
   );
 
+  React.useEffect(() => {
+    const nonExistentTabSelected =
+      selectedTitle &&
+      !tabsWithHandlers.find(({ tab: { title } }) => title === selectedTitle);
+    const noTabSelected = !selectedTitle;
+    if (
+      tabsWithHandlers.length > 0 &&
+      (nonExistentTabSelected || noTabSelected)
+    ) {
+      setSelectedTitle(tabsWithHandlers[0].tab.title);
+    }
+  }, [selectedTitle, tabsWithHandlers]);
+
   return (
     <React.Fragment>
       <ul className="nav nav-tabs">

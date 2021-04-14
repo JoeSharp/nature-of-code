@@ -11,6 +11,9 @@ import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 import ProgramEditor from "./ProgramEditor";
 import useListReducer from "src/components/lib/useListReducer";
 import Tabs, { Tab } from "src/components/Bootstrap/Tabs/Tabs";
+import ConfirmDialog, {
+  useDialog as useConfirmDialog,
+} from "src/components/Bootstrap/ConfirmDialog";
 
 interface OpenProgram {
   programName: string;
@@ -42,12 +45,23 @@ const ProgramManager: React.FunctionComponent = () => {
   } = useProgramPickerDialog(openProgram);
 
   const { savedPrograms } = programPickerProps;
-  const { createNew: createNewProgram } = savedPrograms;
+  const {
+    createNew: createNewProgram,
+    reset: resetSavedPrograms,
+  } = savedPrograms;
 
   const {
     showDialog: showNewProgramDialog,
     componentProps: newProgramProps,
   } = useNewProgramDialog(createNewProgram);
+
+  const {
+    showDialog: showResetConfirmation,
+    componentProps: confirmResetProps,
+  } = useConfirmDialog({
+    getQuestion: () => "Are you sure you want to reset local program storage?",
+    onConfirm: resetSavedPrograms,
+  });
 
   const buttons: ButtonProps[] = React.useMemo(
     () => [
@@ -61,8 +75,13 @@ const ProgramManager: React.FunctionComponent = () => {
         text: "Open",
         styleType: "success",
       },
+      {
+        onClick: showResetConfirmation,
+        text: "Reset All",
+        styleType: "danger",
+      },
     ],
-    [showProgramPicker, showNewProgramDialog]
+    [showResetConfirmation, showProgramPicker, showNewProgramDialog]
   );
 
   const tabs: Tab[] = React.useMemo(
@@ -87,6 +106,7 @@ const ProgramManager: React.FunctionComponent = () => {
       <h4>Program Editor</h4>
 
       <NewProgramDialog {...newProgramProps} />
+      <ConfirmDialog {...confirmResetProps} />
 
       <div>
         <ProgramPickerDialog {...programPickerProps} />

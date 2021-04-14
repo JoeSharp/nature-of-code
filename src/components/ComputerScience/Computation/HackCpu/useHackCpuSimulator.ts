@@ -3,6 +3,7 @@ import cogoToast from "cogo-toast";
 
 import { HackCpu } from "comp-sci-maths-lib";
 import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { LoadProgram } from "./types";
 
 interface UseHackCpuSimulator {
   version: number;
@@ -10,7 +11,7 @@ interface UseHackCpuSimulator {
   reset: () => void;
   tick: () => void;
   setRamValue: (address: number, values: number[]) => void;
-  loadProgram: (input: string) => void;
+  loadProgram: LoadProgram;
 }
 
 const useHackCpuSimulator = (numberBase: INumberBase): UseHackCpuSimulator => {
@@ -28,9 +29,9 @@ const useHackCpuSimulator = (numberBase: INumberBase): UseHackCpuSimulator => {
   }, [cpuRef]);
 
   const loadProgram = React.useCallback(
-    (input: string) => {
+    (programName: string, program: string) => {
       try {
-        cpuRef.current.loadProgram(input);
+        cpuRef.current.loadProgram(program);
         incrementVersion();
         cogoToast.info("Program Loaded into CPU ROM");
       } catch (e) {

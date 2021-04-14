@@ -23,7 +23,8 @@ import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
 import { page as numberBases } from "./DataRepresentation/Numbers";
 
-import { page as hackCpuSimulator } from './Computation/HackCpu'
+import { page as hackCpuSimulator } from "./Computation/HackCpu";
+import { page as programManager } from "./Computation/ProgramManager";
 
 import CardCollection from "../Bootstrap/CardCollection";
 
@@ -47,9 +48,14 @@ const dataStructurePages = [
   priorityQueuePage,
 ];
 
-const dataRepresentationPages = [numberBases, soundPage, bitmapImagesPage, asciiTextPage];
+const dataRepresentationPages = [
+  numberBases,
+  soundPage,
+  bitmapImagesPage,
+  asciiTextPage,
+];
 
-const computationPages = [hackCpuSimulator]
+const computationPages = [hackCpuSimulator, programManager];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>
@@ -80,7 +86,7 @@ export const pages: Page[] = [
   ...algorithmPages,
   ...dataStructurePages,
   ...dataRepresentationPages,
-  ...computationPages
+  ...computationPages,
 ];
 
 export default ComputerScience;

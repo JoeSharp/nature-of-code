@@ -2,7 +2,7 @@ import { toSymbolicAsm } from "comp-sci-maths-lib/dist/computation/assemblyLangu
 import React from "react";
 import { HackCpu } from "comp-sci-maths-lib";
 import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
-import { MAX_TABLE_ROWS } from "./types";
+import { LoadProgram, MAX_TABLE_ROWS } from "./types";
 import StartAddressDialog, {
   useDialog as useStartAddressDialog,
 } from "./StartAddressDialog";
@@ -10,11 +10,11 @@ import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 import ProgramPickerDialog, {
   useDialog as useProgramPicker,
-} from "./ProgramManager/ProgramPickerDialog";
+} from "../ProgramManager/ProgramPickerDialog";
 
 interface Props {
   cpu: HackCpu;
-  loadProgram: (program: string) => void;
+  loadProgram: LoadProgram;
   numberBase: INumberBase;
 }
 

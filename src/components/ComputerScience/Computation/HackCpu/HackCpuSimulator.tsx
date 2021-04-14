@@ -3,7 +3,6 @@ import React from "react";
 import ROMTable from "./ROMTable";
 import RAMTable from "./RAMTable";
 import useHackCpuSimulator from "./useHackCpuSimulator";
-import HackAsmProgramManager from "./ProgramManager/ProgramManager";
 import NumberBasePicker, {
   usePicker as useNumberBasePicker,
 } from "./NumberBasePicker";
@@ -13,15 +12,9 @@ import StepForwardControls, {
 } from "src/components/lib/StepForwardControls";
 
 import "./cpuSimulator.css";
-import Button from "src/components/Bootstrap/Buttons/Button";
 import ALUDisplay from "./ALUDisplay";
 
 const HackCpuSimulator: React.FunctionComponent = () => {
-  const [showProgramManager, toggleProgramManager] = React.useReducer(
-    (b) => !b,
-    false
-  );
-
   const { numberBase, componentProps } = useNumberBasePicker("form-control");
 
   const {
@@ -41,13 +34,6 @@ const HackCpuSimulator: React.FunctionComponent = () => {
   return (
     <div>
       <div className="row">
-        <div className="col-md-3">
-          <Button
-            onClick={toggleProgramManager}
-            text={`${showProgramManager ? "Hide" : "Show"} Program Editor`}
-            styleType="success"
-          />
-        </div>
         <div className="col-md-2">
           <div className="form-group">
             <label>Play Controls</label>
@@ -62,8 +48,6 @@ const HackCpuSimulator: React.FunctionComponent = () => {
           </div>
         </div>
       </div>
-
-      {showProgramManager && <HackAsmProgramManager />}
 
       <div className="row">
         <div className="col-md-3">
