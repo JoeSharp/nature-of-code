@@ -13,6 +13,7 @@ import StepForwardControls, {
 
 import "./cpuSimulator.css";
 import ALUDisplay from "./ALUDisplay";
+import TestScript from "./TestScript";
 
 const HackCpuSimulator: React.FunctionComponent = () => {
   const { numberBase, componentProps } = useNumberBasePicker("form-control");
@@ -51,6 +52,9 @@ const HackCpuSimulator: React.FunctionComponent = () => {
 
       <div className="row">
         <div className="col-md-3">
+          <TestScript />
+        </div>
+        <div className="col-md-3">
           <ROMTable
             cpu={cpu}
             numberBase={numberBase}
@@ -64,7 +68,7 @@ const HackCpuSimulator: React.FunctionComponent = () => {
             setRamValue={setRamValue}
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-3">
           <ALUDisplay cpu={cpu} numberBase={numberBase} />
         </div>
       </div>

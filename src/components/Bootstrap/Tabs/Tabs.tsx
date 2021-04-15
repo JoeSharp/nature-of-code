@@ -6,12 +6,16 @@ export interface Tab {
 }
 
 interface Props {
+  selectedTitle?: string;
+  setSelectedTitle: (t: string) => void;
   tabs: Tab[];
 }
 
-const Tabs: React.FunctionComponent<Props> = ({ tabs }) => {
-  const [selectedTitle, setSelectedTitle] = React.useState<string>();
-
+const Tabs: React.FunctionComponent<Props> = ({
+  tabs,
+  selectedTitle,
+  setSelectedTitle,
+}) => {
   const tabsWithHandlers = React.useMemo(
     () =>
       tabs.map((tab) => ({
@@ -32,7 +36,7 @@ const Tabs: React.FunctionComponent<Props> = ({ tabs }) => {
     ) {
       setSelectedTitle(tabsWithHandlers[0].tab.title);
     }
-  }, [selectedTitle, tabsWithHandlers]);
+  }, [selectedTitle, setSelectedTitle, tabsWithHandlers]);
 
   return (
     <React.Fragment>
@@ -56,6 +60,16 @@ const Tabs: React.FunctionComponent<Props> = ({ tabs }) => {
         ))}
     </React.Fragment>
   );
+};
+
+export const useTabs = (tabs: Tab[]): Props => {
+  const [selectedTitle, setSelectedTitle] = React.useState<string>();
+
+  return {
+    selectedTitle,
+    setSelectedTitle,
+    tabs,
+  };
 };
 
 export default Tabs;

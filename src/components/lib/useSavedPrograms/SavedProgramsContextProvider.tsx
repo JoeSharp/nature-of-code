@@ -6,18 +6,13 @@ import useLocalStorage, {
 } from "src/components/lib/useLocalStorage";
 
 import { programs as defaultPrograms } from "./cannedPrograms";
+import SavedProgramsContext from "./SavedProgramsContext";
 import { ProgramsById } from "./types";
+import { Optional } from "comp-sci-maths-lib/dist/types";
 
-export interface UseSavedProgram {
-  names: string[];
-  programs: ProgramsById;
-  createNew(name: string): void;
-  deleteProgram(name: string): void;
-  saveProgram(name: string, program: string): void;
-  reset: () => void;
-}
-
-export default (): UseSavedProgram => {
+const SavedProgramsContextProvider: React.FunctionComponent = ({
+  children,
+}) => {
   const {
     value: programs,
     reduceValue: reducePrograms,
@@ -33,18 +28,23 @@ export default (): UseSavedProgram => {
   ]);
 
   const createNew = React.useCallback(
-    (name: string) => {
+    (name: string, content: string = "// New Program"): Optional<string> => {
       if (name.length < 3) {
         cogoToast.error("Could not save graph with short name (length < 3)");
-      } else if (names.includes(name)) {
-        cogoToast.error("This name already exists");
-      } else {
-        reducePrograms((existing: ProgramsById) => ({
-          ...existing,
-          [name]: "// New Program",
-        }));
-        cogoToast.info(`New Program Created ${name}`);
+        return;
       }
+
+      if (names.includes(name)) {
+        cogoToast.error("This name already exists");
+        return;
+      }
+
+      reducePrograms((existing: ProgramsById) => ({
+        ...existing,
+        [name]: content,
+      }));
+      cogoToast.info(`New Program Created ${name}`);
+      return content;
     },
     [reducePrograms, names]
   );
@@ -76,12 +76,20 @@ export default (): UseSavedProgram => {
     setPrograms(defaultPrograms);
   }, [setPrograms]);
 
-  return {
-    names,
-    programs,
-    createNew,
-    deleteProgram,
-    saveProgram,
-    reset,
-  };
+  return (
+    <SavedProgramsContext.Provider
+      value={{
+        names,
+        programs,
+        createNew,
+        deleteProgram,
+        saveProgram,
+        reset,
+      }}
+    >
+      {children}
+    </SavedProgramsContext.Provider>
+  );
 };
+
+export default SavedProgramsContextProvider;

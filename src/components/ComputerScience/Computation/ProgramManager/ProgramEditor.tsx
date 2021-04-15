@@ -1,26 +1,25 @@
 import React from "react";
 
 import useDirtyState from "src/components/lib/useDirtyState";
-import { UseSavedProgram } from "./useSavedProgram";
 
 import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
+import useSavedPrograms from "src/components/lib/useSavedPrograms";
 
 const DEFAULT_PROGRAM: string = "// New Program";
 
 interface Props {
   program: string;
   programName: string;
-  savedPrograms: UseSavedProgram;
   closeProgram: (name: string) => void;
 }
 
 const ProgramEditor: React.FunctionComponent<Props> = ({
   program,
   programName,
-  savedPrograms: { saveProgram, deleteProgram },
   closeProgram,
 }) => {
+  const { saveProgram, deleteProgram } = useSavedPrograms();
   const {
     value: editedProgram,
     setValue: setEditedProgram,
@@ -47,6 +46,7 @@ const ProgramEditor: React.FunctionComponent<Props> = ({
         },
         text: "Save",
         styleType: "success",
+        disabled: !isEditedProgramDirty,
       },
       {
         onClick: () => {
@@ -63,6 +63,7 @@ const ProgramEditor: React.FunctionComponent<Props> = ({
       },
     ],
     [
+      isEditedProgramDirty,
       editedProgram,
       programName,
       setEditedProgramClean,
@@ -74,12 +75,8 @@ const ProgramEditor: React.FunctionComponent<Props> = ({
 
   return (
     <div>
-      <h4>
-        {programName} {isEditedProgramDirty ? "*" : ""}
-      </h4>
-      <ButtonBar buttons={buttons} />
+      <ButtonBar className="mt-2 mb-2" buttons={buttons} />
       <div className="form-group">
-        <label>Program Content</label>
         <textarea
           className="txt-code code-text"
           value={editedProgram}

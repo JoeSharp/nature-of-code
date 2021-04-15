@@ -58,7 +58,7 @@ const ProgramMemoryTable: React.FunctionComponent<Props> = ({
       <ProgramPickerDialog {...programPickerProps} />
       <h4>
         ROM
-        <ButtonBar buttons={buttons} />
+        <ButtonBar className="title-button" buttons={buttons} />
       </h4>
       <div className="form-group">
         <label>PC</label>

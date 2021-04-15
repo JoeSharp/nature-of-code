@@ -6,7 +6,7 @@ import {
   Route,
   RouteComponentProps,
 } from "react-router-dom";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 
 import "jquery";
 import "popper.js";
@@ -15,9 +15,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CommonPageHeader, { pages } from "./components/CommonPageHeader";
 
 import "./index.css";
+import { SavedProgramsContextProvider } from "./components/lib/useSavedPrograms";
 
 const App = () => {
-  React.useEffect(() => Modal.setAppElement('body'), []);
+  React.useEffect(() => Modal.setAppElement("body"), []);
 
   return (
     <div className="container pb-4 pr-4 pl-4">
@@ -31,12 +32,14 @@ const App = () => {
         <Route key={href} exact path={href} component={component} />
       ))}
     </div>
-  )
+  );
 };
 
 ReactDOM.render(
   <Router>
-    <App />
+    <SavedProgramsContextProvider>
+      <App />
+    </SavedProgramsContextProvider>
   </Router>,
   document.getElementById("root") as HTMLElement
 );

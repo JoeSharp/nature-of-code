@@ -10,10 +10,11 @@ import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
 import ProgramEditor from "./ProgramEditor";
 import useListReducer from "src/components/lib/useListReducer";
-import Tabs, { Tab } from "src/components/Bootstrap/Tabs/Tabs";
+import Tabs, { Tab, useTabs } from "src/components/Bootstrap/Tabs/Tabs";
 import ConfirmDialog, {
   useDialog as useConfirmDialog,
 } from "src/components/Bootstrap/ConfirmDialog";
+import useSavedProgram from "../../../lib/useSavedPrograms";
 
 interface OpenProgram {
   programName: string;
@@ -21,6 +22,11 @@ interface OpenProgram {
 }
 
 const ProgramManager: React.FunctionComponent = () => {
+  const {
+    createNew: createNewProgram,
+    reset: resetSavedPrograms,
+  } = useSavedProgram();
+
   const {
     items: openPrograms,
     addItem: addOpenProgram,
@@ -44,16 +50,40 @@ const ProgramManager: React.FunctionComponent = () => {
     componentProps: programPickerProps,
   } = useProgramPickerDialog(openProgram);
 
-  const { savedPrograms } = programPickerProps;
-  const {
-    createNew: createNewProgram,
-    reset: resetSavedPrograms,
-  } = savedPrograms;
+  const tabs: Tab[] = React.useMemo(
+    () =>
+      openPrograms.map(({ programName, program }) => ({
+        title: programName,
+        content: (
+          <ProgramEditor
+            key={programName}
+            programName={programName}
+            program={program}
+            closeProgram={closeProgram}
+          />
+        ),
+      })),
+    [openPrograms, closeProgram]
+  );
+
+  const tabsProps = useTabs(tabs);
+  const { setSelectedTitle: setOpenTab } = tabsProps;
+
+  const createAndOpenNewProgram = React.useCallback(
+    (name: string) => {
+      const content = createNewProgram(name);
+      if (!!content) {
+        openProgram(name, content);
+        setOpenTab(name);
+      }
+    },
+    [setOpenTab, createNewProgram, openProgram]
+  );
 
   const {
     showDialog: showNewProgramDialog,
     componentProps: newProgramProps,
-  } = useNewProgramDialog(createNewProgram);
+  } = useNewProgramDialog(createAndOpenNewProgram);
 
   const {
     showDialog: showResetConfirmation,
@@ -84,23 +114,6 @@ const ProgramManager: React.FunctionComponent = () => {
     [showResetConfirmation, showProgramPicker, showNewProgramDialog]
   );
 
-  const tabs: Tab[] = React.useMemo(
-    () =>
-      openPrograms.map(({ programName, program }) => ({
-        title: programName,
-        content: (
-          <ProgramEditor
-            key={programName}
-            programName={programName}
-            program={program}
-            savedPrograms={savedPrograms}
-            closeProgram={closeProgram}
-          />
-        ),
-      })),
-    [openPrograms, closeProgram, savedPrograms]
-  );
-
   return (
     <div>
       <h4>Program Editor</h4>
@@ -113,7 +126,7 @@ const ProgramManager: React.FunctionComponent = () => {
         <ButtonBar buttons={buttons} />
       </div>
 
-      <Tabs tabs={tabs} />
+      <Tabs {...tabsProps} />
     </div>
   );
 };

@@ -17,7 +17,7 @@ const ALUDisplay: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div>
-      <h4>ALU</h4>
+      <h4>Internal Register</h4>
       <div className="row">
         <div className="col-md-4">
           <div className="form-group">
@@ -28,18 +28,11 @@ const ALUDisplay: React.FunctionComponent<Props> = ({
               value={numberBase.toString(dataRegister)}
             />
           </div>
-          <div className="form-group">
-            <label>A</label>
-            <input
-              readOnly
-              className="form-control"
-              value={numberBase.toString(addressRegister)}
-            />
-          </div>
         </div>
       </div>
+      <h4>Last ALU Computation</h4>
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div className="form-group">
             <label>D</label>
             <input
@@ -66,14 +59,11 @@ const ALUDisplay: React.FunctionComponent<Props> = ({
           </div>
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div className="form-group">
             <label>Computation</label>
             <input readOnly className="form-control" value={lastComputation} />
           </div>
-        </div>
-
-        <div className="col-md-4">
           <div className="form-group">
             <label>Result</label>
             <input

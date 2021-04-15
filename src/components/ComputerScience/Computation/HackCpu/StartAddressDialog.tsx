@@ -25,7 +25,7 @@ const StartAddressDialog: React.FunctionComponent<Props> = (props) => {
   const buttons: ButtonProps[] = React.useMemo(
     () => [
       {
-        text: "Create",
+        text: "Go to",
         styleType: "primary",
         onClick: onConfirm,
       },

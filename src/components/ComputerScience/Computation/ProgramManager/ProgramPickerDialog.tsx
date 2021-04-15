@@ -2,11 +2,10 @@ import React from "react";
 import ModalDialog from "src/components/Bootstrap/ModalDialog";
 import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
 import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
-import useSavedProgram, { UseSavedProgram } from "./useSavedProgram";
+import useSavedPrograms from "src/components/lib/useSavedPrograms";
 
 interface Props {
   selectedProgram: string;
-  savedPrograms: UseSavedProgram;
   onSelectChange: React.ChangeEventHandler<HTMLSelectElement>;
   isOpen: boolean;
   onConfirm: () => void;
@@ -14,13 +13,9 @@ interface Props {
 }
 
 const ProgramPickerDialog: React.FunctionComponent<Props> = (props) => {
-  const {
-    savedPrograms: { names },
-    selectedProgram,
-    onSelectChange,
-    onConfirm,
-    onCancel,
-  } = props;
+  const { selectedProgram, onSelectChange, onConfirm, onCancel } = props;
+
+  const { names } = useSavedPrograms();
 
   const buttons: ButtonProps[] = React.useMemo(
     () => [
@@ -73,9 +68,7 @@ export const useDialog = (
 ): UseDialog => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  const savedPrograms = useSavedProgram();
-
-  const { names, programs } = savedPrograms;
+  const { names, programs } = useSavedPrograms();
 
   const [selectedProgram, setProgramName] = React.useState<string>(names[0]);
 
@@ -98,7 +91,6 @@ export const useDialog = (
     componentProps: {
       isOpen,
       onSelectChange,
-      savedPrograms,
       selectedProgram,
       onConfirm: _onConfirm,
       onCancel,
