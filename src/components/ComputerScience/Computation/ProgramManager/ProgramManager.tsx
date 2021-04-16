@@ -6,14 +6,14 @@ import NewProgramDialog, {
 import ProgramPickerDialog, {
   useDialog as useProgramPickerDialog,
 } from "./ProgramPickerDialog";
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
 import ProgramEditor from "./ProgramEditor";
-import useListReducer from "src/components/lib/useListReducer";
-import Tabs, { Tab, useTabs } from "src/components/Bootstrap/Tabs/Tabs";
+import useListReducer from "../../../lib/useListReducer";
+import Tabs, { Tab, useTabs } from "../../../Bootstrap/Tabs/Tabs";
 import ConfirmDialog, {
   useDialog as useConfirmDialog,
-} from "src/components/Bootstrap/ConfirmDialog";
+} from "../../../Bootstrap/ConfirmDialog";
 import useSavedProgram from "../../../lib/useSavedPrograms";
 
 interface OpenProgram {

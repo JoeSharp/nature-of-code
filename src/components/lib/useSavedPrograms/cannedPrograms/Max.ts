@@ -1,4 +1,4 @@
-export default `// This file is part of www.nand2tetris.org
+const f = `// This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/06/max/Max.asm
@@ -25,3 +25,4 @@ export default `// This file is part of www.nand2tetris.org
    @INFINITE_LOOP
    0;JMP            // infinite loop
 `
+export default f;

@@ -1,4 +1,4 @@
-export default `// This file is part of www.nand2tetris.org
+const f = `// This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/04/mult/Mult.tst
@@ -73,3 +73,5 @@ set RAM[0] 6,   // Restore arguments in case program used them as loop counter
 set RAM[1] 7,
 output;
 `;
+
+export default f;

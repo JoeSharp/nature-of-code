@@ -4,7 +4,7 @@ import useItemInArray from "../../lib/useLoopCounter/useItemInArray";
 import PrimesListing from "./PrimesListing";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../Bootstrap/Buttons/ButtonBar";
 
 const LIMIT: number = 20;
 

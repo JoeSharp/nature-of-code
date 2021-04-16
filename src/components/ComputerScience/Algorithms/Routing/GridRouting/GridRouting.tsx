@@ -1,5 +1,5 @@
 import React from "react";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../../p5/useSketch";
 import GridSketch from "./GridSketch";
 import useGridGraph from "./useGridGraph";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
@@ -7,13 +7,13 @@ import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import "./routing.css";
 import StepThruListControls, {
   useStepThruListControls,
-} from "src/components/lib/StepThruListControls";
+} from "../../../../lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
-import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { PointDataItem } from "src/components/p5/Boid/types";
+import HeuristicCostTable from "../../../../ComputerScience/Algorithms/Routing/HeuristicCostTable";
+import { PointDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../../Bootstrap/Buttons/ButtonBar";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);

@@ -3,15 +3,15 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Queue from "comp-sci-maths-lib/dist/dataStructures/queue/Queue";
-import useListReducer from "src/components/lib/useListReducer";
+import useListReducer from "../../../lib/useListReducer";
 
 import "./queue.css";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../p5/useSketch";
 import { ArraySketchNumber } from "./ArraySketch";
-import { NumberDataItem } from "src/components/p5/Boid/types";
+import { NumberDataItem } from "../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../Bootstrap/Buttons/ButtonBar";
 
 const StackComponent: React.FunctionComponent = () => {
   const queue = React.useRef<Queue<NumberDataItem>>(new Queue());

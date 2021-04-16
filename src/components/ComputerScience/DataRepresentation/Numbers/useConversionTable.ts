@@ -20,7 +20,7 @@ export interface UseConversionTable {
   }[];
 }
 
-export default (): UseConversionTable =>
+const useConversionTable = (): UseConversionTable =>
   React.useMemo(() => {
     const values = [];
 
@@ -36,3 +36,4 @@ export default (): UseConversionTable =>
       values,
     };
   }, []);
+export default useConversionTable;

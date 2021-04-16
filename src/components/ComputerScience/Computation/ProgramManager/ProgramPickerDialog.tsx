@@ -1,8 +1,8 @@
 import React from "react";
-import ModalDialog from "src/components/Bootstrap/ModalDialog";
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
-import useSavedPrograms from "src/components/lib/useSavedPrograms";
+import ModalDialog from "../../../Bootstrap/ModalDialog";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
+import useSavedPrograms from "../../../lib/useSavedPrograms";
 
 interface Props {
   selectedProgram: string;

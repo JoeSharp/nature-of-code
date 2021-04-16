@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ControlledInput } from "src/types";
+import { ControlledInput } from "../../../../types";
 import { binaryTreeTraversalAlgorithms } from "./common";
 
 interface Props extends ControlledInput<string> {
@@ -31,12 +31,12 @@ const BinaryTreeTraversalAlgorithmPicker: React.FunctionComponent<Props> = ({
   );
 };
 
-interface UsePicker<T> {
+interface UsePicker {
   algorithmName: string;
   componentProps: Props;
 }
 
-export const usePicker = <T,>(className?: string): UsePicker<T> => {
+export const usePicker = (className?: string): UsePicker => {
   const [value, onChange] = React.useState<string>(
     binaryTreeTraversalAlgorithms[0]
   );

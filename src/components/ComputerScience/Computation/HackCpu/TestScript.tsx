@@ -1,6 +1,6 @@
 import { HackCpuTestRunner } from "comp-sci-maths-lib";
 import React from "react";
-import Button from "src/components/Bootstrap/Buttons/Button";
+import Button from "../../../Bootstrap/Buttons/Button";
 import ProgramPickerDialog, {
   useDialog as useProgramPicker,
 } from "../ProgramManager/ProgramPickerDialog";

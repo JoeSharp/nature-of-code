@@ -1,9 +1,9 @@
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../../p5/useSketch";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import p5 from "p5";
 import { createKeyedPoint } from "./useGridGraph";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { PointDataItem } from "src/components/p5/Boid/types";
+import DataItemBoid from "../../../../p5/Boid/DataItemBoid";
+import { PointDataItem } from "../../../../p5/Boid/types";
 
 interface Config {
   sourceNode: PointDataItem;

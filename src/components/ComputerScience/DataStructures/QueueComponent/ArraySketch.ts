@@ -1,7 +1,7 @@
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 import p5 from "p5";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
+import DataItemBoid from "../../../p5/Boid/DataItemBoid";
+import { DisplayDataItem } from "../../../p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -32,8 +32,8 @@ export class ArraySketch<T> extends AbstractSketch<Config<T>> {
     this.boids = [];
   }
 
-  getOrCreateBoid = (s: p5, dataItem: DisplayDataItem<T>): DataItemBoid<T> => {
-    let boid = this.boids[dataItem.key];
+  getOrCreateBoid = (s: p5, dataItem: DisplayDataItem<T>): DataItemBoid<DisplayDataItem<T>> => {
+    let boid = this.boids[parseInt(dataItem.key, 10)]; // TODO JOE CHECK THIS
 
     if (!boid) {
       boid = new DataItemBoid<DisplayDataItem<T>>({
@@ -43,7 +43,7 @@ export class ArraySketch<T> extends AbstractSketch<Config<T>> {
         maxSpeed: 5,
         label: dataItem.label,
       });
-      this.boids[dataItem.key] = boid;
+      this.boids[parseInt(dataItem.key, 10)] = boid;
     }
 
     return boid;

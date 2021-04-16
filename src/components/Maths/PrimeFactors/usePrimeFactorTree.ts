@@ -4,7 +4,7 @@ import {
   getPrimeFactorTree,
 } from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "../../p5/Boid/types";
 import { NumberGraphVertex } from "comp-sci-maths-lib/dist/types";
 
 export type PrimeFactorDataItem = DisplayDataItem<NumberGraphVertex>;
@@ -20,7 +20,7 @@ const getDataItem = (p: NumberGraphVertex): PrimeFactorDataItem => ({
   value: p,
 });
 
-export default (value: number): UsePrimeFactorTree =>
+const usePrimeFactorTree = (value: number): UsePrimeFactorTree =>
   React.useMemo(() => {
     const primeFactors = getPrimeFactors(value);
     const rawPrimeFactorTree = getPrimeFactorTree(value);
@@ -46,3 +46,5 @@ export default (value: number): UsePrimeFactorTree =>
       primeFactorTree,
     };
   }, [value]);
+
+  export default usePrimeFactorTree;

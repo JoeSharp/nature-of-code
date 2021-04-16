@@ -1,5 +1,5 @@
 import React from "react";
-import { Page } from "src/types";
+import { Page } from "../../types";
 
 import { page as binaryTreeTraversalPage } from "./Algorithms/BinaryTreeTraversal";
 import { page as graphTraversalPage } from "./Algorithms/GraphTraversal";

@@ -4,7 +4,7 @@ import {
   divisibilityRules,
   defaultNamedDivisibilityRule,
 } from "comp-sci-maths-lib/dist/algorithms/primeNumbers/divisibilityRules";
-import { ControlledInput } from "src/types";
+import { ControlledInput } from "../../../types";
 import { NamedDivisibilityRule } from "comp-sci-maths-lib/dist/types";
 
 interface Props extends ControlledInput<NamedDivisibilityRule> {

@@ -5,7 +5,7 @@ import GraphTraversalAlgorithmPicker, {
 import useGraphTraversal from "./useGraphTraversal";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "src/components/ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
+} from "../../../ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "../../DataStructures/GraphManager/GraphPickerWithSketch";

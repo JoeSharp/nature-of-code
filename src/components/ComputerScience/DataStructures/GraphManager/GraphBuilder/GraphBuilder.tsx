@@ -3,12 +3,12 @@ import VertexRow from "./VertexRow";
 
 import "./graphBuilder.css";
 import { v4 as uuidv4 } from "uuid";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../../Bootstrap/Buttons/ButtonBar";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import Checkbox from 'src/components/Bootstrap/Checkbox';
+import Checkbox from '../../../../Bootstrap/Checkbox';
 
 interface Props {
   graph: Graph<StringDataItem>;

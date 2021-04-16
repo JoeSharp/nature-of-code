@@ -3,7 +3,7 @@ import cogoToast from "cogo-toast";
 
 import useLocalStorage, {
   useStoreObjectFactory,
-} from "src/components/lib/useLocalStorage";
+} from "../../lib/useLocalStorage";
 
 import { programs as defaultPrograms } from "./cannedPrograms";
 import SavedProgramsContext from "./SavedProgramsContext";

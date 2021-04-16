@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import { AbstractSketch } from 'src/components/p5/useSketch';
+import { AbstractSketch } from '../../p5/useSketch';
 
 export interface Bearing {
     distance: number;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Optional } from "comp-sci-maths-lib/dist/types";
-import Table from "src/components/Bootstrap/Table";
+import Table from "../../../Bootstrap/Table";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "../../../p5/Boid/types";
 
 interface Item<DATA_ITEM extends DisplayDataItem<any>> {
   node: string;

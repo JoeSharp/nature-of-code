@@ -1,6 +1,6 @@
 import QueueComponent from "./QueueComponent";
 import PriorityQueueComponent from "./PriorityQueueComponent";
-import { Page } from "src/types";
+import { Page } from "../../../../types";
 
 export const queuePage: Page = {
   href: "/computerScience/dataStructures/queue",

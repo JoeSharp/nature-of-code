@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 
 import {
   SortStage,
@@ -8,8 +8,8 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import DataItemBoid from "../../../p5/Boid/DataItemBoid";
+import { StringDataItem } from "../../../p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 300;

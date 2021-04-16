@@ -9,7 +9,7 @@ interface NewProps {
 interface Props extends NewProps, UseToggledInterval {
 }
 
-const StepForwardControls = <T,>({
+const StepForwardControls = ({
   iterate,
   reset,
   isAutoIterating,

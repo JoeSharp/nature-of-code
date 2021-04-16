@@ -3,12 +3,12 @@ import React from "react";
 import SortingAlgorithmPicker, {
   usePicker as useSortingAlgorithmPicker,
 } from "./SortingAlgorithmPicker";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../p5/useSketch";
 import SortingSketch from "./SortingSketch";
 import useSortedData from "./useSortedData";
 import StepThruListControls, {
   useStepThruListControls,
-} from "src/components/lib/StepThruListControls";
+} from "../../../lib/StepThruListControls";
 
 const Sorting: React.FunctionComponent = () => {
   const {

@@ -1,4 +1,4 @@
-export default `// This file is part of www.nand2tetris.org
+const f =`// This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/06/add/Add.asm
@@ -11,3 +11,4 @@ D=A
 D=D+A
 @0
 M=D`
+export default f;

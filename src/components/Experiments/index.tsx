@@ -4,7 +4,7 @@ import Asteroids from "./Asteroids";
 import Dobble from "./Dobble";
 import LogicPadlock from "./LogicPadlock";
 import MidiFun from "./MidiFun";
-import { Page } from "src/types";
+import { Page } from "../../types";
 import P5SketchLibrary from "../p5/P5SketchLibrary";
 import CardCollection from "../Bootstrap/CardCollection";
 

@@ -9,7 +9,7 @@ import NumberBasePicker, {
 
 import StepForwardControls, {
   useStepForwardControls,
-} from "src/components/lib/StepForwardControls";
+} from "../../../lib/StepForwardControls";
 
 import "./cpuSimulator.css";
 import ALUDisplay from "./ALUDisplay";

@@ -3,7 +3,7 @@ import {
   generateRandomNumbers,
 } from "comp-sci-maths-lib/dist/common";
 import React from "react";
-import useInterval from "src/components/lib/useInterval";
+import useInterval from "../../../lib/useInterval";
 import { BigOMeasurements, MeasureProps } from "./types";
 
 interface Props extends MeasureProps {

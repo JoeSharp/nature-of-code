@@ -1,5 +1,5 @@
 import Component from "./GraphRouting";
-import { Page } from "src/types";
+import { Page } from "../../../../../types";
 
 export const page: Page = {
   href: "/computerScience/algorithms/routing/graph",

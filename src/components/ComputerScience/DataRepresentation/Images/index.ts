@@ -1,5 +1,5 @@
 import Bitmapping from "./Bitmapping";
-import { Page } from "src/types";
+import { Page } from "../../../../types";
 
 export const page: Page = {
   href: "/computerScience/dataRepresentation/bitmapImages",

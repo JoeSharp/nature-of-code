@@ -107,7 +107,7 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
   }
 };
 
-export default ({
+const useBitmapData = ({
   height,
   width,
   colourDepth,
@@ -143,3 +143,5 @@ export default ({
 
   return { pixels, rawData, setColour, randomiseColours };
 };
+
+export default useBitmapData;

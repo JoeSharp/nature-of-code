@@ -2,7 +2,7 @@ import React from "react";
 
 import algorithms from "comp-sci-maths-lib/dist/algorithms/search/monitoredSearch";
 import { NamedSearch } from "comp-sci-maths-lib/dist/types";
-import { ControlledInput } from "src/types";
+import { ControlledInput } from "../../../../types";
 
 interface Props extends ControlledInput<NamedSearch | undefined> {
   className?: string;

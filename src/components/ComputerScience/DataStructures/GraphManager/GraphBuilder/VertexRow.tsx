@@ -4,11 +4,11 @@ import Graph, {
   Edge,
 } from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import EdgesCell from "./EdgeCell";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
+} from "../../../../Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "../../../../Bootstrap/Buttons/Button";
 
 interface Props {
   vertex: StringDataItem;

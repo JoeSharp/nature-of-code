@@ -1,9 +1,9 @@
 import p5 from "p5";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 
 import { DEFAULT_SEARCH_OBS, SearchObservation } from "./types";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -16,7 +16,7 @@ interface Config {
   isFinalStage: boolean;
 }
 
-const getDefaultConfig = <T>(): Config => ({
+const getDefaultConfig = (): Config => ({
   searchItem: undefined,
   data: [],
   searchStage: DEFAULT_SEARCH_OBS,
@@ -24,7 +24,7 @@ const getDefaultConfig = <T>(): Config => ({
   isFinalStage: false,
 });
 
-class SearchingSketch<T> extends AbstractSketch<Config> {
+class SearchingSketch extends AbstractSketch<Config> {
   knownPositionVars: string[];
 
   constructor() {

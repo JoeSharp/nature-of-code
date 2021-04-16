@@ -1,8 +1,8 @@
 import React from "react";
-import ModalDialog from "src/components/Bootstrap/ModalDialog";
+import ModalDialog from "../../../Bootstrap/ModalDialog";
 
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
 
 interface Props extends ReactModal.Props {
   createProgram: (name: string) => void;
@@ -59,7 +59,7 @@ const NewProgramDialog: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-interface UseDialog<T> {
+interface UseDialog {
   /**
    * The owning component is ready to start a deletion process.
    * Calling this will open the dialog, and setup the UUIDs
@@ -75,9 +75,9 @@ interface UseDialog<T> {
 /**
  * This is a React custom hook that sets up things required by the owning component.
  */
-export const useDialog = <T extends {}>(
+export const useDialog = (
   createProgram: (name: string) => void
-): UseDialog<T> => {
+): UseDialog => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const _onCloseDialog = React.useCallback(() => setIsOpen(false), [setIsOpen]);

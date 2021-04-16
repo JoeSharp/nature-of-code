@@ -1,7 +1,7 @@
 import { arithmeticComparator } from "comp-sci-maths-lib/dist/common";
 import React from "react";
-import Checkbox from "src/components/Bootstrap/Checkbox";
-import useSketch from "src/components/p5/useSketch";
+import Checkbox from "../../../Bootstrap/Checkbox";
+import useSketch from "../../../p5/useSketch";
 import SearchAlgorithmPicker, {
   usePicker as useSearchAlgorithmPicker,
 } from "../Search/SearchAlgorithmPicker";

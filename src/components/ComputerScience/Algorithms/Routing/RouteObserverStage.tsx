@@ -4,8 +4,8 @@ import {
   ObserverArgsWithPathFrom,
   getCurrentWeightCalcTypeStr,
 } from "comp-sci-maths-lib/dist/algorithms/routing/types";
-import Table from "src/components/Bootstrap/Table";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
+import Table from "../../../Bootstrap/Table";
+import { DisplayDataItem } from "../../../p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Page } from "src/types";
+import { Page } from "../../types";
 
 import { page as divisibilityPage } from "./Divisibility";
 import { page as primeFactorsPage } from "./PrimeFactors";

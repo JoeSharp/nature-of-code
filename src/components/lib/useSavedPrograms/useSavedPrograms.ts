@@ -1,6 +1,8 @@
 import React from "react";
 import SavedProgramsContext from "./SavedProgramsContext";
 
-export default () => {
+const useSavedPrograms = () => {
   return React.useContext(SavedProgramsContext);
 };
+
+export default useSavedPrograms

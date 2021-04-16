@@ -1,5 +1,5 @@
 import React from "react";
-import { ControlledInput } from "src/types";
+import { ControlledInput } from "../../../types";
 import { ArithemeticOperation, operations } from "./arithmeticOperations";
 
 interface Props extends ControlledInput<ArithemeticOperation> {

@@ -1,7 +1,7 @@
 import React from "react";
 import GraphFunctionSketch from "../../../p5/GraphFunctionSketch";
 import { PlotConfiguration } from "../../../p5/GraphFunctionSketch/types";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../p5/useSketch";
 
 // function factorial(num: number): number {
 //   // If the number is less than 0, reject it.

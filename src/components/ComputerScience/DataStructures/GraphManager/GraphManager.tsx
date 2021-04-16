@@ -3,15 +3,15 @@ import GraphBuilder from "./GraphBuilder";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "./GraphPickerWithSketch";
-import { StringDataItem } from "src/components/p5/Boid/types";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
-import Checkbox from "src/components/Bootstrap/Checkbox";
+import { StringDataItem } from "../../../p5/Boid/types";
+import DataItemBoid from "../../../p5/Boid/DataItemBoid";
+import Checkbox from "../../../Bootstrap/Checkbox";
 import NewGraphDialog, {
   useDialog as useNewGraphDialog,
 } from "./NewGraphDialog";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../Bootstrap/Buttons/ButtonBar";
 import cogoToast from "cogo-toast";
 
 const GraphManager: React.FunctionComponent = () => {

@@ -6,10 +6,10 @@ import SearchAlgorithmPicker, {
 
 import SearchSketch from "./SearchSketch";
 import useSearchedData from "./useSearchData";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../p5/useSketch";
 import StepThruListControls, {
   useStepThruListControls,
-} from "src/components/lib/StepThruListControls";
+} from "../../../lib/StepThruListControls";
 
 const Search: React.FunctionComponent = () => {
   const {

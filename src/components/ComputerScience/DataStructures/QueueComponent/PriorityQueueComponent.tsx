@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from "uuid";
 import PriorityQueue, {
   PrioritisedItem,
 } from "comp-sci-maths-lib/dist/dataStructures/queue/PriorityQueue";
-import useListReducer from "src/components/lib/useListReducer";
+import useListReducer from "../../../lib/useListReducer";
 
 import "./queue.css";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../../p5/useSketch";
 import { ArraySketchNumber } from "./ArraySketch";
-import { NumberDataItem, DisplayDataItem } from "src/components/p5/Boid/types";
+import { NumberDataItem, DisplayDataItem } from "../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../Bootstrap/Buttons/ButtonBar";
 
 interface PrioritisedNumberDataItem
   extends DisplayDataItem<number>,

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ControlledInput } from "src/types";
+import { ControlledInput } from "../../../../types";
 import {
   signed16bitBinary,
   denaryInteger,

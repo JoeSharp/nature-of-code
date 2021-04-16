@@ -8,7 +8,7 @@ import { NamedSearch, SearchUtilities } from "comp-sci-maths-lib/dist/types";
 
 import { SearchingData, SearchObservation } from "./types";
 import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {
   algorithm?: NamedSearch;

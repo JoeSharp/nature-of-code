@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "src/components/Bootstrap/Buttons/Button";
-import Checkbox from "src/components/Bootstrap/Checkbox";
+import Button from "../../Bootstrap/Buttons/Button";
+import Checkbox from "../../Bootstrap/Checkbox";
 import useAlgebra from "./useAlgebra";
 
 import "./algebra.css";

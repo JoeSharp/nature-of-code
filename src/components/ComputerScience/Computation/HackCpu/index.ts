@@ -1,5 +1,5 @@
 import HackCpuSimulator from "./HackCpuSimulator";
-import { Page } from "src/types";
+import { Page } from "../../../../types";
 
 export const page: Page = {
   href: "/computerScience/computation/hackCpuSimulator",

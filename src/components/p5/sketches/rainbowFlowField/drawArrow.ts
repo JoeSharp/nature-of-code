@@ -8,7 +8,7 @@ interface ArrowProps {
   radius: number;
 }
 
-export default ({ sketch: s, position, angle, colour, radius }: ArrowProps) => {
+const drawArrow = ({ sketch: s, position, angle, colour, radius }: ArrowProps) => {
   let theta = angle + s.PI / 2;
   s.fill(colour);
   s.noStroke();
@@ -22,3 +22,5 @@ export default ({ sketch: s, position, angle, colour, radius }: ArrowProps) => {
   s.endShape();
   s.pop();
 };
+
+export default drawArrow;

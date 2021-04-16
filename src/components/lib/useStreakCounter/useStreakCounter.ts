@@ -11,7 +11,7 @@ type StreakAction = 'Y' | 'N';
 
 const streakReducer = (state: number, action: StreakAction) => action === 'Y' ? state + 1 : 0;
 
-export default (): StreakCounter => {
+const useStreakCounter = (): StreakCounter => {
 
     const [streak, dispatch] = React.useReducer(streakReducer, 0);
 
@@ -21,3 +21,5 @@ export default (): StreakCounter => {
         onMiss: React.useCallback(() => dispatch('N'), []),
     }
 }
+
+export default useStreakCounter;

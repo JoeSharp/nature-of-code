@@ -1,10 +1,10 @@
 import p5 from "p5";
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import { GraphSketchConfig } from "./GraphBuilder/types";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
-import DataItemBoid from "src/components/p5/Boid/DataItemBoid";
+import { DisplayDataItem } from "../../../p5/Boid/types";
+import DataItemBoid from "../../../p5/Boid/DataItemBoid";
 import { createP5Vector } from "../../Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 500;

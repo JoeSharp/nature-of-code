@@ -1,10 +1,10 @@
 import React from "react";
 import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 
-import ModalDialog from "src/components/Bootstrap/ModalDialog";
+import ModalDialog from "../../../Bootstrap/ModalDialog";
 import cogoToast from "cogo-toast";
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
 
 interface BaseProps {
   numberBase: INumberBase;

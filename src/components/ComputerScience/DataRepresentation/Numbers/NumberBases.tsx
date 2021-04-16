@@ -1,14 +1,14 @@
 import React from "react";
 import cogoToast from "cogo-toast";
 
-import { generateRandomInteger, choose } from "src/components/lib/utilities";
+import { generateRandomInteger, choose } from "../../../lib/utilities";
 import {
   binaryInteger,
   hexadecimalInteger,
   denaryInteger as denaryRaw,
 } from "comp-sci-maths-lib";
-import useStreakCounter from "src/components/lib/useStreakCounter";
-import ProgressBar from "src/components/Bootstrap/ProgressBar";
+import useStreakCounter from "../../../lib/useStreakCounter";
+import ProgressBar from "../../../Bootstrap/ProgressBar";
 import NumberBaseConversionTable from "./NumberBaseConversionTable";
 import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
 

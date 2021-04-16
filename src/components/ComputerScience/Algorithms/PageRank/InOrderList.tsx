@@ -1,6 +1,6 @@
 import React from "react";
 import { PageRanks } from "./types";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {
   pages: StringDataItem[];

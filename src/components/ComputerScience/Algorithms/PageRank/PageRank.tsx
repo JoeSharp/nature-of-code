@@ -7,7 +7,7 @@ import InOrderList from "./InOrderList";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "../../DataStructures/GraphManager/GraphPickerWithSketch";
-import StepForwardControls, { useStepForwardControls } from "src/components/lib/StepForwardControls";
+import StepForwardControls, { useStepForwardControls } from "../../../lib/StepForwardControls";
 
 const DEFAULT_DAMPING_FACTOR = 0.85;
 

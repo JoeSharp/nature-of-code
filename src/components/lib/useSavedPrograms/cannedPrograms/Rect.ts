@@ -1,4 +1,4 @@
-export default `
+const f = `
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -35,3 +35,4 @@ export default `
    @INFINITE_LOOP
    0;JMP
 `
+export default f;

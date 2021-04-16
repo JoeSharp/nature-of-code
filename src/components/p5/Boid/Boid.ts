@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { AbstractBoid } from "./types";
-import { createP5Vector } from "src/components/ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
+import { createP5Vector } from "../../ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";
 
 const DEFAULT_COLOUR = "red";
 const DEFAULT_BORDER_COLOUR = "black";

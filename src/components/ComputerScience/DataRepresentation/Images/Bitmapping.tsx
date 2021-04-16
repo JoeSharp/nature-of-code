@@ -3,7 +3,7 @@ import useBitmapData from "./useBitmapData";
 import ColourPalette, { useColourPallete } from "./ColourPalette";
 
 import "./bitmapping.css";
-import useGroupUp from "src/components/lib/useGroupUp";
+import useGroupUp from "../../../lib/useGroupUp";
 
 const DEFAULT_WIDTH: number = 10;
 const DEFAULT_HEIGHT: number = 10;

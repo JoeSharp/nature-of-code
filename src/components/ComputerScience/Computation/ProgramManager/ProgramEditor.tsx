@@ -1,10 +1,10 @@
 import React from "react";
 
-import useDirtyState from "src/components/lib/useDirtyState";
+import useDirtyState from "../../../lib/useDirtyState";
 
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
-import useSavedPrograms from "src/components/lib/useSavedPrograms";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
+import useSavedPrograms from "../../../lib/useSavedPrograms";
 
 const DEFAULT_PROGRAM: string = "// New Program";
 

@@ -1,6 +1,6 @@
 import { shuffle } from "lodash";
 import React from "react";
-import { choose } from "src/components/lib/utilities";
+import { choose } from "../../lib/utilities";
 import Fraction from "./Fraction";
 import NumberToPower from "./NumberToPower";
 import { Answer, Question } from "./types";

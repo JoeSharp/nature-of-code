@@ -1,7 +1,7 @@
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 import React from "react";
 import p5 from "p5";
-import { PointDataItem } from "src/components/p5/Boid//types";
+import { PointDataItem } from "../../../../p5/Boid//types";
 
 interface Props {
   rows: number;
@@ -30,7 +30,7 @@ export function createKeyedPoint(x: number, y: number): PointDataItem {
   };
 }
 
-export default ({ rows, columns }: Props): UseGridGraph => {
+const useGridGraph = ({ rows, columns }: Props): UseGridGraph => {
   const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
 
   const graph = React.useRef<Graph<PointDataItem>>(new Graph());
@@ -143,3 +143,5 @@ export default ({ rows, columns }: Props): UseGridGraph => {
     toggleConnection,
   };
 };
+
+export default useGridGraph;

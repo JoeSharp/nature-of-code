@@ -1,14 +1,14 @@
 import React from "react";
 import useLocalStorage, {
   useStoreObjectFactory,
-} from "src/components/lib/useLocalStorage";
+} from "../../../lib/useLocalStorage";
 
 import {
   graphs as cannedGraphs,
   vertexPositionsByGraphName,
 } from "./cannedGraphs";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../p5/Boid/types";
 import {
   GraphsById,
   PositionsForGraphName,
@@ -32,7 +32,7 @@ const defaultSavedGraphState: SavedGraphState = Object.entries(cannedGraphs)
 
 const defaultSavedVertexState: PositionsForGraphName = vertexPositionsByGraphName;
 
-export default (): UseSavedGraph => {
+const useSavedGraph = (): UseSavedGraph => {
   const {
     value: graphsData,
     reduceValue: reduceGraphs,
@@ -114,3 +114,5 @@ export default (): UseSavedGraph => {
     reset,
   };
 };
+
+export default useSavedGraph;

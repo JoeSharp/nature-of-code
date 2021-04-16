@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../../p5/useSketch";
 import { BigOMeasurements } from "./types";
 
 const WIDTH = 600;
@@ -11,13 +11,13 @@ interface Config {
   measurements: BigOMeasurements;
 }
 
-const getDefaultConfig = <T>(): Config => ({
+const getDefaultConfig = (): Config => ({
   startSize: 100,
   endSize: 1000,
   measurements: {},
 });
 
-class BigOSketch<T> extends AbstractSketch<Config> {
+class BigOSketch extends AbstractSketch<Config> {
   constructor() {
     super(getDefaultConfig());
   }

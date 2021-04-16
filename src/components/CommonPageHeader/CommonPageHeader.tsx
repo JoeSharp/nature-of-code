@@ -5,7 +5,7 @@ import {
   page as experimentsPage,
   pages as experimentPages,
 } from "../Experiments";
-import { Page } from "src/types";
+import { Page } from "../../types";
 import SearchBox from "../SearchBox/SearchBox";
 import { page as csPage, pages as csPages } from "../ComputerScience";
 import { page as mathsPage, pages as mathsPages } from "../Maths";

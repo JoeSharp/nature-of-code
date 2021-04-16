@@ -9,7 +9,7 @@ interface UseGroupUp<T> {
   itemGroups: T[][];
 }
 
-export default <T>({ items, groupSize = 3 }: Props<T>): UseGroupUp<T> =>
+const useGroupUp = <T>({ items, groupSize = 3 }: Props<T>): UseGroupUp<T> =>
   React.useMemo(() => {
     const itemGroups: T[][] = [];
     for (let i = 0; i < items.length; i += groupSize) {
@@ -17,3 +17,5 @@ export default <T>({ items, groupSize = 3 }: Props<T>): UseGroupUp<T> =>
     }
     return { itemGroups };
   }, [items, groupSize]);
+
+  export default useGroupUp;

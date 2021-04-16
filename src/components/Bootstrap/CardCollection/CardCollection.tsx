@@ -1,6 +1,6 @@
 import React from "react";
 import Card, { Props as CardProps } from "../Card/Card";
-import useGroupUp from "src/components/lib/useGroupUp";
+import useGroupUp from "../../lib/useGroupUp";
 
 interface Props {
   cards: CardProps[];

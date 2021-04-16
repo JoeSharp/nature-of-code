@@ -3,20 +3,20 @@ import React from "react";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 import VertexPicker, {
   usePicker as useVertexPicker,
-} from "src/components/ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
+} from "../../../../ComputerScience/DataStructures/GraphManager/GraphBuilder/VertexPicker";
 import StepThruListControls, {
   useStepThruListControls,
-} from "src/components/lib/StepThruListControls";
+} from "../../../../lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
-import HeuristicCostTable from "src/components/ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import HeuristicCostTable from "../../../../ComputerScience/Algorithms/Routing/HeuristicCostTable";
+import { StringDataItem } from "../../../../p5/Boid/types";
 
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
-} from "src/components/ComputerScience/DataStructures/GraphManager/GraphPickerWithSketch";
+} from "../../../../ComputerScience/DataStructures/GraphManager/GraphPickerWithSketch";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../../Bootstrap/Buttons/ButtonBar";
 
 const GraphRouting: React.FunctionComponent = () => {
   const {

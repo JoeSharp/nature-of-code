@@ -1,6 +1,6 @@
-import { createSimpleStringDataItem } from "src/components/p5/Boid/DataItemBoid";
+import { createSimpleStringDataItem } from "../../../../p5/Boid/DataItemBoid";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { StringDataItem } from "../../../../p5/Boid/types";
 import { PositionByVertex } from "../types";
 
 const createDataItem = (content: string) =>
@@ -15,7 +15,7 @@ const VERTEX_F = createDataItem("F");
 const VERTEX_G = createDataItem("G");
 const VERTEX_S = createDataItem("S");
 
-export default () => {
+const graph = () => {
   return new Graph<StringDataItem>()
     .addBiDirectionalEdge(VERTEX_S, VERTEX_A)
     .addBiDirectionalEdge(VERTEX_S, VERTEX_B)
@@ -27,6 +27,7 @@ export default () => {
     .addBiDirectionalEdge(VERTEX_C, VERTEX_F)
     .addBiDirectionalEdge(VERTEX_F, VERTEX_G);
 };
+export default graph;
 
 export const vertexPositions: PositionByVertex = {
   "lsg-1-S": { x: 60, y: 35 },

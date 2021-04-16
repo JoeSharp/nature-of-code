@@ -1,6 +1,6 @@
 import BigOMeasure from "./BigONotation";
 import BigOCompare from "./CompareBigO";
-import { Page } from "src/types";
+import { Page } from "../../../../types";
 
 export const page1: Page = {
   href: "/computerScience/algorithms/measureBigO",

@@ -1,5 +1,5 @@
 import Component from "./Bearings";
-import { Page } from "src/types";
+import { Page } from "../../../types";
 
 export const page: Page = {
     href: "/maths/bearings",

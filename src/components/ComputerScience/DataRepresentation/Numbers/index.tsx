@@ -1,4 +1,4 @@
-import { Page } from 'src/types';
+import { Page } from '../../../../types';
 import NumberBases from './NumberBases';
 
 export const page: Page = {

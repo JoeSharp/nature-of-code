@@ -1,6 +1,6 @@
 import { PositionByVertex } from "../types";
-import { createSimpleStringDataItem } from "src/components/p5/Boid/DataItemBoid";
-import { StringDataItem } from "src/components/p5/Boid/types";
+import { createSimpleStringDataItem } from "../../../../p5/Boid/DataItemBoid";
+import { StringDataItem } from "../../../../p5/Boid/types";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 const createDataItem = (content: string) =>
   createSimpleStringDataItem("mc-1", content);
@@ -13,7 +13,7 @@ const VERTEX_M1_3 = createDataItem("M1_3");
 const VERTEX_M1_4 = createDataItem("M1_4");
 const VERTEX_M1_5 = createDataItem("M1_5");
 
-export default () => {
+const graph = () => {
   return new Graph<StringDataItem>()
     .addBiDirectionalEdge(VERTEX_M1_1, VERTEX_M1_2, 1)
     .addBiDirectionalEdge(VERTEX_M1_2, VERTEX_M1_3, 1)
@@ -22,6 +22,7 @@ export default () => {
     .addBiDirectionalEdge(VERTEX_A, VERTEX_M1_3, 10)
     .addBiDirectionalEdge(VERTEX_M1_3, VERTEX_B, 10);
 };
+export default graph;
 
 export const vertexPositions: PositionByVertex = {
   "mc-1-A": {

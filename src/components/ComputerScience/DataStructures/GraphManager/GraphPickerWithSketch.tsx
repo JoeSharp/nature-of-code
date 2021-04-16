@@ -1,9 +1,9 @@
 import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
 import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "src/components/p5/Boid/types";
-import useSketch, { UseSketch } from "src/components/p5/useSketch";
-import GraphSketch from "src/components/ComputerScience/DataStructures/GraphManager/GraphSketch";
+import { StringDataItem } from "../../../p5/Boid/types";
+import useSketch, { UseSketch } from "../../../p5/useSketch";
+import GraphSketch from "../../../ComputerScience/DataStructures/GraphManager/GraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import { PositionByVertex } from "./types";
 import cannedGraphs from "./cannedGraphs";

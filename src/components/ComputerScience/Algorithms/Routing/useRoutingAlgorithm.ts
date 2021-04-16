@@ -15,7 +15,7 @@ import {
 import { HeuristicCostById } from "./types";
 import p5 from "p5";
 import { Optional } from "comp-sci-maths-lib/dist/types";
-import { DisplayDataItem } from "src/components/p5/Boid/types";
+import { DisplayDataItem } from "../../../p5/Boid/types";
 
 export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   sourceNode?: DATA_ITEM;
@@ -34,7 +34,7 @@ export interface UseRoutingAlgorithm<DATA_ITEM extends DisplayDataItem<any>> {
   onResetDistances: () => void;
 }
 
-export default <DATA_ITEM extends DisplayDataItem<any>>({
+const useRoutingAlgorithm = <DATA_ITEM extends DisplayDataItem<any>>({
   sourceNode,
   version,
   destinationNode,
@@ -146,3 +146,5 @@ export default <DATA_ITEM extends DisplayDataItem<any>>({
     onResetDistances,
   };
 };
+
+export default useRoutingAlgorithm;

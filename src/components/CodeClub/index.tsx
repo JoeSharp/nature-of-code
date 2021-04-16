@@ -4,7 +4,7 @@ import TopDownCar from "./TopDownCar";
 import MovingWithKeyboard from "./MovingWithKeyboard";
 import UsingClasses from "./UsingClasses";
 import SafeCracker from "./SafeCracker";
-import { Page } from "src/types";
+import { Page } from "../../types";
 import CardCollection from "../Bootstrap/CardCollection";
 
 const gameSeries: Page[] = [

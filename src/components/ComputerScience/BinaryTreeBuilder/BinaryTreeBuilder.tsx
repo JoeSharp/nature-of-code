@@ -1,10 +1,10 @@
 import React from "react";
 import { UseBinaryTreeBuilder } from "./useBinaryTreeBuilder";
-import useSketch from "src/components/p5/useSketch";
+import useSketch from "../../p5/useSketch";
 import BinaryTreeSketch from "./BinaryTreeSketch";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../Bootstrap/Buttons/ButtonBar";
 import { TreeDirection } from "./types";
 
 interface Props {

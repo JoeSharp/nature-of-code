@@ -1,8 +1,8 @@
 import React from "react";
-import ModalDialog from "src/components/Bootstrap/ModalDialog";
+import ModalDialog from "../../../Bootstrap/ModalDialog";
 import ButtonBar, {
   Props as ButtonBarProps,
-} from "src/components/Bootstrap/Buttons/ButtonBar";
+} from "../../../Bootstrap/Buttons/ButtonBar";
 
 interface NewProps {
   onConfirm: (address: number, values: number[]) => void;

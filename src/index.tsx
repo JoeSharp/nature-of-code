@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import registerServiceWorker from "./registerServiceWorker";
+import reportWebVitals from './reportWebVitals';
 import {
   HashRouter as Router,
   Route,
@@ -43,4 +43,4 @@ ReactDOM.render(
   </Router>,
   document.getElementById("root") as HTMLElement
 );
-registerServiceWorker();
+reportWebVitals();

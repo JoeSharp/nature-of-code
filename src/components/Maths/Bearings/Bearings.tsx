@@ -1,11 +1,11 @@
 import React from 'react';
 import cogoToast from "cogo-toast";
 
-import Button from 'src/components/Bootstrap/Buttons/Button';
-import useListReducer from 'src/components/lib/useListReducer';
-import useSketch from 'src/components/p5/useSketch';
+import Button from '../../Bootstrap/Buttons/Button';
+import useListReducer from '../../lib/useListReducer';
+import useSketch from '../../p5/useSketch';
 import BearingSketch, { Bearing } from './BearingSketch';
-import ConfirmDialog, { useDialog as useConfirmDialog } from 'src/components/Bootstrap/ConfirmDialog';
+import ConfirmDialog, { useDialog as useConfirmDialog } from '../../Bootstrap/ConfirmDialog';
 
 const DEGREES = <span>&#176;</span>;
 

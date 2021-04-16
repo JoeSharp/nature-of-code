@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { AbstractSketch } from "src/components/p5/useSketch";
+import { AbstractSketch } from "../../p5/useSketch";
 import { AxisRange, PlotConfiguration } from "./types";
 
 const WIDTH = 600;
@@ -15,12 +15,12 @@ export const DEFAULT_RANGE: AxisRange = {
   step: 1,
 };
 
-const getDefaultConfig = <T>(): Config => ({
+const getDefaultConfig = (): Config => ({
   ...DEFAULT_RANGE,
   plotConfigurations: [],
 });
 
-class GraphFunctionSketch<T> extends AbstractSketch<Config> {
+class GraphFunctionSketch extends AbstractSketch<Config> {
   constructor() {
     super(getDefaultConfig());
   }

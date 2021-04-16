@@ -2,7 +2,7 @@ import React from "react";
 import cogoToast from "cogo-toast";
 
 import { HackCpu, HackCpuTestRunner } from "comp-sci-maths-lib";
-import useSavedPrograms from "src/components/lib/useSavedPrograms";
+import useSavedPrograms from "../../../lib/useSavedPrograms";
 import { LoadProgram } from "./types";
 
 interface UseHackCpuTestRunner {

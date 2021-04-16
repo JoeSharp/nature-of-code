@@ -6,8 +6,8 @@ import { LoadProgram, MAX_TABLE_ROWS } from "./types";
 import StartAddressDialog, {
   useDialog as useStartAddressDialog,
 } from "./StartAddressDialog";
-import { Props as ButtonProps } from "src/components/Bootstrap/Buttons/Button";
-import ButtonBar from "src/components/Bootstrap/Buttons/ButtonBar";
+import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
+import ButtonBar from "../../../Bootstrap/Buttons/ButtonBar";
 import ProgramPickerDialog, {
   useDialog as useProgramPicker,
 } from "../ProgramManager/ProgramPickerDialog";
