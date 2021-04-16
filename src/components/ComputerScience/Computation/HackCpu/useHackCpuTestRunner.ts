@@ -18,7 +18,15 @@ const useHackCpuTestRunner = (cpu: HackCpu): UseHackCpuTestRunner => {
 
   const [version, incrementVersion] = React.useReducer((a) => a + 1, 0);
   const cpuTestRunnerRef = React.useRef<HackCpuTestRunner>(
-    new HackCpuTestRunner(cpu, (d) => programs[d])
+    new HackCpuTestRunner(cpu, (d) => {
+      if (!(d in programs)) {
+        cogoToast.error(
+          `Could not find ${d} in saved programs, required by test script`
+        );
+        return "";
+      }
+      return programs[d];
+    })
   );
 
   const loadScript = React.useCallback(

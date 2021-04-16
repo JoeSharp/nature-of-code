@@ -71,7 +71,7 @@ const HackCpuSimulator: React.FunctionComponent = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-3">
+        <div className="col-md-4">
           <TestScript cpuTestRunner={cpuTestRunner} loadScript={loadScript} />
         </div>
         <div className="col-md-3">
@@ -88,7 +88,7 @@ const HackCpuSimulator: React.FunctionComponent = () => {
             setRamValue={setRamValue}
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <ALUDisplay cpu={cpu} numberBase={numberBase} />
         </div>
       </div>
