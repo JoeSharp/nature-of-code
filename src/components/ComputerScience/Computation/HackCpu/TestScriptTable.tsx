@@ -1,11 +1,36 @@
-import { HackCpuTestRunner } from "comp-sci-maths-lib";
+import {
+  CpuTestInstruction,
+  CpuTestInstructionType,
+  CpuTestScript,
+  CpuTestTickTockInstruction,
+} from "comp-sci-maths-lib/dist/computation/assemblyLanguage/types";
+import { Optional } from "comp-sci-maths-lib/dist/types";
 import React from "react";
 
 interface Props {
-  cpuTestRunner: HackCpuTestRunner;
+  lastInstruction: Optional<CpuTestInstruction>;
+  testScript: Optional<CpuTestScript>;
 }
 
-const TestScriptTable: React.FunctionComponent<Props> = ({ cpuTestRunner }) => {
+const DEFAULT_TEST_INSTRUCTION: CpuTestTickTockInstruction = {
+  type: CpuTestInstructionType.ticktock,
+  lineContent: "ticktock",
+  lineNumber: 0,
+};
+
+const DEFAULT_TEST_SCRIPT: CpuTestScript = {
+  compareTo: "",
+  testInstructions: [],
+  load: "",
+  outputFile: "",
+  outputList: [],
+  rawTestInstructions: [],
+};
+
+const TestScriptTable: React.FunctionComponent<Props> = ({
+  lastInstruction = DEFAULT_TEST_INSTRUCTION,
+  testScript = DEFAULT_TEST_SCRIPT,
+}) => {
   return (
     <React.Fragment>
       <div className="form-group">
@@ -13,11 +38,7 @@ const TestScriptTable: React.FunctionComponent<Props> = ({ cpuTestRunner }) => {
         <input
           className="form-control"
           readOnly
-          value={
-            !!cpuTestRunner.lastInstruction
-              ? cpuTestRunner.lastInstruction.lineNumber
-              : 0
-          }
+          value={lastInstruction.lineNumber}
         />
       </div>
       <div className="form-group">
@@ -29,24 +50,21 @@ const TestScriptTable: React.FunctionComponent<Props> = ({ cpuTestRunner }) => {
             </tr>
           </thead>
           <tbody>
-            {(
-              (!!cpuTestRunner.testScript &&
-                cpuTestRunner.testScript.rawTestInstructions) ||
-              []
-            ).map(({ lineContent, lineNumber }, i) => (
-              <tr
-                key={i}
-                className={
-                  !!cpuTestRunner.lastInstruction &&
-                  cpuTestRunner.lastInstruction.lineNumber === lineNumber
-                    ? "highlighted"
-                    : ""
-                }
-              >
-                <td>{lineNumber}</td>
-                <td>{lineContent}</td>
-              </tr>
-            ))}
+            {((!!testScript && testScript.rawTestInstructions) || []).map(
+              ({ lineContent, lineNumber }, i) => (
+                <tr
+                  key={i}
+                  className={
+                    lastInstruction.lineNumber === lineNumber
+                      ? "highlighted"
+                      : ""
+                  }
+                >
+                  <td>{lineNumber}</td>
+                  <td>{lineContent}</td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>

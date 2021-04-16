@@ -30,13 +30,18 @@ const TestScript: React.FunctionComponent<Props> = ({
     componentProps: programPickerProps,
   } = useProgramPicker(loadTestScript);
 
-  const { testOutput, compareTo } = cpuTestRunner;
+  const { testScript, lastInstruction, testOutput, compareTo } = cpuTestRunner;
 
   const tabs: Tab[] = React.useMemo(
     () => [
       {
         title: "Script",
-        content: <TestScriptTable cpuTestRunner={cpuTestRunner} />,
+        content: (
+          <TestScriptTable
+            lastInstruction={lastInstruction}
+            testScript={testScript}
+          />
+        ),
       },
       {
         title: "Compare",
@@ -47,7 +52,7 @@ const TestScript: React.FunctionComponent<Props> = ({
         content: <TestScriptOutput scriptOutput={testOutput || []} />,
       },
     ],
-    [compareTo, testOutput, cpuTestRunner]
+    [compareTo, testOutput, lastInstruction, testScript]
   );
   const tabsProps = useTabs(tabs);
 
