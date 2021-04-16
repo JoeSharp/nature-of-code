@@ -14,22 +14,35 @@ import StepForwardControls, {
 import "./cpuSimulator.css";
 import ALUDisplay from "./ALUDisplay";
 import TestScript from "./TestScript";
+import useHackCpuTestRunner from "./useHackCpuTestRunner";
 
 const HackCpuSimulator: React.FunctionComponent = () => {
   const { numberBase, componentProps } = useNumberBasePicker("form-control");
 
   const {
-    version,
+    version: cpuVersion,
     cpu,
     setRamValue,
     loadProgram,
-    reset,
-    tick,
+    reset: resetCpu,
+    tick: tickCpu,
   } = useHackCpuSimulator(numberBase);
+  const {
+    version: testRunnerVersion,
+    cpuTestRunner,
+    loadScript,
+    tick: tickTestScript,
+    reset: resetTestScript,
+  } = useHackCpuTestRunner(cpu);
 
-  const { componentProps: stepForwardProps } = useStepForwardControls({
-    reset,
-    iterate: tick,
+  const { componentProps: stepForwardCpuProps } = useStepForwardControls({
+    reset: resetCpu,
+    iterate: tickCpu,
+  });
+
+  const { componentProps: stepForwardTestProps } = useStepForwardControls({
+    reset: resetTestScript,
+    iterate: tickTestScript,
   });
 
   return (
@@ -37,8 +50,15 @@ const HackCpuSimulator: React.FunctionComponent = () => {
       <div className="row">
         <div className="col-md-2">
           <div className="form-group">
-            <label>Play Controls</label>
-            <StepForwardControls {...stepForwardProps} />
+            <label>Test Script Controls</label>
+            <StepForwardControls {...stepForwardTestProps} />
+          </div>
+        </div>
+
+        <div className="col-md-2">
+          <div className="form-group">
+            <label>CPU Controls</label>
+            <StepForwardControls {...stepForwardCpuProps} />
           </div>
         </div>
 
@@ -52,7 +72,7 @@ const HackCpuSimulator: React.FunctionComponent = () => {
 
       <div className="row">
         <div className="col-md-3">
-          <TestScript />
+          <TestScript cpuTestRunner={cpuTestRunner} loadScript={loadScript} />
         </div>
         <div className="col-md-3">
           <ROMTable
@@ -72,7 +92,8 @@ const HackCpuSimulator: React.FunctionComponent = () => {
           <ALUDisplay cpu={cpu} numberBase={numberBase} />
         </div>
       </div>
-      <div className="hidden-version">{version}</div>
+      <div className="hidden-version">{cpuVersion}</div>
+      <div className="hidden-version">{testRunnerVersion}</div>
     </div>
   );
 };

@@ -1,25 +1,27 @@
 import React from "react";
 import cogoToast from "cogo-toast";
 
-import { HackCpuTestRunner } from "comp-sci-maths-lib";
+import { HackCpu, HackCpuTestRunner } from "comp-sci-maths-lib";
 import useSavedPrograms from "src/components/lib/useSavedPrograms";
 import { LoadProgram } from "./types";
 
 interface UseHackCpuTestRunner {
   version: number;
   cpuTestRunner: HackCpuTestRunner;
-  loadProgram: LoadProgram;
+  loadScript: LoadProgram;
+  tick: () => void;
+  reset: () => void;
 }
 
-const useHackCpuTestRunner = (): UseHackCpuTestRunner => {
+const useHackCpuTestRunner = (cpu: HackCpu): UseHackCpuTestRunner => {
   const { programs } = useSavedPrograms();
 
   const [version, incrementVersion] = React.useReducer((a) => a + 1, 0);
   const cpuTestRunnerRef = React.useRef<HackCpuTestRunner>(
-    new HackCpuTestRunner((d) => programs[d])
+    new HackCpuTestRunner(cpu, (d) => programs[d])
   );
 
-  const loadProgram = React.useCallback(
+  const loadScript = React.useCallback(
     (programName: string, program: string) => {
       try {
         cpuTestRunnerRef.current.loadScript(program);
@@ -32,10 +34,22 @@ const useHackCpuTestRunner = (): UseHackCpuTestRunner => {
     [cpuTestRunnerRef]
   );
 
+  const tick = React.useCallback(() => {
+    cpuTestRunnerRef.current.step();
+    incrementVersion();
+  }, [incrementVersion]);
+
+  const reset = React.useCallback(() => {
+    cpuTestRunnerRef.current.reset();
+    incrementVersion();
+  }, [incrementVersion]);
+
   return {
     version,
     cpuTestRunner: cpuTestRunnerRef.current,
-    loadProgram,
+    loadScript,
+    tick,
+    reset,
   };
 };
 

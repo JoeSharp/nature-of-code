@@ -1,21 +1,25 @@
-import cogoToast from "cogo-toast";
+import { HackCpuTestRunner } from "comp-sci-maths-lib";
 import React from "react";
 import Button from "src/components/Bootstrap/Buttons/Button";
 import ProgramPickerDialog, {
   useDialog as useProgramPicker,
 } from "../ProgramManager/ProgramPickerDialog";
+import { LoadProgram } from "./types";
 
-interface Props {}
+interface Props {
+  cpuTestRunner: HackCpuTestRunner;
+  loadScript: LoadProgram;
+}
 
-const TestScript: React.FunctionComponent<Props> = () => {
-  const [testProgram, setTestProgram] = React.useState<string>("");
-
+const TestScript: React.FunctionComponent<Props> = ({
+  cpuTestRunner,
+  loadScript,
+}) => {
   const loadTestScript = React.useCallback(
     (programName, program) => {
-      cogoToast.info(`Loading Test Script ${programName}`);
-      setTestProgram(program);
+      loadScript(programName, program);
     },
-    [setTestProgram]
+    [loadScript]
   );
 
   const {
@@ -36,7 +40,46 @@ const TestScript: React.FunctionComponent<Props> = () => {
         />
       </h4>
       <div className="form-group">
-        <textarea className="txt-code code-text" value={testProgram} readOnly />
+        <label>Line Number</label>
+        <input
+          className="form-control"
+          readOnly
+          value={
+            !!cpuTestRunner.lastInstruction
+              ? cpuTestRunner.lastInstruction.lineNumber
+              : 0
+          }
+        />
+      </div>
+      <div className="form-group">
+        <table className="cpu-table code-text">
+          <thead>
+            <tr>
+              <th>Line</th>
+              <th>Instruction</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(
+              (!!cpuTestRunner.testScript &&
+                cpuTestRunner.testScript.rawTestInstructions) ||
+              []
+            ).map(({ lineContent, lineNumber }, i) => (
+              <tr
+                key={i}
+                className={
+                  !!cpuTestRunner.lastInstruction &&
+                  cpuTestRunner.lastInstruction.lineNumber === lineNumber
+                    ? "highlighted"
+                    : ""
+                }
+              >
+                <td>{lineNumber}</td>
+                <td>{lineContent}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
