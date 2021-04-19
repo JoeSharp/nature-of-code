@@ -42,7 +42,7 @@ const Tabs: React.FunctionComponent<Props> = ({
     <React.Fragment>
       <ul className="nav nav-tabs">
         {tabsWithHandlers.map(({ onSelect, tab: { title } }) => (
-          <li className="nav-item">
+          <li key={title} className="nav-item">
             <button
               onClick={onSelect}
               className={`nav-link ${title === selectedTitle ? "active" : ""}`}
