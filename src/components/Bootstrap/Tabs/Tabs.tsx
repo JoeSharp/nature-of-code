@@ -54,9 +54,8 @@ const Tabs: React.FunctionComponent<Props> = ({
         ))}
       </ul>
       {tabs
-        .filter(({ title }) => title === selectedTitle)
         .map(({ title, content }) => (
-          <React.Fragment key={title}>{content}</React.Fragment>
+          <div style={{display: title === selectedTitle ? 'block' : 'none'}} key={title}>{content}</div>
         ))}
     </React.Fragment>
   );
