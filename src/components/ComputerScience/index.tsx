@@ -24,6 +24,7 @@ import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
 import { page as numberBases } from "./DataRepresentation/Numbers";
 
 import { page as hackCpuSimulator } from "./Computation/HackCpu";
+import { page as nand } from "./Computation/NandComponent";
 import { page as programManager } from "./Computation/ProgramManager";
 
 import CardCollection from "../Bootstrap/CardCollection";
@@ -55,7 +56,7 @@ const dataRepresentationPages = [
   asciiTextPage,
 ];
 
-const computationPages = [hackCpuSimulator, programManager];
+const computationPages = [hackCpuSimulator, nand, programManager];
 
 const ComputerScience: React.FunctionComponent = () => (
   <div>
