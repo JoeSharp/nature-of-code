@@ -2,12 +2,19 @@ import React from "react";
 import { Chip, chipFactory, Clock } from "comp-sci-maths-lib";
 import Nand from "comp-sci-maths-lib/dist/computation/nand/Logic/Nand";
 import { Optional } from "comp-sci-maths-lib/dist/types";
+import usePinValueHistory, { PinNamedValueHistory } from "./usePinValueHistory";
+
+interface Props {
+  historyLength: number;
+  chipName: string;
+}
 
 interface UseChip {
   chip: Chip;
   clock: Clock;
   onTickTock: () => void;
   onTogglePin: (name: string, index: number) => void;
+  pinValueHistory: PinNamedValueHistory[];
   pins: {
     [name: string]: Optional<boolean>;
   };
@@ -16,7 +23,7 @@ interface UseChip {
   };
 }
 
-const useChip = (chipName: string): UseChip => {
+const useChip = ({ chipName, historyLength }: Props): UseChip => {
   const clock = React.useMemo(() => new Clock(), []);
 
   const [version, incrementVersion] = React.useReducer((i) => i + 1, 0);
@@ -28,10 +35,13 @@ const useChip = (chipName: string): UseChip => {
     return new Nand();
   }, [clock, chipName]);
 
+  const {pinHistory, ticktockHistory} = usePinValueHistory({chip,historyLength});
+
   const onTickTock = React.useCallback(() => {
+    ticktockHistory();
     clock.ticktock();
     incrementVersion();
-  }, [clock, incrementVersion]);
+  }, [clock, incrementVersion, ticktockHistory]);
 
   const onTogglePin = React.useCallback(
     (name: string, index: number) => {
@@ -79,6 +89,7 @@ const useChip = (chipName: string): UseChip => {
     onTogglePin,
     pins,
     buses,
+    pinValueHistory: pinHistory.values
   };
 };
 
