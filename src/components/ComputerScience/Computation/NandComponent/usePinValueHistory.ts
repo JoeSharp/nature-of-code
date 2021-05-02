@@ -55,7 +55,10 @@ const pinValueHistoryReducer = (state: PinValueHistoryState, action: PinHistoryA
         case 'setchip': {
             const values: PinNamedValueHistory[] =
                 getPinValues(action.chip)
-                    .map(({name, value }) => ({ name, values: [value] }));
+                    .map(({ name, value }) => ({ 
+                        name, 
+                        values: Array(action.historyLength).fill(null).map((_, i) => i === 0 ? value : undefined)
+                    }));
             return {
                 chip: action.chip,
                 historyLength: action.historyLength,
@@ -68,11 +71,14 @@ const pinValueHistoryReducer = (state: PinValueHistoryState, action: PinHistoryA
                 chip: state.chip,
                 historyLength: state.historyLength,
                 values: state.values
-                    .map(({ name, values }) => 
-                        ({ name, values: [
-                            newValues.find(n => n.name === name)?.value, 
-                            ...values.filter((_, i) => (i + 1) < state.historyLength)] })
-                        )
+                    .map(({ name, values }) =>
+                    ({
+                        name, values: Array(state.historyLength).fill(null).map((_, i) => {
+                            if (i === 0) return newValues.find(n => n.name === name)?.value
+                            if ((i - 1) < values.length) return values[i - 1];
+                            return undefined;
+                        })
+                    }))
             }
         }
     }
@@ -83,7 +89,7 @@ interface UsePinValueHistory {
     ticktockHistory: () => void;
 }
 
-const usePinValueHistory = ({chip, historyLength}: Props): UsePinValueHistory => {
+const usePinValueHistory = ({ chip, historyLength }: Props): UsePinValueHistory => {
     const [pinHistory, dispatch] = React.useReducer(pinValueHistoryReducer, { chip, historyLength, values: [] });
     React.useEffect(() => dispatch({ type: 'setchip', chip, historyLength }), [chip, historyLength]);
 

@@ -5,6 +5,14 @@ import useChip from "./useChip";
 import "./nand.css";
 import BusDisplay from "./BusDisplay";
 import BusModify from "./BusModify";
+import PinDisplay from "./PinDisplay";
+import { Optional } from "comp-sci-maths-lib/dist/types";
+
+export const boolToBin = (v: Optional<boolean>): string => {
+  if (v === true) return "1";
+  if (v === false) return "0";
+  return "-";
+};
 
 const HISTORY_LENGTH = 8;
 
@@ -90,10 +98,17 @@ const NandComponent: React.FunctionComponent = () => {
           {pinValueHistory.map(({ name, values }) => (
             <tr key={name}>
               <td>{name}</td>
-              {values.map((v, i) => <td key={i}>{v ? '1' : '0'}</td>)}
+              {values.map((v, i) => <td key={i}>{boolToBin(v)}</td>)}
             </tr>))}
         </tbody>
       </table>
+
+      <h3>Trace</h3>
+      <div>
+        {pinValueHistory.map((pinHistory) => (
+          <PinDisplay key={pinHistory.name} {...pinHistory} />
+        ))}
+      </div>
     </div>
   );
 };
