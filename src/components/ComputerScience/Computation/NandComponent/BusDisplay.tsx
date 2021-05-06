@@ -1,5 +1,6 @@
 import { Optional } from "comp-sci-maths-lib/dist/types";
 import React from "react";
+import { boolToBin } from "./NandComponent";
 
 interface Props {
   name: string;
@@ -16,7 +17,7 @@ const BusDisplay: React.FunctionComponent<Props> = ({ name, values }) => {
           .reverse()
           .map(({ value, index }) => (
             <span key={index} className="binary-digit">
-              {value ? "1" : "0"}
+              {boolToBin(value)}
             </span>
           ))}
       </div>

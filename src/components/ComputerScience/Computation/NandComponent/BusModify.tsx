@@ -1,5 +1,6 @@
 import { Optional } from "comp-sci-maths-lib/dist/types";
 import React from "react";
+import { boolToBin } from "./NandComponent";
 
 interface Props {
   name: string;
@@ -25,7 +26,7 @@ const BusModify: React.FunctionComponent<Props> = ({
               className="binary-digit clickable"
               onClick={() => onTogglePin(name, index)}
             >
-              {value ? "1" : "0"}
+              {boolToBin(value)}
             </span>
           ))}
       </div>
