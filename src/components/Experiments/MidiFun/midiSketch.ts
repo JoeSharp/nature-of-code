@@ -1,9 +1,12 @@
 import React from "react";
 import p5 from "p5";
 
-import Tetronimo from "./Tetronimo";
-import Triforce from "./Triforce";
-import { Drawable } from "./types";
+import Tetronimo from "./Drawables/Tetronimo";
+import Triforce from "./Drawables/Triforce";
+import { NoteBoid } from "./Drawables/types";
+import Piano from "./Drawables/Piano";
+import { PlayNoteFn } from "./types";
+import { NO_OP } from "comp-sci-maths-lib/dist/computation/TestScripts/types";
 
 const NOTE_MIN = 21;
 const NOTE_MAX = 108;
@@ -15,22 +18,28 @@ const ZELDA_MODE = 1;
 interface Note {
   note: number;
   velocity: number;
-  accumulating: boolean;
+  noteIsDown: boolean;
 }
 
-class SketchContainer {
+export class SketchContainer {
   blockWidth: number = 0;
   pendingNotes: Note[] = [];
-  drawables: Drawable[] = [];
+  drawables: NoteBoid[] = [];
   width: number = 0;
   mode: number = TETRIS_MODE;
+  piano: Piano = new Piano();
+  playNote: PlayNoteFn;
+
+  constructor() {
+    this.playNote = NO_OP;
+  }
 
   setWidth(w: number) {
     this.width = w;
   }
 
   noteOn(note: number, velocity: number) {
-    this.pendingNotes.push({ note, velocity, accumulating: true });
+    this.pendingNotes.push({ note, velocity, noteIsDown: true });
 
     switch (note) {
       case 21:
@@ -45,10 +54,10 @@ class SketchContainer {
   noteOff(note: number) {
     this.drawables
       .filter((t) => t.note === note)
-      .forEach((t) => (t.accumulating = false));
+      .forEach((t) => (t.noteIsDown = false));
     this.pendingNotes
       .filter((p) => p.note === note)
-      .forEach((p) => (p.accumulating = false));
+      .forEach((p) => (p.noteIsDown = false));
   }
 
   sketch(s: p5) {
@@ -70,14 +79,17 @@ class SketchContainer {
           that.mode = ZELDA_MODE;
           break;
         default:
-          that.pendingNotes.push({
-            note: s.keyCode,
-            velocity: 50,
-            accumulating: false,
-          });
+          let note = s.keyCode;
+          that.noteOn(note, 50);
           break;
       }
     };
+
+    s.keyReleased = function() {
+      let note = s.keyCode;
+      that.noteOff(note);
+      return false; // prevent any default behavior
+    }
 
     s.draw = function () {
       switch (that.mode) {
@@ -89,11 +101,11 @@ class SketchContainer {
           break;
       }
 
-      that.pendingNotes.forEach(({ note, velocity, accumulating }) => {
+      that.pendingNotes.forEach(({ note, velocity, noteIsDown }) => {
         let x = (note - NOTE_MIN) * that.blockWidth;
         let y = 0;
         let colour = s.color(x, s.width, s.width);
-        let newDrawable: Drawable | undefined = undefined;
+        let newDrawable: NoteBoid | undefined = undefined;
         switch (that.mode) {
           case TETRIS_MODE:
             newDrawable = new Tetronimo(
@@ -102,7 +114,7 @@ class SketchContainer {
               s.createVector(x, y),
               that.blockWidth,
               colour,
-              accumulating
+              noteIsDown
             );
             break;
           case ZELDA_MODE:
@@ -112,7 +124,7 @@ class SketchContainer {
               s.createVector(x, y),
               that.blockWidth,
               colour,
-              accumulating
+              noteIsDown
             );
         }
 
@@ -122,7 +134,10 @@ class SketchContainer {
       });
       that.pendingNotes = [];
 
-      that.drawables.forEach((t) => t.update());
+      that.piano.update(s);
+      that.drawables.forEach((t) => t.update(s));
+
+      that.piano.draw(s);
       that.drawables.forEach((t) => t.draw(s));
 
       // Filter out any tetronimos that have fallen off the bottom of the screen

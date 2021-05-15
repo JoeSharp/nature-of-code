@@ -1,4 +1,5 @@
 import p5 from "p5";
+import AbstractDrawable from "./AbstractDrawable";
 
 interface Coord {
   x: number;
@@ -57,36 +58,12 @@ const SHAPES: Coord[][] = [
   Block
 ];
 
-class Tetronimo {
-  note: number;
-  velocity: number;
-  position: p5.Vector;
-  size: number;
-  colour: p5.Color;
-  accumulating: boolean;
-  tailLength: number = 0;
-  squares: Coord[];
-
-  constructor(
-    note: number,
-    velocity: number,
-    position: p5.Vector,
-    size: number,
-    colour: p5.Color,
-    accumulating: boolean
-  ) {
-    this.note = note;
-    this.velocity = velocity;
-    this.position = position;
-    this.size = size;
-    this.colour = colour;
-    this.accumulating = accumulating;
-    this.squares = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-  }
+class Tetronimo extends AbstractDrawable {
+  squares: Coord[] = SHAPES[Math.floor(Math.random() * SHAPES.length)];;
 
   update() {
     this.position.y += this.size;
-    if (this.accumulating) {
+    if (this.noteIsDown) {
       this.tailLength += 1;
     }
   }
@@ -105,6 +82,7 @@ class Tetronimo {
       s.pop();
     });
 
+    // Draw tail
     s.push();
     s.translate(this.position.x, this.position.y);
     for (let i = 0; i < this.tailLength; i++) {

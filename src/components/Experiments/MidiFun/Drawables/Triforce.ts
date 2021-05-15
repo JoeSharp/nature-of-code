@@ -1,37 +1,7 @@
 import p5 from "p5";
+import AbstractDrawable from "./AbstractDrawable";
 
-class Tetronimo {
-  note: number;
-  velocity: number;
-  position: p5.Vector;
-  size: number;
-  colour: p5.Color;
-  accumulating: boolean;
-  tailLength: number = 0;
-
-  constructor(
-    note: number,
-    velocity: number,
-    position: p5.Vector,
-    size: number,
-    colour: p5.Color,
-    accumulating: boolean
-  ) {
-    this.note = note;
-    this.velocity = velocity;
-    this.position = position;
-    this.size = size;
-    this.colour = colour;
-    this.accumulating = accumulating;
-  }
-
-  update() {
-    this.position.y += this.size;
-    if (this.accumulating) {
-      this.tailLength += 1;
-    }
-  }
-
+class Triforce extends AbstractDrawable {
   draw(s: p5) {
     s.strokeWeight(2);
     s.stroke(this.colour);
@@ -55,4 +25,4 @@ class Tetronimo {
   }
 }
 
-export default Tetronimo;
+export default Triforce;

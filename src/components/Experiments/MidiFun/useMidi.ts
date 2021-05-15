@@ -1,4 +1,5 @@
 import React from "react";
+import midiToFreq from "./midiToFreq";
 
 interface Props {
   noteOn: (note: number, velocity: number) => void;
@@ -9,10 +10,23 @@ interface UseMidi {
   inputDevices: WebMidi.MIDIInputMap;
   selectedInputDeviceId?: string;
   onInputDeviceSelected: (id: string) => void;
+  playNote: (frequency: number, volume: number, duration: number) => void;
   error: string;
 }
 
+// Create audio oscillator
+
 const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
+  const { gain, audio } = React.useMemo(() => {
+    const audio = new window.AudioContext();
+    var gain = audio.createGain()
+    gain.connect(audio.destination) // so you actually hear the output
+
+    return {
+      audio, gain
+    };
+  }, [])
+
   const [inputDevices, setInputDevices] = React.useState(new Map());
   const [error, setError] = React.useState<string>("init");
   const [selectedInputDeviceId, onInputDeviceSelected] = React.useState<
@@ -20,18 +34,16 @@ const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
   >();
 
   React.useEffect(() => {
-    // if (navigator.requestMIDIAccess) {
-    //   setError("This browser supports WebMIDI!");
-    // } else {
-    //   setError("WebMIDI is not supported in this browser.");
-    // }
+    if (!navigator.requestMIDIAccess !== undefined) {
+      setError("WebMIDI is not supported in this browser.");
+    }
 
     const onMIDISuccess = (midiAccess: WebMidi.MIDIAccess) => {
       setInputDevices(midiAccess.inputs);
     };
 
     const onMIDIFailure = () => {
-      setError("Could not access your M");
+      setError("Could not access Web MIDI, this only works in recent versions of Chrome");
     };
 
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
@@ -68,10 +80,25 @@ const useMidi = ({ noteOn, noteOff }: Props): UseMidi => {
       };
     }
 
-    return () => {};
+    return () => { };
   }, [noteOn, noteOff, selectedInputDeviceId, inputDevices]);
 
-  return { inputDevices, error, selectedInputDeviceId, onInputDeviceSelected };
+  const playNote = function (note: number, volume: number, duration: number) {
+    const frequency = midiToFreq(note);
+    var halfPeriod = 1 / frequency / 2
+    if (duration > halfPeriod) duration -= duration % halfPeriod
+    else duration = halfPeriod
+
+    var oscillator = audio.createOscillator()
+    oscillator.connect(gain)
+    
+    oscillator.frequency.value = frequency
+    gain.gain.value = volume
+    oscillator.start(0)
+    oscillator.stop(audio.currentTime + duration)
+  }
+
+  return { inputDevices, playNote, error, selectedInputDeviceId, onInputDeviceSelected };
 };
 
 export default useMidi;
