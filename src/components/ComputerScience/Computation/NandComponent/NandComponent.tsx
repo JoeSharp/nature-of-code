@@ -14,7 +14,7 @@ export const boolToBin = (v: Optional<boolean>): string => {
   return "-";
 };
 
-const HISTORY_LENGTH = 8;
+const HISTORY_LENGTH = 64;
 
 const NandComponent: React.FunctionComponent = () => {
   const { chipName, componentProps: chipPickerProps } = useChipPicker(
@@ -85,23 +85,6 @@ const NandComponent: React.FunctionComponent = () => {
             ))}
         </div>
       </div>
-
-      <h3>History</h3>
-      <table className='table table-bordered table-striped'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            {Array(HISTORY_LENGTH).fill(null).map((_, i) => <th key={i}>{i}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {pinValueHistory.map(({ name, values }) => (
-            <tr key={name}>
-              <td>{name}</td>
-              {values.map((v, i) => <td key={i}>{boolToBin(v)}</td>)}
-            </tr>))}
-        </tbody>
-      </table>
 
       <h3>Trace</h3>
       <div>
